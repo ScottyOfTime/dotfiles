@@ -1,0 +1,15 @@
+# cursor
+cursor-style = bar
+cursor-style-blink = true
+
+# font
+font-size = 13
+
+# theme
+theme = dark:Ayu,light:Ayu Light
+
+# gtk
+window-decoration = server
+window-padding-x = 0
+window-padding-y = 0
+gtk-titlebar = false
