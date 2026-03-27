@@ -1,0 +1,5 @@
+brave-bin
+migrate
+where-is-my-sddm-theme-git
+yay
+yay-debug
