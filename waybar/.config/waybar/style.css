@@ -1,41 +1,41 @@
 * {
-    font-family: "JetBrains Mono";
-    font-size: 13px;
+  font-size: 13px;
+  font-family: "JetBrains Mono";
 }
 
 window#waybar {
-    background: #0a0e14;
-    color: #b3b1ad;
-    border-bottom: 2px solid #ff9940;
+  background: #fafafa;
+  color: #575f66;
+  border-bottom: 2px solid #ff9940
 }
 
 .modules-left, .modules-center, .modules-right {
-    padding: 2px 10px;
+  padding: 2px 10px;
 }
 
 #clock {
-    color: #39bae6;
+  color: #36a3d9;
 }
 
 #battery {
-    color: #c2d94c;
+  color: #86b300;
 }
 
 #battery.charging {
-    color: #ff9940;
+  color: #ff9940
 }
 
 #network {
-    color: #b3b1ad;
-    margin-right: 15px;
+  color: #575f66;
+  margin-right: 15px;
 }
 
 #workspaces button {
-    color: #b3b1ad;
-    padding: 0 5px;
+  color: #575f66;
+  padding: 0 5px;
 }
 
 #workspaces button.active {
-    color: #ff9940;
-    border-bottom: solid #ff9940;
+  color: #ff9940;
+  border-bottom: solid #ff9940;
 }
