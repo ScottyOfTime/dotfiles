@@ -1,5 +1,6 @@
 # cursor
 cursor-style = bar
+adjust-cursor-thickness = 2
 cursor-style-blink = true
 
 # font
