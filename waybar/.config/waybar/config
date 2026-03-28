@@ -1,6 +1,7 @@
 {
     "layer": "top",
     "position": "top",
+    "height": 30,
     "modules-left": ["hyprland/workspaces"],
     "modules-center": ["clock"],
     "modules-right": ["network", "battery"],
@@ -14,6 +15,7 @@
     },
     "network": {
         "format-wifi": "{essid} {bandwidthDownBits} {signalStrength}%",
+        "format-ethernet": "ETH {bandwidthDownBits}",
         "format-disconnected": "No Network",
         "interval": 2
     }
