@@ -1,7 +1,8 @@
 # cursor
-cursor-style = bar
+cursor-style = block
 adjust-cursor-thickness = 2
 cursor-style-blink = true
+shell-integration-features = no-cursor
 
 # font
 font-size = 13

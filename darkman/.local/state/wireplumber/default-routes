@@ -3,5 +3,5 @@ alsa_card.pci-0000_75_00.6:output:analog-output-headphones={"channelVolumes":[0.
 alsa_card.pci-0000_75_00.6:profile:output:analog-stereo+input:analog-stereo=["analog-output-headphones"]
 alsa_card.usb-046d_HD_Webcam_C615_A0A98310-00:input:analog-input-mic={"channelVolumes":[0.020685], "channelMap":["MONO"], "mute":false, "latencyOffsetNsec":0}
 alsa_card.usb-046d_HD_Webcam_C615_A0A98310-00:profile:input:mono-fallback=["analog-input-mic"]
-alsa_card.usb-Blue_Microphones_Yeti_Stereo_Microphone_REV8-00:input:analog-input-mic={"channelVolumes":[0.247013, 0.247013], "channelMap":["FL", "FR"], "mute":false, "latencyOffsetNsec":0}
+alsa_card.usb-Blue_Microphones_Yeti_Stereo_Microphone_REV8-00:input:analog-input-mic={"channelMap":["FL", "FR"], "latencyOffsetNsec":0, "channelVolumes":[0.141878, 0.141878], "mute":false}
 alsa_card.usb-Blue_Microphones_Yeti_Stereo_Microphone_REV8-00:profile:output:analog-stereo+input:analog-stereo=["analog-input-mic"]
