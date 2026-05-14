@@ -2,7 +2,7 @@
 cursor-style = block
 adjust-cursor-thickness = 2
 cursor-style-blink = true
-shell-integration-features = no-cursor
+shell-integration-features = no-cursor, ssh-terminfo, ssh-env
 
 # font
 font-size = 13
