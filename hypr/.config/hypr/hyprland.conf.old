@@ -182,10 +182,10 @@ animations {
 # }
 
 # See https://wiki.hypr.land/Configuring/Dwindle-Layout/ for more
-dwindle {
-    pseudotile = true # Master switch for pseudotiling. Enabling is bound to mainMod + P in the keybinds section below
-    preserve_split = true # You probably want this
-}
+# dwindle {
+#     pseudotile = true # Master switch for pseudotiling. Enabling is bound to mainMod + P in the keybinds section below
+#     preserve_split = true # You probably want this
+# }
 
 # See https://wiki.hypr.land/Configuring/Master-Layout/ for more
 master {
@@ -307,7 +307,10 @@ bindl = , XF86AudioPlay, exec, playerctl play-pause
 bindl = , XF86AudioPrev, exec, playerctl previous
 
 # Waybar
-bind = SUPER, B, exec, pkill -SIGUSR1 waybar
+bind = $mainMod, B, exec, pkill -SIGUSR1 waybar
+
+# swaylock
+bind = $mainMod, L, exec, swaylock
 
 ##############################
 ### WINDOWS AND WORKSPACES ###
