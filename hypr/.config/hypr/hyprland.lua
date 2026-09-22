@@ -42,6 +42,8 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("swaybg -i ~/wallpapers/portal.jpg")
     hl.exec_cmd("mkfifo " .. WOBSOCK .. " && tail -f " .. WOBSOCK .. " | wob")
     hl.exec_cmd([[ghostty -e sh -c "fastfetch; exec $SHELL"]])
+    hl.exec_cmd("discord")
+    hl.exec_cmd("signal-desktop", { workspace = "3 silent" })
 end)
 
 --############################
@@ -257,4 +259,12 @@ hl.window_rule({
     match = { class = "hyprland-run" },
     move  = { 20, "monitor_h-120" },
     float = true,
+})
+
+-- Discord forks/re-execs itself, so the exec-time workspace rule loses track
+-- of it and it opens wherever focus is. A class-matched rule is reliable.
+hl.window_rule({
+    name      = "discord-workspace",
+    match     = { class = "^discord$" },
+    workspace = "3 silent",
 })
