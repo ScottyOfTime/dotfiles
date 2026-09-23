@@ -16,7 +16,7 @@ call plug#end()
 if has('termguicolors')
     set termguicolors
 endif
-let ayucolor='dark'
+let ayucolor = trim(system('darkman get')) ==# 'light' ? 'light' : 'dark'
 colorscheme ayu
 let &t_ut = ''
 

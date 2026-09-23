@@ -1,1 +1,2 @@
-.local/
+waybar/.config/waybar/style.css
+fuzzel/.config/fuzzel/fuzzel.ini
