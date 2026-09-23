@@ -230,6 +230,9 @@ hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true 
 -- Waybar
 hl.bind(mainMod .. " + " .. "B", hl.dsp.exec_cmd("pkill -SIGUSR1 waybar"))
 
+-- Toggle light/dark mode
+hl.bind(mainMod .. " + " .. "T", hl.dsp.exec_cmd("darkman toggle"))
+
 -- swaylock
 hl.bind(mainMod .. " + " .. "L", hl.dsp.exec_cmd("swaylock"))
 
