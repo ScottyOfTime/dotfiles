@@ -48,6 +48,7 @@ set nofixendofline
 
 " cursor
 autocmd VimEnter * call system('echo -ne "\e[2 q"')
+autocmd VimLeave * silent !echo -ne "\e[5 q"
 let &t_SI = "\e[5 q"
 let &t_EI = "\e[2 q"
 set ttimeout
