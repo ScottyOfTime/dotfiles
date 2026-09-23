@@ -25,6 +25,11 @@ window#waybar {
   color: #ff9940
 }
 
+#mpris {
+  color: #a37acc;
+  margin-right: 15px;
+}
+
 #network {
   color: #575f66;
   margin-right: 15px;

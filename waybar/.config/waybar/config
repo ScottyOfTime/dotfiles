@@ -4,11 +4,22 @@
     "height": 30,
     "modules-left": ["hyprland/workspaces"],
     "modules-center": ["clock"],
-    "modules-right": ["network", "battery"],
+    "modules-right": ["mpris", "network", "battery"],
 
     "clock": {
         "format": "{:%H:%M  %d/%m/%Y}",
         "tooltip": false
+    },
+    "mpris": {
+        "player": "spotify",
+        "format": "{status_icon} {artist} - {title}",
+        "status-icons": {
+            "playing": "",
+            "paused": "",
+            "stopped": ""
+        },
+        "max-length": 40,
+        "tooltip-format": "{artist} - {title}"
     },
     "battery": {
         "format": "BAT {capacity}%"
