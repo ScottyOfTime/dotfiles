@@ -1,9 +1,6 @@
 "" vim-plug
 call plug#begin()
 
-Plug 'prabirshrestha/vim-lsp'
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-
 Plug 'ayu-theme/ayu-vim'
 
 Plug 'vim-airline/vim-airline'
@@ -15,28 +12,6 @@ Plug 'junegunn/fzf.vim'
 
 call plug#end()
 
-" vim-lsp
-augroup LspGo
-  au!
-  autocmd User lsp_setup call lsp#register_server({
-      \ 'name': 'gopls',
-      \ 'cmd': {server_info->['gopls']},
-      \ 'whitelist': ['go'],
-      \ })
-  autocmd FileType go setlocal omnifunc=lsp#complete
-  autocmd FileType go nmap <buffer> gd <plug>(lsp-definition)
-  autocmd FileType go nmap <buffer> ,n <plug>(lsp-next-error)
-  autocmd FileType go nmap <buffer> ,p <plug>(lsp-previous-error)
-augroup END
-
-" vim-go
-let g:go_def_mode = 'gopls'
-let g:go_info_mode = 'gopls'
-let go_imports_autosave = 0
-let g:go_fmt_command = 'gofmt'
-let g:go_fmt_autosave = 0
-let g:go_recommended_style = 0
-
 " colorscheme
 if has('termguicolors')
     set termguicolors
@@ -47,7 +22,18 @@ let &t_ut = ''
 
 " fzf
 
-nnoremap <C-a> :Ag<CR>
+" search from the git root of the current file, else its directory
+function! ProjectRoot()
+  let l:dir = expand('%:p:h')
+  let l:root = get(systemlist('git -C ' . shellescape(l:dir) . ' rev-parse --show-toplevel'), 0, '')
+  return v:shell_error ? l:dir : l:root
+endfunction
+
+command! -bang ProjectFiles call fzf#vim#files(ProjectRoot(), fzf#vim#with_preview(), <bang>0)
+command! -bang -nargs=* ProjectAg call fzf#vim#ag(<q-args>, fzf#vim#with_preview({'dir': ProjectRoot()}), <bang>0)
+
+nnoremap <C-a> :ProjectAg<CR>
+nnoremap <C-p> :ProjectFiles<CR>
 
 filetype plugin indent on
 

@@ -44,6 +44,8 @@ hl.on("hyprland.start", function()
     hl.exec_cmd([[ghostty -e sh -c "fastfetch; exec $SHELL"]])
     hl.exec_cmd("discord")
     hl.exec_cmd("signal-desktop", { workspace = "3 silent" })
+    hl.exec_cmd("steam")
+    hl.exec_cmd("spotify-launcher")
 end)
 
 --############################
@@ -156,7 +158,7 @@ local mainMod = "SUPER"
 
 hl.bind(mainMod .. " + " .. "Return", hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + " .. "W", hl.dsp.window.close())
-hl.bind(mainMod .. " + " .. "M", hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch exit"))
+hl.bind(mainMod .. " + " .. "SHIFT" .. " + " .. "Q", hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch exit"))
 hl.bind(mainMod .. " + " .. "E", hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + " .. "V", hl.dsp.window.float())
 hl.bind(mainMod .. " + " .. "Space", hl.dsp.exec_cmd(menu))
@@ -196,6 +198,10 @@ hl.bind(mainMod .. " + " .. "SHIFT" .. " + " .. 0, hl.dsp.window.move({ workspac
 -- Scratchpad
 hl.bind(mainMod .. " + " .. "S", hl.dsp.workspace.toggle_special("magic"))
 hl.bind(mainMod .. " + " .. "SHIFT" .. " + " .. "S", hl.dsp.window.move({ workspace = "special:magic" }))
+
+-- Music scratchpad
+hl.bind(mainMod .. " + " .. "M", hl.dsp.workspace.toggle_special("music"))
+hl.bind(mainMod .. " + " .. "SHIFT" .. " + " .. "M", hl.dsp.window.move({ workspace = "special:music" }))
 
 -- Scroll through existing workspaces with mainMod + scroll
 hl.bind(mainMod .. " + " .. "mouse_down", hl.dsp.focus({ workspace = "e+1" }))
@@ -267,4 +273,17 @@ hl.window_rule({
     name      = "discord-workspace",
     match     = { class = "^discord$" },
     workspace = "3 silent",
+})
+
+hl.window_rule({
+    name      = "steam-workspace",
+    match     = { class = "^steam$" },
+    workspace = "special:magic silent",
+})
+
+-- spotify-launcher runs the real client, whose class is "Spotify" (X11) or "spotify" (Wayland)
+hl.window_rule({
+    name      = "spotify-workspace",
+    match     = { class = "^(?i)spotify$" },
+    workspace = "special:music silent",
 })
