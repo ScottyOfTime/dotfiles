@@ -1,7 +1,7 @@
 "" vim-plug
 call plug#begin()
 
-Plug 'ayu-theme/ayu-vim'
+Plug 'Luxed/ayu-vim'
 
 Plug 'vim-airline/vim-airline'
 
@@ -17,6 +17,10 @@ if has('termguicolors')
     set termguicolors
 endif
 let ayucolor = trim(system('darkman get')) ==# 'light' ? 'light' : 'dark'
+augroup transparent_bg
+  autocmd!
+  autocmd ColorScheme * hi Normal guibg=NONE ctermbg=NONE
+augroup END
 colorscheme ayu
 let &t_ut = ''
 
@@ -86,6 +90,7 @@ highlight OverLength cterm=underline
 autocmd BufNewFile,BufRead *.yml* set ft=yaml
 autocmd BufNewFile,BufRead *Dockerfile* set ft=yaml 
 autocmd FileType yaml setlocal tabstop=2 softtabstop=2 shiftwidth=2
+autocmd FileType json setlocal tabstop=2 softtabstop=2 shiftwidth=2
 autocmd FileType cmake setlocal tabstop=2 softtabstop=2 shiftwidth=2
 autocmd FileType html setlocal tabstop=2 softtabstop=2 shiftwidth=2
 autocmd FileType scss setlocal tabstop=2 softtabstop=2 shiftwidth=2

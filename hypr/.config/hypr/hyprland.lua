@@ -214,7 +214,7 @@ hl.bind(mainMod .. " + " .. "mouse:272", hl.dsp.window.drag(),   { mouse = true 
 hl.bind(mainMod .. " + " .. "mouse:273", hl.dsp.window.resize(), { mouse = true })
 
 -- Laptop multimedia keys for volume and LCD brightness
-hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+ && wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print int($2*100)}' > " .. WOBSOCK), { repeating = true, locked = true })
+hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+ && wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print int($2*100)}' > " .. WOBSOCK), { repeating = true, locked = true })
 hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- && wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print int($2*100)}' > " .. WOBSOCK), { repeating = true, locked = true })
 hl.bind("XF86AudioMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"), { repeating = true, locked = true })
 hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"), { repeating = true, locked = true })
@@ -222,10 +222,10 @@ hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%+ &&
 hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%- && brightnessctl get | awk -v max=$(brightnessctl max) '{print int($1/max*100)}' > " .. WOBSOCK), { repeating = true, locked = true })
 
 -- Requires playerctl
-hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"), { locked = true })
-hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
-hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
-hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true })
+hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl -p spotify,%any next"), { locked = true })
+hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl -p spotify,%any play-pause"), { locked = true })
+hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl -p spotify,%any play-pause"), { locked = true })
+hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl -p spotify,%any previous"), { locked = true })
 
 -- Waybar
 hl.bind(mainMod .. " + " .. "B", hl.dsp.exec_cmd("pkill -SIGUSR1 waybar"))
@@ -235,6 +235,12 @@ hl.bind(mainMod .. " + " .. "T", hl.dsp.exec_cmd("darkman toggle"))
 
 -- swaylock
 hl.bind(mainMod .. " + " .. "L", hl.dsp.exec_cmd("swaylock"))
+
+-- Type an en dash (requires wtype)
+hl.bind(mainMod .. " + " .. "minus", hl.dsp.exec_cmd("wtype –"), { release = true })
+
+-- Screenshot: select region, save to ~/screenshots and copy to clipboard
+hl.bind("Print", hl.dsp.exec_cmd("mkdir -p ~/screenshots && flameshot gui --path ~/screenshots --clipboard"))
 
 --#############################
 --## WINDOWS AND WORKSPACES ###
@@ -268,6 +274,15 @@ hl.window_rule({
     match = { class = "hyprland-run" },
     move  = { 20, "monitor_h-120" },
     float = true,
+})
+
+-- flameshot's capture overlay must float at the origin to cover the screen
+hl.window_rule({
+    name  = "flameshot-overlay",
+    match = { class = "^flameshot$" },
+    float = true,
+    pin   = true,
+    move  = { 0, 0 },
 })
 
 -- Discord forks/re-execs itself, so the exec-time workspace rule loses track

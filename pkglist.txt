@@ -39,5 +39,6 @@ wget
 wireplumber
 wl-clipboard
 wob
+wtype
 xdg-desktop-portal
 xdg-desktop-portal-gtk
