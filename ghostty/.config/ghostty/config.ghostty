@@ -13,8 +13,14 @@ font-size = 13
 # theme
 theme = dark:Ayu,light:Ayu Light
 
-# gtk
+# window
 window-decoration = server
 window-padding-x = 0
 window-padding-y = 0
+window-theme = ghostty
+
+# gtk
 gtk-titlebar = false
+gtk-tabs-location = bottom
+gtk-wide-tabs = false
+gtk-toolbar-style = flat
