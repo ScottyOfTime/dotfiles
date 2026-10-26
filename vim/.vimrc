@@ -24,9 +24,10 @@ augroup END
 colorscheme ayu
 let &t_ut = ''
 
-" fzf
+" vim-airline
+let g:airline_symbols_ascii = 1
 
-" search from the git root of the current file, else its directory
+" fzf
 function! ProjectRoot()
   let l:dir = expand('%:p:h')
   let l:root = get(systemlist('git -C ' . shellescape(l:dir) . ' rev-parse --show-toplevel'), 0, '')
@@ -69,7 +70,7 @@ set autochdir
 
 
 " presentation
-set ruler        " show the cursor position all the time
+set ruler           " show the cursor position all the time
 set showmatch       " show matching brackets
 set modeline        " enable modeline
 set ls=2            " always show status line

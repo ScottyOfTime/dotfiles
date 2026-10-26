@@ -12,9 +12,10 @@ font-size = 13
 
 # theme
 theme = dark:Ayu,light:Ayu Light
+unfocused-split-opacity = 0.85
 
 # window
-window-decoration = server
+window-decoration = none
 window-padding-x = 0
 window-padding-y = 0
 window-theme = ghostty
