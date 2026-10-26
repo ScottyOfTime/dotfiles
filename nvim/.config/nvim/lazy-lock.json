@@ -1,0 +1,10 @@
+{
+  "ayu-vim": { "branch": "master", "commit": "e20d2be153691c12d4cc1880a01a99e44fce7885" },
+  "blink.cmp": { "branch": "main", "commit": "78336bc89ee5365633bcf754d93df01678b5c08f" },
+  "fzf": { "branch": "master", "commit": "26ff936df038b6a62ec42cf18db27b2ea2bb8ec3" },
+  "fzf.vim": { "branch": "master", "commit": "023de3c0e158ff9c2b0992175af10be97c2f2158" },
+  "lazy.nvim": { "branch": "main", "commit": "306a05526ada86a7b30af95c5cc81ffba93fef97" },
+  "nvim-lspconfig": { "branch": "master", "commit": "77b7432d4770d23b277d37923e5a08a442d8bb07" },
+  "vim-airline": { "branch": "master", "commit": "8dc1bd0a116de527f6bc58c1d04386ba357c624f" },
+  "vim-fugitive": { "branch": "master", "commit": "3b753cf8c6a4dcde6edee8827d464ba9b8c4a6f0" }
+}
