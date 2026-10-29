@@ -25,7 +25,13 @@ return {
     completion = {
       documentation = { auto_show = true },
     },
-    signature = { enabled = true },
+    -- floats the signature with the current parameter highlighted; only on
+    -- <C-k>, since auto-popping it covers the line above
+    signature = {
+      enabled = true,
+      trigger = { enabled = false },
+      window = { show_documentation = true },
+    },
     sources = {
       default = { "lsp", "path", "snippets", "buffer" },
     },
