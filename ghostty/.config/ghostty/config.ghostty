@@ -12,7 +12,7 @@ font-size = 13
 
 # theme
 theme = dark:Ayu,light:Ayu Light
-unfocused-split-opacity = 0.85
+unfocused-split-opacity = 0.9
 
 # window
 window-decoration = none
@@ -25,3 +25,7 @@ gtk-titlebar = false
 gtk-tabs-location = bottom
 gtk-wide-tabs = false
 gtk-toolbar-style = flat
+gtk-custom-css = tabs.css
+
+# keybinds
+keybind = ctrl+shift+r=prompt_tab_title

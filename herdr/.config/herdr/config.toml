@@ -1,0 +1,27 @@
+onboarding = false
+
+[theme]
+name = "one-dark"
+auto_switch = false
+
+# Ayu Dark, layered over one-dark
+[theme.custom]
+panel_bg      = "#0D1017"
+sidebar_bg    = "#0B0E14"
+active_row_bg = "#131721"
+selection_bg  = "#1B3A5B"
+surface0      = "#11151C"
+surface1      = "#1C212B"
+surface_dim   = "#0F131A"
+overlay0      = "#565B66"
+overlay1      = "#6C7380"
+text          = "#BFBDB6"
+subtext0      = "#8A8F98"
+accent        = "#E6B450"
+mauve         = "#D2A6FF"
+green         = "#AAD94C"
+yellow        = "#FFB454"
+red           = "#F07178"
+peach         = "#FF8F40"
+blue          = "#59C2FF"
+teal          = "#95E6CB"
