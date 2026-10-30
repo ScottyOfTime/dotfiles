@@ -1,15 +1,17 @@
 /* vim-style tab bar
  *
  * Colours are derived from currentColor, which window-theme = ghostty sets to
- * the active theme's foreground (Ayu / Ayu Light), so this follows darkman.
+ * the active theme's foreground (Ayu / Ayu Light), and the bar uses
+ * --ghostty-bg (the terminal background), so this follows darkman.
  * Live-tweak with: GTK_DEBUG=interactive ghostty
  */
 
-/* bar: flat strip, no shadow or padding */
+/* bar: flat strip matching the terminal background, no shadow or padding */
+tabbar,
 tabbar .box {
   padding: 0;
   box-shadow: none;
-  background-color: alpha(currentColor, 0.04);
+  background-color: var(--ghostty-bg);
 }
 
 tabbar tabbox {
@@ -28,12 +30,13 @@ tabbar tabbox > separator {
   background: none;
 }
 
-/* tabs: square, compact, dim when inactive */
+/* tabs: square, compact, dim when inactive, Ayu accent edge on top */
 tabbar tab {
   min-height: 28px;
   padding: 0 10px;
   border-radius: 0;
   color: alpha(currentColor, 0.5);
+  box-shadow: inset 0 2px #e6b450;
   transition: none;
 }
 
@@ -43,13 +46,12 @@ tabbar tab:active {
   color: alpha(currentColor, 0.75);
 }
 
-/* active tab: full foreground, raised block, Ayu accent edge */
+/* active tab: filled with the Ayu accent, terminal background as text */
 tabbar tab:selected,
 tabbar tab:selected:hover,
 tabbar tab:selected:active {
-  color: inherit;
-  background-color: alpha(currentColor, 0.12);
-  box-shadow: inset 0 2px #e6b450;
+  color: var(--ghostty-bg);
+  background-color: #e6b450;
 }
 
 tabbar tab .tab-title {
