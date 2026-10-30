@@ -238,8 +238,8 @@ hl.bind(mainMod .. " + " .. "B", hl.dsp.exec_cmd("pkill -SIGUSR1 waybar"))
 -- Toggle light/dark mode
 hl.bind(mainMod .. " + " .. "T", hl.dsp.exec_cmd("darkman toggle"))
 
--- Lock screen
-hl.bind(mainMod .. " + " .. "L", hl.dsp.exec_cmd("pidof hyprlock || hyprlock"))
+-- Lock screen (swaylock until hyprlock is installed)
+hl.bind(mainMod .. " + " .. "L", hl.dsp.exec_cmd("if command -v hyprlock >/dev/null; then pidof hyprlock || hyprlock; else swaylock; fi"))
 
 -- Type an en dash (requires wtype)
 hl.bind(mainMod .. " + " .. "minus", hl.dsp.exec_cmd("wtype –"), { release = true })

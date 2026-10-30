@@ -7,7 +7,18 @@
 
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
-PS1='[\[\e[38;5;74m\]\u\[\e[0m\]@\[\e[38;5;176m\]\h\[\e[0m\]:\w]\n$ '
+# prompt: dir in yellow, git branch dimmed, red $ after a failed command, and
+# user@host only over ssh. ANSI colour names follow ghostty's theme (darkman).
+source /usr/share/git/completion/git-prompt.sh
+GIT_PS1_SHOWDIRTYSTATE=1
+__prompt() {
+    local status=$? host= dollar='\[\e[0m\]$'
+    [[ -n $SSH_CONNECTION ]] && host='\u@\h:'
+    (( status )) && dollar='\[\e[31m\]$\[\e[0m\]'
+    # __git_ps1 stays quoted so a branch name is printed, never re-expanded
+    PS1="$host"'\[\e[33m\]\w\[\e[90m\]$(__git_ps1 " %s")\[\e[0m\]\n'"$dollar "
+}
+PROMPT_COMMAND=__prompt
 
 # Setup VulkanSDK environment
 source $HOME/vulkansdk/1.4.357.1/setup-env.sh
