@@ -4,6 +4,10 @@
 
 local WOBSOCK = os.getenv("XDG_RUNTIME_DIR") .. "/wob.sock"
 
+-- colours rendered by darkman from ~/.config/palette, ayu dark until it has run
+local ok, colors = pcall(dofile, os.getenv("HOME") .. "/.config/hypr/colors.lua")
+if not ok then colors = { accent = "e6b450", shadow = "06070a" } end
+
 --###############
 --## MONITORS ###
 --###############
@@ -39,8 +43,9 @@ local menu        = "fuzzel"
 
 hl.on("hyprland.start", function()
     hl.exec_cmd("waybar")
-    hl.exec_cmd("swaybg -i ~/wallpapers/portal.jpg")
-    hl.exec_cmd("mkfifo " .. WOBSOCK .. " && tail -f " .. WOBSOCK .. " | wob")
+    hl.exec_cmd("~/.config/hypr/scripts/wallpaper.sh")
+    hl.exec_cmd("~/.config/hypr/scripts/wob.sh")
+    hl.exec_cmd("hypridle")
     hl.exec_cmd([[ghostty -e sh -c "fastfetch; exec $SHELL"]])
     hl.exec_cmd("discord")
     hl.exec_cmd("signal-desktop", { workspace = "3 silent" })
@@ -63,13 +68,13 @@ hl.config({
     general = {
         gaps_in     = 0,
         gaps_out    = 0,
-        border_size = 0,
+        border_size = 2,
         resize_on_border = false,
         allow_tearing    = false,
         layout = "dwindle",
         col = {
-            active_border   = { colors = { "rgba(33ccffee)", "rgba(00ff99ee)" }, angle = 45 },
-            inactive_border = "rgba(595959aa)",
+            active_border   = "rgb(" .. colors.accent .. ")",
+            inactive_border = "rgb(" .. colors.shadow .. ")",
         },
     },
 })
@@ -233,8 +238,8 @@ hl.bind(mainMod .. " + " .. "B", hl.dsp.exec_cmd("pkill -SIGUSR1 waybar"))
 -- Toggle light/dark mode
 hl.bind(mainMod .. " + " .. "T", hl.dsp.exec_cmd("darkman toggle"))
 
--- swaylock
-hl.bind(mainMod .. " + " .. "L", hl.dsp.exec_cmd("swaylock"))
+-- Lock screen
+hl.bind(mainMod .. " + " .. "L", hl.dsp.exec_cmd("pidof hyprlock || hyprlock"))
 
 -- Type an en dash (requires wtype)
 hl.bind(mainMod .. " + " .. "minus", hl.dsp.exec_cmd("wtype –"), { release = true })

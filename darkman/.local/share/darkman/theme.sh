@@ -1,0 +1,25 @@
+#!/bin/sh
+# Apply the light/dark theme: render each app's colours from ~/.config/palette
+# and reload whatever is running.
+mode=$1
+[ "$mode" = dark ] || [ "$mode" = light ] || exit 1
+cfg=$HOME/.config
+palette=$cfg/palette/$mode.env
+
+gsettings set org.gnome.desktop.interface color-scheme prefer-$mode
+
+# foo.tmpl -> foo, substituting only the palette's variables
+set -a; . "$palette"; set +a
+vars=$(sed -n 's/^\([a-z_]*\)=.*/$\1/p' "$palette" | tr '\n' ' ')
+for f in waybar/colors.css fuzzel/colors.ini hypr/colors.lua hypr/hyprlock-colors.conf mako/config wob/wob.ini; do
+    envsubst "$vars" < "$cfg/$f.tmpl" > "$cfg/$f"
+done
+
+export HYPRLAND_INSTANCE_SIGNATURE=$(ls /run/user/$(id -u)/hypr/ | head -1)
+hyprctl reload >/dev/null
+pkill waybar
+hyprctl dispatch 'hl.dsp.exec_cmd("waybar")'
+hyprctl dispatch 'hl.dsp.exec_cmd("~/.config/hypr/scripts/wallpaper.sh")'
+hyprctl dispatch 'hl.dsp.exec_cmd("~/.config/hypr/scripts/wob.sh")'
+makoctl reload 2>/dev/null
+true

@@ -14,9 +14,12 @@ go
 gopls
 grub
 htop
+hypridle
 hyprland
+hyprlock
 linux
 linux-firmware
+mako
 man-db
 networkmanager
 obsidian

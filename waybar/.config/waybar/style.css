@@ -1,0 +1,85 @@
+/* colours come from colors.css, which darkman renders from the palette */
+@import "colors.css";
+
+* {
+    font-family: "JetBrains Mono";
+    font-size: 13px;
+}
+
+window#waybar {
+    background: @bg;
+    color: @fg;
+    border-bottom: 2px solid @accent;
+}
+
+.modules-left, .modules-center, .modules-right {
+    padding: 0 10px 2px;
+}
+
+#window, #mpris, #wireplumber, #cpu, #memory, #network {
+    margin-right: 15px;
+}
+
+/* workspaces: solid accent block for the active one, like ghostty's tabs */
+#workspaces {
+    margin-right: 15px;
+}
+
+#workspaces button {
+    color: @dim;
+    padding: 0 8px;
+    border: none;
+    border-radius: 0;
+}
+
+#workspaces button:hover {
+    background: alpha(@fg, 0.06);
+    color: @fg;
+    box-shadow: none;
+}
+
+#workspaces button.active {
+    background: @accent;
+    color: @bg;
+}
+
+#workspaces button.urgent {
+    background: @red;
+    color: @bg;
+}
+
+#window {
+    color: @dim;
+}
+
+#clock {
+    color: @blue;
+}
+
+#mpris {
+    color: @purple;
+}
+
+#wireplumber.muted {
+    color: @dim;
+}
+
+#cpu, #memory {
+    color: @dim;
+}
+
+#cpu.warning, #memory.warning {
+    color: @accent;
+}
+
+#cpu.critical, #memory.critical {
+    color: @red;
+}
+
+#battery {
+    color: @green;
+}
+
+#battery.charging {
+    color: @accent;
+}
