@@ -66,5 +66,8 @@
             "warning": 70,
             "critical": 90
         }
+    },
+    "hyprland/workspaces": {
+        "tooltip": false
     }
 }
