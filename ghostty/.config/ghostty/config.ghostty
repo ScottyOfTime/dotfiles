@@ -13,6 +13,9 @@ font-size = 13
 # theme
 theme = dark:Ayu,light:Ayu Light
 unfocused-split-opacity = 0.9
+# selection as a solid accent block, like the active tab and waybar workspace
+selection-background = #e6b450
+selection-foreground = #0b0e14
 
 # window
 window-decoration = none

@@ -10,6 +10,7 @@ palette=$cfg/palette/$mode.env
 set -a; . "$palette"; set +a
 
 gsettings set org.gnome.desktop.interface color-scheme prefer-$mode
+gsettings set org.gnome.desktop.interface accent-color "$gtk_accent"
 gsettings set org.gnome.desktop.interface cursor-theme "$cursor"
 gsettings set org.gnome.desktop.interface cursor-size 24
 vars=$(sed -n 's/^\([a-z_]*\)=.*/$\1/p' "$palette" | tr '\n' ' ')

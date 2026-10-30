@@ -6,7 +6,7 @@ local WOBSOCK = os.getenv("XDG_RUNTIME_DIR") .. "/wob.sock"
 
 -- colours rendered by darkman from ~/.config/palette, ayu dark until it has run
 local ok, colors = pcall(dofile, os.getenv("HOME") .. "/.config/hypr/colors.lua")
-if not ok then colors = { accent = "e6b450", shadow = "06070a", cursor = "Bibata-Modern-Amber" } end
+if not ok then colors = { accent = "e6b450", shadow = "06070a", cursor = "Bibata-Modern-Classic" } end
 
 --###############
 --## MONITORS ###
@@ -87,6 +87,9 @@ hl.config({
         rounding_power = 2,
         active_opacity   = 1.0,
         inactive_opacity = 1.0,
+        -- no borders, so slightly dim unfocused windows to show focus
+        dim_inactive = true,
+        dim_strength = 0.08,
         shadow = {
             enabled      = true,
             range        = 4,
