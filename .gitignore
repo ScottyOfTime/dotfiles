@@ -1,6 +1,6 @@
 waybar/.config/waybar/colors.css
 fuzzel/.config/fuzzel/colors.ini
 hypr/.config/hypr/colors.lua
-hypr/.config/hypr/hyprlock-colors.conf
+hypr/.config/hypr/hyprlock.conf
 mako/.config/mako/config
 wob/.config/wob/wob.ini

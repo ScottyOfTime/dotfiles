@@ -14,7 +14,7 @@ gsettings set org.gnome.desktop.interface accent-color "$gtk_accent"
 gsettings set org.gnome.desktop.interface cursor-theme "$cursor"
 gsettings set org.gnome.desktop.interface cursor-size 24
 vars=$(sed -n 's/^\([a-z_]*\)=.*/$\1/p' "$palette" | tr '\n' ' ')
-for f in waybar/colors.css fuzzel/colors.ini hypr/colors.lua hypr/hyprlock-colors.conf mako/config wob/wob.ini; do
+for f in waybar/colors.css fuzzel/colors.ini hypr/colors.lua hypr/hyprlock.conf mako/config wob/wob.ini; do
     envsubst "$vars" < "$cfg/$f.tmpl" > "$cfg/$f"
 done
 
