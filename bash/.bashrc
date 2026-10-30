@@ -7,8 +7,6 @@
 
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
-# prompt: dir in yellow, git branch dimmed, red $ after a failed command, and
-# user@host only over ssh. ANSI colour names follow ghostty's theme (darkman).
 source /usr/share/git/completion/git-prompt.sh
 GIT_PS1_SHOWDIRTYSTATE=1
 __prompt() {
