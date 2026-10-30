@@ -6,7 +6,7 @@ local WOBSOCK = os.getenv("XDG_RUNTIME_DIR") .. "/wob.sock"
 
 -- colours rendered by darkman from ~/.config/palette, ayu dark until it has run
 local ok, colors = pcall(dofile, os.getenv("HOME") .. "/.config/hypr/colors.lua")
-if not ok then colors = { accent = "e6b450", shadow = "06070a" } end
+if not ok then colors = { accent = "e6b450", shadow = "06070a", cursor = "Bibata-Modern-Amber" } end
 
 --###############
 --## MONITORS ###
@@ -57,7 +57,9 @@ end)
 --## ENVIRONMENT VARIABLES ###
 --############################
 
+hl.env("XCURSOR_THEME", colors.cursor)
 hl.env("XCURSOR_SIZE", 24)
+hl.env("HYPRCURSOR_THEME", colors.cursor)
 hl.env("HYPRCURSOR_SIZE", 24)
 
 --####################
