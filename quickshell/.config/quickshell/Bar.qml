@@ -1,6 +1,7 @@
 import QtQuick
 import Quickshell
 import Quickshell.Hyprland
+import Quickshell.Io
 import Quickshell.Services.Mpris
 import Quickshell.Services.Pipewire
 import Quickshell.Wayland
@@ -102,9 +103,11 @@ PanelWindow {
         spacing: 10
 
         Scrap {
+            id: music
             visible: bar.player !== null
-            seed: 21; tilt: 2.5
+            seed: 21; tilt: hovered ? 0 : 2.5
             anchors.verticalCenter: parent.verticalCenter
+            onClicked: musicPopup.toggle()
             Label {
                 text: !bar.player ? "" : bar.player.isPlaying
                     ? `${bar.player.trackArtist} - ${bar.player.trackTitle}` : "paused"
@@ -145,5 +148,17 @@ PanelWindow {
             anchors.verticalCenter: parent.verticalCenter
             Label { text: `net ${Stats.net}`; color: Theme.fg }
         }
+    }
+
+    IpcHandler {
+        target: "music"
+        enabled: Hyprland.focusedMonitor === bar.monitor
+        function toggle(): void { musicPopup.toggle(); }
+    }
+
+    MusicPopup {
+        id: musicPopup
+        player: bar.player
+        anchorItem: music
     }
 }

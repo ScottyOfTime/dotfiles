@@ -19,9 +19,9 @@ Singleton {
         return (i ? bytes.toFixed(1) : Math.round(bytes)) + units[i] + "/s";
     }
 
-    FileView { id: stat; path: "/proc/stat" }
-    FileView { id: meminfo; path: "/proc/meminfo" }
-    FileView { id: netdev; path: "/proc/net/dev" }
+    FileView { id: stat; path: "/proc/stat"; blockLoading: true }
+    FileView { id: meminfo; path: "/proc/meminfo"; blockLoading: true }
+    FileView { id: netdev; path: "/proc/net/dev"; blockLoading: true }
 
     Timer {
         interval: 2000; running: true; repeat: true; triggeredOnStart: true
