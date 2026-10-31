@@ -59,7 +59,7 @@ Item {
         z: 2
         width: root.tapeWidth
         height: root.tapeWidth * 0.3
-        x: root.width * 0.15
+        x: root.width * (0.12 + 0.5 * (root.j(9) + root.ragged) / (2 * root.ragged))
         y: -height * 0.45
         rotation: (root.j(8) > 0 ? -1 : 1) * 7
         antialiasing: true

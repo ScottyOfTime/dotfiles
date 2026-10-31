@@ -11,6 +11,9 @@ PanelWindow {
     required property var lock
     property int current: 0
     property bool shown: false
+    // how many scraps are dealt out; the dealer steps it toward the target
+    property int dealt: 0
+    property int dealTarget: 0
 
     readonly property var actions: [
         { name: "lock", run: () => menu.lock.lockNow() },
@@ -27,13 +30,16 @@ PanelWindow {
             current = 0;
             visible = true;
             shown = true;
+            dealTarget = actions.length;
+            dealer.restart();
             keys.forceActiveFocus();
         }
     }
 
     function close() {
         shown = false;
-        hide.restart();
+        dealTarget = 0;
+        dealer.restart();
     }
 
     function choose(i) {
@@ -54,7 +60,22 @@ PanelWindow {
         function toggle(): void { menu.toggle(); }
     }
 
-    Timer { id: hide; interval: 160; onTriggered: menu.visible = false }
+    Timer {
+        id: dealer
+        interval: 40
+        repeat: true
+        triggeredOnStart: true
+        onTriggered: {
+            if (menu.dealt < menu.dealTarget) menu.dealt++;
+            else if (menu.dealt > menu.dealTarget) menu.dealt--;
+            else {
+                stop();
+                if (!menu.shown) hide.restart();
+            }
+        }
+    }
+
+    Timer { id: hide; interval: 120; onTriggered: menu.visible = false }
 
     Rectangle {
         anchors.fill: parent
@@ -101,15 +122,15 @@ PanelWindow {
                 shadow: 6
                 padX: 26
                 padY: 22
-                tape: index === 2
+                tape: true
                 tapeWidth: 50
                 anchors.verticalCenter: parent.verticalCenter
 
-                // each drops in a beat after the last
-                y: menu.shown ? 0 : -40
-                opacity: menu.shown ? 1 : 0
-                Behavior on y { SequentialAnimation { PauseAnimation { duration: menu.shown ? option.index * 35 : 0 } NumberAnimation { duration: menu.shown ? 240 : 110; easing.type: menu.shown ? Easing.OutBack : Easing.InCubic } } }
-                Behavior on opacity { SequentialAnimation { PauseAnimation { duration: menu.shown ? option.index * 35 : 0 } NumberAnimation { duration: 110 } } }
+                readonly property bool out: index < menu.dealt
+                y: out ? 0 : -40
+                opacity: out ? 1 : 0
+                Behavior on y { NumberAnimation { duration: option.out ? 240 : 120; easing.type: option.out ? Easing.OutBack : Easing.InCubic } }
+                Behavior on opacity { NumberAnimation { duration: 110 } }
 
                 onClicked: menu.choose(index)
 
