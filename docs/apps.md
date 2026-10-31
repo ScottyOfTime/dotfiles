@@ -27,8 +27,16 @@ branch name can't be executed.
 
 ## Neovim
 
-`nvim/`: lazy.nvim, ayu colorscheme with a transparent background (so the
-terminal theme's background shows), airline, fzf, blink.cmp, zls.
+`nvim/`: lazy.nvim, airline, fzf, blink.cmp, zls. Colours come from the
+active theme's `~/.config/vim-theme/theme.vim` (zine: the generated `zine`
+colorscheme and airline theme; ayu: ayu-vim), with the background kept
+transparent so the terminal's shows. `.vimrc` loads the same file.
+
+## Herdr
+
+Its `config.toml` belongs to the theme (zine's is generated, with dark and
+light colours and `auto_switch` following the terminal). Apply changes to a
+running server with `herdr server reload-config`.
 
 ## Fastfetch
 

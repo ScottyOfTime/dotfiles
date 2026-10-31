@@ -6,7 +6,10 @@ One source of colour, rendered into every app on each light/dark switch.
 themes/zine/colorscheme/zine.toml
    │  ./themes/zine/colorscheme/build.py
    ├─▶ palette/.config/palette/{dark,light}.env      (hex without '#')
-   └─▶ ghostty-theme/.config/ghostty-theme/themes/zine-{dark,light}
+   ├─▶ ghostty-theme/.config/ghostty-theme/themes/zine-{dark,light}
+   ├─▶ herdr/.config/herdr/config.toml               (both modes, auto_switch)
+   └─▶ vim-theme/.config/vim-theme/colors/zine.vim + airline theme
+                                                     (both modes, picked via darkman get)
             │
    darkman runs ~/.local/share/darkman/theme.sh <mode>
             │  envsubst each *.tmpl with that mode's palette
@@ -24,7 +27,8 @@ themes/zine/colorscheme/zine.toml
 2. Run `./themes/zine/colorscheme/build.py`.
 3. Run `~/.local/share/darkman/theme.sh $(darkman get)` (or toggle with `SUPER+T`).
 
-Never edit `palette/*.env` or `ghostty-theme/themes/zine-*` by hand; they're
+Never edit `palette/*.env`, `ghostty-theme/themes/zine-*`, herdr's
+`config.toml` or the `vim-theme` colours by hand; they're
 generated and say so at the top.
 
 The accent is also the fallback in `hyprland.lua` (used before darkman has

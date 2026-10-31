@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate the palette files and ghostty themes from zine.toml."""
+"""Generate the palette files and ghostty, herdr and vim colours from zine.toml."""
 
 import tomllib
 from pathlib import Path
@@ -31,4 +31,92 @@ for mode in ("dark", "light"):
     lines += [f"palette = {i}=#{c}\n" for i, c in enumerate(term["ansi"])]
     (ROOT / f"ghostty-theme/.config/ghostty-theme/themes/{name}-{mode}").write_text("".join(lines))
 
-print(f"built {name}: palette and ghostty themes for dark and light")
+# herdr and vim pick dark or light themselves, so these hold both modes
+
+# herdr layers these over a base theme; auto_switch follows the terminal
+HERDR = {
+    "panel_bg": "panel", "sidebar_bg": "bg", "active_row_bg": "surface",
+    "selection_bg": "surface", "surface0": "panel", "surface1": "surface",
+    "surface_dim": "bg", "overlay0": "dim", "overlay1": "dim", "text": "fg",
+    "subtext0": "dim", "accent": "accent", "mauve": "plum", "green": "sage",
+    "yellow": "mustard", "red": "red", "peach": "accent", "blue": "blue",
+    "teal": "teal",
+}
+lines = [header, "onboarding = false\n\n[theme]\nauto_switch = true\n",
+         'dark_name = "one-dark"\nlight_name = "catppuccin-latte"\n']
+for mode in ("dark", "light"):
+    lines.append(f"\n[theme.custom.{mode}]\n")
+    lines += [f'{key} = "#{scheme[mode][role]}"\n' for key, role in HERDR.items()]
+(ROOT / "herdr/.config/herdr/config.toml").write_text("".join(lines))
+
+# (group, fg, bg, attr) as palette roles; "" leaves it unset
+VIM = [
+    ("Normal", "fg", "", ""), ("NormalFloat", "fg", "panel", ""),
+    ("FloatBorder", "dim", "panel", ""), ("Comment", "dim", "", "italic"),
+    ("Constant", "plum", "", ""), ("String", "sage", "", ""),
+    ("Character", "sage", "", ""), ("Number", "plum", "", ""),
+    ("Boolean", "plum", "", ""), ("Identifier", "fg", "", ""),
+    ("Function", "blue", "", ""), ("Statement", "accent", "", "bold"),
+    ("Keyword", "accent", "", "bold"), ("Operator", "fg", "", ""),
+    ("PreProc", "rose", "", ""), ("Include", "rose", "", ""),
+    ("Type", "teal", "", ""), ("Special", "mustard", "", ""),
+    ("Delimiter", "dim", "", ""), ("Todo", "ink", "mustard", "bold"),
+    ("Underlined", "blue", "", "underline"), ("Error", "red", "", "bold"),
+    ("ErrorMsg", "red", "", "bold"), ("WarningMsg", "mustard", "", ""),
+    ("Title", "accent", "", "bold"), ("Directory", "blue", "", ""),
+    ("LineNr", "dim", "", ""), ("CursorLineNr", "accent", "", "bold"),
+    ("CursorLine", "", "panel", ""), ("ColorColumn", "", "panel", ""),
+    ("SignColumn", "dim", "", ""), ("Visual", "", "surface", ""),
+    ("Search", "ink", "mustard", ""), ("IncSearch", "ink", "accent", ""),
+    ("CurSearch", "ink", "accent", ""), ("MatchParen", "accent", "surface", "bold"),
+    ("Pmenu", "fg", "panel", ""), ("PmenuSel", "ink", "accent", "bold"),
+    ("PmenuSbar", "", "panel", ""), ("PmenuThumb", "", "dim", ""),
+    ("StatusLine", "fg", "panel", ""), ("StatusLineNC", "dim", "panel", ""),
+    ("TabLine", "dim", "panel", ""), ("TabLineSel", "ink", "accent", "bold"),
+    ("TabLineFill", "", "panel", ""), ("VertSplit", "surface", "", ""),
+    ("WinSeparator", "surface", "", ""), ("NonText", "surface", "", ""),
+    ("Whitespace", "surface", "", ""), ("Folded", "dim", "panel", ""),
+    ("DiffAdd", "sage", "panel", ""), ("DiffChange", "mustard", "panel", ""),
+    ("DiffDelete", "red", "panel", ""), ("DiffText", "ink", "mustard", ""),
+    ("SpellBad", "red", "", "undercurl"), ("SpellCap", "mustard", "", "undercurl"),
+    ("WildMenu", "ink", "accent", ""), ("Question", "accent", "", ""),
+    ("ModeMsg", "fg", "", "bold"), ("MoreMsg", "accent", "", ""),
+    ("DiagnosticError", "red", "", ""), ("DiagnosticWarn", "mustard", "", ""),
+    ("DiagnosticInfo", "blue", "", ""), ("DiagnosticHint", "teal", "", ""),
+]
+
+vheader = header.replace("# ", '" ', 1)
+pick = "let s:mode = trim(system('darkman get')) ==# 'light' ? 'light' : 'dark'\n"
+def vimdict(mode):
+    return ", ".join(f"'{r}': '#{scheme[mode][r]}'" for r in ROLES)
+
+palettes = "".join(f"let s:{mode} = {{{vimdict(mode)}}}\n" for mode in ("dark", "light"))
+palettes += "let s:c = s:mode ==# 'light' ? s:light : s:dark\n"
+
+def hi(group, fg, bg, attr):
+    parts = [f"hi {group}"]
+    parts.append(f"guifg='.s:c.{fg}.'" if fg else "guifg=NONE")
+    parts.append(f"guibg='.s:c.{bg}.'" if bg else "guibg=NONE")
+    parts.append(f"gui={attr or 'NONE'} cterm={attr or 'NONE'}")
+    return "exe '" + " ".join(parts) + "'\n"
+
+lines = [vheader, "hi clear\nif exists('syntax_on') | syntax reset | endif\n",
+         f"let g:colors_name = '{name}'\n", pick, "let &background = s:mode\n", palettes]
+lines += [hi(*row) for row in VIM]
+(ROOT / f"vim-theme/.config/vim-theme/colors/{name}.vim").write_text("".join(lines))
+
+# airline modes: [guifg, guibg, ctermfg, ctermbg] for the three sections
+lines = [vheader, pick, palettes,
+         f"let g:airline#themes#{name}#palette = {{}}\n",
+         "function! s:map(key, fg, bg)\n"
+         "  return airline#themes#generate_color_map([s:c.ink, s:c[a:bg], 0, 0], "
+         "[s:c.fg, s:c.surface, 7, 0], [s:c[a:fg], s:c.panel, 7, 0])\n"
+         "endfunction\n"]
+for key, accent in (("normal", "accent"), ("insert", "blue"), ("visual", "mustard"),
+                    ("replace", "red"), ("commandline", "accent")):
+    lines.append(f"let g:airline#themes#{name}#palette.{key} = s:map('{key}', 'fg', '{accent}')\n")
+lines.append(f"let g:airline#themes#{name}#palette.inactive = airline#themes#generate_color_map("
+             "[s:c.dim, s:c.panel, 8, 0], [s:c.dim, s:c.panel, 8, 0], [s:c.dim, s:c.panel, 8, 0])\n")
+(ROOT / f"vim-theme/.config/vim-theme/autoload/airline/themes/{name}.vim").write_text("".join(lines))
+
+print(f"built {name}: palette, ghostty, herdr and vim colours for dark and light")

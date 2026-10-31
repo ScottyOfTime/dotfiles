@@ -31,6 +31,8 @@ Every folder in a theme is a stow package except `colorscheme/`. Files are
 | `~/.config/ghostty-theme/config` | no | Included by base Ghostty config (optional include): colours, padding, `gtk-custom-css` |
 | `~/.local/share/darkman/theme.sh` | yes | Darkman hook: applies a light/dark mode to the theme's apps |
 | `~/.config/palette/{dark,light}.env` | by convention | Colours the darkman script renders templates from |
+| `~/.config/vim-theme/theme.vim` | no | Sourced by vim and nvim (dir is prepended to runtimepath): sets the colorscheme and airline theme; without it they fall back to ayu |
+| `~/.config/herdr/config.toml` | no | herdr colours (file-level link; `~/.config/herdr` also holds herdr's runtime files) |
 
 ### Keys a theme binds
 

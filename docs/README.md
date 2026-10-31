@@ -19,14 +19,15 @@ rules) lives once in `base/`; each look is a switchable theme in
 
 ```
 base/                shared stow packages, always installed
-  bash/ nvim/ vim/ herdr/ fastfetch/ fontconfig/
+  bash/ nvim/ vim/ fastfetch/ fontconfig/
   hypr/              hyprland.lua (binds, rules), hypridle, dropdown script
   ghostty/           config.ghostty (shared terminal settings)
 themes/
   zine/              quickshell, palette, darkman, hypr-theme, ghostty-theme,
-                     colorscheme/ (zine.toml + build.py), packages.txt
+                     vim-theme, herdr, colorscheme/ (zine.toml + build.py),
+                     packages.txt
   ayu/               waybar, fuzzel, mako, wob, palette, darkman,
-                     hypr-theme, ghostty-theme, packages.txt
+                     hypr-theme, ghostty-theme, vim-theme, herdr, packages.txt
 theme                switcher script
 pkglist.txt aur-pkgslist.txt services.txt system.sh sddm.conf
 ```

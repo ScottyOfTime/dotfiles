@@ -21,7 +21,8 @@ hard-won gotchas in the doc's rules section so they aren't relearned.
 - Zine colours come only from `themes/zine/colorscheme/zine.toml` →
   `build.py` → darkman templates. Never hard-code hex in configs; never
   edit generated files (`palette/*.env`, `ghostty-theme/themes/zine-*`,
-  anything with a `.tmpl`).
+  zine's herdr `config.toml` and `vim-theme` colours, anything with a
+  `.tmpl`).
 - The UI uses neutrals + the single accent; riso inks are for the terminal
   and red for errors.
 - Quickshell: build UI from `Scrap`; animate with `NumberAnimation` +

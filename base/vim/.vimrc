@@ -14,12 +14,16 @@ call plug#end()
 if has('termguicolors')
     set termguicolors
 endif
-let ayucolor = trim(system('darkman get')) ==# 'light' ? 'light' : 'dark'
 augroup transparent_bg
   autocmd!
   autocmd ColorScheme * hi Normal guibg=NONE ctermbg=NONE
 augroup END
-colorscheme ayu
+set runtimepath^=~/.config/vim-theme
+if filereadable(expand('~/.config/vim-theme/theme.vim'))
+  source ~/.config/vim-theme/theme.vim
+else
+  colorscheme ayu
+endif
 let &t_ut = ''
 
 let g:airline_symbols_ascii = 1

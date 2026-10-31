@@ -14,7 +14,7 @@ Each theme lists its own in `themes/<name>/packages.txt`.
 
 ```
 cd ~/dotfiles
-stow -d base -t ~ bash fastfetch fontconfig ghostty herdr hypr nvim vim
+stow -d base -t ~ bash fastfetch fontconfig ghostty hypr nvim vim
 ./themes/zine/colorscheme/build.py
 ./theme zine
 ```
