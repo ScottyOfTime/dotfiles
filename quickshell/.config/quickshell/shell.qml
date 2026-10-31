@@ -23,4 +23,5 @@ ShellRoot {
     Notifications {}
     Lock { id: lock }
     PowerMenu { lock: lock }
+    Overview {}
 }

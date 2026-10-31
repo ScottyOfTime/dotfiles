@@ -39,7 +39,8 @@ Experiments stack on branches so earlier states are kept:
 | `rice` | Ayu palette pipeline, waybar/fuzzel/mako/wob, hyprlock |
 | `zine` | zine theme with waybar pills |
 | `zine-waybar` | zine waybar with tilted SVG strips |
-| `zine-quickshell` | current: everything in Quickshell |
+| `zine-quickshell` | everything in Quickshell |
+| `zine-overview` | + the window overview (experiment) |
 
 Switching branches doesn't re-render generated files: after `git switch`,
 run `stow` for any packages that appeared/disappeared and then

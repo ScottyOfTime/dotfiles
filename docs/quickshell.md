@@ -22,6 +22,7 @@ Started at login by Hyprland (`qs`).
 | `Osd.qml` | Volume (from Pipewire) and brightness (over IPC) popup |
 | `Notifications.qml` | Notification server; scraps stacked top-right |
 | `Lock.qml` | Session lock: live collage + password scrap (kicks a little on every key press; on success turns orange, says "unlocked" and falls away before the session unlocks), PAM `login` |
+| `Overview.qml` | `SUPER+Tab`: every window as a live-captured tilted "photo", grouped by workspace; arrows/Tab/hover pick, Enter/click focuses, Esc closes |
 | `PowerMenu.qml` | Dimmed overlay with lock / suspend / log out / reboot / shut down scraps; arrows or 1–5, Enter, Esc |
 
 ## Scrap
@@ -55,6 +56,7 @@ Give every scrap its own `seed`; tilts alternate sign between neighbours.
 | `qs ipc call osd brightness <0-100>` | brightness keys |
 | `qs ipc call music toggle` | music popup on the focused monitor |
 | `qs ipc call power toggle` | `SUPER+Escape` |
+| `qs ipc call overview toggle` | `SUPER+Tab` |
 
 ## Rules learned the hard way
 
@@ -66,6 +68,8 @@ Give every scrap its own `seed`; tilts alternate sign between neighbours.
   beneath its content. Keep it that way.
 - **Read `/proc` synchronously** (`FileView { blockLoading: true }`), or the
   first reload comes back empty.
+- **`Hyprland.toplevels` is empty until `Hyprland.refreshToplevels()`**, and
+  its addresses lack the `0x` Hyprland's `address:` selector needs.
 - **Qt's JS lacks some newer builtins** (e.g. `Object.fromEntries`).
 - **Notification bodies are plain text** (`bodyMarkupSupported: false`).
 - **Lock screen PAM** uses the system `login` config. A custom

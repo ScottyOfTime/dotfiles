@@ -39,6 +39,7 @@ See [theme.md](theme.md) for gaps/borders/shadows. Also:
 | `mod+T` | toggle light/dark |
 | `mod+L` | lock |
 | `mod+Escape` | power menu |
+| `mod+Tab` | window overview |
 | `mod+minus` | type an en dash |
 | `Print` | flameshot region screenshot to `~/screenshots` + clipboard |
 | media keys | volume, brightness, playerctl (OSD shows automatically) |
