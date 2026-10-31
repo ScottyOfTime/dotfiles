@@ -24,6 +24,7 @@ PanelWindow {
             close();
             return;
         }
+        hide.stop();
         Hyprland.refreshToplevels();
         current = Math.max(0, windows.findIndex(t => t.activated));
         visible = true;

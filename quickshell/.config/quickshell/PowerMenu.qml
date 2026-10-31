@@ -27,6 +27,7 @@ PanelWindow {
         if (shown) {
             close();
         } else {
+            hide.stop();
             current = 0;
             visible = true;
             shown = true;

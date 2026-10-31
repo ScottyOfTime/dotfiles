@@ -15,6 +15,7 @@ PopupWindow {
             shown = false;
             hide.restart();
         } else {
+            hide.stop();
             visible = true;
             shown = true;
         }

@@ -26,6 +26,7 @@ PanelWindow {
         const last = seed;
         while (seed === last || seed % 7 === last % 7)
             seed = Math.floor(Math.random() * 1000);
+        hideAfterSlide.stop();
         search.text = "";
         list.currentIndex = 0;
         visible = true;
