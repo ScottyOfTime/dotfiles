@@ -21,7 +21,7 @@ rounded windows with ink outlines, and UI made of tilted paper scraps.
 
 ## Palette
 
-Defined in `colorscheme/zine.toml`. Hex values:
+Defined in `themes/zine/colorscheme/zine.toml`. Hex values:
 
 | Role | Dark | Light | Used for |
 |---|---|---|---|

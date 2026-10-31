@@ -2,46 +2,25 @@
 
 ## Packages
 
-`pkglist.txt` (pacman) and `aur-pkgslist.txt` (AUR). Key pieces: hyprland,
-quickshell, darkman, ghostty, hypridle, hyprlock (fallback locker),
-playerctl, brightnessctl, wtype, flameshot, ttf-jetbrains-mono,
-bibata-cursor-theme-bin.
+`pkglist.txt` (pacman) and `aur-pkgslist.txt` (AUR) are the shared set:
+hyprland, hypridle, darkman, ghostty, playerctl, brightnessctl, wtype,
+flameshot, ttf-jetbrains-mono, stow, … plus bibata-cursor-theme-bin.
+Each theme lists its own in `themes/<name>/packages.txt`.
 
 `system.sh` copies `sddm.conf` to `/etc` and enables the system services in
 `services.txt` (run from anywhere; uses sudo).
 
-## Stow
-
-Every top-level folder except `colorscheme/` and `docs/` is a stow package:
+## Install
 
 ```
 cd ~/dotfiles
-stow bash darkman fastfetch fontconfig ghostty herdr hypr nvim palette quickshell vim
+stow -d base -t ~ bash fastfetch fontconfig ghostty herdr hypr nvim vim
+./themes/zine/colorscheme/build.py
+./theme zine
 ```
 
-Then render the theme once (generated files aren't committed):
+`./theme` stows the theme's packages and renders its colours (generated
+files aren't committed). See [themes.md](themes.md).
 
-```
-./colorscheme/build.py
-~/.local/share/darkman/theme.sh $(darkman get)
-```
-
-Removing a package: `stow -D <name>` before deleting its folder, or its
-`~/.config` symlink dangles.
-
-## Branches
-
-Experiments stack on branches so earlier states are kept:
-
-| Branch | State |
-|---|---|
-| `main` | original setup |
-| `rice` | Ayu palette pipeline, waybar/fuzzel/mako/wob, hyprlock |
-| `zine` | zine theme with waybar pills |
-| `zine-waybar` | zine waybar with tilted SVG strips |
-| `zine-quickshell` | everything in Quickshell |
-| `zine-overview` | + the window overview (experiment) |
-
-Switching branches doesn't re-render generated files: after `git switch`,
-run `stow` for any packages that appeared/disappeared and then
-`~/.local/share/darkman/theme.sh $(darkman get)`.
+Removing a package: `stow -D -d base -t ~ <name>` before deleting its folder,
+or its `~/.config` symlink dangles.

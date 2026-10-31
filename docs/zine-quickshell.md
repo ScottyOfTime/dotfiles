@@ -1,9 +1,10 @@
 # Quickshell
 
-The whole shell UI is Quickshell (QML), in `quickshell/.config/quickshell/`.
+The whole zine shell UI is Quickshell (QML), in
+`themes/zine/quickshell/.config/quickshell/`.
 It replaced waybar, fuzzel, wob, mako, swaybg + the ImageMagick wallpaper
 script and (as primary locker) hyprlock.
-Started at login by Hyprland (`qs`).
+Started by the theme's `hypr-theme/start` (`qs`), stopped by `stop`.
 
 ## Files
 
@@ -82,5 +83,5 @@ Give every scrap its own `seed`; tilts alternate sign between neighbours.
 ## Recovery if the lock breaks
 
 `allow_session_lock_restore` is on in Hyprland. From a TTY
-(`Ctrl+Alt+F2`): `hyprctl --instance 0 dispatch 'hl.dsp.exec_cmd("hyprlock")'`
+(`Ctrl+Alt+F2`): `hyprctl --instance 0 dispatch 'hl.dsp.exec_cmd("hyprlock -c ~/.config/hypr-theme/hyprlock.conf")'`
 and unlock with hyprlock, which stays installed and themed for this.
