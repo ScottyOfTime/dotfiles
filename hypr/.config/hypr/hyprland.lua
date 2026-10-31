@@ -222,12 +222,6 @@ hl.window_rule({
 })
 
 hl.window_rule({
-    name      = "viewers-fade-in",
-    match     = { class = "^(org\\.pwmt\\.zathura|mpv|imv)$" },
-    animation = "popin 100%",
-})
-
-hl.window_rule({
     name      = "dropdown-terminal",
     match     = { class = "^com\\.scotty\\.dropdown$" },
     workspace = "special:dropdown",
