@@ -60,9 +60,12 @@ tooltip label {
     color: @fg;
 }
 
+#workspaces button:nth-child(4n+1).active { background: @accent; }
+#workspaces button:nth-child(4n+2).active { background: @mustard; }
+#workspaces button:nth-child(4n+3).active { background: @sage; }
+#workspaces button:nth-child(4n+4).active { background: @teal; }
 
 #workspaces button.active {
-    background: @accent;
     color: @ink;
 }
 
@@ -83,13 +86,14 @@ window#waybar.empty #window {
     box-shadow: none;
 }
 
-#clock, #mpris, #wireplumber, #cpu, #memory, #network, #battery {
-    background: @panel;
-    color: @fg;
-}
+#clock     { background: @mustard; }
+#mpris     { background: @rose; }
+#wireplumber { background: @teal; }
+#cpu       { background: @sage; }
+#memory    { background: @blue; }
+#network   { background: @plum; }
+#battery   { background: @accent; }
 
-#clock { color: @accent; }
-
-#wireplumber.muted { color: @dim; }
-#cpu.warning, #memory.warning { color: @accent; }
-#cpu.critical, #memory.critical { color: @red; }
+#wireplumber.muted { background: @surface; color: @dim; }
+#cpu.warning, #memory.warning { background: @accent; }
+#cpu.critical, #memory.critical { background: @red; }
