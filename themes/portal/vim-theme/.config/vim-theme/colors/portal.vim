@@ -5,7 +5,7 @@ let g:colors_name = 'portal'
 let s:mode = trim(system('darkman get')) ==# 'light' ? 'light' : 'dark'
 let &background = s:mode
 let s:dark = {'bg': '#14171a', 'panel': '#1d2226', 'surface': '#2a3035', 'fg': '#e8ecee', 'dim': '#838d94', 'ink': '#e8ecee', 'line': '#2c3338', 'blue': '#2ea6ff', 'orange': '#ff8a1f', 'red': '#ff5a4c', 'yellow': '#f2c14e', 'green': '#6cc47a', 'cyan': '#38c6d4', 'purple': '#a98bff'}
-let s:light = {'bg': '#dfe2e3', 'panel': '#f6f7f7', 'surface': '#ccd1d4', 'fg': '#1b1f22', 'dim': '#737b81', 'ink': '#1b1f22', 'line': '#bcc2c6', 'blue': '#0b84e8', 'orange': '#ec6a00', 'red': '#d4322a', 'yellow': '#b07f00', 'green': '#2f8a3f', 'cyan': '#0b8796', 'purple': '#7a5bc9'}
+let s:light = {'bg': '#e3e9ef', 'panel': '#f8fafc', 'surface': '#d3dce5', 'fg': '#18202a', 'dim': '#6c7884', 'ink': '#18202a', 'line': '#bfcad5', 'blue': '#0b84e8', 'orange': '#ec6a00', 'red': '#d4322a', 'yellow': '#b07f00', 'green': '#2f8a3f', 'cyan': '#0b8796', 'purple': '#7a5bc9'}
 let s:c = s:mode ==# 'light' ? s:light : s:dark
 exe 'hi Normal guifg='.s:c.fg.' guibg=NONE gui=NONE cterm=NONE'
 exe 'hi NormalFloat guifg='.s:c.fg.' guibg='.s:c.panel.' gui=NONE cterm=NONE'

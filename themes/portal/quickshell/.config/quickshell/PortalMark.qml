@@ -13,7 +13,7 @@ Row {
         model: [Theme.blue, Theme.orange]
         Pictogram {
             required property color modelData
-            path: Icons.chamber[5]
+            path: Icons.portal
             colour: modelData
             size: root.size
         }

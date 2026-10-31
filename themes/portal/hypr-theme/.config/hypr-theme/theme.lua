@@ -36,6 +36,14 @@ hl.config({
             color          = "rgba(00000040)",
             color_inactive = "rgba(00000024)",
         },
+        blur = {
+            enabled   = true,
+            size      = 8,
+            passes    = 3,
+            vibrancy  = 0.2,
+            noise     = 0.015,
+            popups    = true,
+        },
         glow = {
             enabled        = true,
             range          = 12,
@@ -89,6 +97,15 @@ hl.layer_rule({
     name    = "quickshell-overlays",
     match   = { namespace = "^(launcher|powermenu|overview)$" },
     no_anim = true,
+})
+
+-- ignore_alpha keeps the blur to the panels, not the clear space around them
+hl.layer_rule({
+    name         = "frosted-shell",
+    match        = { namespace = "^(bar|launcher|notifications|osd|powermenu|overview)$" },
+    blur         = true,
+    blur_popups  = true,
+    ignore_alpha = 0.05,
 })
 
 hl.layer_rule({

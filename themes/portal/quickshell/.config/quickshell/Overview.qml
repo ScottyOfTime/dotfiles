@@ -100,6 +100,15 @@ PanelWindow {
         }
     }
 
+    Readout {
+        anchors { top: parent.top; topMargin: 80; horizontalCenter: parent.horizontalCenter }
+        width: Math.min(parent.width - 160, 1600)
+        title: "windows"
+        meta: `${overview.windows.length} open · ${overview.workspaces.length} workspaces`
+        opacity: overview.shown ? 1 : 0
+        Behavior on opacity { NumberAnimation { duration: 160 } }
+    }
+
     Flow {
         anchors.centerIn: parent
         width: Math.min(parent.width - 160, 1600)
@@ -147,7 +156,7 @@ PanelWindow {
                             padX: 6
                             padY: 6
                             radius: 6
-                            fill: picked ? Theme.blue : Theme.panel
+                            fill: picked ? Theme.blue : Theme.glass
                             edge: picked ? Theme.blue : "transparent"
                             glow: picked
                             scale: picked ? 1.04 : 1

@@ -77,6 +77,7 @@ Scope {
             Chamber {
                 anchors.fill: parent
                 number: Hyprland.monitorFor(surface.screen)?.activeWorkspace?.id ?? 1
+                telemetry: false
             }
 
             Item {

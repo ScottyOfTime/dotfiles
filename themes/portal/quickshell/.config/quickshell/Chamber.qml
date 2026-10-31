@@ -3,14 +3,15 @@ import Quickshell
 import Quickshell.Io
 
 // the wallpaper: a test chamber wall laid out on a 2560x1440 canvas, scaled
-// to fill. The tiles flip into place, then the sign swings out and the
-// portals open. The sign shows `number` as the chamber.
+// to fill, with the clock and system widgets on top at screen scale. The
+// tiles flip into place, then the portals open and the widgets swing out.
 Rectangle {
     id: chamber
 
     property int number: 1
+    property bool telemetry: true
 
-    color: Theme.line
+    color: Qt.tint(Theme.bg, Qt.alpha(Theme.line, 0.5))
 
     FileView { id: hostname; path: "/etc/hostname"; blockLoading: true }
 
@@ -28,10 +29,6 @@ Rectangle {
                 required property int index
                 readonly property int col: index % 16
                 readonly property int row: Math.floor(index / 16)
-                readonly property real grain: {
-                    const x = Math.sin(index * 12.9898) * 43758.5453;
-                    return x - Math.floor(x);
-                }
                 property real settle: 0
 
                 x: col * 160 + 2
@@ -39,7 +36,7 @@ Rectangle {
                 width: 156
                 height: 156
                 radius: 2
-                color: Qt.tint(Theme.bg, Qt.alpha(Theme.panel, [0, 0.3, 0.55][Math.floor(grain * 3)]))
+                color: Theme.bg
                 opacity: settle
                 transform: Rotation {
                     origin.x: 78
@@ -52,28 +49,22 @@ Rectangle {
             }
         }
 
-        Hazard {
-            x: 0
-            y: 1302
-            width: 2560
-            height: 36
-            stripe: 22
-            base: Theme.panel
-            colour: Theme.ink
-            opacity: 0
-            Component.onCompleted: opacity = 1
-            Behavior on opacity { NumberAnimation { duration: 400 } }
-        }
+        Portal { x: 960; y: 400; colour: Theme.blue; delay: 700 }
+        Portal { x: 1620; y: 460; colour: Theme.orange; delay: 950 }
+    }
 
-        Sign {
-            x: 250
-            y: 230
-            delay: 650
-            number: chamber.number
-            host: hostname.text().trim()
-        }
+    Chrono {
+        x: 28
+        y: 76
+        delay: 500
+        workspace: chamber.number
+    }
 
-        Portal { x: 1140; y: 380; colour: Theme.blue; delay: 1000 }
-        Portal { x: 1930; y: 440; colour: Theme.orange; delay: 1250 }
+    Telemetry {
+        visible: chamber.telemetry
+        anchors { right: parent.right; rightMargin: 28 }
+        y: 76
+        delay: 600
+        host: hostname.text().trim()
     }
 }

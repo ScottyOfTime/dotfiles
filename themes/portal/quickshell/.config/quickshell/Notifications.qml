@@ -2,7 +2,6 @@ import QtQuick
 import Quickshell
 import Quickshell.Services.Notifications
 import Quickshell.Wayland
-import Quickshell.Widgets
 
 // notification server: panels stacked top-right
 PanelWindow {
@@ -42,13 +41,14 @@ PanelWindow {
                 required property var modelData
                 readonly property bool critical: modelData.urgency === NotificationUrgency.Critical
                 readonly property color tone: critical ? Theme.orange : Theme.blue
+                readonly property string arrived: Qt.formatDateTime(new Date(), "HH:mm")
 
                 padX: 16
                 padY: 12
                 edge: tone
                 edgeLeft: true
                 glow: critical
-                fill: hovered ? Theme.surface : Theme.panel
+                fill: hovered ? Theme.glassHover : Theme.glass
                 onClicked: modelData.dismiss()
 
                 Timer {
@@ -68,19 +68,11 @@ PanelWindow {
                         height: 8
                     }
 
-                    Row {
-                        spacing: 8
-                        IconImage {
-                            visible: source != ""
-                            source: note.modelData.appIcon ? Quickshell.iconPath(note.modelData.appIcon, true) : ""
-                            implicitSize: 14
-                            anchors.verticalCenter: parent.verticalCenter
-                        }
-                        Caps {
-                            text: note.modelData.appName || "notification"
-                            color: note.tone
-                            anchors.verticalCenter: parent.verticalCenter
-                        }
+                    Readout {
+                        width: parent.width
+                        title: note.modelData.appName || "notification"
+                        tone: note.tone
+                        meta: note.arrived
                     }
 
                     Row {

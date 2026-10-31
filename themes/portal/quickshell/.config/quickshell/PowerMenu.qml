@@ -102,57 +102,70 @@ PanelWindow {
         }
     }
 
-    Row {
+    Column {
         anchors.centerIn: parent
-        spacing: 18
+        spacing: 16
 
-        Repeater {
-            model: menu.actions
+        Readout {
+            width: options.width
+            title: "session"
+            meta: `up ${Stats.since(Stats.uptime)}`
+            opacity: menu.shown ? 1 : 0
+            Behavior on opacity { NumberAnimation { duration: 160 } }
+        }
 
-            Panel {
-                id: option
-                required property var modelData
-                required property int index
-                // hover moves the one selection rather than adding a second
-                // highlight, which would stick when the cursor hides
-                readonly property bool picked: menu.current === index
-                readonly property color tint: picked ? Theme.onLit : Theme.ink
-                onHoveredChanged: if (hovered) menu.current = index
+        Row {
+            id: options
+            spacing: 18
 
-                out: index < menu.dealt
-                radius: 14
-                padX: 26
-                padY: 24
-                fill: picked ? Theme.blue : Theme.panel
-                edge: picked ? Theme.blue : "transparent"
-                glow: picked
-                onClicked: menu.choose(index)
+            Repeater {
+                model: menu.actions
 
-                Column {
-                    width: 150
-                    spacing: 14
+                Panel {
+                    id: option
+                    required property var modelData
+                    required property int index
+                    // hover moves the one selection rather than adding a second
+                    // highlight, which would stick when the cursor hides
+                    readonly property bool picked: menu.current === index
+                    readonly property color tint: picked ? Theme.onLit : Theme.ink
+                    onHoveredChanged: if (hovered) menu.current = index
 
-                    Item {
-                        width: parent.width
-                        height: 72
-                        Pictogram {
-                            path: option.modelData.icon
-                            size: 72
-                            colour: option.tint
+                    out: index < menu.dealt
+                    radius: 14
+                    padX: 26
+                    padY: 24
+                    fill: picked ? Theme.blue : Theme.glass
+                    edge: picked ? Theme.blue : "transparent"
+                    glow: picked
+                    onClicked: menu.choose(index)
+
+                    Column {
+                        width: 150
+                        spacing: 14
+
+                        Item {
+                            width: parent.width
+                            height: 72
+                            Pictogram {
+                                path: option.modelData.icon
+                                size: 72
+                                colour: option.tint
+                            }
+                            Caps {
+                                anchors.right: parent.right
+                                text: String(option.index + 1).padStart(2, "0")
+                                color: option.picked ? Theme.onLit : Theme.orange
+                                font.pixelSize: 12
+                            }
                         }
-                        Caps {
-                            anchors.right: parent.right
-                            text: String(option.index + 1).padStart(2, "0")
-                            color: option.picked ? Theme.onLit : Theme.orange
-                            font.pixelSize: 12
+                        Rectangle { width: parent.width; height: 3; color: option.tint }
+                        Label {
+                            text: option.modelData.name
+                            font.pixelSize: 22
+                            font.weight: Font.ExtraBold
+                            color: option.tint
                         }
-                    }
-                    Rectangle { width: parent.width; height: 3; color: option.tint }
-                    Label {
-                        text: option.modelData.name
-                        font.pixelSize: 22
-                        font.weight: Font.ExtraBold
-                        color: option.tint
                     }
                 }
             }

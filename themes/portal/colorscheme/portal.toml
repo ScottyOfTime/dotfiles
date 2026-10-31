@@ -50,13 +50,13 @@ ansi = [
 ]
 
 [light]
-bg = "dfe2e3"
-panel = "f6f7f7"
-surface = "ccd1d4"
-fg = "1b1f22"
-dim = "737b81"
-ink = "1b1f22"
-line = "bcc2c6"
+bg = "e3e9ef"
+panel = "f8fafc"
+surface = "d3dce5"
+fg = "18202a"
+dim = "6c7884"
+ink = "18202a"
+line = "bfcad5"
 blue = "0b84e8"
 orange = "ec6a00"
 red = "d4322a"
@@ -66,13 +66,13 @@ cyan = "0b8796"
 purple = "7a5bc9"
 
 [light.terminal]
-foreground = "1b1f22"
-background = "f6f7f7"
+foreground = "18202a"
+background = "f8fafc"
 cursor = "ec6a00"
-cursor_text = "f6f7f7"
+cursor_text = "f8fafc"
 selection_bg = "0b84e8"
-selection_fg = "f6f7f7"
+selection_fg = "f8fafc"
 ansi = [
-  "1b1f22", "d4322a", "2f8a3f", "b07f00", "0b84e8", "7a5bc9", "0b8796", "5b6369",
-  "737b81", "e2463d", "3d9e4d", "c99400", "3a9cf0", "9077d9", "1a9eae", "ccd1d4",
+  "18202a", "d4322a", "2f8a3f", "b07f00", "0b84e8", "7a5bc9", "0b8796", "56626e",
+  "6c7884", "e2463d", "3d9e4d", "c99400", "3a9cf0", "9077d9", "1a9eae", "d3dce5",
 ]

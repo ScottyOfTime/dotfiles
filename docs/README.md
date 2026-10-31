@@ -13,7 +13,7 @@ rules) lives once in `base/`; each look is a switchable theme in
 | [zine-theme.md](zine-theme.md) | **zine**: the look, palette, shapes, wallpaper |
 | [zine-pipeline.md](zine-pipeline.md) | **zine**: how colours flow into every app |
 | [zine-quickshell.md](zine-quickshell.md) | **zine**: bar, launcher, popups, lock screen, overview |
-| [portal.md](portal.md) | **portal**: test chamber walls, blue/orange portals |
+| [portal.md](portal.md) | **portal**: test chamber × Frutiger Aero, glass panels, blue/orange portals |
 | [ayu.md](ayu.md) | **ayu**: the earlier waybar/fuzzel rice |
 
 ## Layout

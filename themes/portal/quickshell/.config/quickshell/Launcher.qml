@@ -75,6 +75,8 @@ PanelWindow {
         Column {
             spacing: 14
 
+            Readout { width: 520; title: "launcher"; meta: `${launcher.apps.length} apps` }
+
             Rectangle {
                 width: 520
                 height: 42

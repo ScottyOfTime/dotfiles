@@ -6,7 +6,7 @@ import QtQuick.Effects
 Item {
     id: root
 
-    property color fill: Theme.panel
+    property color fill: Theme.glass
     property color edge: "transparent"
     property bool edgeLeft: false
     property bool glow: false
@@ -56,10 +56,18 @@ Item {
         anchors.fill: parent
         radius: root.radius
         color: root.fill
-        border.color: Theme.line
+        border.color: Qt.alpha(Theme.line, 0.9)
         border.width: 1
         antialiasing: true
         Behavior on color { ColorAnimation { duration: 120 } }
+
+        Rectangle {
+            x: root.radius
+            y: 1
+            width: parent.width - root.radius * 2
+            height: 1
+            color: Theme.sheen
+        }
 
         Rectangle {
             visible: root.edge.a > 0

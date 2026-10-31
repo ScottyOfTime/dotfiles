@@ -37,7 +37,7 @@ PanelWindow {
 
         Panel {
             padX: 10; padY: 9
-            fill: hovered ? Theme.surface : Theme.panel
+            fill: hovered ? Theme.glassHover : Theme.glass
             anchors.verticalCenter: parent.verticalCenter
             onClicked: Quickshell.execDetached(["qs", "ipc", "call", "launcher", "toggle"])
             PortalMark { size: 16 }
@@ -52,7 +52,7 @@ PanelWindow {
 
                 delay: 40 + index * 40
                 padX: 10; padY: 7
-                fill: modelData.focused ? Theme.blue : hovered ? Theme.surface : Theme.panel
+                fill: modelData.focused ? Theme.blue : hovered ? Theme.glassHover : Theme.glass
                 edge: modelData.focused ? Theme.blue : modelData.active ? Theme.orange : "transparent"
                 glow: modelData.focused
                 anchors.verticalCenter: parent.verticalCenter
@@ -116,7 +116,7 @@ PanelWindow {
             visible: bar.player !== null
             delay: 160
             padY: 8
-            fill: hovered ? Theme.surface : Theme.panel
+            fill: hovered ? Theme.glassHover : Theme.glass
             edge: bar.player?.isPlaying ? Theme.orange : "transparent"
             anchors.verticalCenter: parent.verticalCenter
             onClicked: musicPopup.toggle()
@@ -151,7 +151,7 @@ PanelWindow {
 
                 delay: 200 + index * 40
                 padY: 8
-                fill: volume && hovered ? Theme.surface : Theme.panel
+                fill: volume && hovered ? Theme.glassHover : Theme.glass
                 anchors.verticalCenter: parent.verticalCenter
                 onClicked: if (volume) bar.sink.audio.muted = !bar.sink.audio.muted
                 onWheeled: event => {
