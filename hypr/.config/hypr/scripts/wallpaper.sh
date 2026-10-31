@@ -30,5 +30,9 @@ if [ ! -f "$out" ] || [ "$palette" -nt "$out" ] || [ "$0" -nt "$out" ]; then
         -strip "$out"
 fi
 
-pkill -x swaybg
-exec swaybg -m fill -i "$out"
+# start the new swaybg before killing the old so there's no frame without one
+old=$(pgrep -x swaybg)
+swaybg -m fill -i "$out" &
+sleep 0.5
+[ -n "$old" ] && kill $old
+wait

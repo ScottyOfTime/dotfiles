@@ -159,6 +159,12 @@ hl.config({
     xwayland = { force_zero_scaling = true },
 })
 
+hl.layer_rule({
+    name    = "static-wallpaper",
+    match   = { namespace = "^wallpaper$" },
+    no_anim = true,
+})
+
 hl.window_rule({
     name  = "suppress-maximize-events",
     match = { class = ".*" },

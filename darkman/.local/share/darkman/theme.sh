@@ -22,8 +22,7 @@ done
 export HYPRLAND_INSTANCE_SIGNATURE=$(ls /run/user/$(id -u)/hypr/ | head -1)
 hyprctl reload >/dev/null
 hyprctl setcursor "$cursor" 24 >/dev/null
-pkill waybar
-hyprctl dispatch 'hl.dsp.exec_cmd("waybar")'
+pkill -SIGUSR2 waybar
 hyprctl dispatch 'hl.dsp.exec_cmd("~/.config/hypr/scripts/wallpaper.sh")'
 hyprctl dispatch 'hl.dsp.exec_cmd("~/.config/hypr/scripts/wob.sh")'
 makoctl reload 2>/dev/null
