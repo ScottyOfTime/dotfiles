@@ -114,6 +114,13 @@ PanelWindow {
                 spacing: 14
 
                 Scrap {
+                    // dealt with its group's first card
+                    readonly property bool out: overview.windows.indexOf(group.members[0]) < overview.dealt
+                    scale: out ? 1 : 0.6
+                    opacity: out ? 1 : 0
+                    Behavior on scale { NumberAnimation { duration: 220; easing.type: Easing.OutBack } }
+                    Behavior on opacity { NumberAnimation { duration: 110 } }
+
                     seed: 200 + group.modelData
                     tilt: group.modelData % 2 ? -3 : 3
                     fill: Theme.surface
