@@ -1,0 +1,78 @@
+# source of truth: ./colorscheme/build.py generates the palette files,
+# ghostty themes, herdr and vim colours from this, so edit here and rerun it
+
+name = "portal"
+
+[settings]
+cursor = "Bibata-Modern-Classic"
+gtk_accent = "blue"
+
+# roles, in the order they're written out:
+#   bg       chamber wall
+#   panel    wall panels: bar modules, menus, notifications, signs
+#   surface  hover / inactive chips, one step off panel
+#   fg       body text
+#   dim      secondary text, unlit pictograms
+#   ink      sign print, frames
+#   line     panel seams
+#   blue     portal one: focus, selection, progress
+#   orange   portal two: attention, warnings, secondary highlight
+#   red      errors only
+#   yellow, green, cyan, purple
+#            terminal and editor colours only
+
+[dark]
+bg = "14171a"
+panel = "1d2226"
+surface = "2a3035"
+fg = "e8ecee"
+dim = "838d94"
+ink = "e8ecee"
+line = "2c3338"
+blue = "2ea6ff"
+orange = "ff8a1f"
+red = "ff5a4c"
+yellow = "f2c14e"
+green = "6cc47a"
+cyan = "38c6d4"
+purple = "a98bff"
+
+[dark.terminal]
+foreground = "e8ecee"
+background = "111416"
+cursor = "ff8a1f"
+cursor_text = "111416"
+selection_bg = "2ea6ff"
+selection_fg = "07090a"
+ansi = [
+  "2a3035", "ff5a4c", "6cc47a", "f2c14e", "2ea6ff", "a98bff", "38c6d4", "c3cacf",
+  "838d94", "ff7b6e", "8ad696", "f7d27a", "66bdff", "bfa8ff", "68d6e1", "e8ecee",
+]
+
+[light]
+bg = "dfe2e3"
+panel = "f6f7f7"
+surface = "ccd1d4"
+fg = "1b1f22"
+dim = "737b81"
+ink = "1b1f22"
+line = "bcc2c6"
+blue = "0b84e8"
+orange = "ec6a00"
+red = "d4322a"
+yellow = "b07f00"
+green = "2f8a3f"
+cyan = "0b8796"
+purple = "7a5bc9"
+
+[light.terminal]
+foreground = "1b1f22"
+background = "f6f7f7"
+cursor = "ec6a00"
+cursor_text = "f6f7f7"
+selection_bg = "0b84e8"
+selection_fg = "f6f7f7"
+ansi = [
+  "1b1f22", "d4322a", "2f8a3f", "b07f00", "0b84e8", "7a5bc9", "0b8796", "5b6369",
+  "737b81", "e2463d", "3d9e4d", "c99400", "3a9cf0", "9077d9", "1a9eae", "ccd1d4",
+]

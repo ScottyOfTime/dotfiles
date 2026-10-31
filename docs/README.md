@@ -13,6 +13,7 @@ rules) lives once in `base/`; each look is a switchable theme in
 | [zine-theme.md](zine-theme.md) | **zine**: the look, palette, shapes, wallpaper |
 | [zine-pipeline.md](zine-pipeline.md) | **zine**: how colours flow into every app |
 | [zine-quickshell.md](zine-quickshell.md) | **zine**: bar, launcher, popups, lock screen, overview |
+| [portal.md](portal.md) | **portal**: Aperture test chamber, blue/orange portals |
 | [ayu.md](ayu.md) | **ayu**: the earlier waybar/fuzzel rice |
 
 ## Layout
@@ -26,6 +27,8 @@ themes/
   zine/              quickshell, palette, darkman, hypr-theme, ghostty-theme,
                      vim-theme, herdr, colorscheme/ (zine.toml + build.py),
                      packages.txt
+  portal/            same layout as zine (quickshell, palette, darkman,
+                     hypr-theme, ghostty-theme, vim-theme, herdr, colorscheme/)
   ayu/               waybar, fuzzel, mako, wob, palette, darkman,
                      hypr-theme, ghostty-theme, vim-theme, herdr, packages.txt
 theme                switcher script

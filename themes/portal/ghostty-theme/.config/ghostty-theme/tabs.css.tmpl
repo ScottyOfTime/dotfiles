@@ -1,0 +1,68 @@
+tabbar,
+tabbar .box {
+  box-shadow: none;
+  background-color: var(--ghostty-bg);
+}
+
+tabbar .box {
+  padding: 6px 12px 8px;
+}
+
+tabbar tabbox {
+  padding: 0;
+  min-height: 0;
+}
+
+tabbar tabbox > tabboxchild {
+  margin: 0 3px;
+  border-radius: 3px;
+}
+
+tabbar tabbox > separator {
+  margin: 0;
+  min-width: 0;
+  background: none;
+}
+
+tabbar tab {
+  min-height: 28px;
+  padding: 0 16px;
+  border-radius: 3px;
+  border-style: solid;
+  border-width: 1px 1px 3px 1px;
+  border-color: #${line};
+  background-color: #${panel};
+  color: #${dim};
+  font-family: "Adwaita Sans";
+  font-weight: bold;
+  letter-spacing: 1px;
+  transition: border-color 140ms, background-color 140ms, color 140ms;
+}
+
+tabbar tab:hover {
+  background-color: #${surface};
+  border-bottom-color: #${orange};
+  color: #${fg};
+}
+
+tabbar tab:selected,
+tabbar tab:selected:hover,
+tabbar tabbox > tabboxchild tab:selected {
+  background-color: #${panel};
+  border-color: #${line};
+  border-bottom-color: #${blue};
+  color: #${fg};
+}
+
+tabbar tab .tab-title {
+  margin: 0;
+}
+
+tabbar tab button.tab-close-button {
+  opacity: 0;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  margin: 0;
+  -gtk-icon-size: 0;
+}

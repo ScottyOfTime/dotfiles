@@ -4,6 +4,11 @@ themes/zine/hypr-theme/.config/hypr-theme/colors.lua
 themes/zine/hypr-theme/.config/hypr-theme/hyprlock.conf
 themes/zine/ghostty-theme/.config/ghostty-theme/tabs.css
 themes/zine/ghostty-theme/.config/ghostty-theme/config
+themes/portal/quickshell/.config/quickshell/Theme.qml
+themes/portal/hypr-theme/.config/hypr-theme/colors.lua
+themes/portal/hypr-theme/.config/hypr-theme/hyprlock.conf
+themes/portal/ghostty-theme/.config/ghostty-theme/tabs.css
+themes/portal/ghostty-theme/.config/ghostty-theme/config
 themes/ayu/waybar/.config/waybar/colors.css
 themes/ayu/fuzzel/.config/fuzzel/colors.ini
 themes/ayu/hypr-theme/.config/hypr-theme/colors.lua
