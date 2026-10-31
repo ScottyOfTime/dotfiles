@@ -15,9 +15,9 @@ gtk_accent = "orange"  # libadwaita's closest named accent
 #   dim      secondary text, placeholders
 #   ink      outlines and hard offset shadows
 #   shade    unfocused window shadows, softer than ink
-#   accent   pale zine orange: focus, active tab
+#   accent   pale orange, the only colour the UI uses: focus, active tab
 #   mustard, sage, teal, blue, rose, plum, red
-#            the riso inks, used to give each module or state its own colour
+#            the riso inks: terminal colours and errors only
 
 [dark]
 bg = "1f1c19"
@@ -41,7 +41,7 @@ foreground = "ecdfcc"
 background = "161412"
 cursor = "ddc2a6"
 cursor_text = "161412"
-selection_bg = "dbb56e"
+selection_bg = "ddc2a6"
 selection_fg = "0b0a09"
 ansi = [
   "36312c", "d9705f", "9fb68a", "dbb56e", "8aa7cf", "ab8fc6", "82b3ab", "cfc3b1",
@@ -70,7 +70,7 @@ foreground = "2a2420"
 background = "f1e6d6"
 cursor = "b4855a"
 cursor_text = "f1e6d6"
-selection_bg = "c79a3c"
+selection_bg = "b4855a"
 selection_fg = "f1e6d6"
 # yellow (3) is darkened from mustard so text stays readable on the paper
 ansi = [
