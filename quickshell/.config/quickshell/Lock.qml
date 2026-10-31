@@ -73,6 +73,7 @@ Scope {
                 focus: true
 
                 Keys.onPressed: event => {
+                    shaker.shake();
                     if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
                         lock.submit();
                     } else if (event.key === Qt.Key_Backspace) {
@@ -86,12 +87,38 @@ Scope {
                     event.accepted = true;
                 }
 
-                Scrap {
-                    id: field
+                // a kick of rotation and sideways nudge on every key press,
+                // on a wrapper so it doesn't fight the scrap's own tilt
+                Item {
+                    id: shaker
                     // below the wallpaper's banner rather than on top of it
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.verticalCenterOffset: parent.height * 0.24
+                    width: field.width
+                    height: field.height
+                    transform: Translate { id: nudge }
+
+                    function shake() {
+                        kickTurn.to = (Math.random() < 0.5 ? -1 : 1) * (0.8 + Math.random() * 1.2);
+                        kickSlide.to = (Math.random() * 2 - 1) * 4;
+                        shakeAnim.restart();
+                    }
+
+                    SequentialAnimation {
+                        id: shakeAnim
+                        ParallelAnimation {
+                            NumberAnimation { id: kickTurn; target: shaker; property: "rotation"; duration: 40; easing.type: Easing.OutQuad }
+                            NumberAnimation { id: kickSlide; target: nudge; property: "x"; duration: 40; easing.type: Easing.OutQuad }
+                        }
+                        ParallelAnimation {
+                            NumberAnimation { target: shaker; property: "rotation"; to: 0; duration: 180; easing.type: Easing.OutBack; easing.overshoot: 3 }
+                            NumberAnimation { target: nudge; property: "x"; to: 0; duration: 180; easing.type: Easing.OutBack; easing.overshoot: 3 }
+                        }
+                    }
+
+                Scrap {
+                    id: field
                     seed: 91 + lock.attempts
                     tilt: lock.status === "failed" ? 3 : -2
                     fill: Theme.panel
@@ -118,6 +145,7 @@ Scope {
                             : Theme.dim
                         elide: Text.ElideMiddle
                     }
+                }
                 }
             }
         }

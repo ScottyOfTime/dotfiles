@@ -18,7 +18,7 @@ Started at login by Hyprland (`qs`).
 | `Launcher.qml` | App search on one scrap, rises from the bottom edge |
 | `Osd.qml` | Volume (from Pipewire) and brightness (over IPC) popup |
 | `Notifications.qml` | Notification server; scraps stacked top-right |
-| `Lock.qml` | Session lock: wallpaper + password scrap, PAM `login` |
+| `Lock.qml` | Session lock: wallpaper + password scrap (kicks a little on every key press), PAM `login` |
 | `PowerMenu.qml` | Dimmed overlay with lock / suspend / log out / reboot / shut down scraps; arrows or 1–5, Enter, Esc |
 
 ## Scrap
