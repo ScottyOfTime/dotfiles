@@ -8,7 +8,7 @@ Started at login by Hyprland (`qs`).
 
 | File | What |
 |---|---|
-| `shell.qml` | Root: one `Bar` per screen, plus `Launcher`, `Osd`, `Notifications`, `Lock`. `bar` IPC toggle |
+| `shell.qml` | Root: one `Bar` per screen, plus `Launcher`, `Osd`, `Notifications`, `Lock`, `PowerMenu`. `bar` IPC toggle |
 | `Scrap.qml` | The building block (below) |
 | `Label.qml` | Text in the theme font, bold, ink by default |
 | `Theme.qml.tmpl` | Palette singleton, rendered by darkman (`Theme.qml` is generated) |
@@ -19,6 +19,7 @@ Started at login by Hyprland (`qs`).
 | `Osd.qml` | Volume (from Pipewire) and brightness (over IPC) popup |
 | `Notifications.qml` | Notification server; scraps stacked top-right |
 | `Lock.qml` | Session lock: wallpaper + password scrap, PAM `login` |
+| `PowerMenu.qml` | Dimmed overlay with lock / suspend / log out / reboot / shut down scraps; arrows or 1–5, Enter, Esc |
 
 ## Scrap
 
@@ -50,6 +51,7 @@ Give every scrap its own `seed`; tilts alternate sign between neighbours.
 | `qs ipc call lock preview` | locks for 6s then unlocks itself; safe way to look/test |
 | `qs ipc call osd brightness <0-100>` | brightness keys |
 | `qs ipc call music toggle` | music popup on the focused monitor |
+| `qs ipc call power toggle` | `SUPER+Escape` |
 
 ## Rules learned the hard way
 

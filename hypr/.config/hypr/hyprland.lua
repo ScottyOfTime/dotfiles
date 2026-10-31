@@ -106,7 +106,8 @@ local mainMod = "SUPER"
 
 hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + W", hl.dsp.window.close())
-hl.bind(mainMod .. " + SHIFT + Q", hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch exit"))
+hl.bind(mainMod .. " + SHIFT + Q", hl.dsp.exit())
+hl.bind(mainMod .. " + Escape", hl.dsp.exec_cmd("qs ipc call power toggle"))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + V", hl.dsp.window.float())
 hl.bind(mainMod .. " + Space", hl.dsp.exec_cmd(menu))
@@ -172,7 +173,7 @@ hl.config({
 
 hl.layer_rule({
     name    = "quickshell-launcher",
-    match   = { namespace = "^launcher$" },
+    match   = { namespace = "^(launcher|powermenu)$" },
     no_anim = true,
 })
 

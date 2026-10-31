@@ -17,5 +17,6 @@ ShellRoot {
     Launcher {}
     Osd {}
     Notifications {}
-    Lock {}
+    Lock { id: lock }
+    PowerMenu { lock: lock }
 }

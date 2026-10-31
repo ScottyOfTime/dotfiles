@@ -38,10 +38,11 @@ See [theme.md](theme.md) for gaps/borders/shadows. Also:
 | `mod+B` | toggle bar |
 | `mod+T` | toggle light/dark |
 | `mod+L` | lock |
+| `mod+Escape` | power menu |
 | `mod+minus` | type an en dash |
 | `Print` | flameshot region screenshot to `~/screenshots` + clipboard |
 | media keys | volume, brightness, playerctl (OSD shows automatically) |
-| `mod+shift+Q` | exit |
+| `mod+shift+Q` | exit Hyprland (`hl.dsp.exit()`; the old `hyprctl dispatch exit` is a no-op in Lua mode) |
 
 Workspaces 1–2 are on DP-2 (left), 3–4 on DP-3 (right).
 
