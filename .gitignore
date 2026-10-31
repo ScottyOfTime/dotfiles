@@ -1,4 +1,12 @@
-hypr/.config/hypr/colors.lua
-hypr/.config/hypr/hyprlock.conf
-ghostty/.config/ghostty/tabs.css
-quickshell/.config/quickshell/Theme.qml
+# files darkman renders from a sibling .tmpl
+themes/zine/quickshell/.config/quickshell/Theme.qml
+themes/zine/hypr-theme/.config/hypr-theme/colors.lua
+themes/zine/hypr-theme/.config/hypr-theme/hyprlock.conf
+themes/zine/ghostty-theme/.config/ghostty-theme/tabs.css
+themes/zine/ghostty-theme/.config/ghostty-theme/config
+themes/ayu/waybar/.config/waybar/colors.css
+themes/ayu/fuzzel/.config/fuzzel/colors.ini
+themes/ayu/hypr-theme/.config/hypr-theme/colors.lua
+themes/ayu/hypr-theme/.config/hypr-theme/hyprlock.conf
+themes/ayu/mako/.config/mako/config
+themes/ayu/wob/.config/wob/wob.ini

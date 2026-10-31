@@ -1,0 +1,6 @@
+#!/bin/sh
+pkill -x waybar
+pkill -x swaybg
+pkill -x wob
+pkill -f "tail -f $XDG_RUNTIME_DIR/wob.sock"
+pkill -x mako

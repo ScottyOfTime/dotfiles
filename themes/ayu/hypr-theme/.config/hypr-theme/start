@@ -1,0 +1,4 @@
+#!/bin/sh
+waybar &
+~/.config/hypr-theme/scripts/wallpaper.sh &
+exec ~/.config/hypr-theme/scripts/wob.sh

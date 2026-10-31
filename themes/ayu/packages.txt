@@ -1,0 +1,6 @@
+waybar
+fuzzel
+mako
+wob
+swaybg
+hyprlock

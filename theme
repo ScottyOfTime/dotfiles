@@ -1,0 +1,33 @@
+#!/bin/sh
+# ./theme           list themes, * marks the active one
+# ./theme <name>    switch: stop the old theme's shell, swap its stow links
+#                   for the new one's, render colours, start the new shell
+cd "$(dirname "$(readlink -f "$0")")" || exit 1
+state=${XDG_STATE_HOME:-$HOME/.local/state}/dotfiles-theme
+current=$(cat "$state" 2>/dev/null)
+
+# every folder in a theme is a stow package except colorscheme/
+packages() { find "themes/$1" -mindepth 1 -maxdepth 1 -type d ! -name colorscheme -printf '%f\n'; }
+
+if [ -z "$1" ]; then
+    for t in themes/*/; do
+        t=${t#themes/}; t=${t%/}
+        if [ "$t" = "$current" ]; then echo "* $t"; else echo "  $t"; fi
+    done
+    exit
+fi
+
+new=$1
+[ -d "themes/$new" ] || { echo "no theme '$new'" >&2; exit 1; }
+
+if [ -n "$current" ] && [ -d "themes/$current" ]; then
+    ~/.config/hypr-theme/stop 2>/dev/null
+    stow -D -d "themes/$current" -t "$HOME" $(packages "$current")
+fi
+stow -d "themes/$new" -t "$HOME" $(packages "$new") || exit 1
+mkdir -p "${state%/*}" && echo "$new" > "$state"
+
+~/.local/share/darkman/theme.sh "$(darkman get 2>/dev/null || echo dark)"
+export HYPRLAND_INSTANCE_SIGNATURE=$(ls -t /run/user/$(id -u)/hypr/ | head -1)
+hyprctl dispatch 'hl.dsp.exec_cmd("~/.config/hypr-theme/start")' >/dev/null
+echo "theme: $new"

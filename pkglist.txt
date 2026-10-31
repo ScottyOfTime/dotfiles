@@ -16,7 +16,6 @@ grub
 htop
 hypridle
 hyprland
-hyprlock
 linux
 linux-firmware
 man-db
@@ -29,7 +28,6 @@ playerctl
 postgresql
 power-profiles-daemon
 python-gobject
-quickshell
 sddm
 stow
 sudo
