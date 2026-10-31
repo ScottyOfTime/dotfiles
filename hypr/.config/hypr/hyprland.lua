@@ -92,7 +92,8 @@ hl.config({
     input  = { repeat_delay = 250, repeat_rate = 40, touchpad = { natural_scroll = true } },
     binds  = { workspace_back_and_forth = true },
     cursor = { hide_on_key_press = true, no_warps = true },
-    misc   = { enable_swallow = true, swallow_regex = "^com\\.mitchellh\\.ghostty$" },
+    -- lets a new locker take over if quickshell dies while locked
+    misc   = { allow_session_lock_restore = true, enable_swallow = true, swallow_regex = "^com\\.mitchellh\\.ghostty$" },
 })
 
 hl.gesture({
@@ -161,7 +162,7 @@ hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl -p spotify,%any previous"), 
 
 hl.bind(mainMod .. " + B", hl.dsp.exec_cmd("qs ipc call bar toggle"))
 hl.bind(mainMod .. " + T", hl.dsp.exec_cmd("darkman toggle"))
-hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("pidof hyprlock || hyprlock"))
+hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("qs ipc call lock lock"))
 hl.bind(mainMod .. " + minus", hl.dsp.exec_cmd("wtype –"), { release = true })
 hl.bind("Print", hl.dsp.exec_cmd("mkdir -p ~/screenshots && flameshot gui --path ~/screenshots --clipboard"))
 

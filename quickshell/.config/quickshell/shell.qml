@@ -17,4 +17,5 @@ ShellRoot {
     Launcher {}
     Osd {}
     Notifications {}
+    Lock {}
 }
