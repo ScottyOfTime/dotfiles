@@ -27,7 +27,9 @@ PanelWindow {
             seed = Math.floor(Math.random() * 1000);
         search.text = "";
         list.currentIndex = 0;
+        scrap.scale = 0.8;
         visible = true;
+        scrap.scale = 1;
         search.forceActiveFocus();
     }
 
@@ -68,7 +70,6 @@ PanelWindow {
         padY: 22
         tape: true
         tapeWidth: 110
-        animated: false
 
         Column {
             spacing: 12

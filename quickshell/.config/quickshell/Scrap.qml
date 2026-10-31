@@ -13,7 +13,6 @@ Item {
     property real padX: 12
     property real padY: 5
     property bool tape: false
-    property bool animated: true
     property real tapeWidth: 30
     default property alias content: inner.data
     readonly property bool hovered: mouse.containsMouse
@@ -24,8 +23,8 @@ Item {
     implicitWidth: inner.implicitWidth + padX * 2
     implicitHeight: inner.implicitHeight + padY * 2
     rotation: tilt
-    Behavior on rotation { enabled: root.animated; SpringAnimation { spring: 5; damping: 0.22 } }
-    Behavior on scale { enabled: root.animated; SpringAnimation { spring: 5; damping: 0.22 } }
+    Behavior on rotation { SpringAnimation { spring: 5; damping: 0.22 } }
+    Behavior on scale { SpringAnimation { spring: 5; damping: 0.22 } }
 
     // repeatable pseudo-random offset per corner, so a scrap keeps its cut
     function j(i) {
