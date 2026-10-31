@@ -55,9 +55,10 @@ tooltip label {
 
 #workspaces button.visible { background-image: url("strips/chip-a-surface.svg"); color: @fg; }
 #workspaces button.visible:nth-child(even) { background-image: url("strips/chip-b-surface.svg"); }
-#workspaces button.active { background-image: url("strips/chip-b-accent.svg"); color: @ink; }
-#workspaces button.active:nth-child(even) { background-image: url("strips/chip-a-accent.svg"); }
+#workspaces button.active { background-image: url("strips/chip-a-accent.svg"); color: @ink; }
+#workspaces button.active:nth-child(even) { background-image: url("strips/chip-b-accent.svg"); }
 #workspaces button.urgent { background-image: url("strips/chip-a-red.svg"); }
+#workspaces button.urgent:nth-child(even) { background-image: url("strips/chip-b-red.svg"); }
 
 #window {
     color: @paper;
