@@ -7,6 +7,7 @@ bun
 darkman
 efibootmgr
 fastfetch
+flameshot
 ghostty
 git
 go
@@ -16,6 +17,7 @@ htop
 hypridle
 hyprland
 hyprlock
+imagemagick
 linux
 linux-firmware
 man-db
@@ -24,6 +26,7 @@ obsidian
 openssh
 pipewire
 pipewire-pulse
+playerctl
 postgresql
 power-profiles-daemon
 python-gobject
