@@ -112,7 +112,10 @@ PanelWindow {
                 id: option
                 required property var modelData
                 required property int index
-                readonly property bool picked: menu.current === index || hovered
+                // hover moves the one selection rather than adding a second
+                // highlight, which would stick when the cursor hides
+                readonly property bool picked: menu.current === index
+                onHoveredChanged: if (hovered) menu.current = index
 
                 seed: 100 + index
                 tilt: picked ? 0 : [-5, 4, -3, 6, -4][index]
@@ -122,8 +125,6 @@ PanelWindow {
                 shadow: 6
                 padX: 26
                 padY: 22
-                tape: true
-                tapeWidth: 50
                 anchors.verticalCenter: parent.verticalCenter
 
                 readonly property bool out: index < menu.dealt
