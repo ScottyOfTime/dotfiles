@@ -7,7 +7,6 @@ bun
 darkman
 efibootmgr
 fastfetch
-fuzzel
 ghostty
 git
 go
@@ -38,7 +37,6 @@ tree
 ttf-jetbrains-mono
 unzip
 vim
-waybar
 wget
 wireplumber
 wl-clipboard
