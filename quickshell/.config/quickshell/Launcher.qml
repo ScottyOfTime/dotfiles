@@ -9,6 +9,7 @@ PanelWindow {
     id: launcher
 
     property int seed: 0
+    property bool shown: false
     readonly property var apps: DesktopEntries.applications.values
         .filter(a => !a.noDisplay && a.name.toLowerCase().includes(search.text.toLowerCase()))
         .sort((a, b) => {
@@ -18,8 +19,8 @@ PanelWindow {
         })
 
     function toggle() {
-        if (visible) {
-            visible = false;
+        if (shown) {
+            close();
             return;
         }
         const last = seed;
@@ -27,20 +28,25 @@ PanelWindow {
             seed = Math.floor(Math.random() * 1000);
         search.text = "";
         list.currentIndex = 0;
-        scrap.scale = 0.8;
         visible = true;
-        scrap.scale = 1;
+        shown = true;
         search.forceActiveFocus();
+    }
+
+    function close() {
+        shown = false;
+        hideAfterSlide.restart();
     }
 
     function launch(app) {
         if (!app) return;
         app.execute();
-        visible = false;
+        close();
     }
 
     visible: false
     color: "transparent"
+    anchors.bottom: true
     implicitWidth: 560
     implicitHeight: 640
     exclusionMode: ExclusionMode.Ignore
@@ -55,13 +61,18 @@ PanelWindow {
 
     HyprlandFocusGrab {
         windows: [launcher]
-        active: launcher.visible
-        onCleared: launcher.visible = false
+        active: launcher.shown
+        onCleared: launcher.close()
     }
 
+    Timer { id: hideAfterSlide; interval: 220; onTriggered: launcher.visible = false }
+
+    // rises from below the screen edge and settles just above it
     Scrap {
         id: scrap
-        anchors.centerIn: parent
+        anchors.horizontalCenter: parent.horizontalCenter
+        y: launcher.shown ? launcher.height - height - 36 : launcher.height + 30
+        Behavior on y { SpringAnimation { spring: 4; damping: 0.32 } }
         seed: launcher.seed
         tilt: (launcher.seed % 7) - 3
         ragged: 9
@@ -87,7 +98,7 @@ PanelWindow {
                     font.pixelSize: 16
                     onTextChanged: list.currentIndex = 0
                     Keys.onPressed: event => {
-                        if (event.key === Qt.Key_Escape) launcher.visible = false;
+                        if (event.key === Qt.Key_Escape) launcher.close();
                         else if (event.key === Qt.Key_Down) list.incrementCurrentIndex();
                         else if (event.key === Qt.Key_Up) list.decrementCurrentIndex();
                         else if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter)
