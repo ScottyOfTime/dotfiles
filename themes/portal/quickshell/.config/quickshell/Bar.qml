@@ -62,7 +62,7 @@ PanelWindow {
                     text: String(modelData.id).padStart(2, "0")
                     color: modelData.focused ? Theme.onLit : Theme.fg
                     font.pixelSize: 14
-                    font.weight: Font.Black
+                    font.weight: Font.ExtraBold
                 }
             }
         }
@@ -77,15 +77,10 @@ PanelWindow {
             edgeLeft: true
             anchors.verticalCenter: parent.verticalCenter
 
-            Row {
-                spacing: 10
-                Caps { text: "now testing"; anchors.verticalCenter: parent.verticalCenter }
-                Label {
-                    text: bar.title
-                    width: Math.min(implicitWidth, 440)
-                    elide: Text.ElideRight
-                    anchors.verticalCenter: parent.verticalCenter
-                }
+            Label {
+                text: bar.title
+                width: Math.min(implicitWidth, 520)
+                elide: Text.ElideRight
             }
         }
     }
@@ -100,7 +95,7 @@ PanelWindow {
             Label {
                 text: Qt.formatDateTime(clock.date, "HH:mm")
                 font.pixelSize: 20
-                font.weight: Font.Black
+                font.weight: Font.ExtraBold
                 anchors.verticalCenter: parent.verticalCenter
             }
             Rectangle { width: 1; height: 22; color: Theme.line; anchors.verticalCenter: parent.verticalCenter }

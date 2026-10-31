@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Effects
 
-// the test chamber sign: chamber number, progress and hazard pictograms
+// the sign: workspace number, progress and pictograms
 Item {
     id: sign
 
@@ -70,12 +70,12 @@ Item {
                     text: String(sign.shown % 100).padStart(2, "0")
                     color: Theme.ink
                     font.family: Theme.font
-                    font.weight: Font.Bold
-                    font.pixelSize: 360
-                    font.letterSpacing: -14
+                    font.weight: Font.ExtraBold
+                    font.pixelSize: 340
+                    font.letterSpacing: -20
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.verticalCenterOffset: 6
-                    x: -14
+                    x: -10
                 }
             }
 
@@ -83,7 +83,7 @@ Item {
                 text: `${String(Math.min(sign.shown, sign.total)).padStart(2, "0")}/${sign.total}`
                 color: Theme.ink
                 font.family: Theme.font
-                font.weight: Font.Bold
+                font.weight: Font.ExtraBold
                 font.pixelSize: 40
             }
 
@@ -126,10 +126,12 @@ Item {
             Row {
                 spacing: 16
                 PortalMark { size: 36; anchors.verticalCenter: parent.verticalCenter }
-                Column {
+                Caps {
+                    text: sign.host
+                    color: Theme.ink
+                    font.pixelSize: 20
+                    font.letterSpacing: 1
                     anchors.verticalCenter: parent.verticalCenter
-                    Caps { text: "aperture science"; color: Theme.ink; font.pixelSize: 20; font.letterSpacing: 3 }
-                    Caps { text: `enrichment center · ${sign.host}`; font.pixelSize: 15; font.letterSpacing: 2.5 }
                 }
             }
         }

@@ -9,7 +9,6 @@ PanelWindow {
     id: launcher
 
     property bool shown: false
-    property int quip: 0
     readonly property var apps: DesktopEntries.applications.values
         .filter(a => !a.noDisplay && a.name.toLowerCase().includes(search.text.toLowerCase()))
         .sort((a, b) => {
@@ -23,7 +22,6 @@ PanelWindow {
             close();
             return;
         }
-        quip++;
         hide.stop();
         search.text = "";
         list.currentIndex = 0;
@@ -77,17 +75,6 @@ PanelWindow {
         Column {
             spacing: 14
 
-            Row {
-                width: 520
-                spacing: 10
-                PortalMark { size: 18; anchors.verticalCenter: parent.verticalCenter }
-                Column {
-                    anchors.verticalCenter: parent.verticalCenter
-                    Caps { text: "aperture science enrichment center"; color: Theme.fg }
-                    Caps { text: "apparatus request form" }
-                }
-            }
-
             Rectangle {
                 width: 520
                 height: 42
@@ -125,7 +112,7 @@ PanelWindow {
 
                     Label {
                         visible: search.text === ""
-                        text: "state the apparatus you require"
+                        text: "search"
                         color: Theme.dim
                         font.bold: false
                         font.pixelSize: 15
@@ -179,14 +166,6 @@ PanelWindow {
                         onClicked: launcher.launch(entry.modelData)
                     }
                 }
-            }
-
-            Rectangle { width: 520; height: 1; color: Theme.line }
-
-            Row {
-                spacing: 8
-                Rectangle { width: 6; height: 6; radius: 3; color: Theme.orange; anchors.verticalCenter: parent.verticalCenter }
-                Caps { text: Quips.pick(Quips.launcher, launcher.quip) }
             }
         }
     }

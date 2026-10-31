@@ -5,7 +5,7 @@ import Quickshell.Io
 import Quickshell.Services.Pam
 import Quickshell.Wayland
 
-// session lock: the chamber wall with a single test subject verification panel
+// session lock: the wallpaper with a single password panel
 Scope {
     id: lock
 
@@ -132,29 +132,16 @@ Scope {
                             width: 480
                             spacing: 10
 
-                            Row {
-                                width: parent.width
-                                Caps {
-                                    text: "test subject verification"
-                                    width: parent.width - count.width
-                                }
-                                Caps {
-                                    id: count
-                                    text: lock.attempts > 0 ? `attempt ${lock.attempts + 1}` : ""
-                                    color: Theme.red
-                                }
-                            }
-
                             Label {
                                 width: parent.width
                                 horizontalAlignment: Text.AlignHCenter
                                 font.pixelSize: 18
-                                text: lock.status === "ok" ? "verified. testing will now resume"
-                                    : lock.status === "checking" ? "verifying test subject..."
+                                text: lock.status === "ok" ? "unlocked"
+                                    : lock.status === "checking" ? "checking..."
                                     : lock.password !== "" ? "•".repeat(lock.password.length)
-                                    : lock.status === "failed" ? "incorrect. this will be noted in your file"
+                                    : lock.status === "failed" ? `wrong password (${lock.attempts})`
                                     : lock.status === "broken" ? "auth broken: ctrl+alt+f2, run hyprlock"
-                                    : "please enter your password to resume testing"
+                                    : "password"
                                 color: lock.status === "failed" || lock.status === "broken" ? Theme.red
                                     : lock.password !== "" || lock.status === "checking" || lock.status === "ok" ? Theme.blue
                                     : Theme.dim

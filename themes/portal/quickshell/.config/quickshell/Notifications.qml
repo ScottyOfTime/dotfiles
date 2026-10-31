@@ -4,7 +4,7 @@ import Quickshell.Services.Notifications
 import Quickshell.Wayland
 import Quickshell.Widgets
 
-// notification server: announcements stacked top-right
+// notification server: panels stacked top-right
 PanelWindow {
     id: popups
 
@@ -77,13 +77,8 @@ PanelWindow {
                             anchors.verticalCenter: parent.verticalCenter
                         }
                         Caps {
-                            text: note.critical ? "warning" : Quips.pick(Quips.notice, note.modelData.id)
+                            text: note.modelData.appName || "notification"
                             color: note.tone
-                            anchors.verticalCenter: parent.verticalCenter
-                        }
-                        Caps {
-                            visible: note.modelData.appName !== ""
-                            text: "· " + note.modelData.appName
                             anchors.verticalCenter: parent.verticalCenter
                         }
                     }

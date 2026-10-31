@@ -4,7 +4,7 @@ import Quickshell.Hyprland
 import Quickshell.Io
 import Quickshell.Wayland
 
-// the observation deck: every window as a live monitor, grouped by chamber
+// every window as a live monitor, grouped by workspace
 PanelWindow {
     id: overview
 
@@ -100,15 +100,6 @@ PanelWindow {
         }
     }
 
-    Row {
-        anchors { top: parent.top; topMargin: 90; horizontalCenter: parent.horizontalCenter }
-        spacing: 12
-        opacity: overview.shown ? 1 : 0
-        Behavior on opacity { NumberAnimation { duration: 160 } }
-        PortalMark { size: 18; anchors.verticalCenter: parent.verticalCenter }
-        Caps { text: `observation deck · ${overview.windows.length} subjects under observation`; color: Theme.fg; font.pixelSize: 13; anchors.verticalCenter: parent.verticalCenter }
-    }
-
     Flow {
         anchors.centerIn: parent
         width: Math.min(parent.width - 160, 1600)
@@ -131,10 +122,10 @@ PanelWindow {
                     Label {
                         text: String(group.modelData).padStart(2, "0")
                         font.pixelSize: 26
-                        font.weight: Font.Black
+                        font.weight: Font.ExtraBold
                         anchors.verticalCenter: parent.verticalCenter
                     }
-                    Caps { text: "chamber"; anchors.verticalCenter: parent.verticalCenter }
+                    Caps { text: "workspace"; anchors.verticalCenter: parent.verticalCenter }
                 }
 
                 Flow {

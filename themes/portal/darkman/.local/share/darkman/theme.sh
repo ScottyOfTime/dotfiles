@@ -10,8 +10,8 @@ gsettings set org.gnome.desktop.interface color-scheme prefer-$mode
 gsettings set org.gnome.desktop.interface accent-color "$gtk_accent"
 gsettings set org.gnome.desktop.interface cursor-theme "$cursor"
 gsettings set org.gnome.desktop.interface cursor-size 24
-gsettings set org.gnome.desktop.interface font-name 'Adwaita Sans 10'
-gsettings set org.gnome.desktop.interface document-font-name 'Adwaita Sans 10'
+gsettings set org.gnome.desktop.interface font-name 'JetBrains Mono 10'
+gsettings set org.gnome.desktop.interface document-font-name 'JetBrains Mono 10'
 gsettings set org.gnome.desktop.interface monospace-font-name 'JetBrains Mono 11'
 # only the palette's variables (and $HOME), so hyprlock's own $ATTEMPTS etc. survive
 vars="$(sed -n 's/^\([a-z_]*\)=.*/$\1/p' "$palette" | tr '\n' ' ') \$HOME"

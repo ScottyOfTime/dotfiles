@@ -2,7 +2,7 @@ import QtQuick
 import Quickshell
 import Quickshell.Hyprland
 
-// enrichment audio: album art in a frame, the track and controls beside it
+// album art in a frame, the track and controls beside it
 PopupWindow {
     id: popup
 
@@ -88,13 +88,13 @@ PopupWindow {
                 Row {
                     spacing: 8
                     PortalMark { size: 11; anchors.verticalCenter: parent.verticalCenter }
-                    Caps { text: "enrichment audio"; anchors.verticalCenter: parent.verticalCenter }
+                    Caps { text: "now playing"; anchors.verticalCenter: parent.verticalCenter }
                 }
 
                 Item { width: 1; height: 2 }
 
                 Label {
-                    text: popup.player?.trackTitle || "no audio scheduled"
+                    text: popup.player?.trackTitle || "nothing playing"
                     font.pixelSize: 17
                     width: parent.width
                     elide: Text.ElideRight

@@ -4,24 +4,23 @@ import Quickshell.Hyprland
 import Quickshell.Io
 import Quickshell.Wayland
 
-// five procedure signs: lock, suspend, log out, reboot, shut down
+// five signs: lock, suspend, log out, reboot, shut down
 PanelWindow {
     id: menu
 
     required property var lock
     property int current: 0
     property bool shown: false
-    property int quip: 0
     // how many signs are out; the dealer steps it toward the target
     property int dealt: 0
     property int dealTarget: 0
 
     readonly property var actions: [
-        { name: "lock", note: "hold all testing", icon: Icons.lock, run: () => menu.lock.lockNow() },
-        { name: "suspend", note: "relaxation vault", icon: Icons.sleep, run: () => Quickshell.execDetached(["systemctl", "suspend"]) },
-        { name: "log out", note: "exit the facility", icon: Icons.leave, run: () => Hyprland.dispatch("hl.dsp.exit()") },
-        { name: "reboot", note: "recalibrate chamber", icon: Icons.reboot, run: () => Quickshell.execDetached(["systemctl", "reboot"]) },
-        { name: "shut down", note: "terminate testing", icon: Icons.power, run: () => Quickshell.execDetached(["systemctl", "poweroff"]) },
+        { name: "lock", icon: Icons.lock, run: () => menu.lock.lockNow() },
+        { name: "suspend", icon: Icons.sleep, run: () => Quickshell.execDetached(["systemctl", "suspend"]) },
+        { name: "log out", icon: Icons.leave, run: () => Hyprland.dispatch("hl.dsp.exit()") },
+        { name: "reboot", icon: Icons.reboot, run: () => Quickshell.execDetached(["systemctl", "reboot"]) },
+        { name: "shut down", icon: Icons.power, run: () => Quickshell.execDetached(["systemctl", "poweroff"]) },
     ]
 
     function toggle() {
@@ -29,7 +28,6 @@ PanelWindow {
             close();
         } else {
             hide.stop();
-            quip++;
             current = 0;
             visible = true;
             shown = true;
@@ -104,84 +102,60 @@ PanelWindow {
         }
     }
 
-    Column {
+    Row {
         anchors.centerIn: parent
-        spacing: 28
+        spacing: 18
 
-        Row {
-            spacing: 12
-            anchors.horizontalCenter: parent.horizontalCenter
-            opacity: menu.shown ? 1 : 0
-            Behavior on opacity { NumberAnimation { duration: 160 } }
-            PortalMark { size: 18; anchors.verticalCenter: parent.verticalCenter }
-            Caps { text: "select a procedure"; color: Theme.fg; font.pixelSize: 13; anchors.verticalCenter: parent.verticalCenter }
-        }
+        Repeater {
+            model: menu.actions
 
-        Row {
-            spacing: 18
+            Panel {
+                id: option
+                required property var modelData
+                required property int index
+                // hover moves the one selection rather than adding a second
+                // highlight, which would stick when the cursor hides
+                readonly property bool picked: menu.current === index
+                readonly property color tint: picked ? Theme.onLit : Theme.ink
+                onHoveredChanged: if (hovered) menu.current = index
 
-            Repeater {
-                model: menu.actions
+                out: index < menu.dealt
+                radius: 14
+                padX: 26
+                padY: 24
+                fill: picked ? Theme.blue : Theme.panel
+                edge: picked ? Theme.blue : "transparent"
+                glow: picked
+                onClicked: menu.choose(index)
 
-                Panel {
-                    id: option
-                    required property var modelData
-                    required property int index
-                    // hover moves the one selection rather than adding a second
-                    // highlight, which would stick when the cursor hides
-                    readonly property bool picked: menu.current === index
-                    readonly property color tint: picked ? Theme.onLit : Theme.ink
-                    onHoveredChanged: if (hovered) menu.current = index
+                Column {
+                    width: 150
+                    spacing: 14
 
-                    out: index < menu.dealt
-                    radius: 14
-                    padX: 26
-                    padY: 24
-                    fill: picked ? Theme.blue : Theme.panel
-                    edge: picked ? Theme.blue : "transparent"
-                    glow: picked
-                    onClicked: menu.choose(index)
-
-                    Column {
-                        width: 170
-                        spacing: 14
-
-                        Item {
-                            width: parent.width
-                            height: 72
-                            Pictogram {
-                                path: option.modelData.icon
-                                size: 72
-                                colour: option.tint
-                            }
-                            Caps {
-                                anchors.right: parent.right
-                                text: String(option.index + 1).padStart(2, "0")
-                                color: option.picked ? Theme.onLit : Theme.orange
-                                font.pixelSize: 12
-                            }
-                        }
-                        Rectangle { width: parent.width; height: 3; color: option.tint }
-                        Label {
-                            text: option.modelData.name
-                            font.pixelSize: 22
-                            font.weight: Font.Black
-                            color: option.tint
+                    Item {
+                        width: parent.width
+                        height: 72
+                        Pictogram {
+                            path: option.modelData.icon
+                            size: 72
+                            colour: option.tint
                         }
                         Caps {
-                            text: option.modelData.note
-                            color: option.picked ? Theme.onLit : Theme.dim
+                            anchors.right: parent.right
+                            text: String(option.index + 1).padStart(2, "0")
+                            color: option.picked ? Theme.onLit : Theme.orange
+                            font.pixelSize: 12
                         }
+                    }
+                    Rectangle { width: parent.width; height: 3; color: option.tint }
+                    Label {
+                        text: option.modelData.name
+                        font.pixelSize: 22
+                        font.weight: Font.ExtraBold
+                        color: option.tint
                     }
                 }
             }
-        }
-
-        Caps {
-            text: Quips.pick(Quips.power, menu.quip)
-            anchors.horizontalCenter: parent.horizontalCenter
-            opacity: menu.shown ? 1 : 0
-            Behavior on opacity { NumberAnimation { duration: 160 } }
         }
     }
 }
