@@ -13,6 +13,9 @@ Item {
     property real padX: 12
     property real padY: 5
     property bool tape: false
+    // render the content flat at 3x and rotate the texture, so straight and
+    // clipped edges inside a tilted scrap are antialiased too
+    property bool supersample: false
     property real tapeWidth: 30
     default property alias content: inner.data
     readonly property bool hovered: mouse.containsMouse
@@ -75,7 +78,13 @@ Item {
         id: inner
         x: root.padX
         y: root.padY
+        width: childrenRect.width
+        height: childrenRect.height
         implicitWidth: childrenRect.width
         implicitHeight: childrenRect.height
+        layer.enabled: root.supersample
+        layer.smooth: true
+        layer.mipmap: true
+        layer.textureSize: Qt.size(width * 3, height * 3)
     }
 }

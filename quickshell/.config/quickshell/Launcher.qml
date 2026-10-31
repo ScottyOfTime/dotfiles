@@ -70,6 +70,7 @@ PanelWindow {
         padY: 22
         tape: true
         tapeWidth: 110
+        supersample: true
 
         Column {
             spacing: 12
