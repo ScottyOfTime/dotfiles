@@ -1,17 +1,20 @@
-/* vim-style tab bar
+/* zine tab bar: a black slab like the breadcrumb strip on zeonofzig.com
  *
- * Colours are derived from currentColor, which window-theme = ghostty sets to
- * the active theme's foreground (Ayu / Ayu Light), and the bar uses
- * --ghostty-bg (the terminal background), so this follows darkman.
+ * Fixed inks rather than theme colours: the slab is black on both the dark
+ * and the cream page, the same as the site.
  * Live-tweak with: GTK_DEBUG=interactive ghostty
  */
 
-/* bar: flat strip matching the terminal background, no shadow or padding */
+/* bar: ink slab with the orange rule along the edge facing the terminal */
 tabbar,
 tabbar .box {
   padding: 0;
   box-shadow: none;
-  background-color: var(--ghostty-bg);
+  background-color: #0e0e0e;
+}
+
+tabbar .box {
+  border-top: 3px solid #d25502;
 }
 
 tabbar tabbox {
@@ -30,28 +33,31 @@ tabbar tabbox > separator {
   background: none;
 }
 
-/* tabs: square, compact, dim when inactive, Ayu accent edge on top */
+/* tabs: breadcrumb labels, orange and letter-spaced */
 tabbar tab {
   min-height: 28px;
-  padding: 0 10px;
+  padding: 0 12px;
   border-radius: 0;
-  color: alpha(currentColor, 0.5);
-  box-shadow: inset 0 2px #e6b450;
+  color: #dc6e0d;
+  font-weight: bold;
+  letter-spacing: 2px;
   transition: none;
 }
 
 tabbar tab:hover,
 tabbar tab:active {
-  background-color: alpha(currentColor, 0.06);
-  color: alpha(currentColor, 0.75);
+  background-color: #1a1816;
+  color: #eed9b6;
 }
 
-/* active tab: filled with the Ayu accent, terminal background as text */
+/* active tab: the orange banner, cream type with a hard brown shadow */
 tabbar tab:selected,
 tabbar tab:selected:hover,
 tabbar tab:selected:active {
-  color: var(--ghostty-bg);
-  background-color: #e6b450;
+  color: #eed9b6;
+  background-color: #dc6e0d;
+  text-shadow: 2px 2px 0 #452207;
+  box-shadow: inset 0 -3px #452207;
 }
 
 tabbar tab .tab-title {

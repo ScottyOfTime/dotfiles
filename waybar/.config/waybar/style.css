@@ -1,85 +1,98 @@
-/* colours come from colors.css, which darkman renders from the palette */
+/* zine bar: the black slab and thick orange rule across the top of
+ * zeonofzig.com, with breadcrumb-style labels. colours come from colors.css,
+ * which darkman renders from the palette; the slab is ink in both modes. */
 @import "colors.css";
 
 * {
     font-family: "JetBrains Mono";
-    font-size: 13px;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 2px;
 }
 
 window#waybar {
-    background: @bg;
-    color: @fg;
-    border-bottom: 2px solid @accent;
+    background: @ink;
+    color: @cream;
+    border-bottom: 4px solid @accent;
 }
 
-.modules-left, .modules-center, .modules-right {
-    padding: 0 10px 2px;
-}
-
-#window, #mpris, #wireplumber, #cpu, #memory, #network {
-    margin-right: 15px;
-}
-
-/* workspaces: solid accent block for the active one, like ghostty's tabs */
-#workspaces {
-    margin-right: 15px;
-}
-
-#workspaces button {
-    color: @dim;
-    padding: 0 8px;
-    border: none;
+tooltip {
+    background: @ink;
+    border: 2px solid @accent;
     border-radius: 0;
 }
 
-#workspaces button:hover {
-    background: alpha(@fg, 0.06);
-    color: @fg;
+tooltip label {
+    color: @cream;
+}
+
+.modules-left, .modules-center, .modules-right {
+    padding: 0 12px;
+}
+
+#window, #mpris, #wireplumber, #cpu, #memory, #network {
+    margin-left: 18px;
+}
+
+/* workspaces: orange crumbs, the active one a banner with a hard shadow */
+#workspaces button {
+    color: @accent;
+    padding: 0 10px;
+    margin: 4px 2px 6px;
+    border: none;
+    border-radius: 0;
     box-shadow: none;
+}
+
+#workspaces button:hover {
+    background: alpha(@cream, 0.08);
+    color: @cream;
+    box-shadow: none;
+    text-shadow: none;
 }
 
 #workspaces button.active {
     background: @accent;
-    color: @bg;
+    color: @cream;
+    text-shadow: 1px 1px 0 @brown;
+    box-shadow: 3px 3px 0 @brown;
 }
 
 #workspaces button.urgent {
     background: @red;
-    color: @bg;
+    color: @cream;
+    box-shadow: 3px 3px 0 @brown;
 }
 
 #window {
-    color: @dim;
+    color: @cream;
 }
 
+/* clock: a cream tape label stuck on the slab */
 #clock {
-    color: @blue;
+    background: @tape;
+    color: @ink;
+    padding: 0 10px;
+    margin: 4px 0 6px;
+    box-shadow: 3px 3px 0 @accent;
 }
 
 #mpris {
-    color: @purple;
+    color: @accent;
+}
+
+#wireplumber, #cpu, #memory, #network, #battery {
+    color: @accent;
 }
 
 #wireplumber.muted {
-    color: @dim;
+    color: alpha(@cream, 0.4);
 }
 
-#cpu, #memory {
-    color: @dim;
-}
-
-#cpu.warning, #memory.warning {
-    color: @accent;
+#cpu.warning, #memory.warning, #battery.charging {
+    color: @cream;
 }
 
 #cpu.critical, #memory.critical {
     color: @red;
-}
-
-#battery {
-    color: @green;
-}
-
-#battery.charging {
-    color: @accent;
 }

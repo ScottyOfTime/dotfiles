@@ -1,0 +1,23 @@
+# zine light: the page on zeonofzig.com, cream paper with ink type
+background = #f2e4d2
+foreground = #1a1714
+cursor-color = #d25502
+cursor-text = #f2e4d2
+selection-background = #d25502
+selection-foreground = #f2e4d2
+palette = 0=#0e0e0e
+palette = 1=#b8321a
+palette = 2=#5f7a12
+palette = 3=#b35a00
+palette = 4=#1f6fcf
+palette = 5=#9a3466
+palette = 6=#1f7a6e
+palette = 7=#524d48
+palette = 8=#837b71
+palette = 9=#d23c1e
+palette = 10=#6f8a1a
+palette = 11=#d25502
+palette = 12=#2d8ef5
+palette = 13=#b5487a
+palette = 14=#2f9384
+palette = 15=#ecd8b7

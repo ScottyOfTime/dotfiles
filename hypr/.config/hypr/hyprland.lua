@@ -6,7 +6,7 @@ local WOBSOCK = os.getenv("XDG_RUNTIME_DIR") .. "/wob.sock"
 
 -- colours rendered by darkman from ~/.config/palette, ayu dark until it has run
 local ok, colors = pcall(dofile, os.getenv("HOME") .. "/.config/hypr/colors.lua")
-if not ok then colors = { accent = "e6b450", shadow = "06070a", cursor = "Bibata-Modern-Classic" } end
+if not ok then colors = { accent = "dc6e0d", shadow = "000000", ink = "0e0e0e", brown = "452207", cursor = "Bibata-Modern-Classic" } end
 
 --###############
 --## MONITORS ###
@@ -68,15 +68,16 @@ hl.env("HYPRCURSOR_SIZE", 24)
 
 hl.config({
     general = {
-        gaps_in     = 0,
-        gaps_out    = 0,
-        border_size = 0,
+        -- zine: windows are pasted-down slabs, the wallpaper shows between
+        gaps_in     = 8,
+        gaps_out    = 18,
+        border_size = 3,
         resize_on_border = false,
         allow_tearing    = false,
         layout = "dwindle",
         col = {
-            active_border   = "rgb(" .. colors.accent .. ")",
-            inactive_border = "rgb(" .. colors.shadow .. ")",
+            active_border   = "rgb(" .. colors.ink .. ")",
+            inactive_border = "rgb(" .. colors.ink .. ")",
         },
     },
 })
@@ -87,14 +88,17 @@ hl.config({
         rounding_power = 2,
         active_opacity   = 1.0,
         inactive_opacity = 1.0,
-        -- no borders, so slightly dim unfocused windows to show focus
         dim_inactive = true,
         dim_strength = 0.08,
+        -- hard offset shadows, like the slabs and type on zeonofzig.com:
+        -- orange under the focused window, brown under the rest
         shadow = {
-            enabled      = true,
-            range        = 4,
-            render_power = 3,
-            color        = "rgba(1a1a1aee)",
+            enabled        = true,
+            sharp          = true,
+            range          = 1,
+            offset         = { 9, 9 },
+            color          = "rgb(" .. colors.accent .. ")",
+            color_inactive = "rgb(" .. colors.brown .. ")",
         },
         blur = {
             enabled  = true,

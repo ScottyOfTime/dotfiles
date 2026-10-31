@@ -11,11 +11,8 @@ shell-integration-features = no-cursor, ssh-terminfo, ssh-env
 font-size = 13
 
 # theme
-theme = dark:Ayu,light:Ayu Light
+theme = dark:zine-dark,light:zine-light
 unfocused-split-opacity = 0.9
-# selection as a solid accent block, like the active tab and waybar workspace
-selection-background = #e6b450
-selection-foreground = #0b0e14
 
 # window
 window-decoration = none
