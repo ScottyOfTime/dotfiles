@@ -116,9 +116,9 @@ PanelWindow {
                 Scrap {
                     seed: 200 + group.modelData
                     tilt: group.modelData % 2 ? -3 : 3
-                    fill: Theme.ink
+                    fill: Theme.surface
                     padX: 12; padY: 4
-                    Label { text: `workspace ${group.modelData}`; color: Theme.paper }
+                    Label { text: `workspace ${group.modelData}`; color: Theme.fg }
                 }
 
                 Flow {
@@ -154,14 +154,14 @@ PanelWindow {
                                 Rectangle { x: 6; y: 6; width: parent.width; height: parent.height; color: Theme.ink; antialiasing: true }
                                 Rectangle {
                                     anchors.fill: parent
-                                    color: photo.picked ? Theme.accent : Theme.paper
+                                    color: photo.picked ? Theme.accent : Theme.panel
                                     antialiasing: true
 
                                     Rectangle {
                                         id: frame
                                         anchors { left: parent.left; right: parent.right; top: parent.top; margins: 8 }
                                         height: parent.height - 52
-                                        color: Theme.panel
+                                        color: Theme.bg
                                         clip: true
 
                                         ScreencopyView {
@@ -182,7 +182,7 @@ PanelWindow {
                                         anchors { left: parent.left; right: parent.right; bottom: parent.bottom; margins: 12 }
                                         text: photo.modelData.title
                                         elide: Text.ElideRight
-                                        color: Theme.ink
+                                        color: photo.picked ? Theme.ink : Theme.fg
                                     }
                                 }
 
