@@ -65,7 +65,7 @@ PanelWindow {
         onCleared: launcher.close()
     }
 
-    Timer { id: hideAfterSlide; interval: 220; onTriggered: launcher.visible = false }
+    Timer { id: hideAfterSlide; interval: 140; onTriggered: launcher.visible = false }
 
     // rises from below the screen edge and settles just above it
     Scrap {
@@ -74,7 +74,7 @@ PanelWindow {
         y: launcher.shown ? launcher.height - height - 36 : launcher.height + 30
         Behavior on y {
             NumberAnimation {
-                duration: launcher.shown ? 420 : 200
+                duration: launcher.shown ? 260 : 130
                 easing.type: launcher.shown ? Easing.OutBack : Easing.InCubic
                 easing.overshoot: 1.4
             }

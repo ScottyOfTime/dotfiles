@@ -28,8 +28,8 @@ Item {
     rotation: tilt
     // NumberAnimation rather than SpringAnimation: springs step at a fixed
     // 60Hz internally, which judders on 100Hz screens
-    Behavior on rotation { NumberAnimation { duration: 380; easing.type: Easing.OutBack; easing.overshoot: 2.2 } }
-    Behavior on scale { NumberAnimation { duration: 320; easing.type: Easing.OutBack; easing.overshoot: 2.6 } }
+    Behavior on rotation { NumberAnimation { duration: 240; easing.type: Easing.OutBack; easing.overshoot: 2.2 } }
+    Behavior on scale { NumberAnimation { duration: 200; easing.type: Easing.OutBack; easing.overshoot: 2.6 } }
 
     // repeatable pseudo-random offset per corner, so a scrap keeps its cut
     function j(i) {
