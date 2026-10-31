@@ -35,8 +35,9 @@ Scope {
 
     PamContext {
         id: pam
-        config: "lock"
-        configDirectory: String(Quickshell.shellDir).replace("file://", "") + "/pam"
+        // the system's login rules, as hyprlock uses; a custom config
+        // directory would make their includes resolve there and fail
+        config: "login"
         onResponseRequiredChanged: if (responseRequired) respond(lock.password)
         onCompleted: result => {
             lock.password = "";
@@ -44,11 +45,14 @@ Scope {
                 lock.status = "";
                 lock.attempts = 0;
                 session.locked = false;
-            } else {
+            } else if (result === PamResult.Failed) {
                 lock.status = "failed";
                 lock.attempts++;
+            } else {
+                lock.status = "broken";
             }
         }
+        onError: lock.status = "broken"
     }
 
     WlSessionLock {
@@ -107,8 +111,9 @@ Scope {
                         text: lock.status === "checking" ? "checking..."
                             : lock.password !== "" ? "•".repeat(lock.password.length)
                             : lock.status === "failed" ? `exit ${lock.attempts}: wrong password`
+                            : lock.status === "broken" ? "auth broken: ctrl+alt+f2, run hyprlock"
                             : "password"
-                        color: lock.status === "failed" ? Theme.red
+                        color: lock.status === "failed" || lock.status === "broken" ? Theme.red
                             : lock.password !== "" || lock.status === "checking" ? Theme.accent
                             : Theme.dim
                         elide: Text.ElideMiddle
