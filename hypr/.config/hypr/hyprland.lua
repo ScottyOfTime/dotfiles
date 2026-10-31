@@ -2,7 +2,7 @@
 
 -- defaults fill any field colors.lua lacks: hyprland reloads on save, which
 -- can be before darkman has rendered a newly added colour
-local colors = { accent = "e08a43", ink = "0b0a09", frame = "36312c", cursor = "Bibata-Modern-Classic" }
+local colors = { accent = "e08a43", ink = "0b0a09", cursor = "Bibata-Modern-Classic" }
 local ok, rendered = pcall(dofile, os.getenv("HOME") .. "/.config/hypr/colors.lua")
 if ok then for k, v in pairs(rendered) do colors[k] = v end end
 
@@ -41,17 +41,17 @@ hl.config({
     general = {
         gaps_in     = 8,
         gaps_out    = 16,
-        border_size = 8,
+        border_size = 2,
         col = {
-            active_border   = "rgb(" .. colors.accent .. ")",
-            inactive_border = "rgb(" .. colors.frame .. ")",
+            active_border   = "rgb(" .. colors.ink .. ")",
+            inactive_border = "rgb(" .. colors.ink .. ")",
         },
     },
 })
 
 hl.config({
     decoration = {
-        rounding     = 0,
+        rounding     = 10,
         dim_inactive = true,
         dim_strength = 0.08,
         shadow = {
@@ -59,7 +59,7 @@ hl.config({
             sharp          = true,
             range          = 1,
             offset         = { 6, 6 },
-            color          = "rgb(" .. colors.ink .. ")",
+            color          = "rgb(" .. colors.accent .. ")",
             color_inactive = "rgba(00000000)",
         },
     },
