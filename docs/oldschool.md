@@ -1,7 +1,7 @@
 # oldschool
 
 An amber CRT terminal: phosphor amber on near-black, a whole-screen CRT
-shader (scanlines, bloom, vignette), and a flat, text-only shell after
+shader (monochrome phosphor, bloom, tube vignette), and a flat, text-only shell after
 uint23's sxwm setup: no gaps, a 2px border, a solid `key: value` bar,
 dmenu-style strips, a tty login as the lock screen. Lives in
 `themes/oldschool/`; switch with `./theme oldschool`.
@@ -13,13 +13,18 @@ dmenu-style strips, a tty login as the lock screen. Lives in
   emphasis, `red` is errors only. Selection is **reverse video**: an
   amber fill with `bg` text (focused workspace, picked menu item, active
   Ghostty tab).
-- **The CRT shader** (`hypr-theme/crt.frag`, Hyprland `screen_shader`)
-  covers the whole screen, windows and video included: a darker line
-  every third physical row, light bleeding from bright pixels into darker
-  neighbours, and a vignette. No curvature (clicks would land off what you
-  see) and no flicker. `SUPER+F12` toggles it (`hypr-theme/crt`): off
-  is a `~/.local/state/oldschool-crt-off` file that `theme.lua` checks, so
-  it stays off across reloads and light/dark switches.
+- **The CRT shader** (`hypr-theme/crt.frag.tmpl`, rendered by darkman,
+  Hyprland `screen_shader`) turns the whole screen, windows and video
+  included, into a monochrome phosphor tube. Every pixel becomes a
+  brightness on the palette's own ramp: dark mode runs `bg` → `fg` →
+  `bright`, light mode `fg` → `dim` → `panel`, with stops at each colour's
+  own brightness so theme colours pass through unchanged. It also adds a
+  tight glow plus a wide halation, static grain, a squarish vignette and
+  rounded black tube corners. Red errors turn amber too, like a real mono
+  monitor. No scanlines, no curvature (clicks would land off what you
+  see) and no flicker. `SUPER+F12` toggles it (`hypr-theme/crt`): off is
+  a `~/.local/state/oldschool-crt-off` file that `theme.lua` checks, so it
+  stays off across reloads and light/dark switches.
 - **Flat and square.** `Box` is a panel rectangle with a 2px border; no
   rounding, shadows, blur or animations anywhere (Hyprland animations
   are off). Windows: 0 gaps, 2px `bright` border.
@@ -87,6 +92,9 @@ binds as zine ([zine-quickshell.md](zine-quickshell.md)).
   v_texcoord`, `uniform sampler2D tex`, `out vec4 fragColor`; get the
   resolution from `textureSize(tex, 0)` and physical rows from
   `gl_FragCoord`. Screenshots (`grim`) include the shader.
+- **Declare `precision highp int`.** Ints default to mediump in fragment
+  shaders, 16 bits here, so unpacking `0x${fg}u` silently lost the red
+  byte and the amber tube came out green.
 - **Toggle options by reloading, not by dispatching `hl.config`.**
   `hyprctl dispatch 'hl.config({...})'` applies but logs a config error
   every time, and the next reload discards it anyway.
@@ -101,7 +109,7 @@ binds as zine ([zine-quickshell.md](zine-quickshell.md)).
   "illegal property name", an id called `print` "masks a global
   JavaScript property", and a `top` property on a `Shape` "cannot override
   FINAL property"; each stops the whole shell loading.
-- **Editing `Theme.qml.tmpl` needs a re-render** (`theme.sh $(darkman get)`)
+- **Editing `Theme.qml.tmpl` or `crt.frag.tmpl` needs a re-render** (`theme.sh $(darkman get)`)
   before new colours exist; until then QML warns "Unable to assign
   [undefined] to QColor".
 - **Thin lines on a fractional scale** (1.33 here) land between pixels and
