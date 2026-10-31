@@ -29,6 +29,7 @@ pipewire-pulse
 postgresql
 power-profiles-daemon
 python-gobject
+quickshell
 sddm
 stow
 sudo

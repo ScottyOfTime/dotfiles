@@ -19,10 +19,10 @@ hl.workspace_rule({ workspace = "4", monitor = "DP-3" })
 
 local terminal    = "ghostty"
 local fileManager = "dolphin"
-local menu        = "~/.config/hypr/scripts/launcher.sh"
+local menu        = "qs ipc call launcher toggle"
 
 hl.on("hyprland.start", function()
-    hl.exec_cmd("waybar")
+    hl.exec_cmd("qs")
     hl.exec_cmd("~/.config/hypr/scripts/wallpaper.sh")
     hl.exec_cmd("~/.config/hypr/scripts/wob.sh")
     hl.exec_cmd("hypridle")
@@ -162,7 +162,7 @@ hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl -p spotify,%any play-pause"
 hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl -p spotify,%any play-pause"), { locked = true })
 hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl -p spotify,%any previous"), { locked = true })
 
-hl.bind(mainMod .. " + B", hl.dsp.exec_cmd("pkill -SIGUSR1 waybar"))
+hl.bind(mainMod .. " + B", hl.dsp.exec_cmd("qs ipc call bar toggle"))
 hl.bind(mainMod .. " + T", hl.dsp.exec_cmd("darkman toggle"))
 hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("pidof hyprlock || hyprlock"))
 hl.bind(mainMod .. " + minus", hl.dsp.exec_cmd("wtype –"), { release = true })
@@ -173,9 +173,9 @@ hl.config({
 })
 
 hl.layer_rule({
-    name      = "launcher-pop",
-    match     = { namespace = "^(launcher|scrap)$" },
-    animation = "popin 90%",
+    name    = "quickshell-launcher",
+    match   = { namespace = "^launcher$" },
+    no_anim = true,
 })
 
 hl.layer_rule({
