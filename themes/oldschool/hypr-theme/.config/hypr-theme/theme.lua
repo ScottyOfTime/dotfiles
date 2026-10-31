@@ -23,6 +23,11 @@ hl.config({
     },
 })
 
+local state = os.getenv("XDG_STATE_HOME") or (os.getenv("HOME") .. "/.local/state")
+local off_file = io.open(state .. "/oldschool-crt-off")
+local crt_off = off_file ~= nil
+if off_file then off_file:close() end
+
 hl.config({
     decoration = {
         rounding     = 0,
@@ -30,7 +35,7 @@ hl.config({
         shadow       = { enabled = false },
         glow         = { enabled = false },
         blur         = { enabled = false },
-        screen_shader = os.getenv("HOME") .. "/.config/hypr-theme/crt.frag",
+        screen_shader = crt_off and "" or os.getenv("HOME") .. "/.config/hypr-theme/crt.frag",
     },
 })
 

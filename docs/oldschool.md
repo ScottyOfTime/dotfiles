@@ -17,8 +17,9 @@ dmenu-style strips, a tty login as the lock screen. Lives in
   covers the whole screen, windows and video included: a darker line
   every third physical row, light bleeding from bright pixels into darker
   neighbours, and a vignette. No curvature (clicks would land off what you
-  see) and no flicker. `SUPER+F12` toggles it until the next config
-  reload (`hypr-theme/crt`).
+  see) and no flicker. `SUPER+F12` toggles it (`hypr-theme/crt`): off
+  is a `~/.local/state/oldschool-crt-off` file that `theme.lua` checks, so
+  it stays off across reloads and light/dark switches.
 - **Flat and square.** `Box` is a panel rectangle with a 2px border; no
   rounding, shadows, blur or animations anywhere (Hyprland animations
   are off). Windows: 0 gaps, 2px `bright` border.
@@ -86,6 +87,13 @@ binds as zine ([zine-quickshell.md](zine-quickshell.md)).
   v_texcoord`, `uniform sampler2D tex`, `out vec4 fragColor`; get the
   resolution from `textureSize(tex, 0)` and physical rows from
   `gl_FragCoord`. Screenshots (`grim`) include the shader.
+- **Toggle options by reloading, not by dispatching `hl.config`.**
+  `hyprctl dispatch 'hl.config({...})'` applies but logs a config error
+  every time, and the next reload discards it anyway.
+- **Bloom needs a soft falloff.** Sampling one ring of pixels at a fixed
+  distance draws a hard outline around anything whose brightness changes
+  (Discord's hover states showed as a "border"); weight a 5x5 neighbourhood
+  by distance instead.
 - **Bloom must be relative.** Adding glow above a fixed brightness
   threshold washed light mode out to a haze; adding only
   `max(glow - colour, 0)` halos text and leaves flat areas alone.

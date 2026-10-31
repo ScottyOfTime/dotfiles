@@ -1,7 +1,5 @@
 #!/bin/sh
-# toggles the crt shader until hyprland next reloads its config
-shader=$HOME/.config/hypr-theme/crt.frag
-if hyprctl getoption decoration:screen_shader | grep -q crt.frag; then
-    shader=""
-fi
-hyprctl dispatch "hl.config({ decoration = { screen_shader = \"$shader\" } })" >/dev/null
+# toggles the crt shader; theme.lua skips it while the off file exists
+off=${XDG_STATE_HOME:-$HOME/.local/state}/oldschool-crt-off
+if [ -e "$off" ]; then rm "$off"; else mkdir -p "${off%/*}" && touch "$off"; fi
+hyprctl reload >/dev/null
