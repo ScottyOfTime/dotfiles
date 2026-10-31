@@ -59,6 +59,7 @@ PanelWindow {
         anchors.centerIn: parent
         seed: 31
         tilt: -2
+        fill: Theme.panel
         padX: 16
         padY: 10
 
@@ -67,6 +68,7 @@ PanelWindow {
 
             Label {
                 text: osd.muted ? "muted" : osd.kind
+                color: Theme.fg
                 width: 52
                 anchors.verticalCenter: parent.verticalCenter
             }
@@ -90,6 +92,7 @@ PanelWindow {
 
             Label {
                 text: Math.round(osd.value * 100)
+                color: Theme.fg
                 width: 34
                 anchors.verticalCenter: parent.verticalCenter
             }

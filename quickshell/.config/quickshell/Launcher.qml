@@ -88,6 +88,7 @@ PanelWindow {
         tape: true
         tapeWidth: 110
         supersample: true
+        fill: Theme.panel
 
         Column {
             spacing: 12
@@ -98,7 +99,7 @@ PanelWindow {
                 TextInput {
                     id: search
                     width: 400
-                    color: Theme.ink
+                    color: Theme.fg
                     font.family: Theme.font
                     font.bold: true
                     font.pixelSize: 16
@@ -115,7 +116,7 @@ PanelWindow {
                 }
             }
 
-            Rectangle { width: 440; height: 2; color: Theme.ink }
+            Rectangle { width: 440; height: 2; color: Theme.dim; antialiasing: true }
 
             ListView {
                 id: list
@@ -131,6 +132,7 @@ PanelWindow {
                 }
 
                 delegate: Item {
+                    id: entry
                     required property var modelData
                     required property int index
                     width: 440
@@ -144,7 +146,11 @@ PanelWindow {
                             implicitSize: 20
                             anchors.verticalCenter: parent.verticalCenter
                         }
-                        Label { text: modelData.name; anchors.verticalCenter: parent.verticalCenter }
+                        Label {
+                            text: modelData.name
+                            color: entry.ListView.isCurrentItem ? Theme.ink : Theme.fg
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
                     }
 
                     MouseArea {

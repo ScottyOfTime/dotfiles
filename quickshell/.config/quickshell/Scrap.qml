@@ -66,9 +66,9 @@ Item {
         color: Qt.alpha(Theme.accent, 0.75)
     }
 
+    // below the content, so buttons inside a scrap get their own clicks
     MouseArea {
         id: mouse
-        z: 3
         anchors.fill: parent
         hoverEnabled: true
         acceptedButtons: Qt.LeftButton
