@@ -72,6 +72,8 @@ Give every scrap its own `seed`; tilts alternate sign between neighbours.
 - **`Hyprland.toplevels` is empty until `Hyprland.refreshToplevels()`**, and
   its addresses lack the `0x` Hyprland's `address:` selector needs.
 - **Qt's JS lacks some newer builtins** (e.g. `Object.fromEntries`).
+- **`expireTimeout` is milliseconds**, as the spec sends it; multiplying by
+  1000 left notifications with their own timeout (e.g. Flameshot) up for an hour.
 - **Notification bodies are plain text** (`bodyMarkupSupported: false`).
 - **Lock screen PAM** uses the system `login` config. A custom
   `configDirectory` makes `include` lines resolve inside it and fail every

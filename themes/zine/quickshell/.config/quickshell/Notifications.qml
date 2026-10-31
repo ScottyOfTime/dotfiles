@@ -55,7 +55,8 @@ PanelWindow {
 
                 Timer {
                     running: !note.critical && !note.hovered
-                    interval: note.modelData.expireTimeout > 0 ? note.modelData.expireTimeout * 1000 : 6000
+                    // expireTimeout is milliseconds, as the notification spec sends it
+                    interval: note.modelData.expireTimeout > 0 ? note.modelData.expireTimeout : 6000
                     onTriggered: note.modelData.expire()
                 }
 
