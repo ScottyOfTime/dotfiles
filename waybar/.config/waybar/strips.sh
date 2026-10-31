@@ -6,14 +6,15 @@
 # so it's only ever scaled down
 . "$1"
 dir=$(dirname "$0")/strips
-rm -rf "$dir"
 mkdir -p "$dir"
+rm -f "$dir"/*.svg
 
 strip() {
+    eval "fill=\$$2"
     cat > "$dir/$1-$2.svg" <<SVG
 <svg xmlns="http://www.w3.org/2000/svg" width="$5" height="96" viewBox="0 0 $3 40" preserveAspectRatio="none">
 <polygon points="$4" fill="#$ink" transform="translate(3 3)"/>
-<polygon points="$4" fill="#$(eval echo \$$2)"/>
+<polygon points="$4" fill="#$fill"/>
 </svg>
 SVG
 }

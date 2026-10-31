@@ -15,11 +15,11 @@ gsettings set org.gnome.desktop.interface document-font-name 'JetBrains Mono 10'
 gsettings set org.gnome.desktop.interface monospace-font-name 'JetBrains Mono 11'
 # only the palette's variables, so hyprlock's own $ATTEMPTS etc. survive
 vars=$(sed -n 's/^\([a-z_]*\)=.*/$\1/p' "$palette" | tr '\n' ' ')
-for f in waybar/colors.css fuzzel/colors.ini hypr/colors.lua hypr/hyprlock.conf mako/config wob/wob.ini; do
+for f in waybar/colors.css fuzzel/colors.ini hypr/colors.lua hypr/hyprlock.conf mako/config wob/wob.ini ghostty/tabs.css; do
     envsubst "$vars" < "$cfg/$f.tmpl" > "$cfg/$f"
 done
 
-export HYPRLAND_INSTANCE_SIGNATURE=$(ls /run/user/$(id -u)/hypr/ | head -1)
+export HYPRLAND_INSTANCE_SIGNATURE=$(ls -t /run/user/$(id -u)/hypr/ | head -1)
 hyprctl reload >/dev/null
 hyprctl setcursor "$cursor" 24 >/dev/null
 "$cfg/waybar/strips.sh" "$palette"
@@ -27,3 +27,4 @@ pkill -SIGUSR2 waybar
 hyprctl dispatch 'hl.dsp.exec_cmd("~/.config/hypr/scripts/wallpaper.sh")'
 hyprctl dispatch 'hl.dsp.exec_cmd("~/.config/hypr/scripts/wob.sh")'
 makoctl reload 2>/dev/null
+pkill -SIGUSR2 -x ghostty

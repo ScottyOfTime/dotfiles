@@ -35,4 +35,3 @@ old=$(pgrep -x swaybg)
 swaybg -m fill -i "$out" &
 sleep 0.5
 [ -n "$old" ] && kill $old
-wait

@@ -4,4 +4,5 @@ hypr/.config/hypr/colors.lua
 hypr/.config/hypr/hyprlock.conf
 mako/.config/mako/config
 wob/.config/wob/wob.ini
+ghostty/.config/ghostty/tabs.css
 waybar/.config/waybar/strips/
