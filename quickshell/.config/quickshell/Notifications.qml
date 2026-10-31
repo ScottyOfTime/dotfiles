@@ -32,7 +32,7 @@ PanelWindow {
         y: 10
         spacing: 16
 
-        move: Transition { SpringAnimation { property: "y"; spring: 4; damping: 0.3 } }
+        move: Transition { NumberAnimation { property: "y"; duration: 300; easing.type: Easing.OutBack } }
 
         Repeater {
             model: server.trackedNotifications

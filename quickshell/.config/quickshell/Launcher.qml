@@ -65,17 +65,20 @@ PanelWindow {
         onCleared: launcher.close()
     }
 
-    Timer { id: hideAfterSlide; interval: 160; onTriggered: launcher.visible = false }
+    Timer { id: hideAfterSlide; interval: 220; onTriggered: launcher.visible = false }
 
-    // rises a short way and fades in; short travel keeps each frame's step
-    // small, which hides hyprland's uneven frame pacing
+    // rises from below the screen edge and settles just above it
     Scrap {
         id: scrap
         anchors.horizontalCenter: parent.horizontalCenter
-        y: launcher.height - height - (launcher.shown ? 36 : -74)
-        opacity: launcher.shown ? 1 : 0
-        Behavior on y { SpringAnimation { spring: 4.5; damping: 0.34 } }
-        Behavior on opacity { NumberAnimation { duration: 140 } }
+        y: launcher.shown ? launcher.height - height - 36 : launcher.height + 30
+        Behavior on y {
+            NumberAnimation {
+                duration: launcher.shown ? 420 : 200
+                easing.type: launcher.shown ? Easing.OutBack : Easing.InCubic
+                easing.overshoot: 1.4
+            }
+        }
         seed: launcher.seed
         tilt: (launcher.seed % 7) - 3
         ragged: 9

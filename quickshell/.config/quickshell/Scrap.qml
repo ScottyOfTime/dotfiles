@@ -26,8 +26,10 @@ Item {
     implicitWidth: inner.implicitWidth + padX * 2
     implicitHeight: inner.implicitHeight + padY * 2
     rotation: tilt
-    Behavior on rotation { SpringAnimation { spring: 5; damping: 0.22 } }
-    Behavior on scale { SpringAnimation { spring: 5; damping: 0.22 } }
+    // NumberAnimation rather than SpringAnimation: springs step at a fixed
+    // 60Hz internally, which judders on 100Hz screens
+    Behavior on rotation { NumberAnimation { duration: 380; easing.type: Easing.OutBack; easing.overshoot: 2.2 } }
+    Behavior on scale { NumberAnimation { duration: 320; easing.type: Easing.OutBack; easing.overshoot: 2.6 } }
 
     // repeatable pseudo-random offset per corner, so a scrap keeps its cut
     function j(i) {
