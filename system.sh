@@ -1,3 +1,4 @@
 #!/bin/bash
-sudo cp -r ./sddm.conf /etc/sddm.conf
-xargs systemctl --user enable < ./services.txt
+cd "$(dirname "$0")" || exit 1
+sudo cp sddm.conf /etc/sddm.conf
+xargs -a services.txt sudo systemctl enable
