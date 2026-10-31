@@ -22,8 +22,7 @@ tooltip label {
     color: @fg;
 }
 
-/* no boxes: each label sits on a tilted strip drawn with hard-stop
-   gradients (GTK3 can't rotate), the second layer offset as its shadow */
+/* labels sit on tilted strips from strips/, rendered by strips.sh */
 #workspaces button, #window, #clock, #mpris, #wireplumber, #cpu, #memory,
 #network, #battery {
     border: none;
@@ -31,7 +30,6 @@ tooltip label {
     box-shadow: none;
     background-color: transparent;
     background-size: 100% 100%;
-    background-position: 0 0, 4px 4px;
     background-repeat: no-repeat;
     padding: 0 16px;
     margin: 0 2px;
@@ -42,16 +40,12 @@ tooltip label {
     padding: 0 12px;
     margin: 0;
     text-shadow: none;
-    background-image:
-        linear-gradient(166deg, transparent 18%, @paper 18%, @paper 82%, transparent 82%),
-        linear-gradient(166deg, transparent 18%, @ink 18%, @ink 82%, transparent 82%);
+    background-image: url("strips/chip-a-paper.svg");
 }
 
 #workspaces button:nth-child(even) {
     margin-top: 4px;
-    background-image:
-        linear-gradient(193deg, transparent 18%, @paper 18%, @paper 82%, transparent 82%),
-        linear-gradient(193deg, transparent 18%, @ink 18%, @ink 82%, transparent 82%);
+    background-image: url("strips/chip-b-paper.svg");
 }
 
 #workspaces button:hover {
@@ -59,32 +53,17 @@ tooltip label {
     color: @accent;
 }
 
-#workspaces button.visible {
-    background-image:
-        linear-gradient(166deg, transparent 18%, @surface 18%, @surface 82%, transparent 82%),
-        linear-gradient(166deg, transparent 18%, @ink 18%, @ink 82%, transparent 82%);
-    color: @fg;
-}
-
-#workspaces button.active {
-    background-image:
-        linear-gradient(194deg, transparent 12%, @accent 12%, @accent 88%, transparent 88%),
-        linear-gradient(194deg, transparent 12%, @ink 12%, @ink 88%, transparent 88%);
-    color: @ink;
-}
-
-#workspaces button.urgent {
-    background-image:
-        linear-gradient(166deg, transparent 18%, @red 18%, @red 82%, transparent 82%),
-        linear-gradient(166deg, transparent 18%, @ink 18%, @ink 82%, transparent 82%);
-}
+#workspaces button.visible { background-image: url("strips/chip-a-surface.svg"); color: @fg; }
+#workspaces button.visible:nth-child(even) { background-image: url("strips/chip-b-surface.svg"); }
+#workspaces button.active { background-image: url("strips/chip-b-accent.svg"); color: @ink; }
+#workspaces button.active:nth-child(even) { background-image: url("strips/chip-a-accent.svg"); }
+#workspaces button.urgent { background-image: url("strips/chip-a-red.svg"); }
 
 #window {
     color: @paper;
-    background-image:
-        linear-gradient(177deg, transparent 10%, @ink 10%, @ink 90%, transparent 90%),
-        linear-gradient(177deg, transparent 10%, @ink 10%, @ink 90%, transparent 90%);
     margin-left: 10px;
+    padding: 0 20px;
+    background-image: url("strips/slab-ink.svg");
 }
 
 window#waybar.empty #window {
@@ -94,45 +73,19 @@ window#waybar.empty #window {
 #clock {
     color: @ink;
     padding: 0 22px;
-    background-image:
-        linear-gradient(183deg, transparent 10%, @paper 10%, @paper 90%, transparent 90%),
-        linear-gradient(183deg, transparent 10%, @ink 10%, @ink 90%, transparent 90%);
+    background-image: url("strips/strip-b-paper.svg");
 }
 
 #mpris, #wireplumber, #cpu, #memory, #network, #battery {
     color: @fg;
 }
 
-#mpris       { color: @ink;
-    background-image:
-        linear-gradient(176deg, transparent 14%, @paper 14%, @paper 86%, transparent 86%),
-        linear-gradient(176deg, transparent 14%, @ink 14%, @ink 86%, transparent 86%);
-}
-#wireplumber { margin: 4px 2px 0;
-    background-image:
-        linear-gradient(185deg, transparent 14%, @panel 14%, @panel 86%, transparent 86%),
-        linear-gradient(185deg, transparent 14%, @ink 14%, @ink 86%, transparent 86%);
-}
-#cpu         { margin: 0 2px 4px;
-    background-image:
-        linear-gradient(174deg, transparent 14%, @panel 14%, @panel 86%, transparent 86%),
-        linear-gradient(174deg, transparent 14%, @ink 14%, @ink 86%, transparent 86%);
-}
-#memory      { margin: 4px 2px 0;
-    background-image:
-        linear-gradient(186deg, transparent 14%, @panel 14%, @panel 86%, transparent 86%),
-        linear-gradient(186deg, transparent 14%, @ink 14%, @ink 86%, transparent 86%);
-}
-#network     { margin: 0 2px 4px;
-    background-image:
-        linear-gradient(175deg, transparent 14%, @panel 14%, @panel 86%, transparent 86%),
-        linear-gradient(175deg, transparent 14%, @ink 14%, @ink 86%, transparent 86%);
-}
-#battery     { margin: 4px 2px 0;
-    background-image:
-        linear-gradient(184deg, transparent 14%, @panel 14%, @panel 86%, transparent 86%),
-        linear-gradient(184deg, transparent 14%, @ink 14%, @ink 86%, transparent 86%);
-}
+#mpris       { color: @ink; background-image: url("strips/strip-a-paper.svg"); }
+#wireplumber { margin: 4px 2px 0; background-image: url("strips/strip-b-panel.svg"); }
+#cpu         { margin: 0 2px 4px; background-image: url("strips/strip-a-panel.svg"); }
+#memory      { margin: 4px 2px 0; background-image: url("strips/strip-b-panel.svg"); }
+#network     { margin: 0 2px 4px; background-image: url("strips/strip-a-panel.svg"); }
+#battery     { margin: 4px 2px 0; background-image: url("strips/strip-b-panel.svg"); }
 
 #wireplumber.muted { color: @dim; }
 #cpu.warning, #memory.warning { color: @accent; }
