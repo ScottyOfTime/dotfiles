@@ -14,7 +14,8 @@ rounded windows with ink outlines, and UI made of tilted paper scraps.
 - **Tape** marks something as "stuck on": the launcher, the window title,
   urgent notifications, the album art photo, the lock screen field.
 - **Motion pops.** Things overshoot and settle (`OutBack` easing), fast:
-  roughly 200–260ms in, 130ms out.
+  roughly 200–260ms in, 130ms out. Windows resizing into a gap take
+  400ms, so a closing window is gone before its neighbour fills the space.
 - **Readable type.** One family, JetBrains Mono, bold for UI. Mixed
   typefaces were tried and dropped as hard to read.
 - **Minimal lock screen.** Just a password field.
