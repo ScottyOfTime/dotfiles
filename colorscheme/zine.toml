@@ -14,6 +14,7 @@ gtk_accent = "orange"  # libadwaita's closest named accent
 #   fg       body text
 #   dim      secondary text, placeholders
 #   ink      outlines and hard offset shadows
+#   shade    unfocused window shadows, softer than ink
 #   accent   pale zine orange: focus, active tab
 #   mustard, sage, teal, blue, rose, plum, red
 #            the riso inks, used to give each module or state its own colour
@@ -25,6 +26,7 @@ surface = "36312c"
 fg = "ecdfcc"
 dim = "8a7f70"
 ink = "0b0a09"
+shade = "141210"
 accent = "ddc2a6"
 mustard = "dbb56e"
 sage = "9fb68a"
@@ -36,9 +38,9 @@ red = "d9705f"
 
 [dark.terminal]
 foreground = "ecdfcc"
-background = "1f1c19"
+background = "161412"
 cursor = "ddc2a6"
-cursor_text = "1f1c19"
+cursor_text = "161412"
 selection_bg = "dbb56e"
 selection_fg = "0b0a09"
 ansi = [
@@ -53,6 +55,7 @@ surface = "dccdb6"
 fg = "2a2420"
 dim = "8a7d6c"
 ink = "2a2420"
+shade = "2a2420"
 accent = "b4855a"
 mustard = "c79a3c"
 sage = "6f8c58"
