@@ -18,12 +18,12 @@
         "battery"
     ],
     "clock": {
-        "format": "{:%H:%M  %d.%m.%Y}",
+        "format": "{:%H:%M  %a %d %b}",
         "tooltip": false
     },
     "mpris": {
         "player": "spotify",
-        "format": "› {artist} - {title}",
+        "format": "{artist} - {title}",
         "status-icons": {
             "playing": "",
             "paused": "",
@@ -31,15 +31,15 @@
         },
         "max-length": 40,
         "tooltip-format": "{artist} - {title}",
-        "format-paused": "› paused"
+        "format-paused": "paused"
     },
     "battery": {
-        "format": "› BAT {capacity}%"
+        "format": "bat {capacity}%"
     },
     "network": {
-        "format-wifi": "› {essid} {bandwidthDownBits}",
-        "format-ethernet": "› ETH {bandwidthDownBits}",
-        "format-disconnected": "› OFFLINE",
+        "format-wifi": "{essid} {bandwidthDownBits}",
+        "format-ethernet": "eth {bandwidthDownBits}",
+        "format-disconnected": "offline",
         "interval": 2
     },
     "hyprland/window": {
@@ -47,13 +47,13 @@
         "separate-outputs": true
     },
     "wireplumber": {
-        "format": "› VOL {volume}%",
-        "format-muted": "› VOL MUTED",
+        "format": "vol {volume}%",
+        "format-muted": "muted",
         "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
         "scroll-step": 5
     },
     "cpu": {
-        "format": "› CPU {usage}%",
+        "format": "cpu {usage}%",
         "interval": 2,
         "states": {
             "warning": 70,
@@ -61,7 +61,7 @@
         }
     },
     "memory": {
-        "format": "› MEM {percentage}%",
+        "format": "mem {percentage}%",
         "interval": 5,
         "states": {
             "warning": 70,
@@ -70,5 +70,9 @@
     },
     "hyprland/workspaces": {
         "tooltip": false
-    }
+    },
+    "margin-top": 10,
+    "margin-left": 16,
+    "margin-right": 16,
+    "spacing": 4
 }

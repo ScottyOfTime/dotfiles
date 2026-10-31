@@ -1,20 +1,20 @@
-/* zine tab bar: a black slab like the breadcrumb strip on zeonofzig.com
+/* zine tab bar: rounded pill tabs on the terminal background
  *
- * Fixed inks rather than theme colours: the slab is black on both the dark
- * and the cream page, the same as the site.
+ * Inactive tabs are outlined chips; the active one is a filled terracotta
+ * chip with a small hard shadow, like the waybar pills. The bar uses
+ * --ghostty-bg so it follows the zine-dark / zine-light theme (darkman).
  * Live-tweak with: GTK_DEBUG=interactive ghostty
  */
 
-/* bar: ink slab with the orange rule along the edge facing the terminal */
 tabbar,
 tabbar .box {
   padding: 0;
   box-shadow: none;
-  background-color: #0e0e0e;
+  background-color: var(--ghostty-bg);
 }
 
 tabbar .box {
-  border-top: 3px solid #d25502;
+  padding: 4px 10px 8px;
 }
 
 tabbar tabbox {
@@ -23,7 +23,8 @@ tabbar tabbox {
 }
 
 tabbar tabbox > tabboxchild {
-  border-radius: 0;
+  border-radius: 8px;
+  margin: 0 3px;
 }
 
 /* no separators between tabs */
@@ -33,36 +34,33 @@ tabbar tabbox > separator {
   background: none;
 }
 
-/* tabs: breadcrumb labels, orange and letter-spaced */
 tabbar tab {
-  min-height: 28px;
+  min-height: 26px;
   padding: 0 12px;
-  border-radius: 0;
-  color: #dc6e0d;
+  border-radius: 8px;
+  border: 2px solid alpha(currentColor, 0.18);
+  color: alpha(currentColor, 0.55);
   font-weight: bold;
-  letter-spacing: 2px;
   transition: none;
 }
 
 tabbar tab:hover,
 tabbar tab:active {
-  background-color: #1a1816;
-  color: #eed9b6;
+  background-color: alpha(currentColor, 0.06);
+  color: alpha(currentColor, 0.8);
 }
 
-/* active tab: the orange banner, cream type with a hard brown shadow */
 tabbar tab:selected,
 tabbar tab:selected:hover,
 tabbar tab:selected:active {
-  color: #eed9b6;
-  background-color: #dc6e0d;
-  text-shadow: 2px 2px 0 #452207;
-  box-shadow: inset 0 -3px #452207;
+  color: #0b0a09;
+  background-color: #d68a5c;
+  border-color: #0b0a09;
+  box-shadow: 3px 3px 0 #0b0a09;
 }
 
 tabbar tab .tab-title {
   margin: 0;
-  font-size: 1.1em;
 }
 
 /* hide close buttons (middle-click or keybind closes) */

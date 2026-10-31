@@ -6,7 +6,7 @@ local WOBSOCK = os.getenv("XDG_RUNTIME_DIR") .. "/wob.sock"
 
 -- colours rendered by darkman from ~/.config/palette, ayu dark until it has run
 local ok, colors = pcall(dofile, os.getenv("HOME") .. "/.config/hypr/colors.lua")
-if not ok then colors = { accent = "dc6e0d", shadow = "000000", ink = "0e0e0e", brown = "452207", cursor = "Bibata-Modern-Classic" } end
+if not ok then colors = { accent = "d68a5c", ink = "0b0a09", cursor = "Bibata-Modern-Classic" } end
 
 --###############
 --## MONITORS ###
@@ -68,10 +68,11 @@ hl.env("HYPRCURSOR_SIZE", 24)
 
 hl.config({
     general = {
-        -- zine: windows are pasted-down slabs, the wallpaper shows between
+        -- neo-brutalist zine: rounded cards with an ink outline and a hard
+        -- shadow, the wallpaper showing between them
         gaps_in     = 8,
-        gaps_out    = 18,
-        border_size = 3,
+        gaps_out    = 16,
+        border_size = 2,
         resize_on_border = false,
         allow_tearing    = false,
         layout = "dwindle",
@@ -84,21 +85,21 @@ hl.config({
 
 hl.config({
     decoration = {
-        rounding       = 0,
+        rounding       = 10,
         rounding_power = 2,
         active_opacity   = 1.0,
         inactive_opacity = 1.0,
         dim_inactive = true,
         dim_strength = 0.08,
-        -- hard offset shadows, like the slabs and type on zeonofzig.com:
-        -- orange under the focused window, brown under the rest
+        -- hard offset shadows: terracotta under the focused window, ink
+        -- under the rest
         shadow = {
             enabled        = true,
             sharp          = true,
             range          = 1,
-            offset         = { 9, 9 },
+            offset         = { 6, 6 },
             color          = "rgb(" .. colors.accent .. ")",
-            color_inactive = "rgb(" .. colors.brown .. ")",
+            color_inactive = "rgb(" .. colors.ink .. ")",
         },
         blur = {
             enabled  = true,

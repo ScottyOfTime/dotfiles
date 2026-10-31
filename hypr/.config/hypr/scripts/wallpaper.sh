@@ -1,5 +1,5 @@
 #!/bin/sh
-# (re)start swaybg with the zine wallpaper for the current darkman mode,
+# (re)start swaybg with the zine collage wallpaper for the current darkman mode,
 # rendering it from the palette first if the palette or this script changed
 mode=$(darkman get 2>/dev/null || echo dark)
 palette=~/.config/palette/"$mode".env
@@ -8,19 +8,28 @@ out=~/.cache/wallpaper/zine-"$mode".png
 
 if [ ! -f "$out" ] || [ "$palette" -nt "$out" ] || [ "$0" -nt "$out" ]; then
     mkdir -p "${out%/*}"
-    host=$(tr '[:lower:]' '[:upper:]' < /etc/hostname)
-    # the breadcrumb slab is ink on paper, tape on ink so it still reads
-    if [ "$mode" = dark ]; then slab=$tape; else slab=$ink; fi
-    # draw flat, then lay grain over everything like a print
+    host=$(cat /etc/hostname)
+    # a riso-print collage: outlined shapes in the palette's inks, each with a
+    # hard ink shadow (drawn first, offset), then grain over everything
+    sh="-fill #$ink -stroke none"
+    ol="-stroke #$ink -strokewidth 6"
     magick -size 2560x1440 xc:"#$bg" \
-        -fill "#$brown" -draw "polygon 334,402 1734,374 1736,462 336,490" \
-        -fill "#$slab" -draw "polygon 326,394 1726,366 1728,454 328,482" \
-        -font JetBrains-Mono-Bold -pointsize 30 -kerning 8 -fill "#$accent" \
-        -annotate -1.1x-1.1+380+446 "ARCH  ›  HYPRLAND  ›  $host" \
-        -fill "#$accent" -draw "polygon 250,560 2330,500 2350,900 270,960" \
-        -font JetBrains-Mono-ExtraBold -pointsize 230 -kerning -8 \
-        -fill "#$brown" -annotate -1.6x-1.6+334+862 "$host" \
-        -fill "#$cream" -annotate -1.6x-1.6+320+848 "$host" \
+        \( -size 22x22 xc:none -fill "#$teal" \
+           -draw "circle 11,11 11,17" -write mpr:dot +delete \
+           -size 560x340 tile:mpr:dot -background none -rotate 8 \) \
+        -geometry +1660+980 -compose over -composite \
+        $sh -draw "polygon 356,836 1356,776 1396,1196 396,1256" \
+        -fill "#$sage" $ol -draw "polygon 340,820 1340,760 1380,1180 380,1240" \
+        $sh -draw "circle 1876,646 1876,1036" \
+        -fill "#$mustard" $ol -draw "circle 1860,630 1860,1020" \
+        $sh -draw "polygon 236,536 1516,486 1536,716 256,766" \
+        -fill "#$accent" $ol -draw "polygon 220,520 1500,470 1520,700 240,750" \
+        $sh -draw "polygon 1606,286 1926,256 1934,320 1614,350" \
+        -fill "#$rose" $ol -draw "polygon 1596,276 1916,246 1924,310 1604,340" \
+        -stroke none -font JetBrains-Mono-ExtraBold -pointsize 150 -kerning -4 \
+        -fill "#$ink" -annotate -2.2x-2.2+300+680 "$host" \
+        -font JetBrains-Mono-Bold -pointsize 34 -kerning 6 \
+        -fill "#$dim" -annotate +400+1340 "arch  /  hyprland  /  zine" \
         -alpha off -seed 7 -attenuate 0.2 -channel RGB +noise Gaussian +channel -depth 8 \
         -strip "$out"
 fi

@@ -1,98 +1,103 @@
-/* zine bar: the black slab and thick orange rule across the top of
- * zeonofzig.com, with breadcrumb-style labels. colours come from colors.css,
- * which darkman renders from the palette; the slab is ink in both modes. */
+/* zine bar, neo-brutalist: a floating row of rounded pills, each outlined in
+ * ink with a small hard shadow and filled with one of the riso inks.
+ * colours come from colors.css, which darkman renders from the palette. */
 @import "colors.css";
 
 * {
     font-family: "JetBrains Mono";
     font-size: 12px;
     font-weight: bold;
-    letter-spacing: 2px;
+    min-height: 0;
 }
 
 window#waybar {
-    background: @ink;
-    color: @cream;
-    border-bottom: 4px solid @accent;
+    background: transparent;
+    color: @fg;
 }
 
 tooltip {
-    background: @ink;
-    border: 2px solid @accent;
-    border-radius: 0;
+    background: @panel;
+    border: 2px solid @ink;
+    border-radius: 8px;
 }
 
 tooltip label {
-    color: @cream;
+    color: @fg;
 }
 
-.modules-left, .modules-center, .modules-right {
+/* every module is a pill; the shadow needs room, hence the margins */
+#workspaces, #window, #clock, #mpris, #wireplumber, #cpu, #memory,
+#network, #battery {
+    border: 2px solid @ink;
+    border-radius: 9px;
+    box-shadow: 3px 3px 0 @ink;
     padding: 0 12px;
+    margin: 2px 5px 5px 2px;
+    color: @ink;
 }
 
-#window, #mpris, #wireplumber, #cpu, #memory, #network {
-    margin-left: 18px;
+/* workspaces: a panel pill holding chips, each workspace its own ink */
+#workspaces {
+    background: @panel;
+    padding: 3px;
 }
 
-/* workspaces: orange crumbs, the active one a banner with a hard shadow */
 #workspaces button {
-    color: @accent;
-    padding: 0 10px;
-    margin: 4px 2px 6px;
+    color: @dim;
+    padding: 0 9px;
+    margin: 0 1px;
     border: none;
-    border-radius: 0;
-    box-shadow: none;
-}
-
-#workspaces button:hover {
-    background: alpha(@cream, 0.08);
-    color: @cream;
+    border-radius: 6px;
     box-shadow: none;
     text-shadow: none;
 }
 
+#workspaces button:hover {
+    background: @surface;
+    color: @fg;
+    box-shadow: none;
+}
+
+/* shown on this monitor but focus is elsewhere */
+#workspaces button.visible {
+    background: @surface;
+    color: @fg;
+}
+
+#workspaces button:nth-child(4n+1).active { background: @accent; }
+#workspaces button:nth-child(4n+2).active { background: @mustard; }
+#workspaces button:nth-child(4n+3).active { background: @sage; }
+#workspaces button:nth-child(4n+4).active { background: @teal; }
+
 #workspaces button.active {
-    background: @accent;
-    color: @cream;
-    text-shadow: 1px 1px 0 @brown;
-    box-shadow: 3px 3px 0 @brown;
+    color: @ink;
 }
 
 #workspaces button.urgent {
     background: @red;
-    color: @cream;
-    box-shadow: 3px 3px 0 @brown;
+    color: @ink;
 }
 
 #window {
-    color: @cream;
+    background: @panel;
+    color: @fg;
 }
 
-/* clock: a cream tape label stuck on the slab */
-#clock {
-    background: @tape;
-    color: @ink;
-    padding: 0 10px;
-    margin: 4px 0 6px;
-    box-shadow: 3px 3px 0 @accent;
+/* an empty workspace has no title; drop the pill rather than show a stub */
+window#waybar.empty #window {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
 }
 
-#mpris {
-    color: @accent;
-}
+#clock     { background: @mustard; }
+#mpris     { background: @rose; }
+#wireplumber { background: @teal; }
+#cpu       { background: @sage; }
+#memory    { background: @blue; }
+#network   { background: @plum; }
+#battery   { background: @accent; }
 
-#wireplumber, #cpu, #memory, #network, #battery {
-    color: @accent;
-}
-
-#wireplumber.muted {
-    color: alpha(@cream, 0.4);
-}
-
-#cpu.warning, #memory.warning, #battery.charging {
-    color: @cream;
-}
-
-#cpu.critical, #memory.critical {
-    color: @red;
-}
+#wireplumber.muted { background: @surface; color: @dim; }
+#cpu.warning, #memory.warning { background: @accent; }
+#cpu.critical, #memory.critical { background: @red; }
