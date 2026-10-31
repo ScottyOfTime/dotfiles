@@ -44,7 +44,7 @@ tabbar tab:selected,
 tabbar tab:selected:hover,
 tabbar tab:selected:active {
   color: #0b0a09;
-  background-color: #cf9f72;
+  background-color: #ddc2a6;
   border-color: #0b0a09;
   box-shadow: 3px 3px 0 #0b0a09;
 }

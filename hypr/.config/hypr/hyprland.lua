@@ -3,7 +3,7 @@
 local WOBSOCK = os.getenv("XDG_RUNTIME_DIR") .. "/wob.sock"
 
 local ok, colors = pcall(dofile, os.getenv("HOME") .. "/.config/hypr/colors.lua")
-if not ok then colors = { accent = "cf9f72", ink = "0b0a09", cursor = "Bibata-Modern-Classic" } end
+if not ok then colors = { accent = "ddc2a6", ink = "0b0a09", cursor = "Bibata-Modern-Classic" } end
 
 hl.monitor({
     output   = "",
