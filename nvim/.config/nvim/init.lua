@@ -1,24 +1,19 @@
--- formatting
-vim.opt.tabstop = 4         -- tab spacing
-vim.opt.softtabstop = 4     -- unify
-vim.opt.shiftwidth = 4      -- indentation size
-vim.opt.expandtab = true    -- no tabs in whitespace
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.expandtab = true
 vim.opt.fixendofline = false
 
--- presentation
 vim.opt.termguicolors = true
-vim.opt.showmatch = true    -- show matching brackets
+vim.opt.showmatch = true
 vim.opt.number = true
 vim.opt.relativenumber = true
 
--- misc
 vim.opt.autochdir = true
 vim.opt.ttimeoutlen = 1
 
--- cursor: steady block in normal, blinking bar in insert
 vim.opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25-blinkon500-blinkoff500,r-cr-o:hor20"
 
--- set syntax based on filenaming and type
 local ft = vim.api.nvim_create_augroup("filetypes", { clear = true })
 vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
   group = ft,

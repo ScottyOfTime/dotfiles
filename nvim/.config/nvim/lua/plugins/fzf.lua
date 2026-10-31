@@ -1,4 +1,3 @@
--- git root of the current file's directory, or the directory itself
 local function project_root()
   local dir = vim.fn.expand("%:p:h")
   local root = vim.fn.systemlist({ "git", "-C", dir, "rev-parse", "--show-toplevel" })[1]

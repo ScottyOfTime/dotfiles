@@ -19,8 +19,6 @@ return {
       if vim.api.nvim_get_mode().mode == "c" then return true end
       return vim.bo.buftype ~= "prompt" and #vim.lsp.get_clients({ bufnr = 0 }) > 0
     end,
-    -- <Tab> accept / next snippet field, <S-Tab> prev field, <C-n>/<C-p> move,
-    -- <C-space> open, <C-e> close, <C-k> signature
     keymap = { preset = "super-tab" },
     completion = {
       documentation = { auto_show = true },

@@ -2,7 +2,6 @@ return {
   "vim-airline/vim-airline",
   init = function()
     vim.g.airline_symbols_ascii = 1
-    -- filename relative to the git root (reponame:path/to/file)
     vim.g.airline_stl_path_style = "gitrepo"
 
     -- nvim 0.12 floats can show a statusline, and airline puts one on every

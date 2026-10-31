@@ -1,6 +1,4 @@
 #!/bin/sh
-# (re)start swaybg with the zine collage wallpaper for the current darkman mode,
-# rendering it from the palette first if the palette or this script changed
 mode=$(darkman get 2>/dev/null || echo dark)
 palette=~/.config/palette/"$mode".env
 . "$palette"
@@ -9,8 +7,6 @@ out=~/.cache/wallpaper/zine-"$mode".png
 if [ ! -f "$out" ] || [ "$palette" -nt "$out" ] || [ "$0" -nt "$out" ]; then
     mkdir -p "${out%/*}"
     host=$(cat /etc/hostname)
-    # a riso-print collage: outlined shapes in the palette's inks, each with a
-    # hard ink shadow (drawn first, offset), then grain over everything
     sh="-fill #$ink -stroke none"
     ol="-stroke #$ink -strokewidth 6"
     magick -size 2560x1440 xc:"#$bg" \

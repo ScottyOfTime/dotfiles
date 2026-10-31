@@ -1,6 +1,3 @@
-/* zine bar, neo-brutalist: a floating row of rounded pills, each outlined in
- * ink with a small hard shadow and filled with one of the riso inks.
- * colours come from colors.css, which darkman renders from the palette. */
 @import "colors.css";
 
 * {
@@ -25,7 +22,7 @@ tooltip label {
     color: @fg;
 }
 
-/* every module is a pill; the shadow needs room, hence the margins */
+/* the right/bottom margins leave room for the hard shadow */
 #workspaces, #window, #clock, #mpris, #wireplumber, #cpu, #memory,
 #network, #battery {
     border: 2px solid @ink;
@@ -36,7 +33,6 @@ tooltip label {
     color: @ink;
 }
 
-/* workspaces: a panel pill holding chips, each workspace its own ink */
 #workspaces {
     background: @panel;
     padding: 3px;
@@ -58,7 +54,7 @@ tooltip label {
     box-shadow: none;
 }
 
-/* shown on this monitor but focus is elsewhere */
+/* .visible: shown on this monitor while focus is on the other */
 #workspaces button.visible {
     background: @surface;
     color: @fg;
@@ -83,7 +79,7 @@ tooltip label {
     color: @fg;
 }
 
-/* an empty workspace has no title; drop the pill rather than show a stub */
+/* .empty: no window focused, so no title to show */
 window#waybar.empty #window {
     background: transparent;
     border-color: transparent;

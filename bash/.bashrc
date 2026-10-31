@@ -1,14 +1,7 @@
-#
-# ~/.bashrc
-#
-
-# If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
-# prompt: [user@host:dir] (branch *+), then $ (red after a failed command).
-# ANSI colour names follow ghostty's theme, so darkman switches them.
 source /usr/share/git/completion/git-prompt.sh
 GIT_PS1_SHOWDIRTYSTATE=1  # * unstaged, + staged
 __prompt() {
@@ -19,7 +12,6 @@ __prompt() {
 }
 PROMPT_COMMAND=__prompt
 
-# Setup VulkanSDK environment
 source $HOME/vulkansdk/1.4.357.1/setup-env.sh
 
 export PATH=$PATH:~/.local/bin:~/zig

@@ -1,14 +1,5 @@
-/* zine tab bar: rounded pill tabs on the terminal background
- *
- * Inactive tabs are outlined chips; the active one is a filled terracotta
- * chip with a small hard shadow, like the waybar pills. The bar uses
- * --ghostty-bg so it follows the zine-dark / zine-light theme (darkman).
- * Live-tweak with: GTK_DEBUG=interactive ghostty
- */
-
 tabbar,
 tabbar .box {
-  padding: 0;
   box-shadow: none;
   background-color: var(--ghostty-bg);
 }
@@ -27,7 +18,6 @@ tabbar tabbox > tabboxchild {
   margin: 0 3px;
 }
 
-/* no separators between tabs */
 tabbar tabbox > separator {
   margin: 0;
   min-width: 0;
@@ -63,7 +53,6 @@ tabbar tab .tab-title {
   margin: 0;
 }
 
-/* hide close buttons (middle-click or keybind closes) */
 tabbar tab button.tab-close-button {
   opacity: 0;
   min-width: 0;

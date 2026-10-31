@@ -24,11 +24,6 @@
     "mpris": {
         "player": "spotify",
         "format": "{artist} - {title}",
-        "status-icons": {
-            "playing": "",
-            "paused": "",
-            "stopped": ""
-        },
         "max-length": 40,
         "tooltip-format": "{artist} - {title}",
         "format-paused": "paused"

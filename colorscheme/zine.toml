@@ -1,16 +1,8 @@
-# zine: muted riso-print inks on warm paper, after zeonofzig.com
-#
-# The source of truth for the colour scheme. `./colorscheme/build.py`
-# generates from it:
-#   palette/.config/palette/{dark,light}.env   (darkman renders the app
-#                                               templates from these)
-#   ghostty/.config/ghostty/themes/zine-{dark,light}
-# To port the scheme to another app, read the roles below; to change a
-# colour, edit it here and rerun build.py.
+# source of truth: ./colorscheme/build.py generates the palette files and
+# ghostty themes from this, so edit here and rerun it
 
 name = "zine"
 
-# shared, non-colour settings written into both palette files
 [settings]
 cursor = "Bibata-Modern-Classic"
 gtk_accent = "orange"  # libadwaita's closest named accent
@@ -22,7 +14,7 @@ gtk_accent = "orange"  # libadwaita's closest named accent
 #   fg       body text
 #   dim      secondary text, placeholders
 #   ink      outlines and hard offset shadows
-#   accent   the softened zine orange, pale and sandy: focus, active tab
+#   accent   pale zine orange: focus, active tab
 #   mustard, sage, teal, blue, rose, plum, red
 #            the riso inks, used to give each module or state its own colour
 
@@ -49,7 +41,6 @@ cursor = "cf9f72"
 cursor_text = "1f1c19"
 selection_bg = "dbb56e"
 selection_fg = "0b0a09"
-# ANSI 0-15: black red green yellow blue magenta cyan white, then brights
 ansi = [
   "36312c", "d9705f", "9fb68a", "dbb56e", "8aa7cf", "ab8fc6", "82b3ab", "cfc3b1",
   "8a7f70", "e88a7a", "b5cba0", "e8c98a", "a4bde0", "c4a9da", "9cc9c1", "ecdfcc",

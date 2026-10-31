@@ -1,22 +1,19 @@
 #!/bin/sh
-# Apply the light/dark theme: render each app's colours from ~/.config/palette
-# and reload whatever is running.
 mode=$1
 [ "$mode" = dark ] || [ "$mode" = light ] || exit 1
 cfg=$HOME/.config
 palette=$cfg/palette/$mode.env
 
-# foo.tmpl -> foo, substituting only the palette's variables
 set -a; . "$palette"; set +a
 
 gsettings set org.gnome.desktop.interface color-scheme prefer-$mode
 gsettings set org.gnome.desktop.interface accent-color "$gtk_accent"
 gsettings set org.gnome.desktop.interface cursor-theme "$cursor"
 gsettings set org.gnome.desktop.interface cursor-size 24
-# JetBrains Mono everywhere (fontconfig covers browsers and Qt apps)
 gsettings set org.gnome.desktop.interface font-name 'JetBrains Mono 10'
 gsettings set org.gnome.desktop.interface document-font-name 'JetBrains Mono 10'
 gsettings set org.gnome.desktop.interface monospace-font-name 'JetBrains Mono 11'
+# only the palette's variables, so hyprlock's own $ATTEMPTS etc. survive
 vars=$(sed -n 's/^\([a-z_]*\)=.*/$\1/p' "$palette" | tr '\n' ' ')
 for f in waybar/colors.css fuzzel/colors.ini hypr/colors.lua hypr/hyprlock.conf mako/config wob/wob.ini; do
     envsubst "$vars" < "$cfg/$f.tmpl" > "$cfg/$f"
@@ -30,4 +27,3 @@ hyprctl dispatch 'hl.dsp.exec_cmd("waybar")'
 hyprctl dispatch 'hl.dsp.exec_cmd("~/.config/hypr/scripts/wallpaper.sh")'
 hyprctl dispatch 'hl.dsp.exec_cmd("~/.config/hypr/scripts/wob.sh")'
 makoctl reload 2>/dev/null
-true

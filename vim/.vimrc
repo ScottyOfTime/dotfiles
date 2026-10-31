@@ -1,4 +1,3 @@
-"" vim-plug
 call plug#begin()
 
 Plug 'Luxed/ayu-vim'
@@ -12,7 +11,6 @@ Plug 'junegunn/fzf.vim'
 
 call plug#end()
 
-" colorscheme
 if has('termguicolors')
     set termguicolors
 endif
@@ -24,10 +22,8 @@ augroup END
 colorscheme ayu
 let &t_ut = ''
 
-" vim-airline
 let g:airline_symbols_ascii = 1
 
-" fzf
 function! ProjectRoot()
   let l:dir = expand('%:p:h')
   let l:root = get(systemlist('git -C ' . shellescape(l:dir) . ' rev-parse --show-toplevel'), 0, '')
@@ -42,16 +38,14 @@ nnoremap <C-p> :ProjectFiles<CR>
 
 filetype plugin indent on
 
-" formatting
-set tabstop=4           " tab spacing (setting below is just to unify it)
-set softtabstop=4       " unify
-set shiftwidth=4        " indentation size
-set expandtab           " no tabs in whitespace
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set expandtab
 set history=1000    
 set encoding=utf-8
 set nofixendofline
 
-" cursor
 autocmd VimEnter * call system('echo -ne "\e[2 q"')
 autocmd VimLeave * silent !echo -ne "\e[5 q"
 let &t_SI = "\e[5 q"
@@ -65,29 +59,24 @@ augroup CursorShapeStartup
   autocmd VimEnter * call writefile(["\e[2 q"], "/dev/tty", "b")
 augroup END
 
-" tab complete
 set autochdir
 
 
-" presentation
-set ruler           " show the cursor position all the time
-set showmatch       " show matching brackets
-set modeline        " enable modeline
-set ls=2            " always show status line
-set hlsearch        " highlight search results
+set ruler
+set showmatch
+set modeline
+set ls=2
+set hlsearch
 set number
 set relativenumber
 
 
-" Syntax Highlighting
 syntax on
-"setf cpp
 highlight Comment ctermfg=blue cterm=bold
 highlight String cterm=bold ctermfg=yellow
 highlight Constant term=underline cterm=bold ctermfg=5 gui=bold guifg=cyan
 highlight OverLength cterm=underline
 
-" set syntax based on filenaming and type
 autocmd BufNewFile,BufRead *.yml* set ft=yaml
 autocmd BufNewFile,BufRead *Dockerfile* set ft=yaml 
 autocmd FileType yaml setlocal tabstop=2 softtabstop=2 shiftwidth=2

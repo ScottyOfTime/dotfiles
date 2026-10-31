@@ -1,4 +1,3 @@
--- bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.uv.fs_stat(lazypath) then
   local out = vim.fn.system({
@@ -12,7 +11,6 @@ if not vim.uv.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- loads every file in lua/plugins/
 require("lazy").setup({
   spec = { { import = "plugins" } },
   install = { colorscheme = { "ayu" } },
