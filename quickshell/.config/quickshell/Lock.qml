@@ -18,6 +18,16 @@ Scope {
         session.locked = true;
     }
 
+    // the scrap falls away, then the session actually unlocks
+    function leave() {
+        status = "ok";
+        password = "";
+        leaving();
+        unlockAfterLeave.restart();
+    }
+
+    signal leaving()
+
     function submit() {
         if (password === "" || pam.active) return;
         status = "checking";
@@ -31,7 +41,8 @@ Scope {
         function preview(): void { lock.lockNow(); previewEnd.restart(); }
     }
 
-    Timer { id: previewEnd; interval: 6000; onTriggered: session.locked = false }
+    Timer { id: previewEnd; interval: 6000; onTriggered: lock.leave() }
+    Timer { id: unlockAfterLeave; interval: 340; onTriggered: { session.locked = false; lock.status = ""; } }
 
     PamContext {
         id: pam
@@ -42,9 +53,8 @@ Scope {
         onCompleted: result => {
             lock.password = "";
             if (result === PamResult.Success) {
-                lock.status = "";
                 lock.attempts = 0;
-                session.locked = false;
+                lock.leave();
             } else if (result === PamResult.Failed) {
                 lock.status = "failed";
                 lock.attempts++;
@@ -73,6 +83,7 @@ Scope {
                 focus: true
 
                 Keys.onPressed: event => {
+                    if (lock.status === "ok") return;
                     shaker.shake();
                     if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
                         lock.submit();
@@ -99,6 +110,22 @@ Scope {
                     height: field.height
                     transform: Translate { id: nudge }
 
+                    Connections {
+                        target: lock
+                        function onLeaving() {
+                            shakeAnim.stop();
+                            fallTurn.to = (Math.random() < 0.5 ? -1 : 1) * (14 + Math.random() * 10);
+                            fallAnim.restart();
+                        }
+                    }
+
+                    ParallelAnimation {
+                        id: fallAnim
+                        NumberAnimation { id: fallTurn; target: shaker; property: "rotation"; duration: 320; easing.type: Easing.InBack }
+                        NumberAnimation { target: nudge; property: "y"; to: 420; duration: 320; easing.type: Easing.InBack; easing.overshoot: 2.5 }
+                        NumberAnimation { target: shaker; property: "opacity"; to: 0; duration: 320; easing.type: Easing.InCubic }
+                    }
+
                     function shake() {
                         kickTurn.to = (Math.random() < 0.5 ? -1 : 1) * (0.8 + Math.random() * 1.2);
                         kickSlide.to = (Math.random() * 2 - 1) * 4;
@@ -121,7 +148,7 @@ Scope {
                     id: field
                     seed: 91 + lock.attempts
                     tilt: lock.status === "failed" ? 3 : -2
-                    fill: Theme.panel
+                    fill: lock.status === "ok" ? Theme.accent : Theme.panel
                     ragged: 5
                     shadow: 6
                     padX: 22
@@ -135,12 +162,14 @@ Scope {
                         width: 380
                         horizontalAlignment: Text.AlignHCenter
                         font.pixelSize: 20
-                        text: lock.status === "checking" ? "checking..."
+                        text: lock.status === "ok" ? "unlocked"
+                            : lock.status === "checking" ? "checking..."
                             : lock.password !== "" ? "•".repeat(lock.password.length)
                             : lock.status === "failed" ? `exit ${lock.attempts}: wrong password`
                             : lock.status === "broken" ? "auth broken: ctrl+alt+f2, run hyprlock"
                             : "password"
-                        color: lock.status === "failed" || lock.status === "broken" ? Theme.red
+                        color: lock.status === "ok" ? Theme.ink
+                            : lock.status === "failed" || lock.status === "broken" ? Theme.red
                             : lock.password !== "" || lock.status === "checking" ? Theme.accent
                             : Theme.dim
                         elide: Text.ElideMiddle
