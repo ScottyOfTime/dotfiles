@@ -1,7 +1,5 @@
 ---@module 'hl'
 
-local WOBSOCK = os.getenv("XDG_RUNTIME_DIR") .. "/wob.sock"
-
 local ok, colors = pcall(dofile, os.getenv("HOME") .. "/.config/hypr/colors.lua")
 if not ok then colors = { accent = "e08a43", ink = "0b0a09", cursor = "Bibata-Modern-Classic" } end
 
@@ -24,7 +22,6 @@ local menu        = "qs ipc call launcher toggle"
 hl.on("hyprland.start", function()
     hl.exec_cmd("qs")
     hl.exec_cmd("~/.config/hypr/scripts/wallpaper.sh")
-    hl.exec_cmd("~/.config/hypr/scripts/wob.sh")
     hl.exec_cmd("hypridle")
     hl.exec_cmd([[ghostty -e sh -c "fastfetch; exec $SHELL"]])
     hl.exec_cmd("discord")
@@ -150,12 +147,12 @@ hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen())
 hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(),   { mouse = true })
 hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
-hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+ && wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print int($2*100)}' > " .. WOBSOCK), { repeating = true, locked = true })
-hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- && wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print int($2*100)}' > " .. WOBSOCK), { repeating = true, locked = true })
+hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+"), { repeating = true, locked = true })
+hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"), { repeating = true, locked = true })
 hl.bind("XF86AudioMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"), { locked = true })
 hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"), { locked = true })
-hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%+ && brightnessctl get | awk -v max=$(brightnessctl max) '{print int($1/max*100)}' > " .. WOBSOCK), { repeating = true, locked = true })
-hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%- && brightnessctl get | awk -v max=$(brightnessctl max) '{print int($1/max*100)}' > " .. WOBSOCK), { repeating = true, locked = true })
+hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("qs ipc call osd brightness $(brightnessctl -m -e4 -n2 set 5%+ | cut -d, -f4 | tr -d %)"), { repeating = true, locked = true })
+hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("qs ipc call osd brightness $(brightnessctl -m -e4 -n2 set 5%- | cut -d, -f4 | tr -d %)"), { repeating = true, locked = true })
 
 hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl -p spotify,%any next"), { locked = true })
 hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl -p spotify,%any play-pause"), { locked = true })

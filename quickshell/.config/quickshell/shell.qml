@@ -15,4 +15,6 @@ ShellRoot {
         Bar { visible: root.barVisible }
     }
     Launcher {}
+    Osd {}
+    Notifications {}
 }
