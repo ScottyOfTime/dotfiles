@@ -106,7 +106,9 @@ lines += [hi(*row) for row in VIM]
 (ROOT / f"vim-theme/.config/vim-theme/colors/{name}.vim").write_text("".join(lines))
 
 # airline modes: [guifg, guibg, ctermfg, ctermbg] for the three sections
-lines = [vheader, pick, palettes,
+# airline reads the mode the colorscheme already set: another system() call
+# at VimEnter can let terminal query replies leak into the buffer
+lines = [vheader, "let s:mode = &background\n", palettes,
          f"let g:airline#themes#{name}#palette = {{}}\n",
          "function! s:map(key, fg, bg)\n"
          "  return airline#themes#generate_color_map([s:c.ink, s:c[a:bg], 0, 0], "
