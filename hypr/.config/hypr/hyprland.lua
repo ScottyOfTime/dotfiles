@@ -6,7 +6,7 @@ local WOBSOCK = os.getenv("XDG_RUNTIME_DIR") .. "/wob.sock"
 
 -- colours rendered by darkman from ~/.config/palette, ayu dark until it has run
 local ok, colors = pcall(dofile, os.getenv("HOME") .. "/.config/hypr/colors.lua")
-if not ok then colors = { accent = "d68a5c", ink = "0b0a09", cursor = "Bibata-Modern-Classic" } end
+if not ok then colors = { accent = "cf9f72", ink = "0b0a09", cursor = "Bibata-Modern-Classic" } end
 
 --###############
 --## MONITORS ###
