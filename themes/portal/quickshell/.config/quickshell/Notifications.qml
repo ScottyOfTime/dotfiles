@@ -3,16 +3,16 @@ import Quickshell
 import Quickshell.Services.Notifications
 import Quickshell.Wayland
 
-// notification server: panels stacked top-right
+// notification server: flat boxes stacked top-right, click to dismiss
 PanelWindow {
     id: popups
 
     visible: server.trackedNotifications.values.length > 0
     color: "transparent"
     anchors { top: true; right: true }
-    margins { top: 56; right: 8 }
-    implicitWidth: 440
-    implicitHeight: stack.implicitHeight + 40
+    margins { top: Theme.bar + 8; right: 8 }
+    implicitWidth: 400
+    implicitHeight: stack.implicitHeight
     exclusionMode: ExclusionMode.Ignore
     WlrLayershell.layer: WlrLayer.Overlay
     WlrLayershell.namespace: "notifications"
@@ -27,106 +27,74 @@ PanelWindow {
 
     Column {
         id: stack
-        x: 20
-        y: 14
-        spacing: 10
-
-        move: Transition { NumberAnimation { property: "y"; duration: 220; easing.type: Easing.OutBack; easing.overshoot: 1.2 } }
+        width: parent.width
+        spacing: 6
 
         Repeater {
             model: server.trackedNotifications
 
-            Panel {
+            Box {
                 id: note
                 required property var modelData
                 readonly property bool critical: modelData.urgency === NotificationUrgency.Critical
-                readonly property color tone: critical ? Theme.orange : Theme.blue
                 readonly property string arrived: Qt.formatDateTime(new Date(), "HH:mm")
 
-                padX: 16
-                padY: 12
-                edge: tone
-                edgeLeft: true
-                glow: critical
-                fill: hovered ? Theme.glassHover : Theme.glass
-                onClicked: modelData.dismiss()
+                width: stack.width
+                height: body.implicitHeight + 20
+                edge: critical ? Theme.orange : Theme.blue
+
+                MouseArea {
+                    id: area
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    onClicked: note.modelData.dismiss()
+                }
 
                 Timer {
-                    running: !note.critical && !note.hovered
+                    running: !note.critical && !area.containsMouse
                     // expireTimeout is milliseconds, as the notification spec sends it
                     interval: note.modelData.expireTimeout > 0 ? note.modelData.expireTimeout : 6000
                     onTriggered: note.modelData.expire()
                 }
 
                 Column {
-                    width: 370
-                    spacing: 6
+                    id: body
+                    x: 10
+                    y: 10
+                    width: parent.width - 20
+                    spacing: 3
 
-                    Hazard {
-                        visible: note.critical
+                    Label {
+                        text: `${note.modelData.appName || "notification"} · ${note.arrived}`
+                        color: note.critical ? Theme.orange : Theme.dim
+                        font.pixelSize: 11
+                    }
+                    Label {
+                        text: note.modelData.summary
+                        font.bold: true
                         width: parent.width
-                        height: 8
+                        elide: Text.ElideRight
                     }
-
-                    Readout {
+                    Label {
+                        visible: text !== ""
+                        text: note.modelData.body
                         width: parent.width
-                        title: note.modelData.appName || "notification"
-                        tone: note.tone
-                        meta: note.arrived
+                        wrapMode: Text.Wrap
+                        maximumLineCount: 5
+                        elide: Text.ElideRight
+                        textFormat: Text.PlainText
                     }
-
-                    Row {
-                        spacing: 12
-
-                        Image {
-                            visible: note.modelData.image !== ""
-                            source: note.modelData.image
-                            width: visible ? 44 : 0
-                            height: 44
-                            fillMode: Image.PreserveAspectCrop
-                            smooth: true
-                            mipmap: true
-                        }
-
-                        Column {
-                            width: 370 - (note.modelData.image !== "" ? 56 : 0)
-                            spacing: 4
-
-                            Label {
-                                text: note.modelData.summary || note.modelData.appName
-                                font.pixelSize: 14
-                                width: parent.width
-                                elide: Text.ElideRight
-                            }
-                            Label {
-                                visible: text !== ""
-                                text: note.modelData.body
-                                color: Theme.dim
-                                font.bold: false
-                                width: parent.width
-                                wrapMode: Text.Wrap
-                                maximumLineCount: 5
-                                elide: Text.ElideRight
-                                textFormat: Text.PlainText
-                            }
-                        }
-                    }
-
                     Row {
                         visible: note.modelData.actions.length > 0
-                        spacing: 6
-                        topPadding: 4
-
+                        spacing: 10
+                        topPadding: 3
                         Repeater {
                             model: note.modelData.actions
-                            Panel {
-                                id: action
+                            Label {
                                 required property var modelData
-                                padX: 10
-                                padY: 4
-                                fill: hovered ? Theme.blue : Theme.bg
-                                onClicked: modelData.invoke()
-                                Caps { text: modelData.text; color: action.hovered ? Theme.onLit : Theme.fg }
+                                text: `[${modelData.text}]`
+                                color: hover.containsMouse ? Theme.blue : Theme.fg
+                                MouseArea { id: hover; anchors.fill: parent; hoverEnabled: true; onClicked: parent.modelData.invoke() }
                             }
                         }
                     }

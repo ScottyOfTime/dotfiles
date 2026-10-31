@@ -4,50 +4,36 @@ import Quickshell.Hyprland
 import Quickshell.Io
 import Quickshell.Wayland
 
-// every window as a live monitor, grouped by workspace
+// every window as a live thumbnail, grouped by workspace
 PanelWindow {
     id: overview
 
-    property bool shown: false
     property int current: 0
-    property int dealt: 0
-    property int dealTarget: 0
 
     readonly property var windows: Hyprland.toplevels.values
         .filter(t => t.workspace && t.workspace.id > 0)
         .sort((a, b) => a.workspace.id - b.workspace.id
             || (a.lastIpcObject?.at?.[0] ?? 0) - (b.lastIpcObject?.at?.[0] ?? 0))
-    readonly property var workspaces: [...new Set(windows.map(t => t.workspace.id))]
 
     function toggle() {
-        if (shown) {
-            close();
+        if (visible) {
+            visible = false;
             return;
         }
-        hide.stop();
         Hyprland.refreshToplevels();
         current = Math.max(0, windows.findIndex(t => t.activated));
         visible = true;
-        shown = true;
-        dealTarget = windows.length;
-        dealer.restart();
         keys.forceActiveFocus();
-    }
-
-    function close() {
-        shown = false;
-        dealTarget = 0;
-        dealer.restart();
     }
 
     function choose(i) {
         const t = windows[i];
-        close();
+        visible = false;
         if (t) Hyprland.dispatch(`hl.dsp.focus({ window = "address:0x${t.address}" })`);
     }
 
     visible: false
-    color: "transparent"
+    color: Theme.bg
     anchors { top: true; bottom: true; left: true; right: true }
     exclusionMode: ExclusionMode.Ignore
     WlrLayershell.layer: WlrLayer.Overlay
@@ -59,31 +45,8 @@ PanelWindow {
         function toggle(): void { overview.toggle(); }
     }
 
-    Timer {
-        id: dealer
-        interval: 30
-        repeat: true
-        triggeredOnStart: true
-        onTriggered: {
-            if (overview.dealt < overview.dealTarget) overview.dealt++;
-            else if (overview.dealt > overview.dealTarget) overview.dealt = Math.max(overview.dealTarget, overview.dealt - 2);
-            else {
-                stop();
-                if (!overview.shown) hide.restart();
-            }
-        }
-    }
 
-    Timer { id: hide; interval: 160; onTriggered: overview.visible = false }
-
-    Rectangle {
-        anchors.fill: parent
-        color: Theme.bg
-        opacity: overview.shown ? 0.88 : 0
-        Behavior on opacity { NumberAnimation { duration: 160 } }
-    }
-
-    MouseArea { anchors.fill: parent; onClicked: overview.close() }
+    MouseArea { anchors.fill: parent; onClicked: overview.visible = false }
 
     Item {
         id: keys
@@ -91,7 +54,7 @@ PanelWindow {
         focus: true
         Keys.onPressed: event => {
             const n = overview.windows.length;
-            if (event.key === Qt.Key_Escape) overview.close();
+            if (event.key === Qt.Key_Escape) overview.visible = false;
             else if (event.key === Qt.Key_Right || event.key === Qt.Key_Tab) overview.current = (overview.current + 1) % n;
             else if (event.key === Qt.Key_Left || event.key === Qt.Key_Backtab) overview.current = (overview.current + n - 1) % n;
             else if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) overview.choose(overview.current);
@@ -100,112 +63,53 @@ PanelWindow {
         }
     }
 
-    Readout {
-        anchors { top: parent.top; topMargin: 80; horizontalCenter: parent.horizontalCenter }
-        width: Math.min(parent.width - 160, 1600)
-        title: "windows"
-        meta: `${overview.windows.length} open · ${overview.workspaces.length} workspaces`
-        opacity: overview.shown ? 1 : 0
-        Behavior on opacity { NumberAnimation { duration: 160 } }
-    }
-
     Flow {
         anchors.centerIn: parent
-        width: Math.min(parent.width - 160, 1600)
-        spacing: 40
+        width: Math.min(parent.width - 120, 4 * 340)
+        spacing: 12
 
         Repeater {
-            model: overview.workspaces
+            model: overview.windows
 
-            Column {
-                id: group
-                required property int modelData
-                readonly property var members: overview.windows.filter(t => t.workspace.id === modelData)
-                spacing: 12
+            Box {
+                id: thumb
+                required property var modelData
+                required property int index
+                readonly property bool picked: overview.current === index
+                readonly property var size: modelData.lastIpcObject?.size ?? [16, 9]
 
-                Row {
-                    spacing: 10
-                    readonly property bool out: overview.windows.indexOf(group.members[0]) < overview.dealt
-                    opacity: out ? 1 : 0
-                    Behavior on opacity { NumberAnimation { duration: 140 } }
+                width: 328
+                height: 324 / Math.max(size[0] / Math.max(1, size[1]), 0.8) + 26
+                edge: picked ? Theme.blue : Theme.line
+
+                Rectangle {
+                    width: parent.width
+                    height: 24
+                    color: thumb.picked ? Theme.blue : "transparent"
                     Label {
-                        text: String(group.modelData).padStart(2, "0")
-                        font.pixelSize: 26
-                        font.weight: Font.ExtraBold
+                        x: 8
                         anchors.verticalCenter: parent.verticalCenter
+                        width: parent.width - 16
+                        elide: Text.ElideRight
+                        text: `${thumb.modelData.workspace.id}: ${thumb.modelData.title}`
+                        color: thumb.picked ? Theme.onLit : Theme.fg
                     }
-                    Caps { text: "workspace"; anchors.verticalCenter: parent.verticalCenter }
                 }
 
-                Flow {
-                    width: Math.min(group.members.length, 3) * 356
-                    spacing: 20
+                ScreencopyView {
+                    x: 2
+                    y: 24
+                    width: parent.width - 4
+                    height: parent.height - 26
+                    captureSource: overview.visible ? thumb.modelData.wayland : null
+                    live: true
+                }
 
-                    Repeater {
-                        model: group.members
-
-                        Panel {
-                            id: monitor
-                            required property var modelData
-                            readonly property int index: overview.windows.indexOf(modelData)
-                            readonly property bool picked: overview.current === index
-                            readonly property var size: modelData.lastIpcObject?.size ?? [16, 9]
-                            readonly property real aspect: size[0] / Math.max(1, size[1])
-
-                            out: index < overview.dealt
-                            padX: 6
-                            padY: 6
-                            radius: 6
-                            fill: picked ? Theme.blue : Theme.glass
-                            edge: picked ? Theme.blue : "transparent"
-                            glow: picked
-                            scale: picked ? 1.04 : 1
-                            Behavior on scale { NumberAnimation { duration: 180; easing.type: Easing.OutBack } }
-                            onHoveredChanged: if (hovered) overview.current = index
-                            onClicked: overview.choose(index)
-
-                            Column {
-                                spacing: 6
-
-                                Rectangle {
-                                    width: 324
-                                    height: 324 / Math.max(monitor.aspect, 0.8)
-                                    radius: 3
-                                    color: Theme.bg
-                                    clip: true
-
-                                    ScreencopyView {
-                                        anchors.fill: parent
-                                        captureSource: overview.visible ? monitor.modelData.wayland : null
-                                        live: true
-                                    }
-
-                                    Caps {
-                                        anchors.centerIn: parent
-                                        z: -1
-                                        text: monitor.modelData.lastIpcObject?.class ?? ""
-                                    }
-                                }
-
-                                Row {
-                                    leftPadding: 4
-                                    spacing: 8
-                                    Caps {
-                                        text: monitor.modelData.lastIpcObject?.class ?? ""
-                                        color: monitor.picked ? Theme.onLit : Theme.orange
-                                        anchors.verticalCenter: parent.verticalCenter
-                                    }
-                                    Label {
-                                        text: monitor.modelData.title
-                                        width: 300 - x
-                                        elide: Text.ElideRight
-                                        color: monitor.picked ? Theme.onLit : Theme.fg
-                                        anchors.verticalCenter: parent.verticalCenter
-                                    }
-                                }
-                            }
-                        }
-                    }
+                MouseArea {
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    onEntered: overview.current = thumb.index
+                    onClicked: overview.choose(thumb.index)
                 }
             }
         }

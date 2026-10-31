@@ -1,6 +1,5 @@
 import QtQuick
 import Quickshell
-import Quickshell.Hyprland
 import Quickshell.Wayland
 
 PanelWindow {
@@ -13,8 +12,5 @@ PanelWindow {
     WlrLayershell.layer: WlrLayer.Background
     WlrLayershell.namespace: "wallpaper"
 
-    Chamber {
-        anchors.fill: parent
-        number: Hyprland.monitorFor(modelData)?.activeWorkspace?.id ?? 1
-    }
+    Rectangle { anchors.fill: parent; color: Theme.bg }
 }

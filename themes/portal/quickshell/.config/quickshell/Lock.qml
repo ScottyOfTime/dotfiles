@@ -1,31 +1,26 @@
 import QtQuick
 import Quickshell
-import Quickshell.Hyprland
 import Quickshell.Io
 import Quickshell.Services.Pam
 import Quickshell.Wayland
 
-// session lock: the wallpaper with a single password panel
+// session lock: a single "password:" box
 Scope {
     id: lock
 
     property string password: ""
     property string status: ""
     property int attempts: 0
-    property bool gone: false
 
     function lockNow() {
         password = "";
         status = "";
-        gone = false;
         session.locked = true;
     }
 
-    // the panel says so, swings back into the wall, then the session unlocks
     function leave() {
         status = "ok";
         password = "";
-        swingAway.restart();
         unlockAfterLeave.restart();
     }
 
@@ -43,8 +38,7 @@ Scope {
     }
 
     Timer { id: previewEnd; interval: 6000; onTriggered: lock.leave() }
-    Timer { id: swingAway; interval: 450; onTriggered: lock.gone = true }
-    Timer { id: unlockAfterLeave; interval: 650; onTriggered: { session.locked = false; lock.status = ""; } }
+    Timer { id: unlockAfterLeave; interval: 250; onTriggered: { session.locked = false; lock.status = ""; } }
 
     PamContext {
         id: pam
@@ -71,14 +65,8 @@ Scope {
         id: session
 
         WlSessionLockSurface {
-            id: surface
             color: Theme.bg
 
-            Chamber {
-                anchors.fill: parent
-                number: Hyprland.monitorFor(surface.screen)?.activeWorkspace?.id ?? 1
-                telemetry: false
-            }
 
             Item {
                 anchors.fill: parent
@@ -86,7 +74,6 @@ Scope {
 
                 Keys.onPressed: event => {
                     if (lock.status === "ok") return;
-                    jolt.restart();
                     if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
                         lock.submit();
                     } else if (event.key === Qt.Key_Backspace) {
@@ -100,54 +87,27 @@ Scope {
                     event.accepted = true;
                 }
 
-                // jolts on a wrapper, so it doesn't replace the panel's own swing
-                Item {
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.verticalCenterOffset: parent.height * 0.3
-                    width: field.width
-                    height: field.height
-                    transform: Translate { id: nudge }
+                Box {
+                    anchors.centerIn: parent
+                    width: 440
+                    height: field.implicitHeight + 24
+                    edge: lock.status === "failed" || lock.status === "broken" ? Theme.red : Theme.blue
 
-                    SequentialAnimation {
-                        id: jolt
-                        NumberAnimation { target: nudge; property: "y"; to: -3; duration: 35; easing.type: Easing.OutQuad }
-                        NumberAnimation { target: nudge; property: "y"; to: 0; duration: 160; easing.type: Easing.OutBack; easing.overshoot: 3 }
-                    }
-
-                    Panel {
+                    Label {
                         id: field
-                        readonly property color tone: lock.status === "failed" || lock.status === "broken" ? Theme.red
-                            : lock.status === "ok" ? Theme.blue
-                            : lock.password !== "" || lock.status === "checking" ? Theme.blue : Theme.orange
-
-                        out: !lock.gone
-                        delay: 300
-                        radius: 6
-                        padX: 22
-                        padY: 16
-                        edge: tone
-                        glow: lock.password !== "" || lock.status !== ""
-
-                        Column {
-                            width: 480
-                            spacing: 10
-
-                            Label {
-                                width: parent.width
-                                horizontalAlignment: Text.AlignHCenter
-                                font.pixelSize: 18
-                                text: lock.status === "ok" ? "unlocked"
-                                    : lock.status === "checking" ? "checking..."
-                                    : lock.password !== "" ? "•".repeat(lock.password.length)
-                                    : lock.status === "failed" ? `wrong password (${lock.attempts})`
-                                    : lock.status === "broken" ? "auth broken: ctrl+alt+f2, run hyprlock"
-                                    : "password"
-                                color: lock.status === "failed" || lock.status === "broken" ? Theme.red
-                                    : lock.password !== "" || lock.status === "checking" || lock.status === "ok" ? Theme.blue
-                                    : Theme.dim
-                                elide: Text.ElideMiddle
-                            }
+                        x: 14
+                        anchors.verticalCenter: parent.verticalCenter
+                        width: parent.width - 28
+                        elide: Text.ElideRight
+                        textFormat: Text.StyledText
+                        text: {
+                            const key = `<font color="${Theme.dim}">password:</font> `;
+                            if (lock.status === "ok") return key + "unlocked";
+                            if (lock.status === "checking") return key + "checking...";
+                            if (lock.status === "broken") return `<font color="${Theme.red}">auth broken: ctrl+alt+f2, run hyprlock</font>`;
+                            if (lock.password === "" && lock.status === "failed")
+                                return key + `<font color="${Theme.red}">wrong (${lock.attempts})</font>`;
+                            return key + "*".repeat(lock.password.length) + `<font color="${Theme.blue}">_</font>`;
                         }
                     }
                 }

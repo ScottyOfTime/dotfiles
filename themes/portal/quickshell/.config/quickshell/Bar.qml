@@ -6,6 +6,7 @@ import Quickshell.Services.Mpris
 import Quickshell.Services.Pipewire
 import Quickshell.Wayland
 
+// a solid strip: workspaces and the window title, then "key: value" modules
 PanelWindow {
     id: bar
 
@@ -21,155 +22,104 @@ PanelWindow {
         return v > 90 ? Theme.red : v > 70 ? Theme.orange : Theme.fg;
     }
 
+    component Module: Label {
+        id: module
+        property string key
+        property string value
+        property color tone: Theme.fg
+        signal clicked()
+        signal wheeled(var event)
+
+        textFormat: Text.StyledText
+        text: `<font color="${Theme.dim}">${key}:</font> <font color="${tone}">${value}</font>`
+        anchors.verticalCenter: parent.verticalCenter
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: module.clicked()
+            onWheel: event => module.wheeled(event)
+        }
+    }
+
     screen: modelData
     anchors { top: true; left: true; right: true }
-    implicitHeight: 56
-    exclusiveZone: 46
-    color: "transparent"
+    implicitHeight: Theme.bar
+    exclusiveZone: Theme.bar
+    color: Theme.panel
     WlrLayershell.namespace: "bar"
 
     SystemClock { id: clock; precision: SystemClock.Minutes }
     PwObjectTracker { objects: [bar.sink] }
 
-    Row {
-        anchors { left: parent.left; leftMargin: 14; verticalCenter: parent.verticalCenter }
-        spacing: 6
+    Rectangle {
+        anchors.bottom: parent.bottom
+        width: parent.width
+        height: 1
+        color: Theme.line
+    }
 
-        Panel {
-            padX: 10; padY: 9
-            fill: hovered ? Theme.glassHover : Theme.glass
-            anchors.verticalCenter: parent.verticalCenter
-            onClicked: Quickshell.execDetached(["qs", "ipc", "call", "launcher", "toggle"])
-            PortalMark { size: 16 }
-        }
+    Row {
+        height: parent.height
 
         Repeater {
             model: Hyprland.workspaces.values.filter(w => w.monitor === bar.monitor && w.id > 0)
 
-            Panel {
+            Rectangle {
                 required property var modelData
-                required property int index
-
-                delay: 40 + index * 40
-                padX: 10; padY: 7
-                fill: modelData.focused ? Theme.blue : hovered ? Theme.glassHover : Theme.glass
-                edge: modelData.focused ? Theme.blue : modelData.active ? Theme.orange : "transparent"
-                glow: modelData.focused
-                anchors.verticalCenter: parent.verticalCenter
-                onClicked: modelData.activate()
+                width: number.implicitWidth + 20
+                height: parent.height
+                color: modelData.focused ? Theme.blue : modelData.active ? Theme.surface : "transparent"
 
                 Label {
-                    text: String(modelData.id).padStart(2, "0")
+                    id: number
+                    anchors.centerIn: parent
+                    text: modelData.id
                     color: modelData.focused ? Theme.onLit : Theme.fg
-                    font.pixelSize: 14
-                    font.weight: Font.ExtraBold
+                    font.bold: modelData.focused
                 }
+                MouseArea { anchors.fill: parent; onClicked: modelData.activate() }
             }
         }
 
-        Item { width: 6; height: 1 }
-
-        Panel {
-            visible: bar.title !== ""
-            delay: 200
-            padX: 12; padY: 8
-            edge: Theme.blue
-            edgeLeft: true
+        Label {
+            leftPadding: 12
+            text: bar.title
+            color: Theme.dim
+            width: Math.min(implicitWidth, bar.width / 2 - 200)
+            elide: Text.ElideRight
             anchors.verticalCenter: parent.verticalCenter
-
-            Label {
-                text: bar.title
-                width: Math.min(implicitWidth, 520)
-                elide: Text.ElideRight
-            }
-        }
-    }
-
-    Panel {
-        anchors.centerIn: parent
-        delay: 120
-        padX: 14; padY: 5
-
-        Row {
-            spacing: 12
-            Label {
-                text: Qt.formatDateTime(clock.date, "HH:mm")
-                font.pixelSize: 20
-                font.weight: Font.ExtraBold
-                anchors.verticalCenter: parent.verticalCenter
-            }
-            Rectangle { width: 1; height: 22; color: Theme.line; anchors.verticalCenter: parent.verticalCenter }
-            Column {
-                anchors.verticalCenter: parent.verticalCenter
-                Caps { text: Qt.formatDateTime(clock.date, "dddd"); color: Theme.fg }
-                Caps { text: Qt.formatDateTime(clock.date, "d MMM yyyy") }
-            }
         }
     }
 
     Row {
-        anchors { right: parent.right; rightMargin: 14; verticalCenter: parent.verticalCenter }
-        spacing: 6
+        anchors { right: parent.right; rightMargin: 12; verticalCenter: parent.verticalCenter }
+        height: parent.height
+        spacing: 18
 
-        Panel {
+        Module {
             id: music
             visible: bar.player !== null
-            delay: 160
-            padY: 8
-            fill: hovered ? Theme.glassHover : Theme.glass
-            edge: bar.player?.isPlaying ? Theme.orange : "transparent"
-            anchors.verticalCenter: parent.verticalCenter
+            key: "m"
+            value: !bar.player ? "" : bar.player.isPlaying
+                ? `${bar.player.trackArtist} - ${bar.player.trackTitle}` : "paused"
+            width: Math.min(implicitWidth, 320)
+            elide: Text.ElideRight
             onClicked: musicPopup.toggle()
-
-            Row {
-                spacing: 8
-                Caps { text: "audio"; anchors.verticalCenter: parent.verticalCenter }
-                Label {
-                    text: !bar.player ? "" : bar.player.isPlaying
-                        ? `${bar.player.trackArtist} - ${bar.player.trackTitle}` : "paused"
-                    width: Math.min(implicitWidth, 280)
-                    elide: Text.ElideRight
-                    anchors.verticalCenter: parent.verticalCenter
-                }
-            }
         }
-
-        Repeater {
-            model: [
-                { key: "vol", value: () => !bar.sink?.audio ? "-" : bar.sink.audio.muted ? "muted"
-                    : `${Math.round(bar.sink.audio.volume * 100)}%`,
-                  colour: () => bar.sink?.audio?.muted ? Theme.orange : Theme.fg },
-                { key: "cpu", value: () => `${Stats.cpu}%`, colour: () => bar.level(Stats.cpu) },
-                { key: "mem", value: () => `${Stats.mem}%`, colour: () => bar.level(Stats.mem) },
-                { key: "net", value: () => Stats.net, colour: () => Theme.fg },
-            ]
-
-            Panel {
-                required property var modelData
-                required property int index
-                readonly property bool volume: modelData.key === "vol"
-
-                delay: 200 + index * 40
-                padY: 8
-                fill: volume && hovered ? Theme.glassHover : Theme.glass
-                anchors.verticalCenter: parent.verticalCenter
-                onClicked: if (volume) bar.sink.audio.muted = !bar.sink.audio.muted
-                onWheeled: event => {
-                    if (volume) bar.sink.audio.volume = Math.max(0, Math.min(1.5,
-                        bar.sink.audio.volume + (event.angleDelta.y > 0 ? 0.05 : -0.05)));
-                }
-
-                Row {
-                    spacing: 7
-                    Caps { text: modelData.key; anchors.verticalCenter: parent.verticalCenter }
-                    Label {
-                        text: modelData.value()
-                        color: modelData.colour()
-                        anchors.verticalCenter: parent.verticalCenter
-                    }
-                }
-            }
+        Module {
+            key: "v"
+            value: !bar.sink?.audio ? "-" : bar.sink.audio.muted ? "muted"
+                : `${Math.round(bar.sink.audio.volume * 100)}%`
+            tone: bar.sink?.audio?.muted ? Theme.orange : Theme.fg
+            onClicked: bar.sink.audio.muted = !bar.sink.audio.muted
+            onWheeled: event => bar.sink.audio.volume = Math.max(0, Math.min(1.5,
+                bar.sink.audio.volume + (event.angleDelta.y > 0 ? 0.05 : -0.05)))
         }
+        Module { key: "cpu"; value: `${Stats.cpu}%`; tone: bar.level(Stats.cpu) }
+        Module { key: "mem"; value: `${Stats.mem}%`; tone: bar.level(Stats.mem) }
+        Module { key: "net"; value: Stats.net }
+        Module { key: "d"; value: Qt.formatDateTime(clock.date, "yyyy-MM-dd") }
+        Module { key: "t"; value: Qt.formatDateTime(clock.date, "HH : mm") }
     }
 
     IpcHandler {

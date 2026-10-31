@@ -10,18 +10,12 @@ Singleton {
     readonly property color surface: "#${surface}"
     readonly property color fg: "#${fg}"
     readonly property color dim: "#${dim}"
-    readonly property color ink: "#${ink}"
     readonly property color line: "#${line}"
     readonly property color blue: "#${blue}"
     readonly property color orange: "#${orange}"
     readonly property color red: "#${red}"
-    // frosted panels: hyprland blurs what's behind the bar and popups
-    readonly property color glass: Qt.alpha(panel, mode === "dark" ? 0.74 : 0.6)
-    readonly property color glassHover: Qt.alpha(surface, 0.78)
-    readonly property color sheen: mode === "dark" ? Qt.alpha(fg, 0.09) : panel
-    // light in both modes, for print and highlights on glossy blue
-    readonly property color glint: mode === "dark" ? fg : panel
     // text on a blue or orange fill
     readonly property color onLit: mode === "dark" ? bg : panel
     readonly property string font: "JetBrains Mono"
+    readonly property int bar: 26
 }

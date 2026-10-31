@@ -1,11 +1,11 @@
 tabbar,
 tabbar .box {
   box-shadow: none;
-  background-color: var(--ghostty-bg);
+  background-color: #${panel};
 }
 
 tabbar .box {
-  padding: 6px 12px 8px;
+  padding: 0;
 }
 
 tabbar tabbox {
@@ -14,8 +14,8 @@ tabbar tabbox {
 }
 
 tabbar tabbox > tabboxchild {
-  margin: 0 3px;
-  border-radius: 3px;
+  margin: 0;
+  border-radius: 0;
 }
 
 tabbar tabbox > separator {
@@ -25,31 +25,23 @@ tabbar tabbox > separator {
 }
 
 tabbar tab {
-  min-height: 28px;
-  padding: 0 16px;
-  border-radius: 3px;
-  border-style: solid;
-  border-width: 1px 1px 3px 1px;
-  border-color: #${line};
+  min-height: 22px;
+  padding: 0 10px;
+  border-radius: 0;
   background-color: #${panel};
   color: #${dim};
-  font-weight: bold;
-  transition: border-color 140ms, background-color 140ms, color 140ms;
 }
 
 tabbar tab:hover {
-  background-color: #${surface};
-  border-bottom-color: #${orange};
   color: #${fg};
 }
 
 tabbar tab:selected,
 tabbar tab:selected:hover,
 tabbar tabbox > tabboxchild tab:selected {
-  background-color: #${panel};
-  border-color: #${line};
-  border-bottom-color: #${blue};
-  color: #${fg};
+  border-radius: 0;
+  background-color: #${blue};
+  color: #${panel};
 }
 
 tabbar tab .tab-title {
