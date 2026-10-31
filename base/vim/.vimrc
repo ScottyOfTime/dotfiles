@@ -50,7 +50,6 @@ set history=1000
 set encoding=utf-8
 set nofixendofline
 
-autocmd VimEnter * call system('echo -ne "\e[2 q"')
 autocmd VimLeave * silent !echo -ne "\e[5 q"
 let &t_SI = "\e[5 q"
 let &t_EI = "\e[2 q"

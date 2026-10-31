@@ -32,6 +32,11 @@ active theme's `~/.config/vim-theme/theme.vim` (zine: the generated `zine`
 colorscheme and airline theme; ayu: ayu-vim), with the background kept
 transparent so the terminal's shows. `.vimrc` loads the same file.
 
+Don't call `system()` from vim at `VimEnter`: it hands the terminal back to
+cooked mode just as Ghostty answers vim's startup queries, and the replies
+(`;2R^[[3;1R^[[>1;10;0c^[]10;rgb:…`) get echoed over line 1. The block
+cursor on start is set with `writefile(…, "/dev/tty")` instead.
+
 ## Herdr
 
 Its `config.toml` belongs to the theme (zine's is generated, with dark and
