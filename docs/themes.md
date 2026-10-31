@@ -39,7 +39,8 @@ Every folder in a theme is a stow package except `colorscheme/`. Files are
 Base deliberately leaves these to the theme (binding a key in both would
 clash): `SUPER+Space` (launcher), `SUPER+B` (bar), volume up/down/mute and
 brightness keys (they drive the theme's OSD), and any extras (zine:
-`SUPER+Escape` power menu, `SUPER+Tab` overview). `SUPER+L` is in base and
+`SUPER+Escape` power menu, `SUPER+Tab` overview; oldschool also
+`SUPER+F12` CRT shader toggle). `SUPER+L` is in base and
 calls the theme's `lock`.
 
 ## Making a new theme

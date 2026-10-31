@@ -1,0 +1,7 @@
+#!/bin/sh
+# toggles the crt shader until hyprland next reloads its config
+shader=$HOME/.config/hypr-theme/crt.frag
+if hyprctl getoption decoration:screen_shader | grep -q crt.frag; then
+    shader=""
+fi
+hyprctl dispatch "hl.config({ decoration = { screen_shader = \"$shader\" } })" >/dev/null

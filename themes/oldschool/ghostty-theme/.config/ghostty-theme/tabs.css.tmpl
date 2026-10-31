@@ -1,0 +1,58 @@
+tabbar,
+tabbar .box {
+  box-shadow: none;
+  background-color: #${panel};
+}
+
+tabbar .box {
+  padding: 0;
+}
+
+tabbar tabbox {
+  padding: 0;
+  min-height: 0;
+}
+
+tabbar tabbox > tabboxchild {
+  margin: 0;
+  border-radius: 0;
+}
+
+tabbar tabbox > separator {
+  margin: 0;
+  min-width: 0;
+  background: none;
+}
+
+tabbar tab {
+  min-height: 22px;
+  padding: 0 10px;
+  border-radius: 0;
+  background-color: #${panel};
+  color: #${dim};
+}
+
+tabbar tab:hover {
+  color: #${fg};
+}
+
+tabbar tab:selected,
+tabbar tab:selected:hover,
+tabbar tabbox > tabboxchild tab:selected {
+  border-radius: 0;
+  background-color: #${fg};
+  color: #${bg};
+}
+
+tabbar tab .tab-title {
+  margin: 0;
+}
+
+tabbar tab button.tab-close-button {
+  opacity: 0;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  margin: 0;
+  -gtk-icon-size: 0;
+}
