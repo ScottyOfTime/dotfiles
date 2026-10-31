@@ -21,7 +21,6 @@ local menu        = "qs ipc call launcher toggle"
 
 hl.on("hyprland.start", function()
     hl.exec_cmd("qs")
-    hl.exec_cmd("~/.config/hypr/scripts/wallpaper.sh")
     hl.exec_cmd("hypridle")
     hl.exec_cmd([[ghostty -e sh -c "fastfetch; exec $SHELL"]])
     hl.exec_cmd("discord")

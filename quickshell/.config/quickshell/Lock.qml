@@ -71,12 +71,7 @@ Scope {
         WlSessionLockSurface {
             color: Theme.bg
 
-            Image {
-                anchors.fill: parent
-                source: `file://${Quickshell.env("HOME")}/.cache/wallpaper/zine-${Theme.mode}.png`
-                fillMode: Image.PreserveAspectCrop
-                asynchronous: true
-            }
+            Collage { anchors.fill: parent }
 
             Item {
                 anchors.fill: parent

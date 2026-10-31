@@ -54,8 +54,6 @@ flameshot overlay floats at the origin, the drop-down Ghostty
 
 ## Scripts (`hypr/scripts/`)
 
-- `wallpaper.sh`: renders/caches the wallpaper, then starts a new swaybg
-  before killing the old one (no blank frame).
 - `dropdown.sh`: toggles the drop-down terminal, launching it the first time
   (launched non-silent so it gets focus).
 

@@ -22,5 +22,4 @@ done
 export HYPRLAND_INSTANCE_SIGNATURE=$(ls -t /run/user/$(id -u)/hypr/ | head -1)
 hyprctl reload >/dev/null
 hyprctl setcursor "$cursor" 24 >/dev/null
-hyprctl dispatch 'hl.dsp.exec_cmd("~/.config/hypr/scripts/wallpaper.sh")'
 pkill -SIGUSR2 -x ghostty

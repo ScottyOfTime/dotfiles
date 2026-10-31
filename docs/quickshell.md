@@ -1,7 +1,8 @@
 # Quickshell
 
 The whole shell UI is Quickshell (QML), in `quickshell/.config/quickshell/`.
-It replaced waybar, fuzzel, wob, mako and (as primary locker) hyprlock.
+It replaced waybar, fuzzel, wob, mako, swaybg + the ImageMagick wallpaper
+script and (as primary locker) hyprlock.
 Started at login by Hyprland (`qs`).
 
 ## Files
@@ -10,6 +11,8 @@ Started at login by Hyprland (`qs`).
 |---|---|
 | `shell.qml` | Root: one `Bar` per screen, plus `Launcher`, `Osd`, `Notifications`, `Lock`, `PowerMenu`. `bar` IPC toggle |
 | `Scrap.qml` | The building block (below) |
+| `Wallpaper.qml` | Background-layer window per screen showing `Collage` |
+| `Collage.qml` | The wallpaper collage; `Piece.qml` (drop-in animation) and `Poly.qml` (outlined polygon with hard shadow) build it; `grain.png` is the tiled paper grain |
 | `Label.qml` | Text in the theme font, bold, ink by default |
 | `Theme.qml.tmpl` | Palette singleton, rendered by darkman (`Theme.qml` is generated) |
 | `Stats.qml` | CPU / memory / network from `/proc` every 2s |
@@ -18,7 +21,7 @@ Started at login by Hyprland (`qs`).
 | `Launcher.qml` | App search on one scrap, rises from the bottom edge |
 | `Osd.qml` | Volume (from Pipewire) and brightness (over IPC) popup |
 | `Notifications.qml` | Notification server; scraps stacked top-right |
-| `Lock.qml` | Session lock: wallpaper + password scrap (kicks a little on every key press; on success turns orange, says "unlocked" and falls away before the session unlocks), PAM `login` |
+| `Lock.qml` | Session lock: live collage + password scrap (kicks a little on every key press; on success turns orange, says "unlocked" and falls away before the session unlocks), PAM `login` |
 | `PowerMenu.qml` | Dimmed overlay with lock / suspend / log out / reboot / shut down scraps; arrows or 1–5, Enter, Esc |
 
 ## Scrap

@@ -12,6 +12,6 @@ __prompt() {
 }
 PROMPT_COMMAND=__prompt
 
-source $HOME/vulkansdk/1.4.357.1/setup-env.sh
+[[ -f $HOME/vulkansdk/1.4.357.1/setup-env.sh ]] && source $HOME/vulkansdk/1.4.357.1/setup-env.sh
 
 export PATH=$PATH:~/.local/bin:~/zig

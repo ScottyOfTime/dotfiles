@@ -14,8 +14,7 @@ colorscheme/zine.toml
             ├─▶ hypr/colors.lua        (hyprctl reload)
             ├─▶ hypr/hyprlock.conf     (fallback locker)
             ├─▶ ghostty/tabs.css       (ghostty gets SIGUSR2)
-            ├─▶ gsettings: color-scheme, accent, cursor, fonts
-            └─▶ wallpaper.sh           (re-renders if the palette changed)
+            └─▶ gsettings: color-scheme, accent, cursor, fonts
 ```
 
 ## Changing a colour

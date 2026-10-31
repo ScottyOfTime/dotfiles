@@ -3,9 +3,9 @@
 ## Packages
 
 `pkglist.txt` (pacman) and `aur-pkgslist.txt` (AUR). Key pieces: hyprland,
-quickshell, darkman, ghostty, hypridle, hyprlock (fallback locker), swaybg,
-imagemagick (wallpaper), playerctl, brightnessctl, wtype, flameshot,
-ttf-jetbrains-mono, bibata-cursor-theme-bin.
+quickshell, darkman, ghostty, hypridle, hyprlock (fallback locker),
+playerctl, brightnessctl, wtype, flameshot, ttf-jetbrains-mono,
+bibata-cursor-theme-bin.
 
 `system.sh` copies `sddm.conf` to `/etc` and enables the system services in
 `services.txt` (run from anywhere; uses sudo).

@@ -50,9 +50,12 @@ unfocused windows.
 
 ## Wallpaper
 
-Rendered by `hypr/scripts/wallpaper.sh` with ImageMagick from the current
-palette, cached in `~/.cache/wallpaper/zine-<mode>.png` and redrawn only
-when the palette or script changes. A collage on `bg`: grey card, dark
-circle, orange banner with the hostname, pale tape strip, dim halftone dots,
-each shape with a hard ink shadow, plus paper grain. Shapes are polygon
-coordinates on a 2560x1440 canvas.
+Drawn live by Quickshell (`Collage.qml`, shown by `Wallpaper.qml` on the
+background layer and reused by the lock screen). A collage on `bg`: grey
+card, dark circle, orange banner with the hostname, pale tape strip, dim
+halftone dots, each with an ink outline and hard ink shadow, plus tiled
+paper grain (`grain.png`, the one image asset). Coordinates are on a
+2560x1440 canvas scaled to fill each screen. Each piece (`Piece.qml`) drops
+in from above with a twist, one after another, whenever the collage is
+created: at login, on every light/dark switch (Quickshell reloads) and when
+locking.

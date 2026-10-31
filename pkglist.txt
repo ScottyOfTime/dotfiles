@@ -17,7 +17,6 @@ htop
 hypridle
 hyprland
 hyprlock
-imagemagick
 linux
 linux-firmware
 man-db
@@ -34,7 +33,6 @@ quickshell
 sddm
 stow
 sudo
-swaybg
 tree
 ttf-jetbrains-mono
 unzip
