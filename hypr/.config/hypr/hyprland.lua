@@ -95,6 +95,7 @@ hl.config({
     input  = { repeat_delay = 250, repeat_rate = 40, touchpad = { natural_scroll = true } },
     binds  = { workspace_back_and_forth = true },
     cursor = { hide_on_key_press = true, no_warps = true },
+    misc   = { enable_swallow = true, swallow_regex = "^com\\.mitchellh\\.ghostty$" },
 })
 
 hl.gesture({
@@ -223,7 +224,7 @@ hl.window_rule({
 hl.window_rule({
     name      = "dropdown-terminal",
     match     = { class = "^com\\.scotty\\.dropdown$" },
-    workspace = "special:dropdown silent",
+    workspace = "special:dropdown",
     float     = true,
     size      = "monitor_w*0.7 monitor_h*0.55",
     move      = "monitor_w*0.15 60",
