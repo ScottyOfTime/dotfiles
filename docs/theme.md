@@ -44,9 +44,11 @@ oranges were both rejected. Keep it yellow-leaning, moderately saturated.
 
 ## Window look (Hyprland)
 
-8px inner / 16px outer gaps, 10px rounding, 2px ink border, a sharp 6px
-offset shadow in the accent under the focused window only, 8% dimming of
-unfocused windows.
+Photo frames, matching the overview's photos: 8px inner / 16px outer gaps,
+square corners and a thick 8px frame in `surface`, the accent on the
+focused window, which also gets a sharp 6px hard ink shadow. Unfocused
+windows are dimmed 8%. Windows can't tilt like scraps; a tilted backdrop
+behind each window and plain cut-out borders were both tried and dropped.
 
 ## Wallpaper
 

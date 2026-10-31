@@ -4,8 +4,10 @@ Config is Lua: `hypr/.config/hypr/hyprland.lua` (Hyprland 0.56). `hyprctl
 dispatch` takes Lua expressions, e.g. `hyprctl dispatch 'hl.dsp.exec_cmd("x")'`.
 Type stubs: `/usr/share/hypr/stubs/hl.meta.lua`.
 
-Colours come from `colors.lua`, rendered by darkman (fallback values are
-inline in `hyprland.lua`).
+Colours come from `colors.lua`, rendered by darkman; defaults inline in
+`hyprland.lua` fill any missing field. Hyprland reloads on save, so a new
+colour referenced before darkman renders it would otherwise be nil, which
+puts Hyprland in emergency mode with no keybinds.
 
 ## Look and feel
 
