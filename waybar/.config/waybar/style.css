@@ -15,81 +15,118 @@ window#waybar {
 tooltip {
     background: @panel;
     border: 2px solid @ink;
-    border-radius: 8px;
+    border-radius: 2px 10px 4px 8px;
 }
 
 tooltip label {
     color: @fg;
 }
 
-/* the right/bottom margins leave room for the hard shadow */
-#workspaces, #window, #clock, #mpris, #wireplumber, #cpu, #memory,
+/* cut-out labels: ink edge, hard shadow, uneven corners; margins leave room
+   for the shadow and stagger the labels up and down */
+#workspaces button, #window, #mpris, #wireplumber, #cpu, #memory,
 #network, #battery {
     border: 2px solid @ink;
-    border-radius: 9px;
     box-shadow: 3px 3px 0 @ink;
-    padding: 0 12px;
-    margin: 2px 5px 5px 2px;
     color: @ink;
+    padding: 0 10px;
 }
 
-#workspaces {
-    background: @panel;
-    padding: 3px;
-}
-
+/* ransom-note workspaces: paper scraps, each its own typeface. fonts go on
+   the label, since the * rule sets one there directly */
 #workspaces button {
-    color: @dim;
-    padding: 0 9px;
-    margin: 0 1px;
-    border: none;
-    border-radius: 6px;
-    box-shadow: none;
+    background: @paper;
+    color: @ink;
+    padding: 0 8px;
+    margin: 4px 3px 7px 1px;
+    border-radius: 3px 9px 2px 7px;
     text-shadow: none;
 }
+
+#workspaces button label { font-size: 15px; }
+#workspaces button:nth-child(4n+1) label { font-family: "Noto Serif Display"; font-weight: 900; font-style: italic; }
+#workspaces button:nth-child(4n+2) { margin: 2px 3px 9px 1px; border-radius: 8px 2px 6px 3px; }
+#workspaces button:nth-child(4n+2) label { font-family: "Cloister Black"; font-size: 17px; }
+#workspaces button:nth-child(4n+3) { margin: 6px 3px 5px 1px; border-radius: 2px 6px 9px 2px; }
+#workspaces button:nth-child(4n+3) label { font-weight: 800; }
+#workspaces button:nth-child(4n+4) { margin: 3px 3px 8px 1px; border-radius: 7px 3px 2px 9px; }
+#workspaces button:nth-child(4n+4) label { font-family: "EB Garamond"; font-style: italic; font-size: 17px; }
 
 #workspaces button:hover {
     background: @surface;
     color: @fg;
-    box-shadow: none;
+    box-shadow: 3px 3px 0 @ink;
 }
 
-/* .visible: shown on this monitor while focus is on the other */
 #workspaces button.visible {
     background: @surface;
     color: @fg;
 }
 
-
 #workspaces button.active {
     background: @accent;
     color: @ink;
+    box-shadow: 4px 4px 0 @ink;
 }
 
 #workspaces button.urgent {
     background: @red;
-    color: @ink;
 }
 
+/* the black slab, with a strip of tape stuck over its top-left corner */
 #window {
-    background: @panel;
-    color: @fg;
+    background-color: @ink;
+    background-image: linear-gradient(alpha(@paper, 0.6), alpha(@paper, 0.6));
+    background-size: 28px 6px;
+    background-position: 12px 0;
+    background-repeat: no-repeat;
+    color: @paper;
+    margin: 5px 6px 6px 8px;
+    border-radius: 2px;
 }
 
-/* .empty: no window focused, so no title to show */
 window#waybar.empty #window {
     background: transparent;
     border-color: transparent;
     box-shadow: none;
 }
 
-#clock, #mpris, #wireplumber, #cpu, #memory, #network, #battery {
+/* the dashed box from the top of the page, over a halftone */
+#clock {
+    background-color: @bg;
+    background-image: radial-gradient(circle, alpha(@fg, 0.22) 1px, transparent 1.6px);
+    background-size: 5px 5px;
+    border: 2px dashed @fg;
+    border-radius: 0;
+    color: @fg;
+    padding: 0 12px;
+    margin: 3px 0 4px;
+}
+
+#mpris, #wireplumber, #cpu, #memory, #network, #battery {
     background: @panel;
     color: @fg;
 }
 
-#clock { color: @accent; }
+#mpris {
+    background: @paper;
+    color: @ink;
+    border-radius: 2px 8px 3px 10px;
+    margin: 6px 6px 4px 2px;
+}
+
+#wireplumber { border-radius: 9px 3px 6px 2px; margin: 3px 6px 7px 2px; }
+#cpu         { border-radius: 2px 7px 10px 3px; margin: 5px 6px 5px 2px; }
+#memory      { border-radius: 6px 2px 3px 9px; margin: 2px 6px 8px 2px; }
+#network     { border-radius: 3px 10px 2px 6px; margin: 4px 6px 6px 2px; }
+#battery     { border-radius: 8px 3px 9px 2px; margin: 5px 2px 5px 2px; }
 
 #wireplumber.muted { color: @dim; }
 #cpu.warning, #memory.warning { color: @accent; }
-#cpu.critical, #memory.critical { color: @red; }
+
+/* hazard tape when it's really struggling */
+#cpu.critical, #memory.critical {
+    background-image: repeating-linear-gradient(45deg, @accent 0, @accent 6px, @ink 6px, @ink 12px);
+    color: @fg;
+    text-shadow: 1px 1px 0 @ink;
+}

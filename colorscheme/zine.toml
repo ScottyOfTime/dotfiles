@@ -14,6 +14,7 @@ gtk_accent = "orange"  # libadwaita's closest named accent
 #   fg       body text
 #   dim      secondary text, placeholders
 #   ink      outlines and hard offset shadows
+#   paper    cut-out scraps and tape, light in both modes
 #   accent   pale orange, the only colour the UI uses: focus, active tab
 #   mustard, sage, teal, blue, rose, plum, red
 #            the riso inks: terminal colours and errors only
@@ -25,6 +26,7 @@ surface = "36312c"
 fg = "ecdfcc"
 dim = "8a7f70"
 ink = "0b0a09"
+paper = "ecdfcc"
 accent = "e08a43"
 mustard = "dbb56e"
 sage = "9fb68a"
@@ -53,6 +55,7 @@ surface = "dccdb6"
 fg = "2a2420"
 dim = "8a7d6c"
 ink = "2a2420"
+paper = "fbf6ee"
 accent = "b9632a"
 mustard = "c79a3c"
 sage = "6f8c58"
