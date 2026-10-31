@@ -15,118 +15,125 @@ window#waybar {
 tooltip {
     background: @panel;
     border: 2px solid @ink;
-    border-radius: 2px 10px 4px 8px;
+    border-radius: 2px;
 }
 
 tooltip label {
     color: @fg;
 }
 
-/* cut-out labels: ink edge, hard shadow, uneven corners; margins leave room
-   for the shadow and stagger the labels up and down */
-#workspaces button, #window, #mpris, #wireplumber, #cpu, #memory,
+/* no boxes: each label sits on a tilted strip drawn with hard-stop
+   gradients (GTK3 can't rotate), the second layer offset as its shadow */
+#workspaces button, #window, #clock, #mpris, #wireplumber, #cpu, #memory,
 #network, #battery {
-    border: 2px solid @ink;
-    box-shadow: 3px 3px 0 @ink;
-    color: @ink;
-    padding: 0 10px;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    background-color: transparent;
+    background-size: 100% 100%;
+    background-position: 0 0, 4px 4px;
+    background-repeat: no-repeat;
+    padding: 0 16px;
+    margin: 0 2px;
 }
 
-/* ransom-note workspaces: paper scraps, each its own typeface. fonts go on
-   the label, since the * rule sets one there directly */
 #workspaces button {
-    background: @paper;
     color: @ink;
-    padding: 0 8px;
-    margin: 4px 3px 7px 1px;
-    border-radius: 3px 9px 2px 7px;
+    padding: 0 12px;
+    margin: 0;
     text-shadow: none;
+    background-image:
+        linear-gradient(166deg, transparent 18%, @paper 18%, @paper 82%, transparent 82%),
+        linear-gradient(166deg, transparent 18%, @ink 18%, @ink 82%, transparent 82%);
 }
 
-#workspaces button label { font-size: 15px; }
-#workspaces button:nth-child(4n+1) label { font-family: "Noto Serif Display"; font-weight: 900; font-style: italic; }
-#workspaces button:nth-child(4n+2) { margin: 2px 3px 9px 1px; border-radius: 8px 2px 6px 3px; }
-#workspaces button:nth-child(4n+2) label { font-family: "Cloister Black"; font-size: 17px; }
-#workspaces button:nth-child(4n+3) { margin: 6px 3px 5px 1px; border-radius: 2px 6px 9px 2px; }
-#workspaces button:nth-child(4n+3) label { font-weight: 800; }
-#workspaces button:nth-child(4n+4) { margin: 3px 3px 8px 1px; border-radius: 7px 3px 2px 9px; }
-#workspaces button:nth-child(4n+4) label { font-family: "EB Garamond"; font-style: italic; font-size: 17px; }
+#workspaces button:nth-child(even) {
+    margin-top: 4px;
+    background-image:
+        linear-gradient(193deg, transparent 18%, @paper 18%, @paper 82%, transparent 82%),
+        linear-gradient(193deg, transparent 18%, @ink 18%, @ink 82%, transparent 82%);
+}
 
 #workspaces button:hover {
-    background: @surface;
-    color: @fg;
-    box-shadow: 3px 3px 0 @ink;
+    box-shadow: none;
+    color: @accent;
 }
 
 #workspaces button.visible {
-    background: @surface;
+    background-image:
+        linear-gradient(166deg, transparent 18%, @surface 18%, @surface 82%, transparent 82%),
+        linear-gradient(166deg, transparent 18%, @ink 18%, @ink 82%, transparent 82%);
     color: @fg;
 }
 
 #workspaces button.active {
-    background: @accent;
+    background-image:
+        linear-gradient(194deg, transparent 12%, @accent 12%, @accent 88%, transparent 88%),
+        linear-gradient(194deg, transparent 12%, @ink 12%, @ink 88%, transparent 88%);
     color: @ink;
-    box-shadow: 4px 4px 0 @ink;
 }
 
 #workspaces button.urgent {
-    background: @red;
+    background-image:
+        linear-gradient(166deg, transparent 18%, @red 18%, @red 82%, transparent 82%),
+        linear-gradient(166deg, transparent 18%, @ink 18%, @ink 82%, transparent 82%);
 }
 
-/* the black slab, with a strip of tape stuck over its top-left corner */
 #window {
-    background-color: @ink;
-    background-image: linear-gradient(alpha(@paper, 0.6), alpha(@paper, 0.6));
-    background-size: 28px 6px;
-    background-position: 12px 0;
-    background-repeat: no-repeat;
     color: @paper;
-    margin: 5px 6px 6px 8px;
-    border-radius: 2px;
+    background-image:
+        linear-gradient(177deg, transparent 10%, @ink 10%, @ink 90%, transparent 90%),
+        linear-gradient(177deg, transparent 10%, @ink 10%, @ink 90%, transparent 90%);
+    margin-left: 10px;
 }
 
 window#waybar.empty #window {
-    background: transparent;
-    border-color: transparent;
-    box-shadow: none;
+    background-image: none;
 }
 
-/* the dashed box from the top of the page, over a halftone */
 #clock {
-    background-color: @bg;
-    background-image: radial-gradient(circle, alpha(@fg, 0.22) 1px, transparent 1.6px);
-    background-size: 5px 5px;
-    border: 2px dashed @fg;
-    border-radius: 0;
-    color: @fg;
-    padding: 0 12px;
-    margin: 3px 0 4px;
+    color: @ink;
+    padding: 0 22px;
+    background-image:
+        linear-gradient(183deg, transparent 10%, @paper 10%, @paper 90%, transparent 90%),
+        linear-gradient(183deg, transparent 10%, @ink 10%, @ink 90%, transparent 90%);
 }
 
 #mpris, #wireplumber, #cpu, #memory, #network, #battery {
-    background: @panel;
     color: @fg;
 }
 
-#mpris {
-    background: @paper;
-    color: @ink;
-    border-radius: 2px 8px 3px 10px;
-    margin: 6px 6px 4px 2px;
+#mpris       { color: @ink;
+    background-image:
+        linear-gradient(176deg, transparent 14%, @paper 14%, @paper 86%, transparent 86%),
+        linear-gradient(176deg, transparent 14%, @ink 14%, @ink 86%, transparent 86%);
 }
-
-#wireplumber { border-radius: 9px 3px 6px 2px; margin: 3px 6px 7px 2px; }
-#cpu         { border-radius: 2px 7px 10px 3px; margin: 5px 6px 5px 2px; }
-#memory      { border-radius: 6px 2px 3px 9px; margin: 2px 6px 8px 2px; }
-#network     { border-radius: 3px 10px 2px 6px; margin: 4px 6px 6px 2px; }
-#battery     { border-radius: 8px 3px 9px 2px; margin: 5px 2px 5px 2px; }
+#wireplumber { margin: 4px 2px 0;
+    background-image:
+        linear-gradient(185deg, transparent 14%, @panel 14%, @panel 86%, transparent 86%),
+        linear-gradient(185deg, transparent 14%, @ink 14%, @ink 86%, transparent 86%);
+}
+#cpu         { margin: 0 2px 4px;
+    background-image:
+        linear-gradient(174deg, transparent 14%, @panel 14%, @panel 86%, transparent 86%),
+        linear-gradient(174deg, transparent 14%, @ink 14%, @ink 86%, transparent 86%);
+}
+#memory      { margin: 4px 2px 0;
+    background-image:
+        linear-gradient(186deg, transparent 14%, @panel 14%, @panel 86%, transparent 86%),
+        linear-gradient(186deg, transparent 14%, @ink 14%, @ink 86%, transparent 86%);
+}
+#network     { margin: 0 2px 4px;
+    background-image:
+        linear-gradient(175deg, transparent 14%, @panel 14%, @panel 86%, transparent 86%),
+        linear-gradient(175deg, transparent 14%, @ink 14%, @ink 86%, transparent 86%);
+}
+#battery     { margin: 4px 2px 0;
+    background-image:
+        linear-gradient(184deg, transparent 14%, @panel 14%, @panel 86%, transparent 86%),
+        linear-gradient(184deg, transparent 14%, @ink 14%, @ink 86%, transparent 86%);
+}
 
 #wireplumber.muted { color: @dim; }
 #cpu.warning, #memory.warning { color: @accent; }
-
-/* hazard tape when it's really struggling */
-#cpu.critical, #memory.critical {
-    background-image: repeating-linear-gradient(45deg, @accent 0, @accent 6px, @ink 6px, @ink 12px);
-    color: @fg;
-    text-shadow: 1px 1px 0 @ink;
-}
+#cpu.critical, #memory.critical { color: @red; }

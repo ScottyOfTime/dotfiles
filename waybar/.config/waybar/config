@@ -18,23 +18,23 @@
         "battery"
     ],
     "clock": {
-        "format": "<span font_family='Noto Serif Display' weight='900' style='italic' size='130%'>{0:%H}</span>:{0:%M}  <span font_family='Cloister Black' size='125%'>{0:%a}</span> {0:%d %b}",
+        "format": "{:%H:%M  %a %d %b}",
         "tooltip": false
     },
     "mpris": {
         "player": "spotify",
-        "format": "<span font_family='EB Garamond' style='italic' size='145%'>♪</span> {artist} - {title}",
+        "format": "{artist} - {title}",
         "max-length": 40,
         "tooltip-format": "{artist} - {title}",
-        "format-paused": "<span font_family='EB Garamond' style='italic' size='145%'>P</span>aused"
+        "format-paused": "paused"
     },
     "battery": {
-        "format": "<span font_family='EB Garamond' style='italic' size='145%'>B</span>at {capacity}%"
+        "format": "bat {capacity}%"
     },
     "network": {
-        "format-wifi": "<span font_family='EB Garamond' style='italic' size='145%'>W</span>ifi {bandwidthDownBits}",
-        "format-ethernet": "<span font_family='EB Garamond' style='italic' size='145%'>E</span>th {bandwidthDownBits}",
-        "format-disconnected": "<span font_family='EB Garamond' style='italic' size='145%'>O</span>ffline",
+        "format-wifi": "{essid} {bandwidthDownBits}",
+        "format-ethernet": "eth {bandwidthDownBits}",
+        "format-disconnected": "offline",
         "interval": 2
     },
     "hyprland/window": {
@@ -42,13 +42,13 @@
         "separate-outputs": true
     },
     "wireplumber": {
-        "format": "<span font_family='EB Garamond' style='italic' size='145%'>V</span>ol {volume}%",
-        "format-muted": "<span font_family='EB Garamond' style='italic' size='145%'>M</span>uted",
+        "format": "vol {volume}%",
+        "format-muted": "muted",
         "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
         "scroll-step": 5
     },
     "cpu": {
-        "format": "<span font_family='EB Garamond' style='italic' size='145%'>C</span>pu {usage}%",
+        "format": "cpu {usage}%",
         "interval": 2,
         "states": {
             "warning": 70,
@@ -56,7 +56,7 @@
         }
     },
     "memory": {
-        "format": "<span font_family='EB Garamond' style='italic' size='145%'>M</span>em {percentage}%",
+        "format": "mem {percentage}%",
         "interval": 5,
         "states": {
             "warning": 70,
