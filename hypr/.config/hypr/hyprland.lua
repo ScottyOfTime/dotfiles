@@ -19,7 +19,7 @@ hl.workspace_rule({ workspace = "4", monitor = "DP-3" })
 
 local terminal    = "ghostty"
 local fileManager = "dolphin"
-local menu        = "fuzzel"
+local menu        = "~/.config/hypr/scripts/launcher.sh"
 
 hl.on("hyprland.start", function()
     hl.exec_cmd("waybar")
@@ -170,6 +170,12 @@ hl.bind("Print", hl.dsp.exec_cmd("mkdir -p ~/screenshots && flameshot gui --path
 
 hl.config({
     xwayland = { force_zero_scaling = true },
+})
+
+hl.layer_rule({
+    name      = "launcher-pop",
+    match     = { namespace = "^(launcher|scrap)$" },
+    animation = "popin 90%",
 })
 
 hl.layer_rule({
