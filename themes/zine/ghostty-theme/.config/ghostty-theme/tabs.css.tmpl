@@ -4,8 +4,9 @@ tabbar .box {
   background-color: var(--ghostty-bg);
 }
 
+/* room for the tilt, which the bar would otherwise clip */
 tabbar .box {
-  padding: 4px 10px 8px;
+  padding: 8px 14px 12px;
 }
 
 tabbar tabbox {
@@ -14,8 +15,8 @@ tabbar tabbox {
 }
 
 tabbar tabbox > tabboxchild {
-  border-radius: 8px;
-  margin: 0 3px;
+  margin: 0 6px;
+  border-radius: 2px;
 }
 
 tabbar tabbox > separator {
@@ -26,27 +27,41 @@ tabbar tabbox > separator {
 
 tabbar tab {
   min-height: 26px;
-  padding: 0 12px;
-  border-radius: 8px;
-  border: 2px solid alpha(currentColor, 0.18);
-  color: alpha(currentColor, 0.55);
+  padding: 0 14px;
+  border-radius: 2px;
+  /* the hard shadow is an inner ink edge: tabboxchild clips box-shadow */
+  border-style: solid;
+  border-width: 0 3px 3px 0;
+  border-color: #${ink};
+  background-color: #${panel};
+  color: alpha(#${fg}, 0.6);
   font-weight: bold;
-  transition: none;
+  transform: rotate(-1.5deg);
+  transition: transform 160ms cubic-bezier(0.34, 1.56, 0.64, 1), background-color 120ms;
 }
 
-tabbar tab:hover,
-tabbar tab:active {
-  background-color: alpha(currentColor, 0.06);
-  color: alpha(currentColor, 0.8);
+tabbar tabbox > tabboxchild:nth-child(even) tab {
+  transform: rotate(1.5deg);
+}
+
+tabbar tabbox > tabboxchild:nth-child(3n) tab {
+  transform: rotate(-2.5deg);
+}
+
+tabbar tab:hover {
+  background-color: #${surface};
+  color: #${fg};
+  transform: rotate(0);
 }
 
 tabbar tab:selected,
 tabbar tab:selected:hover,
-tabbar tab:selected:active {
-  color: #${ink};
+tabbar tabbox > tabboxchild tab:selected {
+  border-radius: 2px;
   background-color: #${accent};
-  border-color: #${ink};
-  box-shadow: 3px 3px 0 #${ink};
+  color: #${ink};
+  border-width: 0 4px 4px 0;
+  transform: rotate(0) scale(1.04);
 }
 
 tabbar tab .tab-title {

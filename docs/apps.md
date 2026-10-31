@@ -4,9 +4,12 @@
 
 `base/ghostty/`: shared settings (cursor, font size, tabs at the bottom, no
 decorations). It includes `~/.config/ghostty-theme/config` from the active
-theme for colours, padding and tab CSS. Zine's tabs are rounded pills with
-the active one an accent chip; GTK4 CSS, live-tweak with
-`GTK_DEBUG=interactive ghostty`.
+theme for colours, padding and tab CSS. Zine's tabs are square panel scraps,
+each tilted a little (alternating, via GTK4 `transform: rotate`), with an
+inner ink edge as the hard shadow; the active one is an accent scrap that
+straightens. `box-shadow` can't be used: the tab's container clips it.
+Unfocused windows grey their tab bar (GTK backdrop), so judge colours on a
+focused window. Live-tweak with `GTK_DEBUG=interactive ghostty`.
 
 ## Bash prompt
 
