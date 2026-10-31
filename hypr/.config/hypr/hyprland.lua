@@ -3,7 +3,7 @@
 local WOBSOCK = os.getenv("XDG_RUNTIME_DIR") .. "/wob.sock"
 
 local ok, colors = pcall(dofile, os.getenv("HOME") .. "/.config/hypr/colors.lua")
-if not ok then colors = { accent = "e08a43", ink = "0b0a09", shade = "141210", cursor = "Bibata-Modern-Classic" } end
+if not ok then colors = { accent = "e08a43", ink = "0b0a09", cursor = "Bibata-Modern-Classic" } end
 
 hl.monitor({
     output   = "",
@@ -61,7 +61,7 @@ hl.config({
             range          = 1,
             offset         = { 6, 6 },
             color          = "rgb(" .. colors.accent .. ")",
-            color_inactive = "rgb(" .. colors.shade .. ")",
+            color_inactive = "rgba(00000000)",
         },
     },
 })
@@ -92,7 +92,9 @@ hl.animation({ leaf = "specialWorkspaceOut",enabled = true, speed = 1.8, bezier 
 hl.animation({ leaf = "zoomFactor",         enabled = true, speed = 3,   bezier = "quick" })
 
 hl.config({
-    input = { touchpad = { natural_scroll = true } },
+    input  = { repeat_delay = 250, repeat_rate = 40, touchpad = { natural_scroll = true } },
+    binds  = { workspace_back_and_forth = true },
+    cursor = { hide_on_key_press = true, no_warps = true },
 })
 
 hl.gesture({
@@ -117,6 +119,14 @@ hl.bind(mainMod .. " + right", hl.dsp.focus({ direction = "right" }))
 hl.bind(mainMod .. " + up",    hl.dsp.focus({ direction = "up" }))
 hl.bind(mainMod .. " + down",  hl.dsp.focus({ direction = "down" }))
 
+for _, dir in ipairs({ "left", "right", "up", "down" }) do
+    hl.bind(mainMod .. " + SHIFT + " .. dir, hl.dsp.window.move({ direction = dir }))
+end
+hl.bind(mainMod .. " + CTRL + left",  hl.dsp.window.resize({ x = -60, y = 0, relative = true }), { repeating = true })
+hl.bind(mainMod .. " + CTRL + right", hl.dsp.window.resize({ x = 60, y = 0, relative = true }),  { repeating = true })
+hl.bind(mainMod .. " + CTRL + up",    hl.dsp.window.resize({ x = 0, y = -60, relative = true }), { repeating = true })
+hl.bind(mainMod .. " + CTRL + down",  hl.dsp.window.resize({ x = 0, y = 60, relative = true }),  { repeating = true })
+
 for i = 1, 10 do
     local key = tostring(i % 10)
     hl.bind(mainMod .. " + " .. key, hl.dsp.focus({ workspace = i }))
@@ -125,6 +135,8 @@ end
 
 hl.bind(mainMod .. " + S", hl.dsp.workspace.toggle_special("magic"))
 hl.bind(mainMod .. " + SHIFT + S", hl.dsp.window.move({ workspace = "special:magic" }))
+
+hl.bind(mainMod .. " + grave", hl.dsp.exec_cmd("~/.config/hypr/scripts/dropdown.sh"))
 
 hl.bind(mainMod .. " + M", hl.dsp.workspace.toggle_special("music"))
 hl.bind(mainMod .. " + SHIFT + M", hl.dsp.window.move({ workspace = "special:music" }))
@@ -206,6 +218,15 @@ hl.window_rule({
     name      = "discord-workspace",
     match     = { class = "^discord$" },
     workspace = "3 silent",
+})
+
+hl.window_rule({
+    name      = "dropdown-terminal",
+    match     = { class = "^com\\.scotty\\.dropdown$" },
+    workspace = "special:dropdown silent",
+    float     = true,
+    size      = "monitor_w*0.7 monitor_h*0.55",
+    move      = "monitor_w*0.15 60",
 })
 
 hl.window_rule({

@@ -5,7 +5,7 @@ import tomllib
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-ROLES = ["bg", "panel", "surface", "fg", "dim", "ink", "shade", "accent",
+ROLES = ["bg", "panel", "surface", "fg", "dim", "ink", "accent",
          "mustard", "sage", "teal", "blue", "rose", "plum", "red"]
 
 scheme = tomllib.loads((Path(__file__).parent / "zine.toml").read_text())
