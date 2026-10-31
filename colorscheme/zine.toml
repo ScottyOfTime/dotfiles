@@ -1,0 +1,85 @@
+# zine: muted riso-print inks on warm paper, after zeonofzig.com
+#
+# The source of truth for the colour scheme. `./colorscheme/build.py`
+# generates from it:
+#   palette/.config/palette/{dark,light}.env   (darkman renders the app
+#                                               templates from these)
+#   ghostty/.config/ghostty/themes/zine-{dark,light}
+# To port the scheme to another app, read the roles below; to change a
+# colour, edit it here and rerun build.py.
+
+name = "zine"
+
+# shared, non-colour settings written into both palette files
+[settings]
+cursor = "Bibata-Modern-Classic"
+gtk_accent = "orange"  # libadwaita's closest named accent
+
+# roles, in the order they're written out:
+#   bg       page background
+#   panel    raised surfaces: bar pills, menus, notifications
+#   surface  hover / inactive chips, one step above panel
+#   fg       body text
+#   dim      secondary text, placeholders
+#   ink      outlines and hard offset shadows
+#   accent   the softened zine orange (terracotta): focus, active tab
+#   mustard, sage, teal, blue, rose, plum, red
+#            the riso inks, used to give each module or state its own colour
+
+[dark]
+bg = "1f1c19"
+panel = "2a2622"
+surface = "36312c"
+fg = "ecdfcc"
+dim = "8a7f70"
+ink = "0b0a09"
+accent = "d68a5c"
+mustard = "dbb56e"
+sage = "9fb68a"
+teal = "82b3ab"
+blue = "8aa7cf"
+rose = "d39aa6"
+plum = "ab8fc6"
+red = "d9705f"
+
+[dark.terminal]
+foreground = "ecdfcc"
+background = "1f1c19"
+cursor = "d68a5c"
+cursor_text = "1f1c19"
+selection_bg = "dbb56e"
+selection_fg = "0b0a09"
+# ANSI 0-15: black red green yellow blue magenta cyan white, then brights
+ansi = [
+  "36312c", "d9705f", "9fb68a", "dbb56e", "8aa7cf", "ab8fc6", "82b3ab", "cfc3b1",
+  "8a7f70", "e88a7a", "b5cba0", "e8c98a", "a4bde0", "c4a9da", "9cc9c1", "ecdfcc",
+]
+
+[light]
+bg = "f1e6d6"
+panel = "e8dbc7"
+surface = "dccdb6"
+fg = "2a2420"
+dim = "8a7d6c"
+ink = "2a2420"
+accent = "c0703f"
+mustard = "c79a3c"
+sage = "6f8c58"
+teal = "4a8a82"
+blue = "5a7bab"
+rose = "b5677a"
+plum = "82659f"
+red = "b54a3c"
+
+[light.terminal]
+foreground = "2a2420"
+background = "f1e6d6"
+cursor = "c0703f"
+cursor_text = "f1e6d6"
+selection_bg = "c79a3c"
+selection_fg = "f1e6d6"
+# yellow (3) is darkened from mustard so text stays readable on the paper
+ansi = [
+  "2a2420", "b54a3c", "6f8c58", "a67c22", "5a7bab", "82659f", "4a8a82", "5c5249",
+  "8a7d6c", "c4604f", "7e9b66", "b88a2e", "6b8cbd", "9479b0", "5a9a92", "e8dbc7",
+]
