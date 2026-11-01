@@ -1,5 +1,0 @@
-#!/bin/sh
-# toggles the crt shader; theme.lua skips it while the off file exists
-off=${XDG_STATE_HOME:-$HOME/.local/state}/oldschool-crt-off
-if [ -e "$off" ]; then rm "$off"; else mkdir -p "${off%/*}" && touch "$off"; fi
-hyprctl reload >/dev/null

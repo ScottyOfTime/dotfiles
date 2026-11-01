@@ -13,7 +13,7 @@ rules) lives once in `base/`; each look is a switchable theme in
 | [zine-theme.md](zine-theme.md) | **zine**: the look, palette, shapes, wallpaper |
 | [zine-pipeline.md](zine-pipeline.md) | **zine**: how colours flow into every app |
 | [zine-quickshell.md](zine-quickshell.md) | **zine**: bar, launcher, popups, lock screen, overview |
-| [oldschool.md](oldschool.md) | **oldschool**: amber CRT, whole-screen shader, flat text shell (after sxwm) |
+| [oldschool.md](oldschool.md) | **oldschool**: amber terminal, flat borderless text shell (after sxwm) |
 | [ayu.md](ayu.md) | **ayu**: the earlier waybar/fuzzel rice |
 
 ## Layout

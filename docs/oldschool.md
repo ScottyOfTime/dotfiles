@@ -1,33 +1,20 @@
 # oldschool
 
-An amber CRT terminal: phosphor amber on near-black, a whole-screen CRT
-shader (monochrome phosphor, bloom, tube vignette), and a flat, text-only shell after
-uint23's sxwm setup: no gaps, a 2px border, a solid `key: value` bar,
+An amber terminal: phosphor amber on near-black and a flat, text-only
+shell after uint23's sxwm setup: no gaps, no borders, a solid `key: value` bar,
 dmenu-style strips, a tty login as the lock screen. Lives in
 `themes/oldschool/`; switch with `./theme oldschool`.
 
 ## The look
 
 - **One phosphor.** Everything is amber (`fg`); `dim` is low-intensity
-  text, `bright` is hot phosphor for focused borders, prompts and
+  text, `bright` is hot phosphor for prompts and
   emphasis, `red` is errors only. Selection is **reverse video**: an
   amber fill with `bg` text (focused workspace, picked menu item, active
   Ghostty tab).
-- **The CRT shader** (`hypr-theme/crt.frag.tmpl`, rendered by darkman,
-  Hyprland `screen_shader`) turns the whole screen, windows and video
-  included, into a monochrome phosphor tube. Every pixel becomes a
-  brightness on the palette's own ramp: dark mode runs `bg` → `fg` →
-  `bright`, light mode `fg` → `dim` → `panel`, with stops at each colour's
-  own brightness so theme colours pass through unchanged. It also adds a
-  tight glow plus a wide halation, static grain, a squarish vignette and
-  rounded black tube corners. Red errors turn amber too, like a real mono
-  monitor. No scanlines, no curvature (clicks would land off what you
-  see) and no flicker. `SUPER+F12` toggles it (`hypr-theme/crt`): off is
-  a `~/.local/state/oldschool-crt-off` file that `theme.lua` checks, so it
-  stays off across reloads and light/dark switches.
 - **Flat and square.** `Box` is a panel rectangle with a 2px border; no
   rounding, shadows, blur or animations anywhere (Hyprland animations
-  are off). Windows: 0 gaps, 2px `bright` border.
+  are off). Windows: no gaps and no borders; the bar's title shows focus.
 - **Text, not widgets.** Bar modules are `key: value`; progress is
   `[#########-----------]` (`Meter`); buttons are `[prev] [play] [next]`.
 - **tty-isms.** The wallpaper is the bare tube with
@@ -58,8 +45,8 @@ vim/airline colours (same pipeline as zine, see
 | `surface` | `2b1c0c` | `e2d6ba` | workspace shown on an unfocused monitor |
 | `fg` | `ffb52e` | `3a2408` | phosphor: text, reverse-video fill |
 | `dim` | `9a6a24` | `8c6c40` | keys, titles, secondary text |
-| `line` | `3d2810` | `cbb894` | unfocused borders, the bar's underline |
-| `bright` | `ffd27a` | `a85400` | focused borders, prompts, emphasis |
+| `line` | `3d2810` | `cbb894` | the bar's underline, box edges |
+| `bright` | `ffd27a` | `a85400` | prompts, emphasis |
 | `red` | `ff5533` | `b8361a` | errors |
 
 `blue`, `orange`, `yellow`, `green`, `cyan`, `purple` exist for the
@@ -88,28 +75,20 @@ binds as zine ([zine-quickshell.md](zine-quickshell.md)).
 
 ## Rules learned the hard way
 
-- **Screen shaders are GLSL ES 3.00**: `#version 300 es`, `in vec2
-  v_texcoord`, `uniform sampler2D tex`, `out vec4 fragColor`; get the
-  resolution from `textureSize(tex, 0)` and physical rows from
-  `gl_FragCoord`. Screenshots (`grim`) include the shader.
-- **Declare `precision highp int`.** Ints default to mediump in fragment
-  shaders, 16 bits here, so unpacking `0x${fg}u` silently lost the red
-  byte and the amber tube came out green.
+- **No screen shader.** A whole-screen CRT shader (bloom, scanlines, then
+  a monochrome phosphor remap) was tried and dropped: it made apps hard
+  to use. If one comes back: GLSL ES 3.00, declare `precision highp int`
+  (mediump ints are 16 bits and silently drop a packed hex's red byte),
+  and give bloom a soft, relative falloff (a fixed ring of taps outlined
+  Discord's hover states; a fixed threshold washed light mode out).
 - **Toggle options by reloading, not by dispatching `hl.config`.**
   `hyprctl dispatch 'hl.config({...})'` applies but logs a config error
   every time, and the next reload discards it anyway.
-- **Bloom needs a soft falloff.** Sampling one ring of pixels at a fixed
-  distance draws a hard outline around anything whose brightness changes
-  (Discord's hover states showed as a "border"); weight a 5x5 neighbourhood
-  by distance instead.
-- **Bloom must be relative.** Adding glow above a fixed brightness
-  threshold washed light mode out to a haze; adding only
-  `max(glow - colour, 0)` halos text and leaves flat areas alone.
 - **Some names are reserved in QML.** A property called `print` is an
   "illegal property name", an id called `print` "masks a global
   JavaScript property", and a `top` property on a `Shape` "cannot override
   FINAL property"; each stops the whole shell loading.
-- **Editing `Theme.qml.tmpl` or `crt.frag.tmpl` needs a re-render** (`theme.sh $(darkman get)`)
+- **Editing `Theme.qml.tmpl` needs a re-render** (`theme.sh $(darkman get)`)
   before new colours exist; until then QML warns "Unable to assign
   [undefined] to QColor".
 - **Thin lines on a fractional scale** (1.33 here) land between pixels and

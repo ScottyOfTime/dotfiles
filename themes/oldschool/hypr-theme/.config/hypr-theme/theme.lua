@@ -2,7 +2,7 @@
 
 -- defaults fill any field colors.lua lacks: hyprland reloads on save, which
 -- can be before darkman has rendered a newly added colour
-local colors = { bright = "ffd27a", line = "3d2810", cursor = "Bibata-Modern-Amber" }
+local colors = { cursor = "Bibata-Modern-Amber" }
 local ok, rendered = pcall(dofile, os.getenv("HOME") .. "/.config/hypr-theme/colors.lua")
 if ok then for k, v in pairs(rendered) do colors[k] = v end end
 
@@ -15,18 +15,9 @@ hl.config({
     general = {
         gaps_in     = 0,
         gaps_out    = 0,
-        border_size = 2,
-        col = {
-            active_border   = "rgb(" .. colors.bright .. ")",
-            inactive_border = "rgb(" .. colors.line .. ")",
-        },
+        border_size = 0,
     },
 })
-
-local state = os.getenv("XDG_STATE_HOME") or (os.getenv("HOME") .. "/.local/state")
-local off_file = io.open(state .. "/oldschool-crt-off")
-local crt_off = off_file ~= nil
-if off_file then off_file:close() end
 
 hl.config({
     decoration = {
@@ -35,7 +26,6 @@ hl.config({
         shadow       = { enabled = false },
         glow         = { enabled = false },
         blur         = { enabled = false },
-        screen_shader = crt_off and "" or os.getenv("HOME") .. "/.config/hypr-theme/crt.frag",
     },
 })
 
@@ -47,7 +37,6 @@ hl.bind(mod .. " + Space",  hl.dsp.exec_cmd("qs ipc call launcher toggle"))
 hl.bind(mod .. " + B",      hl.dsp.exec_cmd("qs ipc call bar toggle"))
 hl.bind(mod .. " + Escape", hl.dsp.exec_cmd("qs ipc call power toggle"))
 hl.bind(mod .. " + Tab",    hl.dsp.exec_cmd("qs ipc call overview toggle"))
-hl.bind(mod .. " + F12",    hl.dsp.exec_cmd("~/.config/hypr-theme/crt"))
 
 hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+"), { repeating = true, locked = true })
 hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"), { repeating = true, locked = true })
