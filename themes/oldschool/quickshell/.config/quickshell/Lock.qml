@@ -105,6 +105,7 @@ Scope {
                     spacing: 40
 
                     Label {
+                        id: art
                         anchors.horizontalCenter: parent.horizontalCenter
                         // 24px is 32 physical at 1.33x, a native terminus size
                         font.pixelSize: 24
@@ -113,22 +114,39 @@ Scope {
                         text: lock.logo
                     }
 
-                    Label {
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        horizontalAlignment: Text.AlignHCenter
-                        lineHeight: 1.3
-                        textFormat: Text.StyledText
-                        text: {
-                            const cursor = tty.blink ? "█" : "&nbsp;";
-                            const lines = [tty.user];
-                            if (lock.status === "broken")
-                                lines.push(`<font color="${Theme.red}">auth broken: ctrl+alt+f2, run hyprlock</font>`);
-                            else
-                                lines.push("*".repeat(lock.password.length)
-                                    + (lock.status === "checking" || lock.status === "ok" ? "&nbsp;" : cursor));
-                            if (lock.status === "failed" && lock.password === "")
-                                lines.push(`<font color="${Theme.red}">Login incorrect (${lock.attempts})</font>`);
-                            return lines.join("<br>");
+                    // each line centred on a shared character grid, so the
+                    // user stays put and the lines align like a terminal's
+                    Column {
+                        id: prompt
+                        width: art.width
+                        spacing: 6
+
+                        function gridX(chars) {
+                            const w = cell.advanceWidth;
+                            return Math.round((width - chars * w) / 2 / w) * w;
+                        }
+
+                        TextMetrics { id: cell; font.family: Theme.font; font.pixelSize: Theme.fontSize; text: "m" }
+
+                        Label {
+                            x: prompt.gridX(text.length)
+                            textFormat: Text.PlainText
+                            text: tty.user
+                        }
+                        Label {
+                            readonly property bool waiting: lock.status === "checking" || lock.status === "ok"
+                            x: prompt.gridX(text.length)
+                            textFormat: Text.PlainText
+                            text: lock.status === "broken" ? "auth broken: ctrl+alt+f2, run hyprlock"
+                                : "*".repeat(lock.password.length) + (tty.blink && !waiting ? "█" : " ")
+                            color: lock.status === "broken" ? Theme.red : Theme.fg
+                        }
+                        Label {
+                            visible: lock.status === "failed" && lock.password === ""
+                            x: prompt.gridX(text.length)
+                            textFormat: Text.PlainText
+                            text: `Login incorrect (${lock.attempts})`
+                            color: Theme.red
                         }
                     }
                 }
