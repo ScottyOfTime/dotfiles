@@ -150,7 +150,9 @@ binds as zine ([zine-quickshell.md](zine-quickshell.md)).
   and antialiasing spreads a 1px stroke over two greyish ones (screenshot
   histograms show the greys; Ghostty's are pure on/off). Full hinting
   changes nothing visible; `antialiasing: false` snaps strokes to uneven
-  pixels and is much harder to read. Live with it.
+  pixels and is much harder to read; `CurveRendering` is thinner and
+  closer to Ghostty but loses the slight smoothing, which is preferred.
+  Live with it.
 - **Some names are reserved.** A QML method called `escape` is an
   "illegal method name", and `qs ipc call <target> show` runs `qs ipc
   show` instead of the function, so don't name IPC functions `show`.
