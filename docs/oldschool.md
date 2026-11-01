@@ -33,10 +33,9 @@ dmenu-style strips, a tty login as the lock screen. Lives in
   `<host> login: <user>` and `ready.`), about two seconds, once per login;
   a click skips it. The wallpaper is the bare tube with
   `host · arch linux <kernel>`, `ready.` and a blinking block cursor. The
-  lock screen is the distro's fastfetch logo, big and centred, over a login
-  prompt (`<host> · <kernel>`, `login: <user>`, `password:`) that, like a
-  real one, never echoes the password; a wrong one prints `Login
-  incorrect`. Only the primary screen (the one at 0,0) shows it; the
+  lock screen is the distro's fastfetch logo, big and centred, over the
+  user name and the password as `*`s with a blinking block, both centred;
+  a wrong one prints `Login incorrect` under it. Only the primary screen (the one at 0,0) shows it; the
   others are blank `bg`.
 - **Terminus everywhere**: the terminal (18pt, 24 physical px), the
   Quickshell UI (`Theme.fontSize` 15px, 20 physical, with
@@ -87,7 +86,7 @@ binds as zine ([zine-quickshell.md](zine-quickshell.md)).
 | `Osd.qml` | `v: 50% [##########----------]` box under the bar; `b:` for brightness |
 | `Notifications.qml` | One log line each under the bar, top-right: `[HH:mm] app: summary - body` plus `[action]`s; red and sticky when critical; click dismisses |
 | `MusicPopup.qml` | Track, artist · album, text progress bar, `[prev] [play] [next]` |
-| `Lock.qml` | Logo (`fastfetch --pipe -s none`, so any distro) and login prompt on the screen at 0,0; PAM `login`, identical to zine's |
+| `Lock.qml` | Logo (`fastfetch --pipe -s none`, so any distro), user and masked password on the screen at 0,0; PAM `login`, identical to zine's |
 | `Overview.qml` | Every window as a `WS CLASS TITLE` row, like `ps`; up/down/Tab, Enter focuses, Esc or a click outside closes (`SUPER+Tab`) |
 | `Boot.qml` | The login boot log; a flag in `$XDG_RUNTIME_DIR` keeps it to once per login; `qs ipc call boot replay` shows it again |
 | `Wallpaper.qml` | The `ready.` banner; on paper bands and sprocket holes in light mode |

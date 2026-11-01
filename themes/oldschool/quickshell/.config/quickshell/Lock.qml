@@ -4,8 +4,8 @@ import Quickshell.Io
 import Quickshell.Services.Pam
 import Quickshell.Wayland
 
-// session lock: the distro logo and a login prompt on the primary screen
-// (the one at 0,0), other screens left blank; the password is never echoed
+// session lock: the distro logo, the user and a masked password on the
+// primary screen (the one at 0,0); other screens are left blank
 Scope {
     id: lock
 
@@ -114,23 +114,20 @@ Scope {
                     }
 
                     Label {
-                        // the host line is the widest, so the block doesn't
-                        // shift as the cursor blinks
                         anchors.horizontalCenter: parent.horizontalCenter
+                        horizontalAlignment: Text.AlignHCenter
                         lineHeight: 1.3
                         textFormat: Text.StyledText
                         text: {
-                            const lines = [`<font color="${Theme.dim}">${tty.host} · ${tty.kernel}</font>`, "",
-                                `login: ${tty.user}`];
                             const cursor = tty.blink ? "█" : "&nbsp;";
+                            const lines = [tty.user];
                             if (lock.status === "broken")
                                 lines.push(`<font color="${Theme.red}">auth broken: ctrl+alt+f2, run hyprlock</font>`);
-                            else if (lock.status === "checking" || lock.status === "ok")
-                                lines.push("password:");
                             else
-                                lines.push("password: " + cursor);
+                                lines.push("*".repeat(lock.password.length)
+                                    + (lock.status === "checking" || lock.status === "ok" ? "&nbsp;" : cursor));
                             if (lock.status === "failed" && lock.password === "")
-                                lines.push("", `<font color="${Theme.red}">Login incorrect (${lock.attempts})</font>`);
+                                lines.push(`<font color="${Theme.red}">Login incorrect (${lock.attempts})</font>`);
                             return lines.join("<br>");
                         }
                     }
