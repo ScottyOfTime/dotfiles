@@ -17,7 +17,7 @@ dmenu-style strips, a tty login as the lock screen. Lives in
   than one window, a 3px `fg` strip (`Focus.qml`) sits along the top of
   the focused one.
 - **Terminal.** Ghostty with 2px padding (balanced, padding takes the
-  background colour), Terminus at 12.375pt (22 physical px) as "Terminess Outline": a copy
+  background colour), Terminus at 12.375pt (22 physical px), unhinted, as "Terminess Outline": a copy
   `hypr-theme/terminus-outline` makes (from `theme.sh`, once) of the
   installed `ttf-terminus-nerd` without its embedded bitmaps, so Ghostty
   smooths it like the shell instead of drawing the bitmaps pixel-sharp; ligatures off, and a steady
@@ -178,6 +178,10 @@ binds as zine ([zine-quickshell.md](zine-quickshell.md)).
   layer margins must also be whole logical pixels (a 26.25 bar is cut to
   26, its underline half outside), so use `Theme.whole(value, dpr)`: the
   next size up that's whole both ways (27 at 1.33, 28 at 1.25, 30 at 1.2).
+- **Unhint the terminal font.** With Ghostty's default (light) hinting,
+  Terminus at 22px snaps to the grid: dots and colons become thin slivers
+  and edges come out near-sharp (121 grey levels on a test line against
+  278 unhinted), though 20 and 21px stay smooth either way.
 - **Some names are reserved.** A QML method called `escape` is an
   "illegal method name", and `qs ipc call <target> show` runs `qs ipc
   show` instead of the function, so don't name IPC functions `show`.
