@@ -10,8 +10,7 @@ gsettings set org.gnome.desktop.interface color-scheme prefer-$mode
 gsettings set org.gnome.desktop.interface accent-color "$gtk_accent"
 # chicago95 only ships 32px: cursor-2x makes a copy with 64 and 96px too,
 # see docs/oldschool.md for the size
-# amber in both modes: the dark palette's fg
-~/.config/hypr-theme/cursor-2x "$cursor" "$(. "$cfg/palette/dark.env"; echo "$fg")"
+~/.config/hypr-theme/cursor-2x "$cursor"
 ~/.config/hypr-theme/terminus-outline
 gsettings set org.gnome.desktop.interface cursor-theme "$cursor"
 gsettings set org.gnome.desktop.interface cursor-size 32

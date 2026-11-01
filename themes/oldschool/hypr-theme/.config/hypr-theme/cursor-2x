@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
-"""cursor-2x <theme>_2x <rrggbb>: build ~/.local/share/icons/<theme>_2x
-from an installed xcursor theme, tinted (white becomes the colour, black
-stays black) and with every pixel repeated 2x and 3x. Themes that only ship
+"""cursor-2x <theme>_2x [rrggbb]: build ~/.local/share/icons/<theme>_2x
+from an installed xcursor theme with every pixel repeated 2x and 3x, and
+optionally tinted (white becomes the colour, black stays black). Themes that only ship
 one small size stay tiny otherwise, since cursors aren't scaled up. Does
-nothing if the copy already exists in that colour."""
+nothing if the copy already exists in that colour (or untinted)."""
 
 import struct
 import sys
 from pathlib import Path
 
-name, tint = sys.argv[1], sys.argv[2]
+name = sys.argv[1]
+tint = sys.argv[2] if len(sys.argv) > 2 else ""
 base = name.removesuffix("_2x")
 installed = Path("/usr/share/icons") / base / "cursors"
 target = Path.home() / ".local/share/icons" / name
@@ -19,7 +20,7 @@ kept = target / "original"
 stamp = target / "tint"
 if stamp.exists() and stamp.read_text() == tint:
     sys.exit()
-tr, tg, tb = (int(tint[i:i + 2], 16) for i in (0, 2, 4))
+tr, tg, tb = (int(tint[i:i + 2], 16) for i in (0, 2, 4)) if tint else (0, 0, 0)
 
 IMAGE = 0xFFFD0002
 
@@ -97,7 +98,7 @@ for path in source.iterdir():
         out.unlink(missing_ok=True)
         out.symlink_to(path.readlink())
         continue
-    original = [tinted(f) for f in frames(path.read_bytes())]
+    original = [tinted(f) if tint else f for f in frames(path.read_bytes())]
     out.write_bytes(xcursor(original + [scaled(f, k) for k in (2, 3) for f in original]))
 (target / "index.theme").write_text(
     f"[Icon Theme]\nName={name}\nInherits={base}\n")

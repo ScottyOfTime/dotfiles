@@ -83,9 +83,9 @@ vim/airline colours (same pipeline as zine, see
 `blue`, `orange`, `yellow`, `green`, `cyan`, `purple` exist for the
 terminal and editors only, warm-shifted. Cursor: the Windows 95 arrow (`xcursor-chicago95-git`, AUR) as
 `Chicago95_Cursor_White_2x`, a copy `hypr-theme/cursor-2x` builds into
-`~/.local/share/icons` (from `theme.sh`, again only if the tint changes),
-tinted the dark palette's `fg` (white becomes amber, black stays) with
-every pixel repeated 2x and 3x. It keeps the untinted originals in
+`~/.local/share/icons` (from `theme.sh`, once) with every pixel repeated
+2x and 3x, in its own white and black (the script can tint it, e.g.
+`cursor-2x <name> ffb52e`; amber was tried and dropped). It keeps the untinted originals in
 `original/` beside the copy, so it still works if the package is removed. Chicago95 only ships 32px and nothing scales a cursor up, so
 any size setting left it tiny. GTK asks for size x2 at 1.33x (its
 buffer scale), so size 48 drew the 96px copy at 64 physical: too big;
