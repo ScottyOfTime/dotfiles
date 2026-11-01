@@ -34,9 +34,8 @@ dmenu-style strips, a tty login as the lock screen. Lives in
   a click skips it. The wallpaper is the bare tube with
   `host · arch linux <kernel>`, `ready.` and a blinking block cursor. The
   lock screen is the distro's fastfetch logo, big and centred, over the
-  user name (centred on a character grid) and the password as `*`s with
-  a blinking block, starting under the name's first letter and growing
-  right;
+  user name and, centred under it, the password as `*`s with a blinking
+  block;
   a wrong one prints `Login incorrect` under it. Only the primary screen (the one at 0,0) shows it; the
   others are blank `bg`.
 - **Terminus everywhere**: the terminal (18pt, 24 physical px), the
@@ -71,7 +70,7 @@ vim/airline colours (same pipeline as zine, see
 | `red` | `ff5533` | `b8361a` | errors |
 
 `blue`, `orange`, `yellow`, `green`, `cyan`, `purple` exist for the
-terminal and editors only, warm-shifted. Cursor theme: Bibata-Original-Amber.
+terminal and editors only, warm-shifted. Cursor theme: whiteglass, the classic X11 arrow (`xcursor-themes`).
 
 ## Quickshell
 
@@ -117,7 +116,8 @@ binds as zine ([zine-quickshell.md](zine-quickshell.md)).
   applies to new windows; a reload changes the size of open ones.
 - **Lock prompt lines are separate labels.** One centred text block
   re-centres every line as the password grows, so the user name jumped
-  half a cell per key.
+  half a cell per key; each is its own label, centred at a rounded x so
+  the pixel font stays sharp.
 - **Some names are reserved.** A QML method called `escape` is an
   "illegal method name", and `qs ipc call <target> show` runs `qs ipc
   show` instead of the function, so don't name IPC functions `show`.

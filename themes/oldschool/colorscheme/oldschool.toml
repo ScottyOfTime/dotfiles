@@ -4,7 +4,7 @@
 name = "oldschool"
 
 [settings]
-cursor = "Bibata-Original-Amber"
+cursor = "whiteglass"
 gtk_accent = "yellow"
 
 # roles, in the order they're written out:
