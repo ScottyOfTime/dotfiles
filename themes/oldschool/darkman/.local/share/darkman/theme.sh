@@ -10,9 +10,10 @@ gsettings set org.gnome.desktop.interface color-scheme prefer-$mode
 gsettings set org.gnome.desktop.interface accent-color "$gtk_accent"
 gsettings set org.gnome.desktop.interface cursor-theme "$cursor"
 gsettings set org.gnome.desktop.interface cursor-size 24
-gsettings set org.gnome.desktop.interface font-name 'JetBrains Mono 10'
-gsettings set org.gnome.desktop.interface document-font-name 'JetBrains Mono 10'
-gsettings set org.gnome.desktop.interface monospace-font-name 'JetBrains Mono 11'
+# 11.25pt is 15px, 20 physical at 1.33x: a native terminus size
+gsettings set org.gnome.desktop.interface font-name 'Terminess Nerd Font 11.25'
+gsettings set org.gnome.desktop.interface document-font-name 'Terminess Nerd Font 11.25'
+gsettings set org.gnome.desktop.interface monospace-font-name 'Terminess Nerd Font Mono 11.25'
 # only the palette's variables (and $HOME), so hyprlock's own $ATTEMPTS etc. survive
 vars="$(sed -n 's/^\([a-z_]*\)=.*/$\1/p' "$palette" | tr '\n' ' ') \$HOME"
 for f in quickshell/Theme.qml hypr-theme/colors.lua hypr-theme/hyprlock.conf ghostty-theme/tabs.css ghostty-theme/config; do

@@ -76,7 +76,8 @@ PanelWindow {
             anchors.verticalCenter: parent.verticalCenter
             color: Theme.fg
             font.family: Theme.font
-            font.pixelSize: 13
+            font.pixelSize: Theme.fontSize
+            renderType: Text.NativeRendering
             cursorVisible: strip.searchable
             onTextChanged: strip.current = 0
             Keys.onPressed: event => {

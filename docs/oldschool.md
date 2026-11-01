@@ -36,7 +36,10 @@ dmenu-style strips, a tty login as the lock screen. Lives in
   lock screen is a login prompt (`Arch Linux <kernel> (tty1)`,
   `<host> login: <user>`, `Password:`) that, like a real one, never echoes
   the password; a wrong one prints `Login incorrect`.
-- **JetBrains Mono for the UI**, Terminus in the terminal.
+- **Terminus everywhere**: the terminal (18pt, 24 physical px), the
+  Quickshell UI (`Theme.fontSize` 15px, 20 physical, with
+  `Text.NativeRendering` so Qt hints it onto the pixel grid), GTK
+  (11.25pt, also 20 physical) and hyprlock.
 - **Light mode** is dark brown ink on tractor-feed printer paper: the
   wallpaper has alternating bands and sprocket holes down both edges.
 
@@ -104,8 +107,9 @@ binds as zine ([zine-quickshell.md](zine-quickshell.md)).
 - **`lastIpcObject` is a snapshot.** A toplevel's position and size only
   update after `Hyprland.refreshToplevels()`; `Focus.qml` calls it on the
   window events from `Hyprland.rawEvent`.
-- **Pixel fonts need their native size.** Ghostty here draws 1.33
-  physical px per point, so Terminus's 24px size is 18pt (13.5pt is its
+- **Pixel fonts need their native size** (12, 14, 16, 18, 20, 22, 24, 28,
+  32 physical px for Terminus). Ghostty here draws 1.33 physical px per
+  point, so Terminus's 24px size is 18pt (13.5pt is its
   thin 18px size); in-between sizes smear strokes. `font-family` only
   applies to new windows; a reload changes the size of open ones.
 - **Some names are reserved.** A QML method called `escape` is an
