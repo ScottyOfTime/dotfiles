@@ -7,9 +7,10 @@ local ok, rendered = pcall(dofile, os.getenv("HOME") .. "/.config/hypr-theme/col
 if ok then for k, v in pairs(rendered) do colors[k] = v end end
 
 hl.env("XCURSOR_THEME", colors.cursor)
-hl.env("XCURSOR_SIZE", 24)
+-- chicago95 only ships 32px; 48 at 1.33x is 64 physical, a clean 2x
+hl.env("XCURSOR_SIZE", 48)
 hl.env("HYPRCURSOR_THEME", colors.cursor)
-hl.env("HYPRCURSOR_SIZE", 24)
+hl.env("HYPRCURSOR_SIZE", 48)
 
 hl.config({
     general = {

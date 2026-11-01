@@ -9,7 +9,8 @@ set -a; . "$palette"; set +a
 gsettings set org.gnome.desktop.interface color-scheme prefer-$mode
 gsettings set org.gnome.desktop.interface accent-color "$gtk_accent"
 gsettings set org.gnome.desktop.interface cursor-theme "$cursor"
-gsettings set org.gnome.desktop.interface cursor-size 24
+# chicago95 only ships 32px; 48 at 1.33x is 64 physical, a clean 2x
+gsettings set org.gnome.desktop.interface cursor-size 48
 # 11.25pt is 15px, 20 physical at 1.33x: a native terminus size
 gsettings set org.gnome.desktop.interface font-name 'Terminess Nerd Font 11.25'
 gsettings set org.gnome.desktop.interface document-font-name 'Terminess Nerd Font 11.25'
@@ -22,5 +23,5 @@ done
 
 export HYPRLAND_INSTANCE_SIGNATURE=$(ls -t /run/user/$(id -u)/hypr/ | head -1)
 hyprctl reload >/dev/null
-hyprctl setcursor "$cursor" 24 >/dev/null
+hyprctl setcursor "$cursor" 48 >/dev/null
 pkill -SIGUSR2 -x ghostty
