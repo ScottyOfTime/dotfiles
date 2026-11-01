@@ -23,11 +23,11 @@ gsettings set org.gnome.desktop.interface cursor-size "$size"
 # the font strip (FontMenu.qml) sets this through hypr-theme/font
 font=$(cat "$state/oldschool-font" 2>/dev/null)
 case $font in
-jetbrains)
-    ui_font='JetBrains Mono' ui_points=10.5 gtk_font='JetBrains Mono' gtk_mono='JetBrains Mono'
-    term_font='JetBrains Mono' term_points=12 term_flags=hinting ;;
-*)
-    font=terminus
+""|terminus) font=Terminus ;;
+jetbrains) font='JetBrains Mono' ;;
+esac
+case $font in
+Terminus)
     # 11.25pt is 15px, 20 physical at 1.33x; 12.375pt is 22 physical in
     # ghostty: native terminus sizes (docs/oldschool.md)
     ui_font='Terminess Nerd Font Mono' ui_points=11.25 gtk_font='Terminess Nerd Font' gtk_mono='Terminess Nerd Font Mono'
@@ -35,6 +35,10 @@ jetbrains)
     # which ghostty would draw pixel-sharp instead of smoothing like the
     # shell; hinting squeezes it at 22px: dots become thin slivers
     term_font='Terminess Outline' term_points=12.375 term_flags=no-hinting,no-monochrome ;;
+*)
+    # wide, with a tall x-height: looks bigger than others at the same size
+    case $font in 'JetBrains Mono'*) ui_points=10 term_points=11.5 ;; *) ui_points=10.5 term_points=12 ;; esac
+    ui_font=$font gtk_font=$font gtk_mono=$font term_font=$font term_flags=hinting ;;
 esac
 export font ui_font ui_points term_font term_points term_flags
 gsettings set org.gnome.desktop.interface font-name "$gtk_font $ui_points"

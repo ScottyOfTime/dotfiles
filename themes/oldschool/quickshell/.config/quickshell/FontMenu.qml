@@ -5,15 +5,27 @@ import Quickshell.Io
 Strip {
     id: menu
 
-    readonly property var fonts: ["terminus", "jetbrains"]
+    readonly property string script: Quickshell.env("HOME") + "/.config/hypr-theme/font"
+    property var fonts: []
+    readonly property var matches: fonts.filter(f => f.toLowerCase().includes(query.toLowerCase()))
 
     prompt: "font"
     space: "fontmenu"
-    searchable: false
-    items: ["terminus", "jetbrains mono"]
+    items: matches
     onChosen: i => {
+        Quickshell.execDetached([script, matches[i]]);
         close();
-        Quickshell.execDetached([Quickshell.env("HOME") + "/.config/hypr-theme/font", fonts[i]]);
+    }
+
+    Process {
+        id: lister
+        command: [menu.script, "--list"]
+        stdout: StdioCollector {
+            onStreamFinished: {
+                menu.fonts = text.split("\n").filter(f => f);
+                menu.current = Math.max(0, menu.fonts.indexOf(Theme.fontName));
+            }
+        }
     }
 
     IpcHandler {
@@ -24,7 +36,7 @@ Strip {
                 return;
             }
             menu.open();
-            menu.current = Math.max(0, menu.fonts.indexOf(Theme.fontName));
+            lister.running = true;
         }
     }
 }

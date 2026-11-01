@@ -1,11 +1,18 @@
 #!/bin/sh
-# font [terminus|jetbrains]: set the shell, terminal and GTK font; prints
-# the current one without an argument
+# font [family|--list]: set the shell, terminal and GTK font to a monospace
+# family; --list prints the choices; no argument prints the current one
 state=${XDG_STATE_HOME:-$HOME/.local/state}/oldschool-font
+list() {
+    echo Terminus
+    # lang=en drops fonts tagged monospace that aren't for text (emoji,
+    # SignWriting); terminus's own families are folded into "Terminus"
+    fc-list ':spacing=mono:color=false:lang=en' family | cut -d, -f1 | grep -v '^Terminess' | sort -u
+}
 case $1 in
-"") cat "$state" 2>/dev/null || echo terminus ;;
-terminus|jetbrains)
+"") cat "$state" 2>/dev/null || echo Terminus ;;
+--list) list ;;
+*)
+    list | grep -qxF -- "$1" || { echo "font: no monospace font '$1' (font --list)" >&2; exit 1; }
     mkdir -p "${state%/*}" && echo "$1" > "$state"
     exec ~/.local/share/darkman/theme.sh "$(darkman get)" ;;
-*) echo "usage: font [terminus|jetbrains]" >&2; exit 1 ;;
 esac
