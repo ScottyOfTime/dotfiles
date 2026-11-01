@@ -38,7 +38,7 @@ HERDR = {
     "panel_bg": "panel", "sidebar_bg": "bg", "active_row_bg": "surface",
     "selection_bg": "surface", "surface0": "panel", "surface1": "surface",
     "surface_dim": "bg", "overlay0": "dim", "overlay1": "dim", "text": "fg",
-    "subtext0": "dim", "accent": "bright", "mauve": "purple", "green": "green",
+    "subtext0": "dim", "accent": "fg", "mauve": "purple", "green": "green",
     "yellow": "yellow", "red": "red", "peach": "orange", "blue": "blue",
     "teal": "cyan",
 }

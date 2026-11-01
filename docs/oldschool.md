@@ -11,7 +11,7 @@ dmenu-style strips, a tty login as the lock screen. Lives in
   text, `bright` is hot phosphor for prompts and
   emphasis, `red` is errors only. Selection is **reverse video**: an
   amber fill with `bg` text (focused workspace, picked menu item, active
-  Ghostty tab).
+  Ghostty and herdr tabs; herdr's `accent` is `fg`, not `bright`).
 - **Flat and square.** `Box` is a panel rectangle with a 2px border; no
   rounding, shadows, blur or animations anywhere (Hyprland animations
   are off). Windows: no gaps and no borders. When a workspace has more
