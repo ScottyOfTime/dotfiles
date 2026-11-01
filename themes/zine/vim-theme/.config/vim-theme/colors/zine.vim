@@ -2,7 +2,8 @@
 hi clear
 if exists('syntax_on') | syntax reset | endif
 let g:colors_name = 'zine'
-let s:mode = trim(system('darkman get')) ==# 'light' ? 'light' : 'dark'
+let s:file = expand((empty($XDG_STATE_HOME) ? '~/.local/state' : $XDG_STATE_HOME) . '/theme-mode')
+let s:mode = filereadable(s:file) && get(readfile(s:file, '', 1), 0, '') ==# 'light' ? 'light' : 'dark'
 let &background = s:mode
 let s:dark = {'bg': '#1f1c19', 'panel': '#2a2622', 'surface': '#36312c', 'fg': '#ecdfcc', 'dim': '#8a7f70', 'ink': '#0b0a09', 'paper': '#ecdfcc', 'accent': '#e08a43', 'mustard': '#dbb56e', 'sage': '#9fb68a', 'teal': '#82b3ab', 'blue': '#8aa7cf', 'rose': '#d39aa6', 'plum': '#ab8fc6', 'red': '#d9705f'}
 let s:light = {'bg': '#f1e6d6', 'panel': '#e8dbc7', 'surface': '#dccdb6', 'fg': '#2a2420', 'dim': '#8a7d6c', 'ink': '#2a2420', 'paper': '#fbf6ee', 'accent': '#b9632a', 'mustard': '#c79a3c', 'sage': '#6f8c58', 'teal': '#4a8a82', 'blue': '#5a7bab', 'rose': '#b5677a', 'plum': '#82659f', 'red': '#b54a3c'}

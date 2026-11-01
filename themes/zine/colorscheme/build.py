@@ -86,7 +86,8 @@ VIM = [
 ]
 
 vheader = header.replace("# ", '" ', 1)
-pick = "let s:mode = trim(system('darkman get')) ==# 'light' ? 'light' : 'dark'\n"
+pick = ("let s:file = expand((empty($XDG_STATE_HOME) ? '~/.local/state' : $XDG_STATE_HOME) . '/theme-mode')\n"
+        "let s:mode = filereadable(s:file) && get(readfile(s:file, '', 1), 0, '') ==# 'light' ? 'light' : 'dark'\n")
 def vimdict(mode):
     return ", ".join(f"'{r}': '#{scheme[mode][r]}'" for r in ROLES)
 

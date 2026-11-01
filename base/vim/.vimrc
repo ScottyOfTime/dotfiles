@@ -24,6 +24,20 @@ if filereadable(expand('~/.config/vim-theme/theme.vim'))
 else
   colorscheme ayu
 endif
+
+" follow light/dark switches: the theme writes its mode to this file, and a
+" timestamp check every 2s costs nothing (vim's SigUSR1 event never fires)
+let s:mode_file = expand((empty($XDG_STATE_HOME) ? '~/.local/state' : $XDG_STATE_HOME) . '/theme-mode')
+let s:mode_time = getftime(s:mode_file)
+function! s:FollowMode(timer) abort
+  if getftime(s:mode_file) == s:mode_time | return | endif
+  let s:mode_time = getftime(s:mode_file)
+  if filereadable(expand('~/.config/vim-theme/theme.vim'))
+    source ~/.config/vim-theme/theme.vim
+  endif
+  if exists(':AirlineRefresh') | AirlineRefresh | endif
+endfunction
+call timer_start(2000, function('s:FollowMode'), {'repeat': -1})
 let &t_ut = ''
 
 let g:airline_symbols_ascii = 1

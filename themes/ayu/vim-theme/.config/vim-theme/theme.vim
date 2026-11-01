@@ -1,4 +1,5 @@
-let g:ayucolor = trim(system('darkman get')) ==# 'light' ? 'light' : 'dark'
+let s:file = expand((empty($XDG_STATE_HOME) ? '~/.local/state' : $XDG_STATE_HOME) . '/theme-mode')
+let g:ayucolor = filereadable(s:file) && get(readfile(s:file, '', 1), 0, '') ==# 'light' ? 'light' : 'dark'
 colorscheme ayu
 hi Comment ctermfg=blue cterm=bold
 hi String cterm=bold ctermfg=yellow

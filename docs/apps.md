@@ -32,6 +32,14 @@ active theme's `~/.config/vim-theme/theme.vim` (zine: the generated `zine`
 colorscheme and airline theme; ayu: ayu-vim), with the background kept
 transparent so the terminal's shows. `.vimrc` loads the same file.
 
+Light/dark switches reach open editors: each theme's `theme.sh` writes the
+mode to `~/.local/state/theme-mode`, the colorschemes read it (rather than
+calling `darkman get` at startup), and vim and nvim check its timestamp
+every 2s and re-source `theme.vim` plus `AirlineRefresh` when it changes.
+Signals don't work for this: vim's `SigUSR1` event exists but never fires,
+and a terminal nvim's autocmds run in its `nvim --embed` child, not the
+process you'd signal.
+
 Don't call `system()` from vim at `VimEnter`: it hands the terminal back to
 cooked mode just as Ghostty answers vim's startup queries, and the replies
 (`;2R^[[3;1R^[[>1;10;0c^[]10;rgb:…`) get echoed over line 1. The block

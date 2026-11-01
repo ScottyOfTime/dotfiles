@@ -1,6 +1,9 @@
 #!/bin/sh
 mode=$1
 [ "$mode" = dark ] || [ "$mode" = light ] || exit 1
+# open vim/nvim watch this file and reload their colours when it changes
+state=${XDG_STATE_HOME:-$HOME/.local/state}
+mkdir -p "$state" && echo "$mode" > "$state/theme-mode"
 cfg=$HOME/.config
 palette=$cfg/palette/$mode.env
 
