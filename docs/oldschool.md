@@ -48,8 +48,9 @@ dmenu-style strips, a tty login as the lock screen. Lives in
   a wrong one prints `Login incorrect` under it. Only the primary screen (the one at 0,0) shows it; the
   others are blank `bg`.
 - **Terminus everywhere**: the terminal (12.375pt, 22 physical px), the
-  Quickshell UI (`Theme.fontPoints` 12.375pt, also 22 physical, with
-  `Text.CurveRendering`), GTK
+  Quickshell UI (`Theme.fontSize` 15px, 20 physical, with
+  `Text.NativeRendering`; `antialiasing: false` made it far harder to
+  read), GTK
   (11.25pt, also 20 physical) and hyprlock.
 - **Light mode** is dark brown ink on tractor-feed printer paper: the
   wallpaper has alternating bands and sprocket holes down both edges.
@@ -144,17 +145,12 @@ binds as zine ([zine-quickshell.md](zine-quickshell.md)).
 - **Canvas `putImageData` draws nothing** in this Qt (it runs, no
   error); `fillRect` per cell on a low-res canvas scaled with
   `smooth: false` is fast enough (a screen of snow in ~3ms).
-- **Qt's Terminus is heavier than Ghostty's.** At 1.33x Qt lays text out
-  in logical units, so glyphs land on fractional physical pixels and
-  antialiasing spreads a 1px stroke over two greyish ones; Ghostty's are
-  pure on/off, and no Ghostty setting (antialiasing, `font-thicken`)
-  changes Terminus at a native size. On the Qt side `CurveRendering` is
-  the closest (41 grey levels on a test line against native rendering's
-  122); `antialiasing: false` snaps strokes to uneven pixels and is much
-  harder to read; full hinting does nothing; aligning to the 3-logical-px
-  grid didn't help. Measure sizes by the pixel width of a known string,
-  never by eye: QML `pointSize` is the usual 96 dpi (12.375pt is 22
-  physical here).
+- **Qt's Terminus is a touch heavier than Ghostty's.** At 1.33x, Qt lays
+  text out in logical units, so glyphs land on fractional physical pixels
+  and antialiasing spreads a 1px stroke over two greyish ones (screenshot
+  histograms show the greys; Ghostty's are pure on/off). Full hinting
+  changes nothing visible; `antialiasing: false` snaps strokes to uneven
+  pixels and is much harder to read. Live with it.
 - **Some names are reserved.** A QML method called `escape` is an
   "illegal method name", and `qs ipc call <target> show` runs `qs ipc
   show` instead of the function, so don't name IPC functions `show`.

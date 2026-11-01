@@ -76,10 +76,8 @@ PanelWindow {
             anchors.verticalCenter: parent.verticalCenter
             color: Theme.fg
             font.family: Theme.font
-            font.pointSize: Theme.fontPoints
-            // thinner and closer to ghostty's pixel-exact terminus than native
-            // rendering, whose strokes smear over fractional pixels at 1.33x
-            renderType: Text.CurveRendering
+            font.pixelSize: Theme.fontSize
+            renderType: Text.NativeRendering
             cursorVisible: strip.searchable
             onTextChanged: strip.current = 0
             Keys.onPressed: event => {

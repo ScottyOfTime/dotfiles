@@ -16,8 +16,7 @@ Singleton {
     // text on a phosphor fill: selection is reverse video
     readonly property color onLit: bg
     readonly property string font: "Terminess Nerd Font Mono"
-    // points, as qml pixel sizes are whole numbers: 12.375pt is 16.5px, 22
-    // physical at 1.33x, a native terminus size and the same as the terminal
-    readonly property real fontPoints: 12.375
+    // 15px at 1.33x scale is 20 physical px, a native terminus size
+    readonly property int fontSize: 15
     readonly property int bar: 26
 }
