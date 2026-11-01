@@ -18,6 +18,12 @@ Scope {
     property real beamOpacity: 1
     property real roll: 0
 
+    // animations run smooth underneath but draw in a few hard jumps, like
+    // an old card redrawing at a low rate
+    function steps(value, count) {
+        return Math.floor(value * count) / count;
+    }
+
     readonly property string cpu: (cpuinfo.text().match(/model name\s*:\s*(.*)/) ?? ["", "cpu"])[1]
     readonly property string mem: Math.round(parseInt((meminfo.text().match(/MemTotal:\s*(\d+)/) ?? ["", "0"])[1]) / 1024) + "M"
     readonly property var lines: [
@@ -74,15 +80,15 @@ Scope {
     SequentialAnimation {
         id: powerOn
         PauseAnimation { duration: 150 }
-        NumberAnimation { target: boot; property: "beamWidth"; to: 1; duration: 140; easing.type: Easing.OutQuad }
-        NumberAnimation { target: boot; property: "beamHeight"; to: 1; duration: 200; easing.type: Easing.InQuad }
+        NumberAnimation { target: boot; property: "beamWidth"; to: 1; duration: 160 }
+        NumberAnimation { target: boot; property: "beamHeight"; to: 1; duration: 200 }
         ScriptAction { script: step.start() }
         NumberAnimation { target: boot; property: "beamOpacity"; to: 0; duration: 300 }
     }
 
     SequentialAnimation {
         id: rollOff
-        NumberAnimation { target: boot; property: "roll"; to: 1; duration: 450; easing.type: Easing.InQuad }
+        NumberAnimation { target: boot; property: "roll"; to: 1; duration: 420 }
         ScriptAction { script: boot.shown = false }
     }
 
@@ -138,7 +144,7 @@ Scope {
                 id: tube
                 width: parent.width
                 height: parent.height
-                y: Math.round(parent.height * boot.roll)
+                y: Math.round(parent.height * boot.steps(boot.roll, 7))
                 color: Theme.bg
 
                 Rectangle {
@@ -168,9 +174,9 @@ Scope {
 
                 Rectangle {
                     anchors.centerIn: parent
-                    width: Math.round(parent.width * boot.beamWidth)
-                    height: Math.max(3, Math.round(parent.height * boot.beamHeight))
-                    opacity: boot.beamOpacity
+                    width: Math.round(parent.width * boot.steps(boot.beamWidth, 4))
+                    height: Math.max(3, Math.round(parent.height * boot.steps(boot.beamHeight, 5)))
+                    opacity: Math.ceil(boot.beamOpacity * 3) / 3
                     color: Theme.fg
                 }
             }

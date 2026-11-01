@@ -35,7 +35,9 @@ dmenu-style strips, a tty login as the lock screen. Lives in
   about three seconds, covering apps as they start. Once per Hyprland
   session; a click skips it. Unlocking plays just the roll-down
   (`Lock` emits `leaving`, `Boot.reveal()` puts a blank tube up before the
-  lock surface goes). The wallpaper is the bare tube with
+  lock surface goes). Both draw in a few hard steps (`Boot.steps`), not smooth
+  easing: the beam opens in 4–5 jumps, the flash decays in 3 levels, the
+  roll moves in 7. The wallpaper is the bare tube with
   `host · arch linux <kernel>`, `ready.` and a blinking block cursor. The
   lock screen is the distro's fastfetch logo, big and centred, over the
   user name and, centred under it, the password as `*`s (only the stars
