@@ -25,7 +25,7 @@ Scope {
     readonly property string cpu: (cpuinfo.text().match(/model name\s*:\s*(.*)/) ?? ["", "cpu"])[1]
     readonly property string mem: Math.round(parseInt((meminfo.text().match(/MemTotal:\s*(\d+)/) ?? ["", "0"])[1]) / 1024) + "M"
     readonly property var lines: [
-        `[    0.000000] Linux version ${tty.kernel}`,
+        `[    0.000000] Linux version ${Tty.kernel}`,
         `[    0.000000] BIOS-provided physical RAM map: ${mem} usable`,
         `[    0.031337] smpboot: CPU0: ${cpu}`,
         `[    0.118702] PCI: Using configuration type 1 for base access`,
@@ -38,7 +38,7 @@ Scope {
         `[  OK  ] Started Hyprland.`,
         `[  OK  ] Reached target Graphical Interface.`,
         ``,
-        `${tty.host} login: ${tty.user}`,
+        `${Tty.host} login: ${Tty.user}`,
         `ready.`,
     ]
 
@@ -130,7 +130,6 @@ Scope {
         ScriptAction { script: boot.skip() }
     }
 
-    Tty { id: tty }
     FileView { id: cpuinfo; path: "/proc/cpuinfo"; blockLoading: true }
     FileView { id: meminfo; path: "/proc/meminfo"; blockLoading: true }
 

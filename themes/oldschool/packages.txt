@@ -3,3 +3,4 @@ hyprlock
 htop
 ttf-terminus-nerd
 xcursor-chicago95-git (AUR)
+upower (bar battery on laptops)

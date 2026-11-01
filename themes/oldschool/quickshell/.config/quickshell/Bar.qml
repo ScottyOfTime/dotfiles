@@ -4,6 +4,7 @@ import Quickshell.Hyprland
 import Quickshell.Io
 import Quickshell.Services.Mpris
 import Quickshell.Services.Pipewire
+import Quickshell.Services.UPower
 import Quickshell.Wayland
 
 // a classic status line: workspaces | focused title ... modules | date | time
@@ -13,6 +14,9 @@ PanelWindow {
     required property var modelData
     readonly property var monitor: Hyprland.monitorFor(modelData)
     readonly property var sink: Pipewire.defaultAudioSink
+    // laptops only: the desktop's displayDevice is no laptop battery
+    readonly property var battery: UPower.displayDevice?.isLaptopBattery && UPower.displayDevice.isPresent
+        ? UPower.displayDevice : null
     readonly property var player: Mpris.players.values.find(p => p.identity === "Spotify")
         ?? Mpris.players.values[0] ?? null
     readonly property string title: Hyprland.focusedMonitor === monitor && Hyprland.activeToplevel
@@ -125,6 +129,16 @@ PanelWindow {
             onWheeled: event => bar.sink.audio.volume = Math.max(0, Math.min(1.5,
                 bar.sink.audio.volume + (event.angleDelta.y > 0 ? 0.05 : -0.05)))
         }
+        Sep { visible: bar.battery !== null }
+        Module {
+            visible: bar.battery !== null
+            key: "bat"
+            readonly property int percent: Math.round((bar.battery?.percentage ?? 0) * 100)
+            readonly property bool charging: bar.battery?.state === UPowerDeviceState.Charging
+                || bar.battery?.state === UPowerDeviceState.FullyCharged
+            value: `${percent}%${charging ? "+" : ""}`
+            tone: !charging && percent <= 15 ? Theme.red : !charging && percent <= 30 ? Theme.bright : Theme.fg
+        }
         Sep {}
         Module { key: "cpu"; value: `${Stats.cpu}%`; tone: bar.level(Stats.cpu) }
         Sep {}
@@ -137,10 +151,14 @@ PanelWindow {
         Module { value: Qt.formatDateTime(clock.date, "HH:mm"); tone: Theme.bright }
     }
 
-    IpcHandler {
-        target: "music"
-        enabled: Hyprland.focusedMonitor === bar.monitor
-        function toggle(): void { musicPopup.toggle(); }
+    // only the focused monitor's bar has the handler: one per bar, even
+    // disabled, registers twice and warns on every reload
+    Loader {
+        active: Hyprland.focusedMonitor === bar.monitor
+        sourceComponent: IpcHandler {
+            target: "music"
+            function toggle(): void { musicPopup.toggle(); }
+        }
     }
 
     MusicPopup {

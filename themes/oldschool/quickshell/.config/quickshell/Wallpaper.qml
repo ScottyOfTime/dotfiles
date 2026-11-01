@@ -1,5 +1,6 @@
 import QtQuick
 import Quickshell
+import Quickshell.Hyprland
 import Quickshell.Wayland
 
 // dark is the bare tube; light is tractor-feed printer paper, banded with
@@ -17,7 +18,8 @@ PanelWindow {
     WlrLayershell.layer: WlrLayer.Background
     WlrLayershell.namespace: "wallpaper"
 
-    Tty { id: tty }
+    // blink only where no window can be covering the banner
+    Blink { id: blink; running: (Hyprland.monitorFor(wall.modelData)?.activeWorkspace?.toplevels.values.length ?? 1) === 0 }
 
     Column {
         visible: wall.paper
@@ -60,7 +62,7 @@ PanelWindow {
         color: Theme.dim
         lineHeight: 1.3
         textFormat: Text.StyledText
-        text: `${tty.host} · arch linux ${tty.kernel}<br>ready.<br>`
-            + `<font color="${Theme.fg}">${tty.blink ? "█" : "&nbsp;"}</font>`
+        text: `${Tty.host} · ${Tty.distro} ${Tty.kernel}<br>ready.<br>`
+            + `<font color="${Theme.fg}">${blink.on ? "█" : "&nbsp;"}</font>`
     }
 }

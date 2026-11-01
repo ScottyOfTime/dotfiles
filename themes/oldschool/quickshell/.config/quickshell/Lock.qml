@@ -106,7 +106,7 @@ Scope {
                     event.accepted = true;
                 }
 
-                Tty { id: tty }
+                Blink { id: blink; running: content.visible && lock.drawn >= 1 }
 
                 Column {
                     id: content
@@ -134,7 +134,7 @@ Scope {
                         Label {
                             x: Math.round((prompt.width - width) / 2)
                             textFormat: Text.PlainText
-                            text: tty.user
+                            text: Tty.user
                         }
                         // only the stars are centred; the block trails them, or
                         // sits centred itself while nothing is typed
@@ -151,7 +151,7 @@ Scope {
                                 color: lock.status === "broken" ? Theme.red : Theme.fg
                             }
                             Label {
-                                visible: tty.blink && lock.status !== "broken"
+                                visible: blink.on && lock.status !== "broken"
                                     && lock.status !== "checking" && lock.status !== "ok"
                                 x: lock.password === "" ? Math.round((parent.width - width) / 2) : stars.x + stars.width
                                 textFormat: Text.PlainText

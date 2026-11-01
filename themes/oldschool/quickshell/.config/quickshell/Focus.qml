@@ -29,14 +29,4 @@ PanelWindow {
     color: Theme.fg
     visible: info?.at !== undefined && window.workspace === workspace
         && workspace.toplevels.values.length > 1 && !info.fullscreen
-
-    // lastIpcObject is a snapshot; geometry changes don't refresh it
-    Connections {
-        target: Hyprland
-        function onRawEvent(event) {
-            if (["openwindow", "closewindow", "movewindow", "movewindowv2", "activewindowv2",
-                 "changefloatingmode", "fullscreen", "workspacev2", "resizewindow"].includes(event.name))
-                Hyprland.refreshToplevels();
-        }
-    }
 }

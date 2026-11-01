@@ -1,4 +1,6 @@
+import QtQuick
 import Quickshell
+import Quickshell.Hyprland
 import Quickshell.Io
 
 ShellRoot {
@@ -21,6 +23,16 @@ ShellRoot {
     Variants {
         model: Quickshell.screens
         Focus {}
+    }
+    // a toplevel's lastIpcObject (Focus, Overview) is a snapshot; geometry
+    // changes don't refresh it, so refresh once per window event here
+    Connections {
+        target: Hyprland
+        function onRawEvent(event) {
+            if (["openwindow", "closewindow", "movewindow", "movewindowv2", "activewindowv2",
+                 "changefloatingmode", "fullscreen", "workspacev2", "resizewindow"].includes(event.name))
+                Hyprland.refreshToplevels();
+        }
     }
     Launcher {}
     Osd {}

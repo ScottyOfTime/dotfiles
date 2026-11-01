@@ -99,8 +99,8 @@ binds as zine ([zine-quickshell.md](zine-quickshell.md)).
 
 | File | What |
 |---|---|
-| `Bar.qml` | A classic status line split by `\|`: workspaces (focused in reverse video), `> title`, then `mus` (click for the player), `vol` (click mutes, scroll changes), `cpu`, `mem`, `net`, date, time |
-| `Focus.qml` | The focused-window strip: an overlay layer placed from the window's `lastIpcObject`, refreshed on Hyprland window events; click-through |
+| `Bar.qml` | A classic status line split by `\|`: workspaces (focused in reverse video), `> title`, then `mus` (click for the player), `vol` (click mutes, scroll changes), `bat` (laptops only: UPower's display device when it's a laptop battery; `+` charging, `bright` at 30%, `red` at 15%), `cpu`, `mem`, `net`, date, time |
+| `Focus.qml` | The focused-window strip: an overlay layer placed from the window's `lastIpcObject` (refreshed once per window event in `shell.qml`); click-through |
 | `Strip.qml` | dmenu-style strip over the bar: `bright` prompt, optional search field, matches in a row; arrows/Tab move, Enter picks, Esc closes, digits pick when not searchable |
 | `Launcher.qml` | `run` strip over the desktop entries (`SUPER+Space`) |
 | `PowerMenu.qml` | `session` strip: 1 lock, 2 suspend, 3 log out, 4 reboot, 5 shut down (`SUPER+Escape`) |
@@ -112,7 +112,8 @@ binds as zine ([zine-quickshell.md](zine-quickshell.md)).
 | `Beam.qml` | The power-on beam: a `bright` rectangle in hard steps (0 is a dot) |
 | `Boot.qml` | The login power-on and boot log; `$XDG_RUNTIME_DIR/oldschool-booted` holds the Hyprland instance signature it last played for; `qs ipc call boot replay` shows it again |
 | `Wallpaper.qml` | The `ready.` banner; on paper bands and sprocket holes in light mode |
-| `Tty.qml` | Host, kernel, user and the blinking cursor, shared by the wallpaper and lock |
+| `Tty.qml` | Singleton: host (`/proc/sys/kernel/hostname`), kernel, user and distro (`/etc/os-release`), read once |
+| `Blink.qml` | A block cursor's blink timer; consumers run it only while it's on screen (the wallpaper only on a workspace with no windows, the lock only on the prompt's screen), as every toggle redraws the window |
 | `Box.qml`, `Label.qml`, `Meter.qml` | Flat bordered box, text, text progress bar |
 | `Stats.qml` | cpu, memory and network from `/proc` every 2s |
 
@@ -164,6 +165,9 @@ binds as zine ([zine-quickshell.md](zine-quickshell.md)).
   bitmap tables and renames the family. Ghostty's command-line options are
   overridden by the theme's `config-file`, so test with
   `--config-default-files=false`.
+- **One IPC handler per target.** A handler in a per-screen component
+  registers once per screen even with `enabled: false` and warns on every
+  reload; `Bar` loads its `music` handler only on the focused monitor.
 - **Some names are reserved.** A QML method called `escape` is an
   "illegal method name", and `qs ipc call <target> show` runs `qs ipc
   show` instead of the function, so don't name IPC functions `show`.

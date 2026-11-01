@@ -21,7 +21,6 @@ PanelWindow {
     NotificationServer {
         id: server
         actionsSupported: true
-        imageSupported: true
         bodyMarkupSupported: false
         onNotification: n => n.tracked = true
     }
