@@ -49,11 +49,13 @@ Marked † are bound by the theme (zine shown).
 | media keys | playerctl and mic mute in base; volume/brightness † (they drive the theme's OSD) |
 | `mod+shift+Q` | exit Hyprland (`hl.dsp.exit()`; the old `hyprctl dispatch exit` is a no-op in Lua mode) |
 
-Workspaces 1–2 are on DP-2 (left), 3–4 on DP-3 (right).
+On the desktop (`hosts/scotty-desktop.lua`) workspaces 1–2 are on DP-2
+(left), 3–4 on DP-3 (right), at scale 1.33; other machines see
+[setup.md](setup.md#another-machine).
 
 ## Window and layer rules
 
-Discord → workspace 3, Steam → `special:magic`, Spotify → `special:music`,
+On the desktop Discord and Signal → workspace 3 (host file); Steam → `special:magic`, Spotify → `special:music`,
 flameshot overlay floats at the origin, the drop-down Ghostty
 (`com.scotty.dropdown`) floats 70%x55% at the top on `special:dropdown`.
 

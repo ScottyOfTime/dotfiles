@@ -28,6 +28,7 @@ themes/
                      packages.txt
   ayu/               waybar, fuzzel, mako, wob, palette, darkman,
                      hypr-theme, ghostty-theme, vim-theme, herdr, packages.txt
+install              first-run setup (links, backs up conflicts, picks a theme)
 theme                switcher script
 pkglist.txt aur-pkgslist.txt services.txt system.sh sddm.conf
 ```

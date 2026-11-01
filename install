@@ -1,0 +1,25 @@
+#!/bin/sh
+# ./install [theme]   first run on a new machine: link base and the theme,
+#                     moving any real file stow would refuse to replace to
+#                     <file>.bak, then build and switch to the theme (zine)
+cd "$(dirname "$(readlink -f "$0")")" || exit 1
+theme=${1:-zine}
+[ -d "themes/$theme" ] || { echo "no theme '$theme'" >&2; exit 1; }
+base="bash fastfetch fontconfig ghostty hypr nvim vim"
+
+# stow aborts everything on one conflict, so a fresh machine's default
+# .bashrc alone leaves hyprland with no config (it then segfaults)
+clear_way() {
+    stow -n -v -d "$1" -t "$HOME" $2 2>&1 | sed -n \
+        -e 's/.* over existing target \(.*\) since .*/\1/p' \
+        -e 's/.*existing target is not owned by stow: //p' |
+    while read -r f; do
+        mv --backup=numbered "$HOME/$f" "$HOME/$f.bak" && echo "moved ~/$f to ~/$f.bak"
+    done
+}
+
+clear_way base "$base"
+stow -d base -t "$HOME" $base || exit 1
+clear_way "themes/$theme" "$(find "themes/$theme" -mindepth 1 -maxdepth 1 -type d ! -name colorscheme -printf '%f ')"
+[ -x "themes/$theme/colorscheme/build.py" ] && "themes/$theme/colorscheme/build.py"
+./theme "$theme"
