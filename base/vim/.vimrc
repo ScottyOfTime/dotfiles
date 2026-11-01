@@ -50,7 +50,7 @@ set history=1000
 set encoding=utf-8
 set nofixendofline
 
-autocmd VimLeave * silent !echo -ne "\e[5 q"
+autocmd VimLeave * silent !echo -ne "\e[0 q"
 let &t_SI = "\e[5 q"
 let &t_EI = "\e[2 q"
 set ttimeout
