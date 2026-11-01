@@ -14,13 +14,34 @@ Scope {
     property int attempts: 0
     property string logo: ""
     signal leaving()
+    // locking switches the tube off: the picture collapses to a line, the
+    // line to a dot, the dot fades; then the prompt appears
+    property bool switchingOff: false
+    property real offAcross: 1
+    property real offDown: 1
+    property real offGlow: 1
     readonly property var primary: Quickshell.screens.find(s => s.x === 0 && s.y === 0)
         ?? Quickshell.screens[0]
 
     function lockNow() {
         password = "";
         status = "";
+        offAcross = 1;
+        offDown = 1;
+        offGlow = 1;
+        switchingOff = true;
         session.locked = true;
+        powerOff.restart();
+    }
+
+    SequentialAnimation {
+        id: powerOff
+        NumberAnimation { target: lock; property: "offDown"; to: 0; duration: 180 }
+        NumberAnimation { target: lock; property: "offAcross"; to: 0; duration: 150 }
+        PauseAnimation { duration: 90 }
+        NumberAnimation { target: lock; property: "offGlow"; to: 0; duration: 240 }
+        PauseAnimation { duration: 200 }
+        ScriptAction { script: lock.switchingOff = false }
     }
 
     function leave() {
@@ -101,8 +122,15 @@ Scope {
 
                 Tty { id: tty }
 
+                Beam {
+                    visible: lock.switchingOff
+                    across: lock.offAcross
+                    down: lock.offDown
+                    glow: lock.offGlow
+                }
+
                 Column {
-                    visible: surface.screen === lock.primary
+                    visible: surface.screen === lock.primary && !lock.switchingOff
                     anchors.centerIn: parent
                     spacing: 40
 

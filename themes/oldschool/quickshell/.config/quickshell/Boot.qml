@@ -3,26 +3,25 @@ import Quickshell
 import Quickshell.Io
 import Quickshell.Wayland
 
-// login as a crt powering on: a beam opens to the full screen, the boot log
-// prints, then the screen rolls down off the desktop. Once per hyprland
-// session (the runtime dir outlives a logout, so the flag holds the instance
+// login as a crt powering on: a burst of snow, a dot that stretches into a
+// line and opens to a full flash, which collapses back to the centre as the
+// boot log types out; then the desktop dithers in. Once per hyprland session
+// (the runtime dir outlives a logout, so the flag holds the instance
 // signature); `qs ipc call boot replay` replays it, a click skips it.
-// Unlocking plays just the roll (`reveal`)
+// Unlocking plays just the dither (`reveal`)
 Scope {
     id: boot
 
     property bool shown: false
-    property int count: 0
-    property real beamWidth: 0
-    property real beamHeight: 0
-    property real beamOpacity: 1
-    property real roll: 0
-
-    // animations run smooth underneath but draw in a few hard jumps, like
-    // an old card redrawing at a low rate
-    function steps(value, count) {
-        return Math.floor(value * count) / count;
-    }
+    // "snow", "beam", "log" or "" (a blank tube, before a reveal)
+    property string phase: ""
+    property int snow: 0
+    property real across: 0
+    property real down: 0
+    property real glow: 1
+    property int typed: 0
+    // 0 is a solid tube, 16 fully dissolved (one step of a 4x4 bayer matrix)
+    property int dissolve: 0
 
     readonly property string cpu: (cpuinfo.text().match(/model name\s*:\s*(.*)/) ?? ["", "cpu"])[1]
     readonly property string mem: Math.round(parseInt((meminfo.text().match(/MemTotal:\s*(\d+)/) ?? ["", "0"])[1]) / 1024) + "M"
@@ -44,52 +43,91 @@ Scope {
         `ready.`,
     ]
 
+    readonly property int total: lines.join("\n").length
+
+    // the lines typed so far, the last one cut off mid-way
+    readonly property var shownLines: {
+        const out = [];
+        let left = typed;
+        for (const line of lines) {
+            if (left <= 0) break;
+            out.push(line.slice(0, left));
+            left -= line.length + 1;
+        }
+        return out;
+    }
+
+    function reset() {
+        powerOn.stop();
+        typer.stop();
+        done.stop();
+        revealDelay.stop();
+        fadeIn.stop();
+        phase = "";
+        snow = 0;
+        across = 0;
+        down = 0;
+        glow = 1;
+        typed = 0;
+        dissolve = 0;
+    }
+
     function show() {
-        count = 0;
-        beamWidth = 0;
-        beamHeight = 0;
-        beamOpacity = 1;
-        roll = 0;
+        reset();
         shown = true;
-        powerOn.restart();
+        powerOn.start();
     }
 
     // after unlocking: a blank tube already up when the lock surface goes,
-    // then the same roll off the desktop
+    // then the dither off the desktop
     function reveal() {
-        skip();
-        count = 0;
-        beamOpacity = 0;
-        roll = 0;
+        reset();
         shown = true;
         revealDelay.restart();
     }
 
     function skip() {
-        powerOn.stop();
-        step.stop();
-        done.stop();
-        rollOff.stop();
-        revealDelay.stop();
+        reset();
         shown = false;
     }
 
-    // the lock surface lingers 250ms after a successful unlock (Lock.qml)
-    Timer { id: revealDelay; interval: 320; onTriggered: rollOff.start() }
-
     SequentialAnimation {
         id: powerOn
-        PauseAnimation { duration: 150 }
-        NumberAnimation { target: boot; property: "beamWidth"; to: 1; duration: 160 }
-        NumberAnimation { target: boot; property: "beamHeight"; to: 1; duration: 200 }
-        ScriptAction { script: step.start() }
-        NumberAnimation { target: boot; property: "beamOpacity"; to: 0; duration: 300 }
+        PauseAnimation { duration: 120 }
+        ScriptAction { script: boot.phase = "snow" }
+        NumberAnimation { target: boot; property: "snow"; from: 0; to: 6; duration: 300 }
+        ScriptAction { script: boot.phase = "beam" }
+        PauseAnimation { duration: 110 }
+        NumberAnimation { target: boot; property: "across"; to: 1; duration: 160 }
+        NumberAnimation { target: boot; property: "down"; to: 1; duration: 200 }
+        ScriptAction { script: { boot.phase = "log"; typer.start(); } }
+        ParallelAnimation {
+            NumberAnimation { target: boot; property: "down"; to: 0; duration: 380 }
+            NumberAnimation { target: boot; property: "glow"; to: 0; duration: 380 }
+        }
     }
 
+    Timer {
+        id: typer
+        interval: 16
+        repeat: true
+        onTriggered: {
+            boot.typed += 7;
+            if (boot.typed >= boot.total) {
+                stop();
+                done.start();
+            }
+        }
+    }
+    Timer { id: done; interval: 600; onTriggered: fadeIn.start() }
+
+    // the lock surface lingers 250ms after a successful unlock (Lock.qml)
+    Timer { id: revealDelay; interval: 320; onTriggered: fadeIn.start() }
+
     SequentialAnimation {
-        id: rollOff
-        NumberAnimation { target: boot; property: "roll"; to: 1; duration: 420 }
-        ScriptAction { script: boot.shown = false }
+        id: fadeIn
+        NumberAnimation { target: boot; property: "dissolve"; from: 0; to: 16; duration: 400 }
+        ScriptAction { script: boot.skip() }
     }
 
     Tty { id: tty }
@@ -107,24 +145,11 @@ Scope {
         function replay(): void { boot.show(); }
     }
 
-    Timer {
-        id: step
-        interval: 70
-        repeat: true
-        onTriggered: {
-            boot.count++;
-            if (boot.count >= boot.lines.length) {
-                stop();
-                done.start();
-            }
-        }
-    }
-    Timer { id: done; interval: 700; onTriggered: rollOff.start() }
-
     Variants {
         model: Quickshell.screens
 
         PanelWindow {
+            id: tube
             required property var modelData
 
             screen: modelData
@@ -141,44 +166,89 @@ Scope {
             }
 
             Rectangle {
-                id: tube
-                width: parent.width
-                height: parent.height
-                y: Math.round(parent.height * boot.steps(boot.roll, 7))
+                anchors.fill: parent
+                visible: boot.dissolve === 0
                 color: Theme.bg
+            }
 
-                Rectangle {
-                    width: parent.width
-                    height: 3
-                    visible: boot.roll > 0
-                    color: Theme.fg
+            // the desktop comes through an ordered dither, two levels a step;
+            // low-res and scaled without smoothing, so the cells stay square
+            Canvas {
+                id: dither
+                readonly property int cell: 4
+                readonly property int level: Math.floor(boot.dissolve / 2) * 2
+                width: Math.ceil(parent.width / cell)
+                height: Math.ceil(parent.height / cell)
+                visible: boot.dissolve > 0
+                smooth: false
+                transform: Scale { xScale: dither.cell; yScale: dither.cell }
+                onLevelChanged: if (level > 0) requestPaint()
+                // putImageData draws nothing in this qt; fillRect is fast enough
+                onPaint: {
+                    const bayer = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5];
+                    const ctx = getContext("2d");
+                    ctx.clearRect(0, 0, width, height);
+                    ctx.fillStyle = Theme.bg;
+                    for (let y = 0; y < height; y++)
+                        for (let x = 0; x < width; x++)
+                            if (bayer[(y % 4) * 4 + x % 4] >= level)
+                                ctx.fillRect(x, y, 1, 1);
                 }
+            }
 
-                Column {
-                    x: 16
-                    y: 14
-                    Repeater {
-                        model: boot.lines.slice(0, boot.count)
-                        Label {
-                            required property string modelData
-                            // styled text collapses runs of spaces, which the log aligns with
-                            readonly property string spaced: modelData.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/ /g, "&nbsp;")
-                            textFormat: Text.StyledText
-                            text: modelData.startsWith("[  OK  ]")
-                                ? `[&nbsp;&nbsp;<font color="${Theme.bright}">OK</font>&nbsp;&nbsp;]${spaced.slice(spaced.indexOf("]") + 1)}`
-                                : spaced || "&nbsp;"
-                            color: modelData.startsWith("[ ") && !modelData.startsWith("[  OK") ? Theme.dim : Theme.fg
+            Canvas {
+                id: noise
+                readonly property int cell: 6
+                width: Math.ceil(parent.width / cell)
+                height: Math.ceil(parent.height / cell)
+                visible: boot.phase === "snow"
+                smooth: false
+                transform: Scale { xScale: noise.cell; yScale: noise.cell }
+                Connections {
+                    target: boot
+                    function onSnowChanged() { if (boot.phase === "snow") noise.requestPaint(); }
+                }
+                onPaint: {
+                    const shades = [Theme.line, Theme.dim, Theme.fg, Theme.bright];
+                    const ctx = getContext("2d");
+                    ctx.fillStyle = Theme.bg;
+                    ctx.fillRect(0, 0, width, height);
+                    for (let y = 0; y < height; y++)
+                        for (let x = 0; x < width; x++) {
+                            const r = Math.floor(Math.random() * 6) - 2;
+                            if (r < 0) continue;
+                            ctx.fillStyle = shades[r];
+                            ctx.fillRect(x, y, 1, 1);
                         }
+                }
+            }
+
+            Column {
+                x: 16
+                y: 14
+                visible: boot.phase === "log" && boot.dissolve === 0
+                Repeater {
+                    model: boot.shownLines
+                    Label {
+                        required property string modelData
+                        required property int index
+                        readonly property bool last: index === boot.shownLines.length - 1 && boot.typed < boot.total
+                        // styled text collapses runs of spaces, which the log aligns with
+                        readonly property string spaced: modelData.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/ /g, "&nbsp;")
+                        textFormat: Text.StyledText
+                        text: (modelData.startsWith("[  OK  ]")
+                                ? `[&nbsp;&nbsp;<font color="${Theme.bright}">OK</font>&nbsp;&nbsp;]${spaced.slice(spaced.indexOf("]") + 1)}`
+                                : spaced || "&nbsp;") + (last ? "█" : "")
+                        color: modelData.startsWith("[ ") && !modelData.startsWith("[  OK") ? Theme.dim : Theme.fg
                     }
                 }
+            }
 
-                Rectangle {
-                    anchors.centerIn: parent
-                    width: Math.round(parent.width * boot.steps(boot.beamWidth, 4))
-                    height: Math.max(3, Math.round(parent.height * boot.steps(boot.beamHeight, 5)))
-                    opacity: Math.ceil(boot.beamOpacity * 3) / 3
-                    color: Theme.fg
-                }
+            Beam {
+                visible: boot.phase === "beam" || (boot.phase === "log" && boot.glow > 0)
+                across: boot.across
+                down: boot.down
+                glow: boot.glow
             }
         }
     }

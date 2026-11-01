@@ -29,15 +29,16 @@ dmenu-style strips, a tty login as the lock screen. Lives in
 - **Text, not widgets.** Bar modules are `key: value`; progress is
   `[#########-----------]` (`Meter`); buttons are `[prev] [play] [next]`.
 - **tty-isms.** Logging in is a CRT powering on over every screen: a
-  beam opens to a full amber screen and fades, a boot log prints (the real
-  kernel, CPU and RAM, `[  OK  ]` units, `<host> login: <user>`,
-  `ready.`), then the screen rolls down off the desktop behind a scanline;
-  about three seconds, covering apps as they start. Once per Hyprland
-  session; a click skips it. Unlocking plays just the roll-down
-  (`Lock` emits `leaving`, `Boot.reveal()` puts a blank tube up before the
-  lock surface goes). Both draw in a few hard steps (`Boot.steps`), not smooth
-  easing: the beam opens in 4–5 jumps, the flash decays in 3 levels, the
-  roll moves in 7. The wallpaper is the bare tube with
+  burst of amber snow, a dot that stretches into a line and opens to a full
+  flash, which collapses back to the centre as the boot log types out (the
+  real kernel, CPU and RAM, `[  OK  ]` units, `<host> login: <user>`,
+  `ready.`), then the desktop comes through a 4x4 ordered dither. About
+  three seconds, covering apps as they start; once per Hyprland session; a
+  click skips it. Locking switches the tube off (the picture collapses to a
+  line, then a dot that fades, then the prompt); unlocking plays just the
+  dither (`Lock` emits `leaving`, `Boot.reveal()` puts a blank tube up
+  before the lock surface goes). Everything draws in a few hard steps, not
+  smooth easing. The wallpaper is the bare tube with
   `host · arch linux <kernel>`, `ready.` and a blinking block cursor. The
   lock screen is the distro's fastfetch logo, big and centred, over the
   user name and, centred under it, the password as `*`s (only the stars
@@ -80,8 +81,9 @@ terminal and editors only, warm-shifted. Cursor: the Windows 95 arrow (`xcursor-
 `Chicago95_Cursor_White_2x`, a copy `hypr-theme/cursor-2x` builds into
 `~/.local/share/icons` (from `theme.sh`, once) with every pixel repeated
 2x and 3x. Chicago95 only ships 32px and nothing scales a cursor up, so
-any size setting left it tiny; at size 48, 1.33x asks for exactly the
-64px copy.
+any size setting left it tiny. GTK asks for size x2 at 1.33x (its
+buffer scale), so size 48 drew the 96px copy at 64 physical: too big;
+size 32 draws the 64px copy at ~43 physical.
 
 ## Quickshell
 
@@ -100,6 +102,7 @@ binds as zine ([zine-quickshell.md](zine-quickshell.md)).
 | `MusicPopup.qml` | Track, artist · album, text progress bar, `[prev] [play] [next]` |
 | `Lock.qml` | Logo (`fastfetch --pipe -s none`, so any distro), user and masked password on the screen at 0,0; PAM `login`, identical to zine's |
 | `Overview.qml` | Every window as a `WS CLASS TITLE` row, like `ps`; up/down/Tab, Enter focuses, Esc or a click outside closes (`SUPER+Tab`) |
+| `Beam.qml` | The CRT beam (hot core in a dim fringe, 0 is a dot), stepped; used by Boot and Lock |
 | `Boot.qml` | The login power-on and boot log; `$XDG_RUNTIME_DIR/oldschool-booted` holds the Hyprland instance signature it last played for; `qs ipc call boot replay` shows it again |
 | `Wallpaper.qml` | The `ready.` banner; on paper bands and sprocket holes in light mode |
 | `Tty.qml` | Host, kernel, user and the blinking cursor, shared by the wallpaper and lock |
@@ -133,6 +136,9 @@ binds as zine ([zine-quickshell.md](zine-quickshell.md)).
   (herdr's server, say), so a bare "already ran" flag there skipped the
   boot screen on every login after the first; compare the Hyprland
   instance signature instead.
+- **Canvas `putImageData` draws nothing** in this Qt (it runs, no
+  error); `fillRect` per cell on a low-res canvas scaled with
+  `smooth: false` is fast enough (a screen of snow in ~3ms).
 - **Some names are reserved.** A QML method called `escape` is an
   "illegal method name", and `qs ipc call <target> show` runs `qs ipc
   show` instead of the function, so don't name IPC functions `show`.
