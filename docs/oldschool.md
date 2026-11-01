@@ -19,16 +19,27 @@ dmenu-style strips, a tty login as the lock screen. Lives in
   the focused one.
 - **Terminal.** Ghostty with 2px padding (balanced, padding takes the
   background colour), ligatures off so every glyph is one plain cell,
-  and a steady block cursor.
+  antialiasing off (`freetype-load-flags` monochrome) for hard pixel
+  edges, and a steady block cursor. Tabs are a flat text line with `|`
+  separators, the current one in reverse video.
+- **htop** uses its built-in Monochrome scheme (`htop/.config/htop/htoprc`,
+  a theme stow package), so it draws in the terminal's amber with
+  `#`/`*`/`|` meters. Changing settings in htop rewrites this file, in the
+  repo.
 - **Text, not widgets.** Bar modules are `key: value`; progress is
   `[#########-----------]` (`Meter`); buttons are `[prev] [play] [next]`.
-- **tty-isms.** The wallpaper is the bare tube with
+- **tty-isms.** Logging in plays a boot log over every screen (kernel
+  lines with the real kernel, CPU and RAM, then `[  OK  ]` units, then
+  `<host> login: <user>` and `ready.`), about two seconds, once per login;
+  a click skips it. The wallpaper is the bare tube with
   `host · arch linux <kernel>`, `ready.` and a blinking block cursor. The
   lock screen is a login prompt (`Arch Linux <kernel> (tty1)`,
   `<host> login: <user>`, `Password:`) that, like a real one, never echoes
   the password; a wrong one prints `Login incorrect`.
-- **JetBrains Mono everywhere.** No bitmap font is installed.
-- **Light mode** is dark brown ink on warm paper, same structure.
+- **JetBrains Mono everywhere.** No bitmap font is installed; the terminal
+  gets close with antialiasing off.
+- **Light mode** is dark brown ink on tractor-feed printer paper: the
+  wallpaper has alternating bands and sprocket holes down both edges.
 
 Tried and dropped on the way here (as "portal"): blue/orange Portal
 accents, Portal in-jokes and announcer lines, a test chamber sign, glowing
@@ -70,11 +81,12 @@ binds as zine ([zine-quickshell.md](zine-quickshell.md)).
 | `Launcher.qml` | `run` strip over the desktop entries (`SUPER+Space`) |
 | `PowerMenu.qml` | `session` strip: 1 lock, 2 suspend, 3 log out, 4 reboot, 5 shut down (`SUPER+Escape`) |
 | `Osd.qml` | `v: 50% [##########----------]` box under the bar; `b:` for brightness |
-| `Notifications.qml` | Boxes top-right: `app · time`, summary, body, `[action]`s; `bright` border, red and sticky when critical; click dismisses |
+| `Notifications.qml` | One log line each under the bar, top-right: `[HH:mm] app: summary - body` plus `[action]`s; red and sticky when critical; click dismisses |
 | `MusicPopup.qml` | Track, artist · album, text progress bar, `[prev] [play] [next]` |
 | `Lock.qml` | tty login prompt; PAM `login`, identical to zine's |
-| `Overview.qml` | Live window thumbnails titled `workspace: title`; arrows/Tab, Enter, Esc (`SUPER+Tab`) |
-| `Wallpaper.qml` | The tube with the `ready.` banner |
+| `Overview.qml` | Every window as a `WS CLASS TITLE` row, like `ps`; up/down/Tab, Enter focuses, Esc or a click outside closes (`SUPER+Tab`) |
+| `Boot.qml` | The login boot log; a flag in `$XDG_RUNTIME_DIR` keeps it to once per login; `qs ipc call boot replay` shows it again |
+| `Wallpaper.qml` | The `ready.` banner; on paper bands and sprocket holes in light mode |
 | `Tty.qml` | Host, kernel, user and the blinking cursor, shared by the wallpaper and lock |
 | `Box.qml`, `Label.qml`, `Meter.qml` | Flat bordered box, text, text progress bar |
 | `Stats.qml` | cpu, memory and network from `/proc` every 2s |
@@ -93,6 +105,9 @@ binds as zine ([zine-quickshell.md](zine-quickshell.md)).
 - **`lastIpcObject` is a snapshot.** A toplevel's position and size only
   update after `Hyprland.refreshToplevels()`; `Focus.qml` calls it on the
   window events from `Hyprland.rawEvent`.
+- **Some names are reserved.** A QML method called `escape` is an
+  "illegal method name", and `qs ipc call <target> show` runs `qs ipc
+  show` instead of the function, so don't name IPC functions `show`.
 - **Some names are reserved in QML.** A property called `print` is an
   "illegal property name", an id called `print` "masks a global
   JavaScript property", and a `top` property on a `Shape` "cannot override

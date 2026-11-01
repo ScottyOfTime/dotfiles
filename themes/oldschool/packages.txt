@@ -1,2 +1,3 @@
 quickshell
 hyprlock
+htop

@@ -3,15 +3,16 @@ import Quickshell
 import Quickshell.Services.Notifications
 import Quickshell.Wayland
 
-// notification server: flat boxes stacked top-right, click to dismiss
+// notification server: one log line each under the bar, top-right; click
+// a line to dismiss it
 PanelWindow {
     id: popups
 
     visible: server.trackedNotifications.values.length > 0
     color: "transparent"
     anchors { top: true; right: true }
-    margins { top: Theme.bar + 8; right: 8 }
-    implicitWidth: 400
+    margins { top: Theme.bar }
+    implicitWidth: 620
     implicitHeight: stack.implicitHeight
     exclusionMode: ExclusionMode.Ignore
     WlrLayershell.layer: WlrLayer.Overlay
@@ -28,20 +29,27 @@ PanelWindow {
     Column {
         id: stack
         width: parent.width
-        spacing: 6
 
         Repeater {
             model: server.trackedNotifications
 
-            Box {
+            Rectangle {
                 id: note
                 required property var modelData
                 readonly property bool critical: modelData.urgency === NotificationUrgency.Critical
                 readonly property string arrived: Qt.formatDateTime(new Date(), "HH:mm")
 
+                anchors.right: parent.right
                 width: stack.width
-                height: body.implicitHeight + 20
-                edge: critical ? Theme.red : Theme.bright
+                height: 26
+                color: area.containsMouse ? Theme.surface : Theme.panel
+
+                Rectangle {
+                    anchors.bottom: parent.bottom
+                    width: parent.width
+                    height: 1
+                    color: Theme.line
+                }
 
                 MouseArea {
                     id: area
@@ -57,45 +65,31 @@ PanelWindow {
                     onTriggered: note.modelData.expire()
                 }
 
-                Column {
-                    id: body
+                Label {
+                    id: line
                     x: 10
-                    y: 10
-                    width: parent.width - 20
-                    spacing: 3
+                    anchors.verticalCenter: parent.verticalCenter
+                    width: note.width - actions.implicitWidth - 24
+                    elide: Text.ElideRight
+                    textFormat: Text.StyledText
+                    readonly property string body: note.modelData.body.replace(/\s+/g, " ").trim()
+                    function plain(s) { return s.replace(/&/g, "&amp;").replace(/</g, "&lt;"); }
+                    text: `<font color="${note.critical ? Theme.red : Theme.dim}">[${note.arrived}] ${line.plain(note.modelData.appName || "notify")}:</font> `
+                        + `<font color="${note.critical ? Theme.red : Theme.fg}">${line.plain(note.modelData.summary)}</font>`
+                        + (body ? `<font color="${Theme.dim}"> - ${line.plain(body)}</font>` : "")
+                }
 
-                    Label {
-                        text: `${note.modelData.appName || "notification"} · ${note.arrived}`
-                        color: note.critical ? Theme.red : Theme.dim
-                        font.pixelSize: 11
-                    }
-                    Label {
-                        text: note.modelData.summary
-                        font.bold: true
-                        width: parent.width
-                        elide: Text.ElideRight
-                    }
-                    Label {
-                        visible: text !== ""
-                        text: note.modelData.body
-                        width: parent.width
-                        wrapMode: Text.Wrap
-                        maximumLineCount: 5
-                        elide: Text.ElideRight
-                        textFormat: Text.PlainText
-                    }
-                    Row {
-                        visible: note.modelData.actions.length > 0
-                        spacing: 10
-                        topPadding: 3
-                        Repeater {
-                            model: note.modelData.actions
-                            Label {
-                                required property var modelData
-                                text: `[${modelData.text}]`
-                                color: hover.containsMouse ? Theme.bright : Theme.fg
-                                MouseArea { id: hover; anchors.fill: parent; hoverEnabled: true; onClicked: parent.modelData.invoke() }
-                            }
+                Row {
+                    id: actions
+                    anchors { right: parent.right; rightMargin: 10; verticalCenter: parent.verticalCenter }
+                    spacing: 8
+                    Repeater {
+                        model: note.modelData.actions
+                        Label {
+                            required property var modelData
+                            text: `[${modelData.text}]`
+                            color: hover.containsMouse ? Theme.bright : Theme.fg
+                            MouseArea { id: hover; anchors.fill: parent; hoverEnabled: true; onClicked: parent.modelData.invoke() }
                         }
                     }
                 }

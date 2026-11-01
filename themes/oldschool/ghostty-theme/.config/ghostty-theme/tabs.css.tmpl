@@ -5,6 +5,10 @@ tabbar .box {
 }
 
 tabbar .box {
+  border-top: 1px solid #${line};
+}
+
+tabbar .box {
   padding: 0;
 }
 
@@ -19,9 +23,9 @@ tabbar tabbox > tabboxchild {
 }
 
 tabbar tabbox > separator {
-  margin: 0;
-  min-width: 0;
-  background: none;
+  margin: 5px 0;
+  min-width: 1px;
+  background: #${line};
 }
 
 tabbar tab {
@@ -46,6 +50,8 @@ tabbar tabbox > tabboxchild tab:selected {
 
 tabbar tab .tab-title {
   margin: 0;
+  font-family: "JetBrains Mono";
+  font-size: 13px;
 }
 
 tabbar tab button.tab-close-button {

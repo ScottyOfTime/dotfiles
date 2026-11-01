@@ -28,4 +28,5 @@ ShellRoot {
     Lock { id: lock }
     PowerMenu { lock: lock }
     Overview {}
+    Boot {}
 }
