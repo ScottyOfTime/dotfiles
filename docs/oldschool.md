@@ -87,6 +87,21 @@ at 24 (and `theme.lua` sizes its env from the theme name). GTK asks for size x2 
 buffer scale), so size 48 drew the 96px copy at 64 physical: too big;
 size 32 draws the 64px copy at ~43 physical.
 
+## Boot (optional, system-level)
+
+`themes/oldschool/system/`, run by hand, never by `./theme`:
+`sudo ./install-boot` themes GRUB from the dark palette (amber Terminus at
+32px converted with `grub-mkfont`, the selected entry in reverse video via
+1px PNGs GRUB stretches, a `booting … in %d s` countdown) and the Linux
+console: `vt.default_red/grn/blu` kernel options give it the amber palette
+(colour 0 is its background, 7 the boot messages' text, the rest the
+terminal's) and `FONT=ter-v32n` in `/etc/vconsole.conf` (needs
+`terminus-font`; the `sd-vconsole` hook loads it early). It backs up
+`/etc/default/grub` and `/etc/vconsole.conf` once as `*.oldschool-bak`,
+writes `/boot/grub/themes/oldschool`, and runs `grub-mkconfig` and
+`mkinitcpio -P`; it's idempotent. `sudo ./uninstall-boot` restores the
+backups and rebuilds.
+
 ## Quickshell
 
 `themes/oldschool/quickshell/.config/quickshell/`, same IPC targets and

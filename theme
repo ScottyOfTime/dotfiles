@@ -6,8 +6,8 @@ cd "$(dirname "$(readlink -f "$0")")" || exit 1
 state=${XDG_STATE_HOME:-$HOME/.local/state}/dotfiles-theme
 current=$(cat "$state" 2>/dev/null)
 
-# every folder in a theme is a stow package except colorscheme/
-packages() { find "themes/$1" -mindepth 1 -maxdepth 1 -type d ! -name colorscheme -printf '%f\n'; }
+# every folder in a theme is a stow package except colorscheme/ and system/
+packages() { find "themes/$1" -mindepth 1 -maxdepth 1 -type d ! -name colorscheme ! -name system -printf '%f\n'; }
 
 if [ -z "$1" ]; then
     for t in themes/*/; do

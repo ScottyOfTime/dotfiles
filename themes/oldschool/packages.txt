@@ -4,3 +4,4 @@ htop
 ttf-terminus-nerd
 xcursor-chicago95-git (AUR)
 upower (bar battery on laptops)
+terminus-font (console font, for system/install-boot)

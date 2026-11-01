@@ -19,7 +19,8 @@ Install a theme's apps from its `packages.txt` first.
 
 ## What a theme provides
 
-Every folder in a theme is a stow package except `colorscheme/`. Files are
+Every folder in a theme is a stow package except `colorscheme/` and
+`system/` (system-level extras run by hand with sudo, never by `./theme`). Files are
 `packages.txt` (not stowed).
 
 | Path (after stowing) | Required | Purpose |

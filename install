@@ -31,6 +31,6 @@ fi
 
 clear_way base "$base"
 stow -d base -t "$HOME" $base || exit 1
-clear_way "themes/$theme" "$(find "themes/$theme" -mindepth 1 -maxdepth 1 -type d ! -name colorscheme -printf '%f ')"
+clear_way "themes/$theme" "$(find "themes/$theme" -mindepth 1 -maxdepth 1 -type d ! -name colorscheme ! -name system -printf '%f ')"
 [ -x "themes/$theme/colorscheme/build.py" ] && "themes/$theme/colorscheme/build.py"
 ./theme "$theme"
