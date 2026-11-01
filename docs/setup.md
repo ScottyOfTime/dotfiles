@@ -47,5 +47,23 @@ the base autostart (theme shell, hypridle, a terminal). To add one, copy `hosts/
 it, and use `hyprctl monitors` for the output names. Check it with
 `Hyprland --verify-config -c <file>`.
 
+## Other distros
+
+Arch is the target; elsewhere expect to do these by hand:
+
+- **Packages.** `pkglist.txt`, `aur-pkgslist.txt` and each theme's
+  `packages.txt` are Arch names, and `./install`'s missing-package check
+  uses `pacman -T` (it stays quiet without pacman). Install the
+  equivalents yourself.
+- **Hyprland 0.56 or newer**, for the Lua config. Most distros lag Arch;
+  an older Hyprland finds no config and segfaults at login. Quickshell,
+  darkman, Ghostty and herdr may need a third-party repo or a build.
+- **`system.sh`** assumes systemd and SDDM.
+
+Already portable: the hostname (`/proc`), the distro name and logo
+(`/etc/os-release`, fastfetch), the git prompt (`.bashrc` tries each
+distro's path), and the theme scripts (fonts found through fontconfig,
+cursors in `/usr/share/icons`).
+
 Removing a package: `stow -D -d base -t ~ <name>` before deleting its folder,
 or its `~/.config` symlink dangles.

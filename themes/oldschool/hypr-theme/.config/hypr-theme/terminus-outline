@@ -10,7 +10,6 @@ import struct
 import subprocess
 from pathlib import Path
 
-SOURCE = Path("/usr/share/fonts/TTF")
 TARGET = Path.home() / ".local/share/fonts/terminess-outline"
 STYLES = ["Regular", "Bold", "Italic", "BoldItalic"]
 DROP = {b"EBDT", b"EBLC", b"EBSC", b"BDF "}
@@ -69,9 +68,13 @@ def stripped(font):
 
 
 if not (TARGET / "TerminessOutline-Regular.ttf").exists():
+    # ask fontconfig where the files are: the directory differs by distro
+    listed = subprocess.run(["fc-list", "Terminess Nerd Font Mono", "file"],
+                            capture_output=True, text=True).stdout
+    files = {Path(line.rstrip(":")).stem.rsplit("-", 1)[-1]: Path(line.rstrip(":"))
+             for line in listed.split() if line.endswith(".ttf:")}
     TARGET.mkdir(parents=True, exist_ok=True)
     for style in STYLES:
-        source = SOURCE / f"TerminessNerdFontMono-{style}.ttf"
-        if source.exists():
-            (TARGET / f"TerminessOutline-{style}.ttf").write_bytes(stripped(source.read_bytes()))
+        if style in files:
+            (TARGET / f"TerminessOutline-{style}.ttf").write_bytes(stripped(files[style].read_bytes()))
     subprocess.run(["fc-cache", str(TARGET)], check=False)

@@ -2,7 +2,12 @@
 
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
-source /usr/share/git/completion/git-prompt.sh
+# git-prompt.sh lives in a different place on each distro
+for f in /usr/share/git/completion/git-prompt.sh /usr/lib/git-core/git-sh-prompt \
+         /usr/share/git-core/contrib/completion/git-prompt.sh; do
+    [[ -f $f ]] && { source "$f"; break; }
+done
+type __git_ps1 &>/dev/null || __git_ps1() { :; }
 GIT_PS1_SHOWDIRTYSTATE=1  # * unstaged, + staged
 __prompt() {
     local dollar='$'

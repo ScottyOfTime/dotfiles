@@ -35,7 +35,3 @@ install              first-run setup (links, backs up conflicts, picks a theme)
 theme                switcher script
 pkglist.txt aur-pkgslist.txt services.txt system.sh sddm.conf
 ```
-
-The old experiment branches (`rice`, `zine`,
-`zine-waybar`, `zine-quickshell`, `zine-overview`) predate this layout and
-are kept only as history.
