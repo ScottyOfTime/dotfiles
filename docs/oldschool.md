@@ -28,10 +28,12 @@ dmenu-style strips, a tty login as the lock screen. Lives in
   repo.
 - **Text, not widgets.** Bar modules are `key: value`; progress is
   `[#########-----------]` (`Meter`); buttons are `[prev] [play] [next]`.
-- **tty-isms.** Logging in plays a boot log over every screen (kernel
-  lines with the real kernel, CPU and RAM, then `[  OK  ]` units, then
-  `<host> login: <user>` and `ready.`), about two seconds, once per login;
-  a click skips it. The wallpaper is the bare tube with
+- **tty-isms.** Logging in is a CRT powering on over every screen: a
+  beam opens to a full amber screen and fades, a boot log prints (the real
+  kernel, CPU and RAM, `[  OK  ]` units, `<host> login: <user>`,
+  `ready.`), then the screen rolls down off the desktop behind a scanline;
+  about three seconds, covering apps as they start. Once per Hyprland
+  session; a click skips it. The wallpaper is the bare tube with
   `host · arch linux <kernel>`, `ready.` and a blinking block cursor. The
   lock screen is the distro's fastfetch logo, big and centred, over the
   user name and, centred under it, the password as `*`s (only the stars
@@ -89,7 +91,7 @@ binds as zine ([zine-quickshell.md](zine-quickshell.md)).
 | `MusicPopup.qml` | Track, artist · album, text progress bar, `[prev] [play] [next]` |
 | `Lock.qml` | Logo (`fastfetch --pipe -s none`, so any distro), user and masked password on the screen at 0,0; PAM `login`, identical to zine's |
 | `Overview.qml` | Every window as a `WS CLASS TITLE` row, like `ps`; up/down/Tab, Enter focuses, Esc or a click outside closes (`SUPER+Tab`) |
-| `Boot.qml` | The login boot log; a flag in `$XDG_RUNTIME_DIR` keeps it to once per login; `qs ipc call boot replay` shows it again |
+| `Boot.qml` | The login power-on and boot log; `$XDG_RUNTIME_DIR/oldschool-booted` holds the Hyprland instance signature it last played for; `qs ipc call boot replay` shows it again |
 | `Wallpaper.qml` | The `ready.` banner; on paper bands and sprocket holes in light mode |
 | `Tty.qml` | Host, kernel, user and the blinking cursor, shared by the wallpaper and lock |
 | `Box.qml`, `Label.qml`, `Meter.qml` | Flat bordered box, text, text progress bar |
@@ -118,6 +120,10 @@ binds as zine ([zine-quickshell.md](zine-quickshell.md)).
   re-centres every line as the password grows, so the user name jumped
   half a cell per key; each is its own label, centred at a rounded x so
   the pixel font stays sharp.
+- **`$XDG_RUNTIME_DIR` outlives a logout** while any user process lingers
+  (herdr's server, say), so a bare "already ran" flag there skipped the
+  boot screen on every login after the first; compare the Hyprland
+  instance signature instead.
 - **Some names are reserved.** A QML method called `escape` is an
   "illegal method name", and `qs ipc call <target> show` runs `qs ipc
   show` instead of the function, so don't name IPC functions `show`.
