@@ -2,22 +2,19 @@
 # sudo ./install-boot: give GRUB and the Linux console the oldschool look.
 # GRUB gets a theme built from the dark palette (amber Terminus, reverse
 # video selection); the console (boot messages, ctrl+alt+fN) gets the amber
-# palette through vt.default_* kernel options and Terminus 32 as its font.
-# Backs up every file it edits once, as <file>.oldschool-bak, and rebuilds
-# grub.cfg and the initramfs. ./uninstall-boot undoes it.
+# palette and the kernel's built-in Terminus 16x32, both as kernel options
+# (vt.default_*, fbcon=font:). Backs up /etc/default/grub once, as
+# grub.oldschool-bak, and rebuilds grub.cfg. ./uninstall-boot undoes it.
 set -e
 [ "$(id -u)" = 0 ] || { echo "run with sudo" >&2; exit 1; }
 here=$(dirname "$(readlink -f "$0")")
 theme_dir=/boot/grub/themes/oldschool
 font=$(fc-list "Terminess Nerd Font Mono:style=Regular" file | head -1 | cut -d: -f1)
 [ -n "$font" ] || { echo "install ttf-terminus-nerd first" >&2; exit 1; }
-[ -f /usr/share/kbd/consolefonts/ter-v32n.psf.gz ] || { echo "install terminus-font first" >&2; exit 1; }
 
 set -a; . "$here/../palette/.config/palette/dark.env"; set +a
 
-for f in /etc/default/grub /etc/vconsole.conf; do
-    [ -e "$f.oldschool-bak" ] || cp -a "$f" "$f.oldschool-bak"
-done
+[ -e /etc/default/grub.oldschool-bak ] || cp -a /etc/default/grub /etc/default/grub.oldschool-bak
 
 mkdir -p "$theme_dir"
 vars="$(sed -n 's/^\([a-z_]*\)=.*/$\1/p' "$here/../palette/.config/palette/dark.env" | tr '\n' ' ')"
@@ -44,16 +41,12 @@ colours=$(for i in $(seq 0 15); do
         *) sed -n "s/^palette = $i=#//p" "$term" ;; esac
 done)
 channel() { echo "$colours" | while read -r c; do printf '0x%s,' "$(echo "$c" | cut -c"$1")"; done | sed 's/,$//'; }
-vt="vt.default_red=$(channel 1-2) vt.default_grn=$(channel 3-4) vt.default_blu=$(channel 5-6)"
+vt="vt.default_red=$(channel 1-2) vt.default_grn=$(channel 3-4) vt.default_blu=$(channel 5-6) fbcon=font:TER16x32"
 
-sed -i -e 's/ *vt\.default_[a-z]*=[^ "]*//g' \
+sed -i -e 's/ *\(vt\.default_[a-z]*\|fbcon\)=[^ "]*//g' \
     -e "s|^GRUB_CMDLINE_LINUX_DEFAULT=\"\(.*\)\"|GRUB_CMDLINE_LINUX_DEFAULT=\"\1 $vt\"|" \
     -e '/^GRUB_THEME=/d' /etc/default/grub
 echo "GRUB_THEME=\"$theme_dir/theme.txt\"" >> /etc/default/grub
 
-sed -i '/^FONT=/d' /etc/vconsole.conf
-echo "FONT=ter-v32n" >> /etc/vconsole.conf
-
 grub-mkconfig -o /boot/grub/grub.cfg
-mkinitcpio -P
 echo "done: reboot to see it; ./uninstall-boot reverts"

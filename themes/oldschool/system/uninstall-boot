@@ -2,10 +2,7 @@
 # sudo ./uninstall-boot: restore what install-boot changed
 set -e
 [ "$(id -u)" = 0 ] || { echo "run with sudo" >&2; exit 1; }
-for f in /etc/default/grub /etc/vconsole.conf; do
-    [ -e "$f.oldschool-bak" ] && mv "$f.oldschool-bak" "$f"
-done
+[ -e /etc/default/grub.oldschool-bak ] && mv /etc/default/grub.oldschool-bak /etc/default/grub
 rm -rf /boot/grub/themes/oldschool
 grub-mkconfig -o /boot/grub/grub.cfg
-mkinitcpio -P
 echo "restored: reboot to see it"

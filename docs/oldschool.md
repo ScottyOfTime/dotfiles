@@ -91,16 +91,16 @@ size 32 draws the 64px copy at ~43 physical.
 
 `themes/oldschool/system/`, run by hand, never by `./theme`:
 `sudo ./install-boot` themes GRUB from the dark palette (amber Terminus at
-32px converted with `grub-mkfont`, the selected entry in reverse video via
-1px PNGs GRUB stretches, a `booting … in %d s` countdown) and the Linux
-console: `vt.default_red/grn/blu` kernel options give it the amber palette
-(colour 0 is its background, 7 the boot messages' text, the rest the
-terminal's) and `FONT=ter-v32n` in `/etc/vconsole.conf` (needs
-`terminus-font`; the `sd-vconsole` hook loads it early). It backs up
-`/etc/default/grub` and `/etc/vconsole.conf` once as `*.oldschool-bak`,
-writes `/boot/grub/themes/oldschool`, and runs `grub-mkconfig` and
-`mkinitcpio -P`; it's idempotent. `sudo ./uninstall-boot` restores the
-backups and rebuilds.
+32px converted from `ttf-terminus-nerd` with `grub-mkfont`, the selected
+entry in reverse video via 1px PNGs GRUB stretches, a `booting … in %d s`
+countdown) and the Linux console, through kernel options only:
+`vt.default_red/grn/blu` give it the amber palette (colour 0 is its
+background, 7 the boot messages' text, the rest the terminal's) and
+`fbcon=font:TER16x32` picks the kernel's built-in Terminus, so no
+`terminus-font` package. It backs up `/etc/default/grub` once as
+`grub.oldschool-bak`, writes `/boot/grub/themes/oldschool` and runs
+`grub-mkconfig`; it's idempotent. `sudo ./uninstall-boot` restores the
+backup and rebuilds.
 
 ## Quickshell
 
