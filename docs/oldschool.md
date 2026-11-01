@@ -87,20 +87,25 @@ at 24 (and `theme.lua` sizes its env from the theme name). GTK asks for size x2 
 buffer scale), so size 48 drew the 96px copy at 64 physical: too big;
 size 32 draws the 64px copy at ~43 physical.
 
-## Boot (optional, system-level)
+## Login screen (optional, system-level)
 
 `themes/oldschool/system/`, run by hand, never by `./theme`:
-`sudo ./install-boot` themes GRUB from the dark palette (amber Terminus at
-32px converted from `ttf-terminus-nerd` with `grub-mkfont`, the selected
-entry in reverse video via 1px PNGs GRUB stretches, a `booting … in %d s`
-countdown) and the Linux console, through kernel options only:
-`vt.default_red/grn/blu` give it the amber palette (colour 0 is its
-background, 7 the boot messages' text, the rest the terminal's) and
-`fbcon=font:TER16x32` picks the kernel's built-in Terminus, so no
-`terminus-font` package. It backs up `/etc/default/grub` once as
-`grub.oldschool-bak`, writes `/boot/grub/themes/oldschool` and runs
-`grub-mkconfig`; it's idempotent. `sudo ./uninstall-boot` restores the
-backup and rebuilds.
+`sudo ./install-sddm` writes a `theme.conf.user` beside
+`where_is_my_sddm_theme`'s `theme.conf` (SDDM reads it as an override),
+from the dark palette: `bg` fill, amber Terminus, the user name and the
+password as `*`s with a blinking amber cursor, like the lock screen without
+the logo; a wrong password draws a `red` border. `sudo ./uninstall-sddm`
+removes it. Preview without installing: copy the theme folder somewhere,
+add the rendered file, and run `sddm-greeter-qt6 --test-mode --theme <dir>`.
+
+## Ideas, not done
+
+- **Boot theme.** A GRUB theme from the palette (Terminus via
+  `grub-mkfont`, reverse-video selection) plus the amber console through
+  kernel options (`vt.default_red/grn/blu`, `fbcon=font:TER16x32`, the
+  kernel's built-in Terminus) was tried and left boot broken, so it was
+  removed. If revisited: test in a VM or with `grub-emu`/one-shot boot
+  entries first, change one thing at a time, and keep the uninstall path.
 
 ## Quickshell
 

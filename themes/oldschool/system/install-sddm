@@ -1,0 +1,14 @@
+#!/bin/sh
+# sudo ./install-sddm: give the login screen (where_is_my_sddm_theme) the
+# oldschool look: a theme.conf.user beside its theme.conf, from the dark
+# palette. SDDM reads it at the next login screen; ./uninstall-sddm removes it
+set -e
+[ "$(id -u)" = 0 ] || { echo "run with sudo" >&2; exit 1; }
+here=$(dirname "$(readlink -f "$0")")
+theme=/usr/share/sddm/themes/where_is_my_sddm_theme
+[ -d "$theme" ] || { echo "install where-is-my-sddm-theme-git first" >&2; exit 1; }
+palette=$here/../palette/.config/palette/dark.env
+set -a; . "$palette"; set +a
+envsubst "$(sed -n 's/^\([a-z_]*\)=.*/$\1/p' "$palette" | tr '\n' ' ')" \
+    < "$here/sddm-theme.conf.user.tmpl" > "$theme/theme.conf.user"
+echo "done: log out to see it"
