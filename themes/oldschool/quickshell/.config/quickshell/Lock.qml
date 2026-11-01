@@ -114,8 +114,8 @@ Scope {
                         text: lock.logo
                     }
 
-                    // each line centred on a shared character grid, so the
-                    // user stays put and the lines align like a terminal's
+                    // the user centred on a character grid; the password and
+                    // errors start under its first letter and grow right
                     Column {
                         id: prompt
                         width: art.width
@@ -129,13 +129,14 @@ Scope {
                         TextMetrics { id: cell; font.family: Theme.font; font.pixelSize: Theme.fontSize; text: "m" }
 
                         Label {
+                            id: name
                             x: prompt.gridX(text.length)
                             textFormat: Text.PlainText
                             text: tty.user
                         }
                         Label {
                             readonly property bool waiting: lock.status === "checking" || lock.status === "ok"
-                            x: prompt.gridX(text.length)
+                            x: name.x
                             textFormat: Text.PlainText
                             text: lock.status === "broken" ? "auth broken: ctrl+alt+f2, run hyprlock"
                                 : "*".repeat(lock.password.length) + (tty.blink && !waiting ? "█" : " ")
@@ -143,7 +144,7 @@ Scope {
                         }
                         Label {
                             visible: lock.status === "failed" && lock.password === ""
-                            x: prompt.gridX(text.length)
+                            x: name.x
                             textFormat: Text.PlainText
                             text: `Login incorrect (${lock.attempts})`
                             color: Theme.red
