@@ -5,6 +5,7 @@ optionally tinted (white becomes the colour, black stays black). Themes that onl
 one small size stay tiny otherwise, since cursors aren't scaled up. Does
 nothing if the copy already exists in that colour (or untinted)."""
 
+import os
 import struct
 import sys
 from pathlib import Path
@@ -12,8 +13,14 @@ from pathlib import Path
 name = sys.argv[1]
 tint = sys.argv[2] if len(sys.argv) > 2 else ""
 base = name.removesuffix("_2x")
-installed = Path("/usr/share/icons") / base / "cursors"
 target = Path.home() / ".local/share/icons" / name
+# packaged in /usr/share/icons on Arch; elsewhere it's usually unpacked by
+# hand into ~/.local/share/icons or ~/.icons
+data_dirs = os.environ.get("XDG_DATA_DIRS") or "/usr/local/share:/usr/share"
+roots = [Path.home() / ".local/share/icons", Path.home() / ".icons"]
+roots += [Path(d) / "icons" for d in data_dirs.split(":") if d]
+installed = next((r / base / "cursors" for r in roots if (r / base / "cursors").is_dir()),
+                 Path("/usr/share/icons") / base / "cursors")
 # untinted originals kept beside the copy, so it can be re-tinted even if
 # the package is gone
 kept = target / "original"

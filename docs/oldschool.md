@@ -119,7 +119,10 @@ fastfetch), the user, the password as `*`s with a blinking block, `Login
 incorrect (n)` in `red`, and the scan-in. It renders `sddm/Main.qml.tmpl`
 from the dark palette into `/usr/share/sddm/themes/oldschool` and sets
 `Current=oldschool` in `/etc/sddm.conf` (backed up once as
-`sddm.conf.oldschool-bak`). `sudo ./uninstall-sddm` restores it. Sizes are
+`sddm.conf.oldschool-bak`; Debian/Ubuntu have none, so it starts from an
+empty one). `sudo ./uninstall-sddm` restores it. The theme is Qt 6
+(`QtVersion=6`): on Debian/Ubuntu check that apt's SDDM is a Qt 6 build,
+and install `qml6-module-qtquick` + `qml6-module-qtquick-window`. Sizes are
 physical pixels (SDDM runs unscaled), matching the lock's at 1.33x.
 
 Rules for the greeter: each screen is a separate window with its own
@@ -127,7 +130,8 @@ state, so the prompt shows on whichever one SDDM focuses (`Window.active`;
 the primary until one is), not just the primary, or typing lands on a blank
 screen. A plain item needs `forceActiveFocus()` to get keys. Test mode has
 no last user, so fall back to the first in `userModel`. Preview with
-`sddm-greeter-qt6 --test-mode --theme <dir>` (logs go to the journal).
+`sddm-greeter-qt6 --test-mode --theme <dir>` (`sddm-greeter` on Debian;
+logs go to the journal).
 
 ## Ideas, not done
 

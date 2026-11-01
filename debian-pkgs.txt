@@ -1,0 +1,30 @@
+# Arch name -> Debian/Ubuntu name, for ./install's apt check. Names not
+# listed are the same on both. "-" skips it (no use outside Arch, or the
+# installer already set it up); "!" means it isn't in apt, see
+# docs/setup.md "Debian and Ubuntu" for where to get it
+base -
+base-devel build-essential
+bluez-utils bluez
+efibootmgr -
+gettext gettext-base
+glib2 libglib2.0-bin
+go golang-go
+grub -
+linux -
+linux-firmware -
+networkmanager network-manager
+openssh openssh-client
+python-gobject python3-gi
+ttf-jetbrains-mono fonts-jetbrains-mono
+mako mako-notifier
+yay -
+yay-debug -
+migrate !
+bibata-cursor-theme-bin !
+brave-bin !
+where-is-my-sddm-theme-git !
+ghostty !
+obsidian !
+quickshell !
+ttf-terminus-nerd !
+xcursor-chicago95-git !

@@ -20,14 +20,40 @@ clear_way() {
 
 # report, don't install: pkglist/aur-pkgslist are the shared set, the
 # theme's packages.txt what its look needs (first word of each line)
-missing() { awk '!/^#/ && NF {print $1}' "$@" | xargs pacman -T 2>/dev/null; }
-need=$(missing pkglist.txt "themes/$theme/packages.txt")
-aur=$(missing aur-pkgslist.txt)
-if [ -n "$need$aur" ]; then
-    echo "missing packages (install them, then rerun if anything breaks):"
-    [ -n "$need" ] && echo "  sudo pacman -S --needed" $need
-    [ -n "$aur" ] && echo "  yay -S --needed" $aur
+names() { awk '!/^#/ && NF {print $1}' "$@"; }
+if command -v pacman >/dev/null; then
+    need=$(names pkglist.txt "themes/$theme/packages.txt" | xargs pacman -T 2>/dev/null)
+    aur=$(names aur-pkgslist.txt | xargs pacman -T 2>/dev/null)
+    if [ -n "$need$aur" ]; then
+        echo "missing packages (install them, then rerun if anything breaks):"
+        [ -n "$need" ] && echo "  sudo pacman -S --needed" $need
+        [ -n "$aur" ] && echo "  yay -S --needed" $aur
+    fi
+elif command -v dpkg-query >/dev/null; then
+    # the lists are Arch names; debian-pkgs.txt renames the ones that differ
+    need= byhand=
+    for p in $(names pkglist.txt aur-pkgslist.txt "themes/$theme/packages.txt" |
+               awk 'NR == FNR { if (!/^#/ && NF) map[$1] = $2; next }
+                    { p = ($1 in map) ? map[$1] ":" $1 : $1; k = p; sub(/:.*/, "", k) }
+                    k == "-" || k == "!" || !seen[k]++ { print p }' debian-pkgs.txt -); do
+        case $p in
+            -:*) continue ;;
+            !:*) byhand="$byhand ${p#!:}"; continue ;;
+        esac
+        p=${p%%:*}
+        dpkg-query -W -f='${db:Status-Abbrev}' "$p" 2>/dev/null | grep -q '^ii' && continue
+        if apt-cache show "$p" >/dev/null 2>&1; then need="$need $p"; else byhand="$byhand $p"; fi
+    done
+    if [ -n "$need$byhand" ]; then
+        echo "missing packages (install them, then rerun if anything breaks):"
+        [ -n "$need" ] && echo "  sudo apt install$need"
+        [ -n "$byhand" ] && echo "  not in apt, see docs/setup.md:$byhand"
+    fi
 fi
+# the config is Lua, which older Hyprland can't read: it then segfaults at login
+v=$(Hyprland --version 2>/dev/null | sed -n '1s/^Hyprland \([0-9]*\)\.\([0-9]*\).*/\1 \2/p')
+[ -n "$v" ] && set -- $v && [ "$1" -eq 0 ] && [ "$2" -lt 56 ] &&
+    echo "Hyprland $1.$2 is too old: the config needs 0.56 or newer (docs/setup.md)"
 
 # base and the theme both put files in it: a folded symlink to one of them
 # would make stowing the other fail

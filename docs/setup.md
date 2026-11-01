@@ -8,7 +8,12 @@ flameshot, ttf-jetbrains-mono, stow, … plus bibata-cursor-theme-bin.
 Each theme lists its own in `themes/<name>/packages.txt`.
 
 `system.sh` copies `sddm.conf` to `/etc` and enables the system services in
-`services.txt` (run from anywhere; uses sudo).
+`services.txt` one by one, listing any that failed (run from anywhere; uses
+sudo).
+
+`debian-pkgs.txt` maps the Arch names to Debian/Ubuntu ones for `./install`
+(see below). Adding a package whose apt name differs, or that isn't in apt,
+means adding a line there too.
 
 ## Install
 
@@ -19,7 +24,8 @@ cd ~/dotfiles
 
 `./install` first lists any packages from `pkglist.txt`, `aur-pkgslist.txt`
 and the theme's `packages.txt` that aren't installed, with the command to
-install them (it doesn't install anything itself). Then it links base and
+install them (`pacman`/`yay`, or `apt` on Debian/Ubuntu; it doesn't install
+anything itself), and warns if Hyprland is older than 0.56. Then it links base and
 the theme, builds the theme's colours and switches to it (`./theme`). Generated files aren't committed. See
 [themes.md](themes.md). After that, `./theme <name>` switches looks.
 
@@ -54,23 +60,34 @@ scaling), and it may end with `return { autostart = { "app", ... } }`.
 Without one a machine gets the base autostart (theme shell, hypridle, a
 terminal). Check one with `Hyprland --verify-config -c <file>`.
 
-## Other distros
+## Debian and Ubuntu
 
-Arch is the target; elsewhere expect to do these by hand:
+`./install` checks packages with `dpkg-query` when there's no pacman,
+renaming through `debian-pkgs.txt`, and prints an `apt install` line plus
+the ones apt doesn't have (anything `apt-cache` can't find counts too, so
+an older release shows more). Those need getting by hand:
 
-- **Packages.** `pkglist.txt`, `aur-pkgslist.txt` and each theme's
-  `packages.txt` are Arch names, and `./install`'s missing-package check
-  uses `pacman -T` (it stays quiet without pacman). Install the
-  equivalents yourself.
-- **Hyprland 0.56 or newer**, for the Lua config. Most distros lag Arch;
-  an older Hyprland finds no config and segfaults at login. Quickshell,
-  darkman, Ghostty and herdr may need a third-party repo or a build.
-- **`system.sh`** assumes systemd and SDDM.
+| Package | Where from |
+|---|---|
+| **Hyprland 0.56+** | apt's is far older and can't read the Lua config (it finds none and segfaults at login; `./install` warns). Build from source or use a third-party repo, then hypridle/hyprlock from the same place if apt lacks them |
+| quickshell (zine, oldschool) | build from source (quickshell.org) |
+| ghostty | ghostty.org lists the community `.deb`s |
+| fastfetch | in apt from Debian 13 / Ubuntu 25.04; older: the GitHub `.deb` |
+| Terminess Nerd Font (oldschool) | `Terminus.zip` from the Nerd Fonts releases, unzipped into `~/.local/share/fonts`, then `fc-cache` |
+| Chicago95 cursor (oldschool) | the Chicago95 repo's `Cursors/Chicago95_Cursor_White` into `~/.local/share/icons` (`cursor-2x` looks there, `~/.icons` and `XDG_DATA_DIRS`); without it the theme falls back to Adwaita |
+| Bibata cursor (zine, ayu) | the release tarball into `~/.local/share/icons` |
+| brave, obsidian, migrate, where-is-my-sddm-theme | their own `.deb`s/repos; all optional |
+
+`system.sh` works too: units that don't exist (`systemd-userdbd.socket`
+without the `systemd-userdbd` package) are reported, not fatal. Ubuntu
+desktop already has gdm3 as `display-manager.service`, so `sddm` fails to
+enable; `sudo dpkg-reconfigure sddm` switches it.
 
 Already portable: the hostname (`/proc`), the distro name and logo
 (`/etc/os-release`, fastfetch), the git prompt (`.bashrc` tries each
 distro's path), and the theme scripts (fonts found through fontconfig,
-cursors in `/usr/share/icons`).
+cursors in any icon dir). Other distros: the same list applies, but
+`./install` stays quiet about packages without pacman or dpkg.
 
 Removing a package: `stow -D -d base -t ~ <name>` before deleting its folder,
 or its `~/.config` symlink dangles.

@@ -21,10 +21,15 @@ envsubst "$(sed -n 's/^\([a-z_]*\)=.*/$\1/p' "$palette" | tr '\n' ' ') \$logo" \
 
 # an override from the earlier recolour-only approach
 rm -f /usr/share/sddm/themes/where_is_my_sddm_theme/theme.conf.user
+# Debian/Ubuntu ship no /etc/sddm.conf (only sddm.conf.d/); an empty one
+# reads as the defaults, so that is what the backup restores
+[ -e /etc/sddm.conf ] || : > /etc/sddm.conf
 [ -e /etc/sddm.conf.oldschool-bak ] || cp -a /etc/sddm.conf /etc/sddm.conf.oldschool-bak
 if grep -q '^Current=' /etc/sddm.conf; then
     sed -i 's/^Current=.*/Current=oldschool/' /etc/sddm.conf
 else
     printf '[Theme]\nCurrent=oldschool\n' >> /etc/sddm.conf
 fi
-echo "done: log out to see it (preview: sddm-greeter-qt6 --test-mode --theme $target)"
+# the theme is Qt 6; Arch's greeter is sddm-greeter-qt6, Debian's sddm-greeter
+greeter=$(command -v sddm-greeter-qt6 || command -v sddm-greeter || echo sddm-greeter-qt6)
+echo "done: log out to see it (preview: ${greeter##*/} --test-mode --theme $target)"

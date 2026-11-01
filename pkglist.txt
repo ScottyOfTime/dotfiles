@@ -8,8 +8,10 @@ darkman
 efibootmgr
 fastfetch
 flameshot
+gettext
 ghostty
 git
+glib2
 go
 grub
 htop

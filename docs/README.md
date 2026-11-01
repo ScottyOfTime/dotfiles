@@ -1,12 +1,13 @@
 # Dotfiles docs
 
-Arch + Hyprland. Everything practical (shell, editors, keybinds, window
-rules) lives once in `base/`; each look is a switchable theme in
-`themes/<name>/`, swapped with `./theme <name>`.
+Arch + Hyprland (Debian/Ubuntu work too, see [setup.md](setup.md)).
+Everything practical (shell, editors, keybinds, window rules) lives once in
+`base/`; each look is a switchable theme in `themes/<name>/`, swapped with
+`./theme <name>`.
 
 | Doc | Covers |
 |---|---|
-| [setup.md](setup.md) | Installing on a machine, packages, stow |
+| [setup.md](setup.md) | Installing on a machine, packages, stow, Debian/Ubuntu |
 | [themes.md](themes.md) | How themes plug in, switching, making a new one |
 | [hyprland.md](hyprland.md) | Shared Hyprland config: keybinds, rules, idle/lock |
 | [apps.md](apps.md) | Ghostty, bash prompt, nvim, fastfetch, fonts |
@@ -33,5 +34,5 @@ themes/
                      hypr-theme, ghostty-theme, vim-theme, herdr, yazi, btop, packages.txt
 install              first-run setup (links, backs up conflicts, picks a theme)
 theme                switcher script
-pkglist.txt aur-pkgslist.txt services.txt system.sh sddm.conf
+pkglist.txt aur-pkgslist.txt debian-pkgs.txt services.txt system.sh sddm.conf
 ```
