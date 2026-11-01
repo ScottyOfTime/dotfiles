@@ -48,9 +48,8 @@ dmenu-style strips, a tty login as the lock screen. Lives in
   a wrong one prints `Login incorrect` under it. Only the primary screen (the one at 0,0) shows it; the
   others are blank `bg`.
 - **Terminus everywhere**: the terminal (12.375pt, 22 physical px), the
-  Quickshell UI (`Theme.fontSize` 15px, 20 physical, with
-  `Text.NativeRendering`; `antialiasing: false` made it far harder to
-  read), GTK
+  Quickshell UI (`Theme.fontPoints` 12.375pt, also 22 physical, with
+  `Text.NativeRendering`, slightly smoothed), GTK
   (11.25pt, also 20 physical) and hyprlock.
 - **Light mode** is dark brown ink on tractor-feed printer paper: the
   wallpaper has alternating bands and sprocket holes down both edges.
