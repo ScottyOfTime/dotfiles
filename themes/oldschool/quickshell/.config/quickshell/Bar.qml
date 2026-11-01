@@ -151,16 +151,10 @@ PanelWindow {
         Module { value: Qt.formatDateTime(clock.date, "HH:mm"); tone: Theme.bright }
     }
 
-    // only the focused monitor's bar has the handler: one per bar, even
-    // disabled, registers twice and warns on every reload
-    Loader {
-        // both are null until hyprland reports monitors
-        active: bar.monitor !== null && Hyprland.focusedMonitor === bar.monitor
-        sourceComponent: IpcHandler {
-            target: "music"
-            function toggle(): void { musicPopup.toggle(); }
-        }
-    }
+    required property int musicToggles
+    // shell.qml owns the one `music` ipc handler and counts toggles; the
+    // focused monitor's bar opens its popup
+    onMusicTogglesChanged: if (Hyprland.focusedMonitor === bar.monitor) musicPopup.toggle()
 
     MusicPopup {
         id: musicPopup

@@ -29,19 +29,11 @@ dmenu-style strips, a tty login as the lock screen. Lives in
   repo.
 - **Text, not widgets.** Bar modules are `key: value`; progress is
   `[#########-----------]` (`Meter`); buttons are `[prev] [play] [next]`.
-- **tty-isms.** Logging in is a CRT powering on over every screen: a
-  burst of amber snow, a dot that stretches into a line and opens to a full
-  flash, which collapses back to the centre as the boot log types out (the
-  real kernel, CPU and RAM, `[  OK  ]` units, `<host> login: <user>`,
-  `ready.`), then the desktop warms up: it shows at once at a third, then
-  two thirds, then full brightness. About
-  three seconds, covering apps as they start; once per Hyprland session; a
-  click skips it. Locking cuts straight to black, then the logo and prompt
-  are drawn in like a slow scan (0.38s: 4px rows top to bottom, each left
-  to right, by shrinking two `bg` masks); unlocking plays just the
-  warm-up (`Lock` emits `leaving`, `Boot.reveal()` puts a blank tube up
-  before the lock surface goes). The power-on and warm-up draw in a few hard
-  steps. The wallpaper is the bare tube with the
+- **tty-isms.** Login and unlock just show the desktop (a CRT power-on
+  with snow, a beam and a typed boot log was tried and dropped). Locking
+  cuts straight to black, then the logo and prompt are drawn in like a
+  slow scan (0.38s: 4px rows top to bottom, each left to right, by
+  shrinking two `bg` masks). The wallpaper is the bare tube with the
   distro's fastfetch logo burned in: about 60% of the screen's height,
   centred, in `line` (barely brighter than the glass), in both modes. The
   lock screen is the distro's fastfetch logo, big and centred, over the
@@ -77,7 +69,7 @@ vim/airline colours (same pipeline as zine, see
 | `fg` | `ffb52e` | `3a2408` | phosphor: text, reverse-video fill |
 | `dim` | `9a6a24` | `8c6c40` | keys, titles, secondary text |
 | `line` | `3d2810` | `cbb894` | the bar's underline, box edges |
-| `bright` | `ffd27a` | `a85400` | small text accents only: the clock, the boot log's `OK`, hovered `[buttons]`, the power-on beam. Fills and frames are `fg`: paler `bright` ones looked harsh next to `fg` |
+| `bright` | `ffd27a` | `a85400` | small text accents only: the clock and hovered `[buttons]`. Fills and frames are `fg`: paler `bright` ones looked harsh next to `fg` |
 | `red` | `ff5533` | `b8361a` | errors |
 
 `blue`, `orange`, `yellow`, `green`, `cyan`, `purple` exist for the
@@ -108,10 +100,8 @@ binds as zine ([zine-quickshell.md](zine-quickshell.md)).
 | `MusicPopup.qml` | Track, artist · album, text progress bar, `[prev] [play] [next]` |
 | `Lock.qml` | Logo (`Tty.logo`), user and masked password on the screen at 0,0; PAM `login`, identical to zine's |
 | `Overview.qml` | Every window as a `WS CLASS TITLE` row, like `ps`; up/down/Tab, Enter focuses, Esc or a click outside closes (`SUPER+Tab`) |
-| `Beam.qml` | The power-on beam: a `bright` rectangle in hard steps (0 is a dot) |
-| `Boot.qml` | The login power-on and boot log; `$XDG_RUNTIME_DIR/oldschool-booted` holds the Hyprland instance signature it last played for; `qs ipc call boot replay` shows it again |
 | `Wallpaper.qml` | The burned-in logo (`Tty.logo`), sized to ~60% of the screen's height |
-| `Tty.qml` | Singleton: host (`/proc/sys/kernel/hostname`), kernel, user, distro (`/etc/os-release`) and logo (`fastfetch --pipe -s none`, any distro), read once; shared by the wallpaper, lock and boot log |
+| `Tty.qml` | Singleton: host (`/proc/sys/kernel/hostname`), kernel, user, distro (`/etc/os-release`) and logo (`fastfetch --pipe -s none`, any distro), read once; shared by the wallpaper and lock |
 | `Blink.qml` | A block cursor's blink timer; consumers run it only while it's on screen (the lock only on the prompt's screen), as every toggle redraws the window |
 | `Box.qml`, `Label.qml`, `Meter.qml` | Flat bordered box, text, text progress bar |
 | `Stats.qml` | cpu, memory and network from `/proc` every 2s |
@@ -140,13 +130,6 @@ binds as zine ([zine-quickshell.md](zine-quickshell.md)).
   re-centres every line as the password grows, so the user name jumped
   half a cell per key; each is its own label, centred at a rounded x so
   the pixel font stays sharp.
-- **`$XDG_RUNTIME_DIR` outlives a logout** while any user process lingers
-  (herdr's server, say), so a bare "already ran" flag there skipped the
-  boot screen on every login after the first; compare the Hyprland
-  instance signature instead.
-- **Canvas `putImageData` draws nothing** in this Qt (it runs, no
-  error); `fillRect` per cell on a low-res canvas scaled with
-  `smooth: false` is fast enough (a screen of snow in ~3ms).
 - **Qt's Terminus is a touch heavier than Ghostty's.** At 1.33x, Qt lays
   text out in logical units, so glyphs land on fractional physical pixels
   and antialiasing spreads a 1px stroke over two greyish ones (screenshot
@@ -165,11 +148,9 @@ binds as zine ([zine-quickshell.md](zine-quickshell.md)).
   overridden by the theme's `config-file`, so test with
   `--config-default-files=false`.
 - **One IPC handler per target.** A handler in a per-screen component
-  registers once per screen even with `enabled: false` and warns on every
-  reload; `Bar` loads its `music` handler only on the focused monitor, and
-  only once Hyprland has reported monitors (both sides are null at start,
-  which made every bar "focused"). A live reload still warns once, as old
-  and new instances overlap.
+  registers once per screen (even with `enabled: false`, or loaded only on
+  the focused monitor, which races at startup) and warns on every reload;
+  `shell.qml` owns the one `music` handler and bars react to its counter.
 - **Some names are reserved.** A QML method called `escape` is an
   "illegal method name", and `qs ipc call <target> show` runs `qs ipc
   show` instead of the function, so don't name IPC functions `show`.

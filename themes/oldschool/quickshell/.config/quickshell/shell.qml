@@ -6,10 +6,16 @@ import Quickshell.Io
 ShellRoot {
     id: root
     property bool barVisible: true
+    // one handler, not one per bar: a handler per screen registers twice
+    property int musicToggles: 0
 
     IpcHandler {
         target: "bar"
         function toggle(): void { root.barVisible = !root.barVisible; }
+    }
+    IpcHandler {
+        target: "music"
+        function toggle(): void { root.musicToggles++; }
     }
 
     Variants {
@@ -18,7 +24,7 @@ ShellRoot {
     }
     Variants {
         model: Quickshell.screens
-        Bar { visible: root.barVisible }
+        Bar { visible: root.barVisible; musicToggles: root.musicToggles }
     }
     Variants {
         model: Quickshell.screens
@@ -37,8 +43,7 @@ ShellRoot {
     Launcher {}
     Osd {}
     Notifications {}
-    Lock { id: lock; onLeaving: boot.reveal() }
+    Lock { id: lock }
     PowerMenu { lock: lock }
     Overview {}
-    Boot { id: boot }
 }

@@ -12,7 +12,6 @@ Scope {
     property string password: ""
     property string status: ""
     property int attempts: 0
-    signal leaving()
     // locking cuts straight to black, then the logo and prompt are drawn in
     // like a slow scan: rows top to bottom, each left to right
     property real drawn: 1
@@ -30,7 +29,6 @@ Scope {
     NumberAnimation { id: scan; target: lock; property: "drawn"; from: 0; to: 1; duration: 380 }
 
     function leave() {
-        leaving();
         status = "ok";
         password = "";
         unlockAfterLeave.restart();
