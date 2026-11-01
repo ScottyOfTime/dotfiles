@@ -1,3 +1,4 @@
 quickshell
 hyprlock
 htop
+ttf-terminus-nerd

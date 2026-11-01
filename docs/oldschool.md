@@ -18,9 +18,9 @@ dmenu-style strips, a tty login as the lock screen. Lives in
   than one window, a 3px `fg` strip (`Focus.qml`) sits along the top of
   the focused one.
 - **Terminal.** Ghostty with 2px padding (balanced, padding takes the
-  background colour), ligatures off so every glyph is one plain cell,
-  antialiasing off (`freetype-load-flags` monochrome) for hard pixel
-  edges, and a steady block cursor. Tabs are a flat text line with `|`
+  background colour), Terminus (`ttf-terminus-nerd`, "Terminess Nerd
+  Font Mono") at 18pt with antialiasing off, ligatures off, and a steady
+  block cursor in `fg` (not `bright`: a brighter-than-text cursor glares). Tabs are a flat text line with `|`
   separators, the current one in reverse video.
 - **htop** uses its built-in Monochrome scheme (`htop/.config/htop/htoprc`,
   a theme stow package), so it draws in the terminal's amber with
@@ -36,8 +36,7 @@ dmenu-style strips, a tty login as the lock screen. Lives in
   lock screen is a login prompt (`Arch Linux <kernel> (tty1)`,
   `<host> login: <user>`, `Password:`) that, like a real one, never echoes
   the password; a wrong one prints `Login incorrect`.
-- **JetBrains Mono everywhere.** No bitmap font is installed; the terminal
-  gets close with antialiasing off.
+- **JetBrains Mono for the UI**, Terminus in the terminal.
 - **Light mode** is dark brown ink on tractor-feed printer paper: the
   wallpaper has alternating bands and sprocket holes down both edges.
 
@@ -105,6 +104,10 @@ binds as zine ([zine-quickshell.md](zine-quickshell.md)).
 - **`lastIpcObject` is a snapshot.** A toplevel's position and size only
   update after `Hyprland.refreshToplevels()`; `Focus.qml` calls it on the
   window events from `Hyprland.rawEvent`.
+- **Pixel fonts need their native size.** Ghostty here draws 1.33
+  physical px per point, so Terminus's 24px size is 18pt (13.5pt is its
+  thin 18px size); in-between sizes smear strokes. `font-family` only
+  applies to new windows; a reload changes the size of open ones.
 - **Some names are reserved.** A QML method called `escape` is an
   "illegal method name", and `qs ipc call <target> show` runs `qs ipc
   show` instead of the function, so don't name IPC functions `show`.
