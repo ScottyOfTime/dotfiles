@@ -9,12 +9,8 @@ window-padding-color = extend
 font-feature = -calt
 font-feature = -liga
 cursor-style-blink = false
-# terminus without its embedded bitmaps (hypr-theme/terminus-outline):
-# ghostty draws a font's bitmaps when it has them, so it could never smooth
-# like the shell does
-font-family = Terminess Outline
-font-size = 12.375
-# hinting squeezes terminus at 22px onto the grid: dots become thin
-# slivers and edges near-sharp; unhinted keeps its shapes, softly smoothed
-freetype-load-flags = no-hinting,no-monochrome
+# picked in the font strip, see theme.sh
+font-family = ${term_font}
+font-size = ${term_points}
+freetype-load-flags = ${term_flags}
 gtk-custom-css = tabs.css

@@ -20,12 +20,28 @@ size=32
 ~/.config/hypr-theme/terminus-outline
 gsettings set org.gnome.desktop.interface cursor-theme "$cursor"
 gsettings set org.gnome.desktop.interface cursor-size "$size"
-# 11.25pt is 15px, 20 physical at 1.33x: a native terminus size
-gsettings set org.gnome.desktop.interface font-name 'Terminess Nerd Font 11.25'
-gsettings set org.gnome.desktop.interface document-font-name 'Terminess Nerd Font 11.25'
-gsettings set org.gnome.desktop.interface monospace-font-name 'Terminess Nerd Font Mono 11.25'
+# the font strip (FontMenu.qml) sets this through hypr-theme/font
+font=$(cat "$state/oldschool-font" 2>/dev/null)
+case $font in
+jetbrains)
+    ui_font='JetBrains Mono' ui_points=10.5 gtk_font='JetBrains Mono' gtk_mono='JetBrains Mono'
+    term_font='JetBrains Mono' term_points=12 term_flags=hinting ;;
+*)
+    font=terminus
+    # 11.25pt is 15px, 20 physical at 1.33x; 12.375pt is 22 physical in
+    # ghostty: native terminus sizes (docs/oldschool.md)
+    ui_font='Terminess Nerd Font Mono' ui_points=11.25 gtk_font='Terminess Nerd Font' gtk_mono='Terminess Nerd Font Mono'
+    # terminus without its embedded bitmaps (hypr-theme/terminus-outline),
+    # which ghostty would draw pixel-sharp instead of smoothing like the
+    # shell; hinting squeezes it at 22px: dots become thin slivers
+    term_font='Terminess Outline' term_points=12.375 term_flags=no-hinting,no-monochrome ;;
+esac
+export font ui_font ui_points term_font term_points term_flags
+gsettings set org.gnome.desktop.interface font-name "$gtk_font $ui_points"
+gsettings set org.gnome.desktop.interface document-font-name "$gtk_font $ui_points"
+gsettings set org.gnome.desktop.interface monospace-font-name "$gtk_mono $ui_points"
 # only the palette's variables (and $HOME), so hyprlock's own $ATTEMPTS etc. survive
-vars="$(sed -n 's/^\([a-z_]*\)=.*/$\1/p' "$palette" | tr '\n' ' ') \$HOME"
+vars="$(sed -n 's/^\([a-z_]*\)=.*/$\1/p' "$palette" | tr '\n' ' ') \$HOME \$font \$ui_font \$ui_points \$term_font \$term_points \$term_flags"
 for f in quickshell/Theme.qml hypr-theme/colors.lua hypr-theme/hyprlock.conf ghostty-theme/tabs.css ghostty-theme/config; do
     envsubst "$vars" < "$cfg/$f.tmpl" > "$cfg/$f"
 done

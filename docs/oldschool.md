@@ -48,6 +48,15 @@ dmenu-style strips, a tty login as the lock screen. Lives in
   Quickshell UI (`Theme.fontPoints` 11.25pt, 20 physical, with
   `Text.NativeRendering`, slightly smoothed), GTK
   (11.25pt, also 20 physical) and hyprlock.
+- **Or JetBrains Mono.** `SUPER+SHIFT+F` opens a `font` strip to pick
+  terminus or jetbrains mono (the current one pre-selected). The choice is
+  stored in `~/.local/state/oldschool-font`; `hypr-theme/font <name>` writes
+  it and re-runs `theme.sh`, which owns each font's family, sizes and
+  Ghostty hinting (JetBrains Mono: 10.5pt shell and GTK, 12pt hinted
+  terminal) and renders them into `Theme.qml` and Ghostty's config. The
+  shell and GTK change at once; Ghostty resizes open windows but only new
+  ones get the new family. `hypr-theme/font` with no argument prints the
+  current one.
 - **Light mode** is dark brown ink on warm paper, same structure.
 
 Tried and dropped on the way here (as "portal"): blue/orange Portal
@@ -126,6 +135,7 @@ binds as zine ([zine-quickshell.md](zine-quickshell.md)).
 | `Focus.qml` | The focused-window strip: an overlay layer placed from the window's `lastIpcObject` (refreshed once per window event in `shell.qml`); click-through |
 | `Strip.qml` | dmenu-style strip over the bar: prompt in reverse video like the picked item (as dmenu), optional search field, matches in a row; arrows/Tab move, Enter picks, Esc closes, digits pick when not searchable |
 | `Launcher.qml` | `run` strip over the desktop entries (`SUPER+Space`) |
+| `FontMenu.qml` | `font` strip: 1 terminus, 2 jetbrains mono (`SUPER+SHIFT+F`); runs `hypr-theme/font` |
 | `PowerMenu.qml` | `session` strip: 1 lock, 2 suspend, 3 log out, 4 reboot, 5 shut down (`SUPER+Escape`) |
 | `Osd.qml` | `v: 50% [##########----------]` box under the bar; `b:` for brightness |
 | `Notifications.qml` | One log line each under the bar, top-right: `[HH:mm] app: summary - body` plus `[action]`s; red and sticky when critical; click dismisses |

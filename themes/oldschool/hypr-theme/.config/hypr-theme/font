@@ -1,0 +1,11 @@
+#!/bin/sh
+# font [terminus|jetbrains]: set the shell, terminal and GTK font; prints
+# the current one without an argument
+state=${XDG_STATE_HOME:-$HOME/.local/state}/oldschool-font
+case $1 in
+"") cat "$state" 2>/dev/null || echo terminus ;;
+terminus|jetbrains)
+    mkdir -p "${state%/*}" && echo "$1" > "$state"
+    exec ~/.local/share/darkman/theme.sh "$(darkman get)" ;;
+*) echo "usage: font [terminus|jetbrains]" >&2; exit 1 ;;
+esac

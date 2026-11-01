@@ -40,6 +40,7 @@ hl.bind(mod .. " + Space",  hl.dsp.exec_cmd("qs ipc call launcher toggle"))
 hl.bind(mod .. " + B",      hl.dsp.exec_cmd("qs ipc call bar toggle"))
 hl.bind(mod .. " + Escape", hl.dsp.exec_cmd("qs ipc call power toggle"))
 hl.bind(mod .. " + Tab",    hl.dsp.exec_cmd("qs ipc call overview toggle"))
+hl.bind(mod .. " + SHIFT + F", hl.dsp.exec_cmd("qs ipc call font toggle"))
 
 hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+"), { repeating = true, locked = true })
 hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"), { repeating = true, locked = true })

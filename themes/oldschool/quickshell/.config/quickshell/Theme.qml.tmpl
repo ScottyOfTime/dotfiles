@@ -14,10 +14,11 @@ Singleton {
     readonly property color red: "#${red}"
     // text on a phosphor fill: selection is reverse video
     readonly property color onLit: bg
-    readonly property string font: "Terminess Nerd Font Mono"
-    // points, as qml pixel sizes are whole numbers: 11.25pt is 15px, 20
-    // physical at 1.33x (21 and 22 looked too big)
-    readonly property real fontPoints: 11.25
+    // picked in the font strip; family and size come from theme.sh
+    readonly property string fontName: "${font}"
+    readonly property string font: "${ui_font}"
+    // points, as qml pixel sizes are whole numbers
+    readonly property real fontPoints: ${ui_points}
     readonly property int bar: 26
 
     // sizes that land on whole physical pixels for a window's scale (dpr):
