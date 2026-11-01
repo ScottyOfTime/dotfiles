@@ -6,7 +6,7 @@ import Quickshell.Services.Mpris
 import Quickshell.Services.Pipewire
 import Quickshell.Wayland
 
-// a solid strip: workspaces and the window title, then "key: value" modules
+// a classic status line: workspaces | focused title ... modules | date | time
 PanelWindow {
     id: bar
 
@@ -31,7 +31,8 @@ PanelWindow {
         signal wheeled(var event)
 
         textFormat: Text.StyledText
-        text: `<font color="${Theme.dim}">${key}:</font> <font color="${tone}">${value}</font>`
+        text: key ? `<font color="${Theme.dim}">${key}</font> <font color="${tone}">${value}</font>`
+            : `<font color="${tone}">${value}</font>`
         anchors.verticalCenter: parent.verticalCenter
 
         MouseArea {
@@ -58,15 +59,22 @@ PanelWindow {
         color: Theme.line
     }
 
+    component Sep: Label {
+        text: "|"
+        color: Theme.line
+        anchors.verticalCenter: parent.verticalCenter
+    }
+
     Row {
         height: parent.height
+        leftPadding: 4
 
         Repeater {
             model: Hyprland.workspaces.values.filter(w => w.monitor === bar.monitor && w.id > 0)
 
             Rectangle {
                 required property var modelData
-                width: number.implicitWidth + 20
+                width: number.implicitWidth + 12
                 height: parent.height
                 color: modelData.focused ? Theme.fg : modelData.active ? Theme.surface : "transparent"
 
@@ -82,9 +90,10 @@ PanelWindow {
         }
 
         Label {
-            leftPadding: 12
-            text: bar.title
-            color: Theme.dim
+            leftPadding: 8
+            textFormat: Text.StyledText
+            text: bar.title ? `<font color="${Theme.line}">|</font>&nbsp;&nbsp;<font color="${Theme.bright}">&gt;</font> ${bar.title.replace(/&/g, "&amp;").replace(/</g, "&lt;")}` : ""
+            color: Theme.fg
             width: Math.min(implicitWidth, bar.width / 2 - 200)
             elide: Text.ElideRight
             anchors.verticalCenter: parent.verticalCenter
@@ -92,22 +101,23 @@ PanelWindow {
     }
 
     Row {
-        anchors { right: parent.right; rightMargin: 12; verticalCenter: parent.verticalCenter }
+        anchors { right: parent.right; rightMargin: 10; verticalCenter: parent.verticalCenter }
         height: parent.height
-        spacing: 18
+        spacing: 8
 
         Module {
             id: music
             visible: bar.player !== null
-            key: "m"
+            key: "mus"
             value: !bar.player ? "" : bar.player.isPlaying
                 ? `${bar.player.trackArtist} - ${bar.player.trackTitle}` : "paused"
             width: Math.min(implicitWidth, 320)
             elide: Text.ElideRight
             onClicked: musicPopup.toggle()
         }
+        Sep { visible: music.visible }
         Module {
-            key: "v"
+            key: "vol"
             value: !bar.sink?.audio ? "-" : bar.sink.audio.muted ? "muted"
                 : `${Math.round(bar.sink.audio.volume * 100)}%`
             tone: bar.sink?.audio?.muted ? Theme.dim : Theme.fg
@@ -115,11 +125,16 @@ PanelWindow {
             onWheeled: event => bar.sink.audio.volume = Math.max(0, Math.min(1.5,
                 bar.sink.audio.volume + (event.angleDelta.y > 0 ? 0.05 : -0.05)))
         }
+        Sep {}
         Module { key: "cpu"; value: `${Stats.cpu}%`; tone: bar.level(Stats.cpu) }
+        Sep {}
         Module { key: "mem"; value: `${Stats.mem}%`; tone: bar.level(Stats.mem) }
+        Sep {}
         Module { key: "net"; value: Stats.net }
-        Module { key: "d"; value: Qt.formatDateTime(clock.date, "yyyy-MM-dd") }
-        Module { key: "t"; value: Qt.formatDateTime(clock.date, "HH : mm") }
+        Sep {}
+        Module { value: Qt.formatDateTime(clock.date, "yyyy-MM-dd") }
+        Sep {}
+        Module { value: Qt.formatDateTime(clock.date, "HH:mm"); tone: Theme.bright }
     }
 
     IpcHandler {

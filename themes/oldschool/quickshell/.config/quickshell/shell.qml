@@ -18,6 +18,10 @@ ShellRoot {
         model: Quickshell.screens
         Bar { visible: root.barVisible }
     }
+    Variants {
+        model: Quickshell.screens
+        Focus {}
+    }
     Launcher {}
     Osd {}
     Notifications {}
