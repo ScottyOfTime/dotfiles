@@ -52,9 +52,10 @@ Marked † are bound by the theme (zine shown).
 | media keys | playerctl and mic mute in base; volume/brightness † (they drive the theme's OSD) |
 | `mod+shift+Q` | exit Hyprland (`hl.dsp.exit()`; the old `hyprctl dispatch exit` is a no-op in Lua mode) |
 
-On the desktop (`hosts/scotty-desktop.lua`) workspaces 1–2 are on DP-2
-(left), 3–4 on DP-3 (right), at scale 1.33; other machines see
-[setup.md](setup.md#another-machine).
+Scale is worked out per monitor from its pixel density
+([setup.md](setup.md#another-machine)). On the desktop
+(`hosts/scotty-desktop.lua`) workspaces 1–2 are on DP-2 (left), 3–4 on
+DP-3 (right).
 
 ## Window and layer rules
 

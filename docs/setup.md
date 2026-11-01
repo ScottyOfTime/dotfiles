@@ -38,15 +38,21 @@ autoreloads on the change). To work on another branch, use
 
 ## Another machine
 
-Monitors, workspace placement and autostarted apps are per machine:
+Nothing to set up for the screens: `hyprland.lua` scales each monitor from
+its pixel density (rows / physical height), aiming at 81 logical ppi for
+external monitors and 130 for laptop panels (`eDP`, `LVDS`, `DSI`), which
+sit nearer the eyes; it picks the nearest scale that divides the mode
+evenly (others blur), and screens that report no size get Hyprland's
+`auto`. That gives the desktop's 108ppi monitors 1.33 and a 14" 1920x1200
+laptop 1.25, what each was set to by hand. It runs at config load, on
+`hyprland.start` and when a monitor is added.
+
 `base/hypr/.config/hypr/hosts/<hostname>.lua` (hostname from
-`/proc/sys/kernel/hostname`; `/etc/hostname` is missing on some systems).
-The file may end with `return { autostart = { "app", ... } }`. A machine
-without one gets one auto-scaled monitor, no pinned workspaces and only
-the base autostart (theme shell, hypridle, a terminal). `hosts/scotty-laptop.lua` sets the laptop's 1920x1200
-screen to 1.25 (auto picked 1.5, which made everything huge). To add
-one, copy `hosts/scotty-desktop.lua`, rename it, and use `hyprctl monitors` for the output names. Check it with
-`Hyprland --verify-config -c <file>`.
+`/proc/sys/kernel/hostname`) is optional, for extras only: workspace
+pinning, window rules, `hl.monitor` overrides (it loads after the
+scaling), and it may end with `return { autostart = { "app", ... } }`.
+Without one a machine gets the base autostart (theme shell, hypridle, a
+terminal). Check one with `Hyprland --verify-config -c <file>`.
 
 ## Other distros
 

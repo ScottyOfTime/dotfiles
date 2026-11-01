@@ -1,12 +1,5 @@
 ---@module 'hl'
 
-hl.monitor({
-    output   = "",
-    mode     = "preferred",
-    position = "auto",
-    scale    = 1.33,
-})
-
 hl.workspace_rule({ workspace = "1", monitor = "DP-2" })
 hl.workspace_rule({ workspace = "2", monitor = "DP-2" })
 hl.workspace_rule({ workspace = "3", monitor = "DP-3" })

@@ -29,8 +29,10 @@ dmenu-style strips, a tty login as the lock screen. Lives in
   repo.
 - **Text, not widgets.** Bar modules are `key: value`; progress is
   `[#########-----------]` (`Meter`); buttons are `[prev] [play] [next]`.
-- **tty-isms.** Login and unlock just show the desktop (a CRT power-on
-  with snow, a beam and a typed boot log was tried and dropped). Locking
+- **tty-isms.** Login and unlock warm the desktop up like a tube: it shows
+  at once at a third, then two thirds, then full brightness (`Reveal.qml`;
+  a CRT power-on with snow, a beam and a typed boot log before it was too
+  much and dropped). Locking
   cuts straight to black, then the logo and prompt are drawn in like a
   slow scan (0.38s: 4px rows top to bottom, each left to right, by
   shrinking two `bg` masks). The wallpaper is the bare tube with the
@@ -101,6 +103,7 @@ binds as zine ([zine-quickshell.md](zine-quickshell.md)).
 | `Lock.qml` | Logo (`Tty.logo`), user and masked password on the screen at 0,0; PAM `login`, identical to zine's |
 | `Overview.qml` | Every window as a `WS CLASS TITLE` row, like `ps`; up/down/Tab, Enter focuses, Esc or a click outside closes (`SUPER+Tab`) |
 | `Wallpaper.qml` | The burned-in logo (`Tty.logo`), sized to ~60% of the screen's height |
+| `Reveal.qml` | The warm-up: a `bg` overlay stepping 1, 2/3, 1/3, 0 opacity; on login once per Hyprland session (`$XDG_RUNTIME_DIR/oldschool-revealed` holds the instance signature, as the runtime dir outlives a logout) and after unlocking (`Lock` emits `leaving`); `qs ipc call reveal replay` |
 | `Tty.qml` | Singleton: host (`/proc/sys/kernel/hostname`), kernel, user, distro (`/etc/os-release`) and logo (`fastfetch --pipe -s none`, any distro), read once; shared by the wallpaper and lock |
 | `Blink.qml` | A block cursor's blink timer; consumers run it only while it's on screen (the lock only on the prompt's screen), as every toggle redraws the window |
 | `Box.qml`, `Label.qml`, `Meter.qml` | Flat bordered box, text, text progress bar |

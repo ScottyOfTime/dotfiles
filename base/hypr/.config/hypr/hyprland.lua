@@ -1,8 +1,36 @@
 ---@module 'hl'
 
--- per-machine monitors, workspace placement and autostart live in
--- hosts/<hostname>.lua, which may return { autostart = { "app", ... } };
--- machines without one get a single auto-scaled monitor and no extra apps
+-- scale from each screen's pixel density, so a new machine needs no setup:
+-- a laptop panel sits nearer the eyes than a desk monitor, so it keeps more
+-- density per logical pixel (the desktop's 108ppi monitors land on 1.33,
+-- a 14" 1920x1200 laptop on 1.25). Only scales that divide the mode evenly,
+-- as others blur; screens that report no size get Hyprland's own guess.
+local SCALES = { 1, 1.25, 4 / 3, 1.5, 5 / 3, 2, 2.5, 3 }
+local function fitted_scale(m)
+    if (m.physical_height or 0) <= 0 then return "auto" end
+    local ppi = m.height / (m.physical_height / 25.4)
+    local internal = m.name:match("^eDP") or m.name:match("^LVDS") or m.name:match("^DSI")
+    local want = ppi / (internal and 130 or 81)
+    local best = 1
+    for _, s in ipairs(SCALES) do
+        local w, h = m.width / s, m.height / s
+        local even = math.abs(w - math.floor(w + 0.5)) < 0.01 and math.abs(h - math.floor(h + 0.5)) < 0.01
+        if even and math.abs(s - want) < math.abs(best - want) then best = s end
+    end
+    return best
+end
+local function scale_monitors()
+    for _, m in ipairs(hl.get_monitors()) do
+        hl.monitor({ output = m.name, mode = "preferred", position = "auto", scale = fitted_scale(m) })
+    end
+end
+hl.monitor({ output = "", mode = "preferred", position = "auto", scale = "auto" })
+scale_monitors()
+hl.on("monitor.added", scale_monitors)
+
+-- optional per-machine extras live in hosts/<hostname>.lua: workspace
+-- pinning, rules, monitor overrides, and it may return
+-- { autostart = { "app", ... } }
 local hostname = io.open("/proc/sys/kernel/hostname")
 local host = hostname and hostname:read("l") or ""
 if hostname then hostname:close() end
@@ -12,19 +40,14 @@ local host_config = {}
 if found then
     found:close()
     host_config = dofile(host_file) or {}
-else
-    hl.monitor({
-        output   = "",
-        mode     = "preferred",
-        position = "auto",
-        scale    = "auto",
-    })
 end
 
 local terminal    = "ghostty"
 local fileManager = "dolphin"
 
 hl.on("hyprland.start", function()
+    -- monitors may not exist yet when the config first loads
+    scale_monitors()
     hl.exec_cmd("~/.config/hypr-theme/start")
     hl.exec_cmd("hypridle")
     hl.exec_cmd([[ghostty -e sh -c "fastfetch; exec $SHELL"]])

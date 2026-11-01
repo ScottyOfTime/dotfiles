@@ -43,7 +43,9 @@ ShellRoot {
     Launcher {}
     Osd {}
     Notifications {}
-    Lock { id: lock }
+    // the lock surface lingers 250ms after a successful unlock (Lock.qml)
+    Lock { id: lock; onLeaving: reveal.play(320) }
     PowerMenu { lock: lock }
     Overview {}
+    Reveal { id: reveal }
 }
