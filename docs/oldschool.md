@@ -162,6 +162,9 @@ binds as zine ([zine-quickshell.md](zine-quickshell.md)).
 - **Editing `Theme.qml.tmpl` needs a re-render** (`theme.sh $(darkman get)`)
   before new colours exist; until then QML warns "Unable to assign
   [undefined] to QColor".
+  If a `.qml` using a new property saved first, Quickshell has already
+  reloaded against the old `Theme` and keeps it cached ("Unable to assign
+  [undefined]" in `qs log`, the shell silently falls back): restart `qs`.
 - **Thin lines on a fractional scale** (1.33 here) land between pixels and
   render as a mix of thick and faint; avoid 1px decorative patterns.
 - **Renaming a live theme**: disable autoreload, run its `stop`, `stow -D`
