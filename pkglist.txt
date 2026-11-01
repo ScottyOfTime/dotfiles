@@ -19,6 +19,7 @@ hyprland
 linux
 linux-firmware
 man-db
+neovim
 networkmanager
 obsidian
 openssh

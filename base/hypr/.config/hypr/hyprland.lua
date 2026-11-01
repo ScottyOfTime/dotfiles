@@ -1,15 +1,17 @@
 ---@module 'hl'
 
--- per-machine monitors and workspace placement live in hosts/<hostname>.lua;
--- machines without one get a single auto-scaled layout
-local hostname = io.open("/etc/hostname")
+-- per-machine monitors, workspace placement and autostart live in
+-- hosts/<hostname>.lua, which may return { autostart = { "app", ... } };
+-- machines without one get a single auto-scaled monitor and no extra apps
+local hostname = io.open("/proc/sys/kernel/hostname")
 local host = hostname and hostname:read("l") or ""
 if hostname then hostname:close() end
 local host_file = os.getenv("HOME") .. "/.config/hypr/hosts/" .. host .. ".lua"
 local found = io.open(host_file)
+local host_config = {}
 if found then
     found:close()
-    dofile(host_file)
+    host_config = dofile(host_file) or {}
 else
     hl.monitor({
         output   = "",
@@ -26,10 +28,9 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("~/.config/hypr-theme/start")
     hl.exec_cmd("hypridle")
     hl.exec_cmd([[ghostty -e sh -c "fastfetch; exec $SHELL"]])
-    hl.exec_cmd("discord")
-    hl.exec_cmd("signal-desktop")
-    hl.exec_cmd("steam")
-    hl.exec_cmd("spotify-launcher")
+    for _, app in ipairs(host_config.autostart or {}) do
+        hl.exec_cmd(app)
+    end
 end)
 
 hl.config({
