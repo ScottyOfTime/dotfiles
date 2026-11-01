@@ -12,6 +12,7 @@ gsettings set org.gnome.desktop.interface accent-color "$gtk_accent"
 # see docs/oldschool.md for the size
 # amber in both modes: the dark palette's fg
 ~/.config/hypr-theme/cursor-2x "$cursor" "$(. "$cfg/palette/dark.env"; echo "$fg")"
+~/.config/hypr-theme/terminus-outline
 gsettings set org.gnome.desktop.interface cursor-theme "$cursor"
 gsettings set org.gnome.desktop.interface cursor-size 32
 # 11.25pt is 15px, 20 physical at 1.33x: a native terminus size

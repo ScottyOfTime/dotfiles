@@ -1,0 +1,77 @@
+#!/usr/bin/env python3
+"""terminus-outline: copy the installed Terminess Nerd Font Mono into
+~/.local/share/fonts as "Terminess Outline", without its embedded bitmaps.
+Ghostty draws a font's bitmaps when it has them (snapping to their sizes,
+so smoothing never applies), while Qt draws the outlines; without the
+bitmaps both draw the same smoothed outlines. Does nothing if the copy
+exists."""
+
+import struct
+import subprocess
+from pathlib import Path
+
+SOURCE = Path("/usr/share/fonts/TTF")
+TARGET = Path.home() / ".local/share/fonts/terminess-outline"
+STYLES = ["Regular", "Bold", "Italic", "BoldItalic"]
+DROP = {b"EBDT", b"EBLC", b"EBSC", b"BDF "}
+RENAME = [("Terminess Nerd Font Mono", "Terminess Outline"),
+          ("TerminessNerdFontMono", "TerminessOutline")]
+
+
+def checksum(data):
+    data += b"\0" * (-len(data) % 4)
+    return sum(struct.unpack(f">{len(data) // 4}I", data)) & 0xFFFFFFFF
+
+
+def renamed(table):
+    fmt, count, offset = struct.unpack_from(">HHH", table)
+    records, strings = [], b""
+    for i in range(count):
+        platform, encoding, language, name_id, length, start = struct.unpack_from(">6H", table, 6 + 12 * i)
+        raw = table[offset + start:offset + start + length]
+        codec = "latin-1" if platform == 1 else "utf-16-be"
+        text = raw.decode(codec, "replace")
+        for old, new in RENAME:
+            text = text.replace(old, new)
+        raw = text.encode(codec, "replace")
+        records.append((platform, encoding, language, name_id, len(raw), len(strings)))
+        strings += raw
+    head = struct.pack(">HHH", 0, len(records), 6 + 12 * len(records))
+    return head + b"".join(struct.pack(">6H", *r) for r in records) + strings
+
+
+def stripped(font):
+    version, count = struct.unpack_from(">IH", font)
+    tables = {}
+    for i in range(count):
+        tag, _, offset, length = struct.unpack_from(">4sIII", font, 12 + 16 * i)
+        if tag not in DROP:
+            tables[tag] = font[offset:offset + length]
+    tables[b"name"] = renamed(tables[b"name"])
+    # head.checkSumAdjustment is recomputed over the whole file below
+    tables[b"head"] = tables[b"head"][:8] + b"\0\0\0\0" + tables[b"head"][12:]
+
+    tags = sorted(tables)
+    power = 1 << (len(tags).bit_length() - 1)
+    out = struct.pack(">IHHHH", version, len(tags), power * 16, power.bit_length() - 1,
+                      (len(tags) - power) * 16)
+    offset = 12 + 16 * len(tags)
+    body = b""
+    for tag in tags:
+        data = tables[tag]
+        out += struct.pack(">4sIII", tag, checksum(data), offset + len(body), len(data))
+        body += data + b"\0" * (-len(data) % 4)
+    font = bytearray(out + body)
+    head = font.index(b"head", 12)
+    head_offset = struct.unpack_from(">I", font, head + 8)[0]
+    struct.pack_into(">I", font, head_offset + 8, (0xB1B0AFBA - checksum(bytes(font))) & 0xFFFFFFFF)
+    return bytes(font)
+
+
+if not (TARGET / "TerminessOutline-Regular.ttf").exists():
+    TARGET.mkdir(parents=True, exist_ok=True)
+    for style in STYLES:
+        source = SOURCE / f"TerminessNerdFontMono-{style}.ttf"
+        if source.exists():
+            (TARGET / f"TerminessOutline-{style}.ttf").write_bytes(stripped(source.read_bytes()))
+    subprocess.run(["fc-cache", str(TARGET)], check=False)

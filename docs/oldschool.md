@@ -18,8 +18,10 @@ dmenu-style strips, a tty login as the lock screen. Lives in
   than one window, a 3px `fg` strip (`Focus.qml`) sits along the top of
   the focused one.
 - **Terminal.** Ghostty with 2px padding (balanced, padding takes the
-  background colour), Terminus (`ttf-terminus-nerd`, "Terminess Nerd
-  Font Mono") at 12.375pt (22 physical px) with antialiasing off, ligatures off, and a steady
+  background colour), Terminus at 11.25pt (20 physical px) as "Terminess Outline": a copy
+  `hypr-theme/terminus-outline` makes (from `theme.sh`, once) of the
+  installed `ttf-terminus-nerd` without its embedded bitmaps, so Ghostty
+  smooths it like the shell instead of drawing the bitmaps pixel-sharp; ligatures off, and a steady
   block cursor in `fg` (not `bright`: a brighter-than-text cursor glares). Tabs are a flat text line with `|`
   separators, the current one in reverse video.
 - **htop** uses its built-in Monochrome scheme (`htop/.config/htop/htoprc`,
@@ -47,7 +49,8 @@ dmenu-style strips, a tty login as the lock screen. Lives in
   are centred; the blinking block trails them);
   a wrong one prints `Login incorrect` under it. Only the primary screen (the one at 0,0) shows it; the
   others are blank `bg`.
-- **Terminus everywhere**: the terminal (12.375pt, 22 physical px), the
+- **Terminus everywhere**, all at 20 physical px and slightly smoothed: the
+  terminal (11.25pt), the
   Quickshell UI (`Theme.fontPoints` 11.25pt, 20 physical, with
   `Text.NativeRendering`, slightly smoothed), GTK
   (11.25pt, also 20 physical) and hyprlock.
@@ -152,6 +155,15 @@ binds as zine ([zine-quickshell.md](zine-quickshell.md)).
   pixels and is much harder to read; `CurveRendering` is thinner and
   closer to Ghostty but loses the slight smoothing, which is preferred.
   Live with it.
+- **Ghostty draws a font's embedded bitmaps when it has them**, snapping
+  to the nearest bitmap size, so no size or `freetype-load-flags` setting
+  changes Terminus (`ttf-terminus-nerd` carries `EBDT`/`EBLC`): 21px drew
+  exactly like 22px, and smoothing did nothing. Qt draws the outlines.
+  Sharp Qt text at 20px on 1.33x isn't possible (7.5 logical px per
+  character), so both sides smooth instead: `terminus-outline` drops the
+  bitmap tables and renames the family. Ghostty's command-line options are
+  overridden by the theme's `config-file`, so test with
+  `--config-default-files=false`.
 - **Some names are reserved.** A QML method called `escape` is an
   "illegal method name", and `qs ipc call <target> show` runs `qs ipc
   show` instead of the function, so don't name IPC functions `show`.
