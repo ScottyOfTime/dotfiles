@@ -28,7 +28,7 @@ Scope {
         scan.restart();
     }
 
-    NumberAnimation { id: scan; target: lock; property: "drawn"; from: 0; to: 1; duration: 700 }
+    NumberAnimation { id: scan; target: lock; property: "drawn"; from: 0; to: 1; duration: 380 }
 
     function leave() {
         leaving();

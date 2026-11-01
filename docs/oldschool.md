@@ -36,7 +36,7 @@ dmenu-style strips, a tty login as the lock screen. Lives in
   two thirds, then full brightness. About
   three seconds, covering apps as they start; once per Hyprland session; a
   click skips it. Locking cuts straight to black, then the logo and prompt
-  are drawn in like a slow scan (0.7s: 4px rows top to bottom, each left
+  are drawn in like a slow scan (0.38s: 4px rows top to bottom, each left
   to right, by shrinking two `bg` masks); unlocking plays just the
   warm-up (`Lock` emits `leaving`, `Boot.reveal()` puts a blank tube up
   before the lock surface goes). The power-on and warm-up draw in a few hard
@@ -145,6 +145,12 @@ binds as zine ([zine-quickshell.md](zine-quickshell.md)).
 - **Canvas `putImageData` draws nothing** in this Qt (it runs, no
   error); `fillRect` per cell on a low-res canvas scaled with
   `smooth: false` is fast enough (a screen of snow in ~3ms).
+- **Qt's Terminus is a touch heavier than Ghostty's.** At 1.33x, Qt lays
+  text out in logical units, so glyphs land on fractional physical pixels
+  and antialiasing spreads a 1px stroke over two greyish ones (screenshot
+  histograms show the greys; Ghostty's are pure on/off). Full hinting
+  changes nothing visible; `antialiasing: false` snaps strokes to uneven
+  pixels and is much harder to read. Live with it.
 - **Some names are reserved.** A QML method called `escape` is an
   "illegal method name", and `qs ipc call <target> show` runs `qs ipc
   show` instead of the function, so don't name IPC functions `show`.
