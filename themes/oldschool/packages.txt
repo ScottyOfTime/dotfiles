@@ -2,4 +2,4 @@ quickshell
 hyprlock
 htop
 ttf-terminus-nerd
-xcursor-themes
+xcursor-chicago95-git (AUR)

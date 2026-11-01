@@ -33,7 +33,9 @@ dmenu-style strips, a tty login as the lock screen. Lives in
   kernel, CPU and RAM, `[  OK  ]` units, `<host> login: <user>`,
   `ready.`), then the screen rolls down off the desktop behind a scanline;
   about three seconds, covering apps as they start. Once per Hyprland
-  session; a click skips it. The wallpaper is the bare tube with
+  session; a click skips it. Unlocking plays just the roll-down
+  (`Lock` emits `leaving`, `Boot.reveal()` puts a blank tube up before the
+  lock surface goes). The wallpaper is the bare tube with
   `host · arch linux <kernel>`, `ready.` and a blinking block cursor. The
   lock screen is the distro's fastfetch logo, big and centred, over the
   user name and, centred under it, the password as `*`s (only the stars
@@ -72,7 +74,7 @@ vim/airline colours (same pipeline as zine, see
 | `red` | `ff5533` | `b8361a` | errors |
 
 `blue`, `orange`, `yellow`, `green`, `cyan`, `purple` exist for the
-terminal and editors only, warm-shifted. Cursor theme: whiteglass, the classic X11 arrow (`xcursor-themes`).
+terminal and editors only, warm-shifted. Cursor theme: Chicago95_Cursor_White, the Windows 95 arrow (`xcursor-chicago95-git`, AUR; one 32px size).
 
 ## Quickshell
 

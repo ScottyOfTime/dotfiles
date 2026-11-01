@@ -2,7 +2,7 @@
 
 -- defaults fill any field colors.lua lacks: hyprland reloads on save, which
 -- can be before darkman has rendered a newly added colour
-local colors = { cursor = "whiteglass" }
+local colors = { cursor = "Chicago95_Cursor_White" }
 local ok, rendered = pcall(dofile, os.getenv("HOME") .. "/.config/hypr-theme/colors.lua")
 if ok then for k, v in pairs(rendered) do colors[k] = v end end
 

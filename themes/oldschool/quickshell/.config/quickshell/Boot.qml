@@ -6,7 +6,8 @@ import Quickshell.Wayland
 // login as a crt powering on: a beam opens to the full screen, the boot log
 // prints, then the screen rolls down off the desktop. Once per hyprland
 // session (the runtime dir outlives a logout, so the flag holds the instance
-// signature); `qs ipc call boot replay` replays it, a click skips it
+// signature); `qs ipc call boot replay` replays it, a click skips it.
+// Unlocking plays just the roll (`reveal`)
 Scope {
     id: boot
 
@@ -47,13 +48,28 @@ Scope {
         powerOn.restart();
     }
 
+    // after unlocking: a blank tube already up when the lock surface goes,
+    // then the same roll off the desktop
+    function reveal() {
+        skip();
+        count = 0;
+        beamOpacity = 0;
+        roll = 0;
+        shown = true;
+        revealDelay.restart();
+    }
+
     function skip() {
         powerOn.stop();
         step.stop();
         done.stop();
         rollOff.stop();
+        revealDelay.stop();
         shown = false;
     }
+
+    // the lock surface lingers 250ms after a successful unlock (Lock.qml)
+    Timer { id: revealDelay; interval: 320; onTriggered: rollOff.start() }
 
     SequentialAnimation {
         id: powerOn

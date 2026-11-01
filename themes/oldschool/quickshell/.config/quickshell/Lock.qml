@@ -13,6 +13,7 @@ Scope {
     property string status: ""
     property int attempts: 0
     property string logo: ""
+    signal leaving()
     readonly property var primary: Quickshell.screens.find(s => s.x === 0 && s.y === 0)
         ?? Quickshell.screens[0]
 
@@ -23,6 +24,7 @@ Scope {
     }
 
     function leave() {
+        leaving();
         status = "ok";
         password = "";
         unlockAfterLeave.restart();

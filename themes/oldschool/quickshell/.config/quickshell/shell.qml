@@ -25,8 +25,8 @@ ShellRoot {
     Launcher {}
     Osd {}
     Notifications {}
-    Lock { id: lock }
+    Lock { id: lock; onLeaving: boot.reveal() }
     PowerMenu { lock: lock }
     Overview {}
-    Boot {}
+    Boot { id: boot }
 }
