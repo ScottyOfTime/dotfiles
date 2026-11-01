@@ -39,7 +39,7 @@ PanelWindow {
     visible: false
     color: Theme.panel
     anchors { top: true; left: true; right: true }
-    implicitHeight: Theme.px(Theme.bar, devicePixelRatio)
+    implicitHeight: Theme.whole(Theme.bar, devicePixelRatio)
     exclusionMode: ExclusionMode.Ignore
     WlrLayershell.layer: WlrLayer.Overlay
     WlrLayershell.namespace: strip.space

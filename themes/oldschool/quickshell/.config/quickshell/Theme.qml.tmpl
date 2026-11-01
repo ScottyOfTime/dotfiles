@@ -20,11 +20,20 @@ Singleton {
     readonly property real fontPoints: 11.25
     readonly property int bar: 26
 
-    // a size snapped to whole physical pixels for a window's scale (dpr):
+    // sizes that land on whole physical pixels for a window's scale (dpr):
     // at 1.25x a 26px bar is 32.5 pixels, and a 1px line on that half
-    // pixel flickers in and out. Use for heights, lines and borders
+    // pixel flickers in and out.
+    // px: inside a window (lines, borders, rows); may be fractional
     function px(value, dpr) {
         const d = dpr || 1;
         return Math.max(1, Math.round(value * d)) / d;
+    }
+    // whole: window sizes and layer margins, which must also be whole
+    // logical pixels (26.25 is cut to 26): the next size up that is both
+    function whole(value, dpr) {
+        const d = dpr || 1;
+        for (let v = Math.ceil(value); v < value + 12; v++)
+            if (Math.abs(v * d - Math.round(v * d)) < 0.01) return v;
+        return Math.ceil(value);
     }
 }

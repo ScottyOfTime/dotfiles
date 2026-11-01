@@ -171,12 +171,13 @@ binds as zine ([zine-quickshell.md](zine-quickshell.md)).
   registers once per screen (even with `enabled: false`, or loaded only on
   the focused monitor, which races at startup) and warns on every reload;
   `shell.qml` owns the one `music` handler and bars react to its counter.
-- **Snap sizes to physical pixels** with `Theme.px(value, dpr)` (the
-  window's `devicePixelRatio`, or `QsWindow.window?.devicePixelRatio` from
-  inside an item): the bar, its underline, strip and notification heights,
-  box borders and the focus strip. Whole logical pixels only land on whole
-  physical ones at some scales; at 1.25 the 26px bar was 32.5px and its 1px
-  line flickered in and out.
+- **Snap sizes to physical pixels**, or 1px lines flicker in and out (at
+  1.25 a 26px bar is 32.5 pixels). Inside a window use `Theme.px(value,
+  dpr)` (the window's `devicePixelRatio`, or `QsWindow.window?.
+  devicePixelRatio` from an item); it may be fractional. Window sizes and
+  layer margins must also be whole logical pixels (a 26.25 bar is cut to
+  26, its underline half outside), so use `Theme.whole(value, dpr)`: the
+  next size up that's whole both ways (27 at 1.33, 28 at 1.25, 30 at 1.2).
 - **Some names are reserved.** A QML method called `escape` is an
   "illegal method name", and `qs ipc call <target> show` runs `qs ipc
   show` instead of the function, so don't name IPC functions `show`.

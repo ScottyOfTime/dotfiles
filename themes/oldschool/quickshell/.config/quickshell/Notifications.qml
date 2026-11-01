@@ -11,7 +11,7 @@ PanelWindow {
     visible: server.trackedNotifications.values.length > 0
     color: "transparent"
     anchors { top: true; right: true }
-    margins { top: Theme.px(Theme.bar, devicePixelRatio) }
+    margins { top: Theme.whole(Theme.bar, devicePixelRatio) }
     implicitWidth: 620
     implicitHeight: stack.implicitHeight
     exclusionMode: ExclusionMode.Ignore

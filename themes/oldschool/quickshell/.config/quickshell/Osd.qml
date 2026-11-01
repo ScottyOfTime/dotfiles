@@ -25,7 +25,7 @@ PanelWindow {
     visible: false
     color: "transparent"
     anchors.top: true
-    margins.top: Theme.px(Theme.bar + 8, devicePixelRatio)
+    margins.top: Theme.whole(Theme.whole(Theme.bar, devicePixelRatio) + 8, devicePixelRatio)
     implicitWidth: box.width
     implicitHeight: box.height
     exclusionMode: ExclusionMode.Ignore

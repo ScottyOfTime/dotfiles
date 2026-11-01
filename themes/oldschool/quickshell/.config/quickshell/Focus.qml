@@ -21,7 +21,7 @@ PanelWindow {
         top: info?.at ? info.at[1] - monitor.y : 0
     }
     implicitWidth: info?.size ? info.size[0] : 1
-    implicitHeight: Theme.px(3, devicePixelRatio)
+    implicitHeight: Theme.whole(3, devicePixelRatio)
     exclusionMode: ExclusionMode.Ignore
     WlrLayershell.layer: WlrLayer.Overlay
     WlrLayershell.namespace: "focus"

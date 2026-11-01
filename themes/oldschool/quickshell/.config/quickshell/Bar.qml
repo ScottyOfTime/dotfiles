@@ -48,7 +48,7 @@ PanelWindow {
 
     screen: modelData
     anchors { top: true; left: true; right: true }
-    implicitHeight: Theme.px(Theme.bar, devicePixelRatio)
+    implicitHeight: Theme.whole(Theme.bar, devicePixelRatio)
     exclusiveZone: implicitHeight
     color: Theme.panel
     WlrLayershell.namespace: "bar"
