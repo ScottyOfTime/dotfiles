@@ -2,7 +2,7 @@
 
 Personal dotfiles for an Arch + Hyprland desktop. Shared config is in
 `base/`; each look is a theme in `themes/<name>/` switched with
-`./theme <name>` (zine is current). Read `docs/README.md` first.
+`./theme <name>`. Read `docs/README.md` first.
 
 ## Keep the docs current
 
