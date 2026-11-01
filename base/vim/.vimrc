@@ -24,6 +24,8 @@ if filereadable(expand('~/.config/vim-theme/theme.vim'))
 else
   colorscheme ayu
 endif
+" :Theme picks up a light/dark switch made while vim is open
+command! Theme source ~/.config/vim-theme/theme.vim | silent! AirlineRefresh
 let &t_ut = ''
 
 let g:airline_symbols_ascii = 1

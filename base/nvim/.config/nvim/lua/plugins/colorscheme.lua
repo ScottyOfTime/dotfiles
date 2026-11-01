@@ -12,5 +12,10 @@ return {
     else
       vim.cmd.colorscheme("ayu")
     end
+    -- :Theme picks up a light/dark switch made while nvim is open
+    vim.api.nvim_create_user_command("Theme", function()
+      vim.cmd.source(theme .. "/theme.vim")
+      vim.cmd("silent! AirlineRefresh")
+    end, {})
   end,
 }

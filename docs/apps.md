@@ -35,8 +35,8 @@ transparent so the terminal's shows. `.vimrc` loads the same file.
 Each theme's `theme.sh` writes the light/dark mode to
 `~/.local/state/theme-mode`, which the colorschemes read at startup
 (rather than calling `darkman get`). Open editors don't follow a switch on
-their own; to pick it up, run
-`:source ~/.config/vim-theme/theme.vim | silent! AirlineRefresh`.
+their own; `:Theme` (defined in `.vimrc` and nvim's
+`plugins/colorscheme.lua`) re-sources `theme.vim` and refreshes airline.
 
 Don't call `system()` from vim at `VimEnter`: it hands the terminal back to
 cooked mode just as Ghostty answers vim's startup queries, and the replies
