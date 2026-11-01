@@ -32,11 +32,12 @@ dmenu-style strips, a tty login as the lock screen. Lives in
   burst of amber snow, a dot that stretches into a line and opens to a full
   flash, which collapses back to the centre as the boot log types out (the
   real kernel, CPU and RAM, `[  OK  ]` units, `<host> login: <user>`,
-  `ready.`), then the desktop comes through a 4x4 ordered dither. About
+  `ready.`), then the desktop warms up: it shows at once at a third, then
+  two thirds, then full brightness. About
   three seconds, covering apps as they start; once per Hyprland session; a
   click skips it. Locking switches the tube off (the picture collapses to a
   line, then a dot that fades, then the prompt); unlocking plays just the
-  dither (`Lock` emits `leaving`, `Boot.reveal()` puts a blank tube up
+  warm-up (`Lock` emits `leaving`, `Boot.reveal()` puts a blank tube up
   before the lock surface goes). Everything draws in a few hard steps, not
   smooth easing. The wallpaper is the bare tube with
   `host · arch linux <kernel>`, `ready.` and a blinking block cursor. The

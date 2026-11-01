@@ -5,23 +5,22 @@ import Quickshell.Wayland
 
 // login as a crt powering on: a burst of snow, a dot that stretches into a
 // line and opens to a full flash, which collapses back to the centre as the
-// boot log types out; then the desktop dithers in. Once per hyprland session
+// boot log types out; then the desktop warms up in three steps. Once per hyprland session
 // (the runtime dir outlives a logout, so the flag holds the instance
 // signature); `qs ipc call boot replay` replays it, a click skips it.
-// Unlocking plays just the dither (`reveal`)
+// Unlocking plays just the warm-up (`reveal`)
 Scope {
     id: boot
 
     property bool shown: false
-    // "snow", "beam", "log" or "" (a blank tube, before a reveal)
+    // "snow", "beam", "log", "warm" or "" (a blank tube, before a reveal)
     property string phase: ""
     property int snow: 0
     property real across: 0
     property real down: 0
     property real glow: 1
     property int typed: 0
-    // 0 is a solid tube, 16 fully dissolved (one step of a 4x4 bayer matrix)
-    property int dissolve: 0
+    property real warm: 0
 
     readonly property string cpu: (cpuinfo.text().match(/model name\s*:\s*(.*)/) ?? ["", "cpu"])[1]
     readonly property string mem: Math.round(parseInt((meminfo.text().match(/MemTotal:\s*(\d+)/) ?? ["", "0"])[1]) / 1024) + "M"
@@ -69,7 +68,7 @@ Scope {
         down = 0;
         glow = 1;
         typed = 0;
-        dissolve = 0;
+        warm = 0;
     }
 
     function show() {
@@ -79,7 +78,7 @@ Scope {
     }
 
     // after unlocking: a blank tube already up when the lock surface goes,
-    // then the dither off the desktop
+    // then the warm-up
     function reveal() {
         reset();
         shown = true;
@@ -126,7 +125,8 @@ Scope {
 
     SequentialAnimation {
         id: fadeIn
-        NumberAnimation { target: boot; property: "dissolve"; from: 0; to: 16; duration: 400 }
+        ScriptAction { script: boot.phase = "warm" }
+        NumberAnimation { target: boot; property: "warm"; from: 0; to: 1; duration: 330 }
         ScriptAction { script: boot.skip() }
     }
 
@@ -165,35 +165,12 @@ Scope {
                 onClicked: boot.skip()
             }
 
+            // warming up: the desktop shows at once at a third, then two
+            // thirds, then full brightness
             Rectangle {
                 anchors.fill: parent
-                visible: boot.dissolve === 0
                 color: Theme.bg
-            }
-
-            // the desktop comes through an ordered dither, two levels a step;
-            // low-res and scaled without smoothing, so the cells stay square
-            Canvas {
-                id: dither
-                readonly property int cell: 4
-                readonly property int level: Math.floor(boot.dissolve / 2) * 2
-                width: Math.ceil(parent.width / cell)
-                height: Math.ceil(parent.height / cell)
-                visible: boot.dissolve > 0
-                smooth: false
-                transform: Scale { xScale: dither.cell; yScale: dither.cell }
-                onLevelChanged: if (level > 0) requestPaint()
-                // putImageData draws nothing in this qt; fillRect is fast enough
-                onPaint: {
-                    const bayer = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5];
-                    const ctx = getContext("2d");
-                    ctx.clearRect(0, 0, width, height);
-                    ctx.fillStyle = Theme.bg;
-                    for (let y = 0; y < height; y++)
-                        for (let x = 0; x < width; x++)
-                            if (bayer[(y % 4) * 4 + x % 4] >= level)
-                                ctx.fillRect(x, y, 1, 1);
-                }
+                opacity: boot.phase === "warm" ? Math.max(0, 1 - (Math.floor(boot.warm * 3) + 1) / 3) : 1
             }
 
             Canvas {
@@ -226,7 +203,7 @@ Scope {
             Column {
                 x: 16
                 y: 14
-                visible: boot.phase === "log" && boot.dissolve === 0
+                visible: boot.phase === "log"
                 Repeater {
                     model: boot.shownLines
                     Label {
