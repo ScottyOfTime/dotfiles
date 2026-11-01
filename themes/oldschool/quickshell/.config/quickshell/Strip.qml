@@ -78,6 +78,7 @@ PanelWindow {
             font.family: Theme.font
             font.pixelSize: Theme.fontSize
             renderType: Text.NativeRendering
+            antialiasing: false
             cursorVisible: strip.searchable
             onTextChanged: strip.current = 0
             Keys.onPressed: event => {

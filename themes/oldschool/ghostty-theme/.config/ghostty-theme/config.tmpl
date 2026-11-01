@@ -10,9 +10,10 @@ font-feature = -calt
 font-feature = -liga
 cursor-style-blink = false
 font-family = Terminess Nerd Font Mono
-# terminus is drawn on a pixel grid: 15pt at 1.33x scale is 20 physical,
-# one of its native sizes and the same as the shell; in-between sizes smear
-font-size = 15
+# terminus is drawn on a pixel grid: ghostty makes pt x 4/3 x the 1.33x scale,
+# so 11.25pt is 20 physical px, a native terminus size like the shell's;
+# in-between sizes smear (15pt was ~27px)
+font-size = 11.25
 # no antialiasing: hard pixel edges
 freetype-load-flags = hinting,force-autohint,monochrome
 gtk-custom-css = tabs.css
