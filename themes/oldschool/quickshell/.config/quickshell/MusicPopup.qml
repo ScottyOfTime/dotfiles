@@ -54,7 +54,7 @@ PopupWindow {
         id: box
         width: 360
         height: info.implicitHeight + 20
-        edge: Theme.bright
+        edge: Theme.fg
 
         Column {
             id: info

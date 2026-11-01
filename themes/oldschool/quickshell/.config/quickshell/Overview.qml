@@ -67,7 +67,7 @@ PanelWindow {
         anchors.centerIn: parent
         width: 760
         height: list.implicitHeight + 4
-        edge: Theme.bright
+        edge: Theme.fg
 
         // swallow clicks so only the outside closes the list
         MouseArea { anchors.fill: parent }

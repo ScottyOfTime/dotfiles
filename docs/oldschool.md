@@ -8,8 +8,7 @@ dmenu-style strips, a tty login as the lock screen. Lives in
 ## The look
 
 - **One phosphor.** Everything is amber (`fg`); `dim` is low-intensity
-  text, `bright` is hot phosphor for prompts and
-  emphasis, `red` is errors only. Selection is **reverse video**: an
+  text, `bright` is hot phosphor for small text accents, `red` is errors only. Selection is **reverse video**: an
   amber fill with `bg` text (focused workspace, picked menu item, active
   Ghostty and herdr tabs; herdr's `accent` is `fg`, not `bright`).
 - **Flat and square.** `Box` is a panel rectangle with a 2px border; no
@@ -78,7 +77,7 @@ vim/airline colours (same pipeline as zine, see
 | `fg` | `ffb52e` | `3a2408` | phosphor: text, reverse-video fill |
 | `dim` | `9a6a24` | `8c6c40` | keys, titles, secondary text |
 | `line` | `3d2810` | `cbb894` | the bar's underline, box edges |
-| `bright` | `ffd27a` | `a85400` | prompts, emphasis |
+| `bright` | `ffd27a` | `a85400` | small text accents only: the clock, the boot log's `OK`, hovered `[buttons]`, the power-on beam. Fills and frames are `fg`: paler `bright` ones looked harsh next to `fg` |
 | `red` | `ff5533` | `b8361a` | errors |
 
 `blue`, `orange`, `yellow`, `green`, `cyan`, `purple` exist for the
@@ -101,7 +100,7 @@ binds as zine ([zine-quickshell.md](zine-quickshell.md)).
 |---|---|
 | `Bar.qml` | A classic status line split by `\|`: workspaces (focused in reverse video), `> title`, then `mus` (click for the player), `vol` (click mutes, scroll changes), `bat` (laptops only: UPower's display device when it's a laptop battery; `+` charging, `bright` at 30%, `red` at 15%), `cpu`, `mem`, `net`, date, time |
 | `Focus.qml` | The focused-window strip: an overlay layer placed from the window's `lastIpcObject` (refreshed once per window event in `shell.qml`); click-through |
-| `Strip.qml` | dmenu-style strip over the bar: `bright` prompt, optional search field, matches in a row; arrows/Tab move, Enter picks, Esc closes, digits pick when not searchable |
+| `Strip.qml` | dmenu-style strip over the bar: prompt in reverse video like the picked item (as dmenu), optional search field, matches in a row; arrows/Tab move, Enter picks, Esc closes, digits pick when not searchable |
 | `Launcher.qml` | `run` strip over the desktop entries (`SUPER+Space`) |
 | `PowerMenu.qml` | `session` strip: 1 lock, 2 suspend, 3 log out, 4 reboot, 5 shut down (`SUPER+Escape`) |
 | `Osd.qml` | `v: 50% [##########----------]` box under the bar; `b:` for brightness |

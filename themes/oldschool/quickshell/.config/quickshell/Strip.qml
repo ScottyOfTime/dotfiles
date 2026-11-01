@@ -64,7 +64,7 @@ PanelWindow {
         Rectangle {
             width: label.implicitWidth + 20
             height: parent.height
-            color: Theme.bright
+            color: Theme.fg
             Label { id: label; anchors.centerIn: parent; text: strip.prompt; color: Theme.onLit; font.bold: true }
         }
 

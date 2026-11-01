@@ -54,7 +54,7 @@ PanelWindow {
         id: box
         width: row.implicitWidth + 24
         height: row.implicitHeight + 16
-        edge: osd.muted ? Theme.dim : Theme.bright
+        edge: osd.muted ? Theme.dim : Theme.fg
 
         Row {
             id: row
