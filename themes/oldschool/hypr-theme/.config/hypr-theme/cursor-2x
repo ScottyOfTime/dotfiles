@@ -1,18 +1,25 @@
 #!/usr/bin/env python3
-"""cursor-2x <theme>_2x: build ~/.local/share/icons/<theme>_2x from an
-installed xcursor theme by repeating every pixel 2x and 3x. Themes that
-only ship one small size stay tiny otherwise, since cursors aren't scaled
-up. Does nothing if the copy already exists."""
+"""cursor-2x <theme>_2x <rrggbb>: build ~/.local/share/icons/<theme>_2x
+from an installed xcursor theme, tinted (white becomes the colour, black
+stays black) and with every pixel repeated 2x and 3x. Themes that only ship
+one small size stay tiny otherwise, since cursors aren't scaled up. Does
+nothing if the copy already exists in that colour."""
 
 import struct
 import sys
 from pathlib import Path
 
-name = sys.argv[1]
-source = Path("/usr/share/icons") / name.removesuffix("_2x") / "cursors"
+name, tint = sys.argv[1], sys.argv[2]
+base = name.removesuffix("_2x")
+installed = Path("/usr/share/icons") / base / "cursors"
 target = Path.home() / ".local/share/icons" / name
-if (target / "index.theme").exists() or not source.is_dir():
+# untinted originals kept beside the copy, so it can be re-tinted even if
+# the package is gone
+kept = target / "original"
+stamp = target / "tint"
+if stamp.exists() and stamp.read_text() == tint:
     sys.exit()
+tr, tg, tb = (int(tint[i:i + 2], 16) for i in (0, 2, 4))
 
 IMAGE = 0xFFFD0002
 
@@ -24,6 +31,23 @@ def frames(data):
         if kind == IMAGE:
             _, _, _, _, w, h, hx, hy, delay = struct.unpack_from("<9I", data, pos)
             yield nominal, w, h, hx, hy, delay, struct.unpack_from(f"<{w * h}I", data, pos + 36)
+
+
+def smallest(data):
+    images = list(frames(data))
+    least = min(f[0] for f in images)
+    return xcursor([f for f in images if f[0] == least])
+
+
+def tinted(frame):
+    # premultiplied argb: grey levels scale the tint, so edges keep their shade
+    *head, pixels = frame
+    out = []
+    for p in pixels:
+        a, r, g, b = p >> 24, (p >> 16) & 255, (p >> 8) & 255, p & 255
+        level = (r + g + b) / 765
+        out.append(a << 24 | round(tr * level) << 16 | round(tg * level) << 8 | round(tb * level))
+    return (*head, out)
 
 
 def scaled(frame, k):
@@ -44,6 +68,28 @@ def xcursor(images):
     return struct.pack("<4sIII", b"Xcur", 16, 0x10000, len(images)) + toc + chunks
 
 
+if installed.is_dir():
+    source = installed
+elif kept.is_dir():
+    source = kept
+elif (target / "cursors").is_dir() and not stamp.exists():
+    # an untinted copy from before originals were kept: its smallest images
+    # are the originals
+    source = target / "cursors"
+else:
+    sys.exit(f"cursor-2x: {base} isn't installed")
+
+kept.mkdir(parents=True, exist_ok=True)
+if source != kept:
+    for path in source.iterdir():
+        out = kept / path.name
+        out.unlink(missing_ok=True)
+        if path.is_symlink():
+            out.symlink_to(path.readlink())
+        else:
+            out.write_bytes(smallest(path.read_bytes()))
+    source = kept
+
 (target / "cursors").mkdir(parents=True, exist_ok=True)
 for path in source.iterdir():
     out = target / "cursors" / path.name
@@ -51,7 +97,8 @@ for path in source.iterdir():
         out.unlink(missing_ok=True)
         out.symlink_to(path.readlink())
         continue
-    original = list(frames(path.read_bytes()))
+    original = [tinted(f) for f in frames(path.read_bytes())]
     out.write_bytes(xcursor(original + [scaled(f, k) for k in (2, 3) for f in original]))
 (target / "index.theme").write_text(
-    f"[Icon Theme]\nName={name}\nInherits={source.parent.name}\n")
+    f"[Icon Theme]\nName={name}\nInherits={base}\n")
+stamp.write_text(tint)

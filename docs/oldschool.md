@@ -79,8 +79,10 @@ vim/airline colours (same pipeline as zine, see
 `blue`, `orange`, `yellow`, `green`, `cyan`, `purple` exist for the
 terminal and editors only, warm-shifted. Cursor: the Windows 95 arrow (`xcursor-chicago95-git`, AUR) as
 `Chicago95_Cursor_White_2x`, a copy `hypr-theme/cursor-2x` builds into
-`~/.local/share/icons` (from `theme.sh`, once) with every pixel repeated
-2x and 3x. Chicago95 only ships 32px and nothing scales a cursor up, so
+`~/.local/share/icons` (from `theme.sh`, again only if the tint changes),
+tinted the dark palette's `fg` (white becomes amber, black stays) with
+every pixel repeated 2x and 3x. It keeps the untinted originals in
+`original/` beside the copy, so it still works if the package is removed. Chicago95 only ships 32px and nothing scales a cursor up, so
 any size setting left it tiny. GTK asks for size x2 at 1.33x (its
 buffer scale), so size 48 drew the 96px copy at 64 physical: too big;
 size 32 draws the 64px copy at ~43 physical.
@@ -102,7 +104,7 @@ binds as zine ([zine-quickshell.md](zine-quickshell.md)).
 | `MusicPopup.qml` | Track, artist · album, text progress bar, `[prev] [play] [next]` |
 | `Lock.qml` | Logo (`fastfetch --pipe -s none`, so any distro), user and masked password on the screen at 0,0; PAM `login`, identical to zine's |
 | `Overview.qml` | Every window as a `WS CLASS TITLE` row, like `ps`; up/down/Tab, Enter focuses, Esc or a click outside closes (`SUPER+Tab`) |
-| `Beam.qml` | The CRT beam (hot core in a dim fringe, 0 is a dot), stepped; used by Boot and Lock |
+| `Beam.qml` | The CRT beam (a plain `bright` rectangle; 0 is a dot), stepped; used by Boot and Lock. A dimmer fringe around it looked blocky |
 | `Boot.qml` | The login power-on and boot log; `$XDG_RUNTIME_DIR/oldschool-booted` holds the Hyprland instance signature it last played for; `qs ipc call boot replay` shows it again |
 | `Wallpaper.qml` | The `ready.` banner; on paper bands and sprocket holes in light mode |
 | `Tty.qml` | Host, kernel, user and the blinking cursor, shared by the wallpaper and lock |
