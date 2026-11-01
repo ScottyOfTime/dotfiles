@@ -19,7 +19,7 @@ dmenu-style strips, a tty login as the lock screen. Lives in
   the focused one.
 - **Terminal.** Ghostty with 2px padding (balanced, padding takes the
   background colour), Terminus (`ttf-terminus-nerd`, "Terminess Nerd
-  Font Mono") at 18pt with antialiasing off, ligatures off, and a steady
+  Font Mono") at 15pt with antialiasing off, ligatures off, and a steady
   block cursor in `fg` (not `bright`: a brighter-than-text cursor glares). Tabs are a flat text line with `|`
   separators, the current one in reverse video.
 - **htop** uses its built-in Monochrome scheme (`htop/.config/htop/htoprc`,
@@ -38,15 +38,16 @@ dmenu-style strips, a tty login as the lock screen. Lives in
   click skips it. Locking switches the tube off (the picture collapses to a
   line, then a dot that fades, then the prompt); unlocking plays just the
   warm-up (`Lock` emits `leaving`, `Boot.reveal()` puts a blank tube up
-  before the lock surface goes). Everything draws in a few hard steps, not
-  smooth easing. The wallpaper is the bare tube with
+  before the lock surface goes). The power-on and warm-up draw in a few hard
+  steps; the power-off is one smooth, accelerating collapse (stepped, it
+  looked blocky). The wallpaper is the bare tube with
   `host · arch linux <kernel>`, `ready.` and a blinking block cursor. The
   lock screen is the distro's fastfetch logo, big and centred, over the
   user name and, centred under it, the password as `*`s (only the stars
   are centred; the blinking block trails them);
   a wrong one prints `Login incorrect` under it. Only the primary screen (the one at 0,0) shows it; the
   others are blank `bg`.
-- **Terminus everywhere**: the terminal (18pt, 24 physical px), the
+- **Terminus everywhere**, all at 20 physical px: the terminal (15pt), the
   Quickshell UI (`Theme.fontSize` 15px, 20 physical, with
   `Text.NativeRendering` so Qt hints it onto the pixel grid), GTK
   (11.25pt, also 20 physical) and hyprlock.
@@ -128,8 +129,8 @@ binds as zine ([zine-quickshell.md](zine-quickshell.md)).
   window events from `Hyprland.rawEvent`.
 - **Pixel fonts need their native size** (12, 14, 16, 18, 20, 22, 24, 28,
   32 physical px for Terminus). Ghostty here draws 1.33 physical px per
-  point, so Terminus's 24px size is 18pt (13.5pt is its
-  thin 18px size); in-between sizes smear strokes. `font-family` only
+  point, so Terminus's 20px size is 15pt (its 24px size, 18pt, looked
+  too big next to the shell); in-between sizes smear strokes. `font-family` only
   applies to new windows; a reload changes the size of open ones.
 - **Lock prompt lines are separate labels.** One centred text block
   re-centres every line as the password grows, so the user name jumped

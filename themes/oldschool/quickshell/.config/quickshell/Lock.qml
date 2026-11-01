@@ -36,10 +36,10 @@ Scope {
 
     SequentialAnimation {
         id: powerOff
-        NumberAnimation { target: lock; property: "offDown"; to: 0; duration: 180 }
-        NumberAnimation { target: lock; property: "offAcross"; to: 0; duration: 150 }
+        NumberAnimation { target: lock; property: "offDown"; to: 0; duration: 150; easing.type: Easing.InCubic }
+        NumberAnimation { target: lock; property: "offAcross"; to: 0; duration: 130; easing.type: Easing.InCubic }
         PauseAnimation { duration: 90 }
-        NumberAnimation { target: lock; property: "offGlow"; to: 0; duration: 240 }
+        NumberAnimation { target: lock; property: "offGlow"; to: 0; duration: 260; easing.type: Easing.OutQuad }
         PauseAnimation { duration: 200 }
         ScriptAction { script: lock.switchingOff = false }
     }
@@ -127,6 +127,8 @@ Scope {
                     across: lock.offAcross
                     down: lock.offDown
                     glow: lock.offGlow
+                    // a real tube snaps off in one smooth collapse
+                    stepped: false
                 }
 
                 Column {
