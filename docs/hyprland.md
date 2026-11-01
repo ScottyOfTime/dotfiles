@@ -20,6 +20,9 @@ Gaps, borders, shadows and animations are the theme's; see its docs.
 - Workspace back-and-forth: pressing the current workspace's number returns
   to the previous one.
 - Swallowing: windows launched from Ghostty replace it until closed.
+- At start: the theme's shell, hypridle and a Ghostty running fastfetch,
+  then the host file's `autostart` (the desktop: Discord, Signal, Steam,
+  Spotify; see [setup.md](setup.md#another-machine)).
 
 ## Keybinds (`SUPER` = mod)
 

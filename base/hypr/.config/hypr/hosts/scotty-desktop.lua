@@ -25,3 +25,7 @@ hl.window_rule({
     match     = { class = "^signal$" },
     workspace = "3 silent",
 })
+
+return {
+    autostart = { "discord", "signal-desktop", "steam", "spotify-launcher" },
+}
