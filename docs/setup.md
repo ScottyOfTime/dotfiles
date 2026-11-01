@@ -43,8 +43,9 @@ Monitors, workspace placement and autostarted apps are per machine:
 `/proc/sys/kernel/hostname`; `/etc/hostname` is missing on some systems).
 The file may end with `return { autostart = { "app", ... } }`. A machine
 without one gets one auto-scaled monitor, no pinned workspaces and only
-the base autostart (theme shell, hypridle, a terminal). To add one, copy `hosts/scotty-desktop.lua`, rename
-it, and use `hyprctl monitors` for the output names. Check it with
+the base autostart (theme shell, hypridle, a terminal). `hosts/scotty-laptop.lua` sets the laptop's 1920x1200
+screen to 1.25 (auto picked 1.5, which made everything huge). To add
+one, copy `hosts/scotty-desktop.lua`, rename it, and use `hyprctl monitors` for the output names. Check it with
 `Hyprland --verify-config -c <file>`.
 
 ## Other distros
