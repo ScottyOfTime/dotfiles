@@ -10,7 +10,7 @@ Rectangle {
 
     color: Theme.bg
 
-    FileView { id: hostname; path: "/etc/hostname"; blockLoading: true }
+    FileView { id: hostname; path: "/proc/sys/kernel/hostname"; blockLoading: true }
 
     Item {
         id: canvas

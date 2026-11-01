@@ -3,7 +3,6 @@ base-devel
 bluez
 bluez-utils
 brightnessctl
-bun
 darkman
 efibootmgr
 fastfetch
@@ -11,7 +10,6 @@ flameshot
 ghostty
 git
 go
-gopls
 grub
 htop
 hypridle
@@ -26,7 +24,6 @@ openssh
 pipewire
 pipewire-pulse
 playerctl
-postgresql
 power-profiles-daemon
 python-gobject
 sddm
