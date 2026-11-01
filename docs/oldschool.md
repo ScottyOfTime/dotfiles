@@ -17,7 +17,7 @@ dmenu-style strips, a tty login as the lock screen. Lives in
   than one window, a 3px `fg` strip (`Focus.qml`) sits along the top of
   the focused one.
 - **Terminal.** Ghostty with 2px padding (balanced, padding takes the
-  background colour), Terminus at 11.25pt (20 physical px) as "Terminess Outline": a copy
+  background colour), Terminus at 12.375pt (22 physical px) as "Terminess Outline": a copy
   `hypr-theme/terminus-outline` makes (from `theme.sh`, once) of the
   installed `ttf-terminus-nerd` without its embedded bitmaps, so Ghostty
   smooths it like the shell instead of drawing the bitmaps pixel-sharp; ligatures off, and a steady
@@ -43,8 +43,8 @@ dmenu-style strips, a tty login as the lock screen. Lives in
   are centred; the blinking block trails them);
   a wrong one prints `Login incorrect` under it. Only the primary screen (the one at 0,0) shows it; the
   others are blank `bg`.
-- **Terminus everywhere**, all at 20 physical px and slightly smoothed: the
-  terminal (11.25pt), the
+- **Terminus everywhere**, slightly smoothed: the terminal (12.375pt, 22
+  physical px), the
   Quickshell UI (`Theme.fontPoints` 11.25pt, 20 physical, with
   `Text.NativeRendering`, slightly smoothed), GTK
   (11.25pt, also 20 physical) and hyprlock.
