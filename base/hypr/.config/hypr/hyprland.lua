@@ -1,16 +1,23 @@
 ---@module 'hl'
 
-hl.monitor({
-    output   = "",
-    mode     = "preferred",
-    position = "auto",
-    scale    = 1.33,
-})
-
-hl.workspace_rule({ workspace = "1", monitor = "DP-2" })
-hl.workspace_rule({ workspace = "2", monitor = "DP-2" })
-hl.workspace_rule({ workspace = "3", monitor = "DP-3" })
-hl.workspace_rule({ workspace = "4", monitor = "DP-3" })
+-- per-machine monitors and workspace placement live in hosts/<hostname>.lua;
+-- machines without one get a single auto-scaled layout
+local hostname = io.open("/etc/hostname")
+local host = hostname and hostname:read("l") or ""
+if hostname then hostname:close() end
+local host_file = os.getenv("HOME") .. "/.config/hypr/hosts/" .. host .. ".lua"
+local found = io.open(host_file)
+if found then
+    found:close()
+    dofile(host_file)
+else
+    hl.monitor({
+        output   = "",
+        mode     = "preferred",
+        position = "auto",
+        scale    = "auto",
+    })
+end
 
 local terminal    = "ghostty"
 local fileManager = "dolphin"
@@ -20,7 +27,7 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("hypridle")
     hl.exec_cmd([[ghostty -e sh -c "fastfetch; exec $SHELL"]])
     hl.exec_cmd("discord")
-    hl.exec_cmd("signal-desktop", { workspace = "3 silent" })
+    hl.exec_cmd("signal-desktop")
     hl.exec_cmd("steam")
     hl.exec_cmd("spotify-launcher")
 end)
@@ -132,14 +139,6 @@ hl.window_rule({
     float = true,
     pin   = true,
     move  = { 0, 0 },
-})
-
--- Discord forks/re-execs itself, so the exec-time workspace rule loses track
--- of it and it opens wherever focus is. A class-matched rule is reliable.
-hl.window_rule({
-    name      = "discord-workspace",
-    match     = { class = "^discord$" },
-    workspace = "3 silent",
 })
 
 hl.window_rule({
