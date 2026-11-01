@@ -1,15 +1,13 @@
 import QtQuick
 import Quickshell
-import Quickshell.Hyprland
 import Quickshell.Wayland
 
-// dark is the bare tube; light is tractor-feed printer paper, banded with
-// sprocket holes down both edges
+// the bare tube with the distro's logo burned in: big, centred and barely
+// brighter than the glass
 PanelWindow {
     id: wall
 
     required property var modelData
-    readonly property bool paper: Theme.mode === "light"
 
     screen: modelData
     anchors { top: true; bottom: true; left: true; right: true }
@@ -18,51 +16,14 @@ PanelWindow {
     WlrLayershell.layer: WlrLayer.Background
     WlrLayershell.namespace: "wallpaper"
 
-    // blink only where no window can be covering the banner
-    Blink { id: blink; running: (Hyprland.monitorFor(wall.modelData)?.activeWorkspace?.toplevels.values.length ?? 1) === 0 }
-
-    Column {
-        visible: wall.paper
-        y: Theme.bar
-        Repeater {
-            model: Math.ceil(wall.height / 54)
-            Rectangle {
-                required property int index
-                width: wall.width
-                height: 54
-                color: index % 2 ? Theme.bg : Theme.surface
-            }
-        }
-    }
-
-    Repeater {
-        model: wall.paper ? [12, wall.width - 24] : []
-        Column {
-            required property real modelData
-            x: modelData
-            y: Theme.bar + 12
-            spacing: 24
-            Repeater {
-                model: Math.ceil(wall.height / 36)
-                Rectangle {
-                    width: 12
-                    height: 12
-                    radius: 6
-                    color: Theme.panel
-                    border.color: Theme.line
-                    border.width: 2
-                }
-            }
-        }
-    }
-
     Label {
-        x: wall.paper ? 48 : 16
-        y: Theme.bar + 14
-        color: Theme.dim
-        lineHeight: 1.3
-        textFormat: Text.StyledText
-        text: `${Tty.host} · ${Tty.distro} ${Tty.kernel}<br>ready.<br>`
-            + `<font color="${Theme.fg}">${blink.on ? "█" : "&nbsp;"}</font>`
+        anchors.centerIn: parent
+        // about 60% of the screen's height, whatever the logo's line count
+        // (in points, as Label sizes in points: 0.75pt per px)
+        font.pointSize: Math.max(1, Math.round(wall.height * 0.6 / Math.max(1, text.split("\n").length)) * 0.75)
+        lineHeight: 1.0
+        textFormat: Text.PlainText
+        color: Theme.line
+        text: Tty.logo
     }
 }

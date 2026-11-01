@@ -42,8 +42,9 @@ dmenu-style strips, a tty login as the lock screen. Lives in
   to right, by shrinking two `bg` masks); unlocking plays just the
   warm-up (`Lock` emits `leaving`, `Boot.reveal()` puts a blank tube up
   before the lock surface goes). The power-on and warm-up draw in a few hard
-  steps. The wallpaper is the bare tube with
-  `host · arch linux <kernel>`, `ready.` and a blinking block cursor. The
+  steps. The wallpaper is the bare tube with the
+  distro's fastfetch logo burned in: about 60% of the screen's height,
+  centred, in `line` (barely brighter than the glass), in both modes. The
   lock screen is the distro's fastfetch logo, big and centred, over the
   user name and, centred under it, the password as `*`s (only the stars
   are centred; the blinking block trails them);
@@ -54,8 +55,7 @@ dmenu-style strips, a tty login as the lock screen. Lives in
   Quickshell UI (`Theme.fontPoints` 11.25pt, 20 physical, with
   `Text.NativeRendering`, slightly smoothed), GTK
   (11.25pt, also 20 physical) and hyprlock.
-- **Light mode** is dark brown ink on tractor-feed printer paper: the
-  wallpaper has alternating bands and sprocket holes down both edges.
+- **Light mode** is dark brown ink on warm paper, same structure.
 
 Tried and dropped on the way here (as "portal"): blue/orange Portal
 accents, Portal in-jokes and announcer lines, a test chamber sign, glowing
@@ -107,13 +107,13 @@ binds as zine ([zine-quickshell.md](zine-quickshell.md)).
 | `Osd.qml` | `v: 50% [##########----------]` box under the bar; `b:` for brightness |
 | `Notifications.qml` | One log line each under the bar, top-right: `[HH:mm] app: summary - body` plus `[action]`s; red and sticky when critical; click dismisses |
 | `MusicPopup.qml` | Track, artist · album, text progress bar, `[prev] [play] [next]` |
-| `Lock.qml` | Logo (`fastfetch --pipe -s none`, so any distro), user and masked password on the screen at 0,0; PAM `login`, identical to zine's |
+| `Lock.qml` | Logo (`Tty.logo`), user and masked password on the screen at 0,0; PAM `login`, identical to zine's |
 | `Overview.qml` | Every window as a `WS CLASS TITLE` row, like `ps`; up/down/Tab, Enter focuses, Esc or a click outside closes (`SUPER+Tab`) |
 | `Beam.qml` | The power-on beam: a `bright` rectangle in hard steps (0 is a dot) |
 | `Boot.qml` | The login power-on and boot log; `$XDG_RUNTIME_DIR/oldschool-booted` holds the Hyprland instance signature it last played for; `qs ipc call boot replay` shows it again |
-| `Wallpaper.qml` | The `ready.` banner; on paper bands and sprocket holes in light mode |
-| `Tty.qml` | Singleton: host (`/proc/sys/kernel/hostname`), kernel, user and distro (`/etc/os-release`), read once |
-| `Blink.qml` | A block cursor's blink timer; consumers run it only while it's on screen (the wallpaper only on a workspace with no windows, the lock only on the prompt's screen), as every toggle redraws the window |
+| `Wallpaper.qml` | The burned-in logo (`Tty.logo`), sized to ~60% of the screen's height |
+| `Tty.qml` | Singleton: host (`/proc/sys/kernel/hostname`), kernel, user, distro (`/etc/os-release`) and logo (`fastfetch --pipe -s none`, any distro), read once; shared by the wallpaper, lock and boot log |
+| `Blink.qml` | A block cursor's blink timer; consumers run it only while it's on screen (the lock only on the prompt's screen), as every toggle redraws the window |
 | `Box.qml`, `Label.qml`, `Meter.qml` | Flat bordered box, text, text progress bar |
 | `Stats.qml` | cpu, memory and network from `/proc` every 2s |
 
@@ -167,7 +167,10 @@ binds as zine ([zine-quickshell.md](zine-quickshell.md)).
   `--config-default-files=false`.
 - **One IPC handler per target.** A handler in a per-screen component
   registers once per screen even with `enabled: false` and warns on every
-  reload; `Bar` loads its `music` handler only on the focused monitor.
+  reload; `Bar` loads its `music` handler only on the focused monitor, and
+  only once Hyprland has reported monitors (both sides are null at start,
+  which made every bar "focused"). A live reload still warns once, as old
+  and new instances overlap.
 - **Some names are reserved.** A QML method called `escape` is an
   "illegal method name", and `qs ipc call <target> show` runs `qs ipc
   show` instead of the function, so don't name IPC functions `show`.

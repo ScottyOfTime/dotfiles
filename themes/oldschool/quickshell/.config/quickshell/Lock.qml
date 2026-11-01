@@ -12,7 +12,6 @@ Scope {
     property string password: ""
     property string status: ""
     property int attempts: 0
-    property string logo: ""
     signal leaving()
     // locking cuts straight to black, then the logo and prompt are drawn in
     // like a slow scan: rows top to bottom, each left to right
@@ -48,12 +47,6 @@ Scope {
         function lock(): void { lock.lockNow(); }
         // locks for six seconds then unlocks itself, to look at it safely
         function preview(): void { lock.lockNow(); previewEnd.restart(); }
-    }
-
-    Process {
-        running: true
-        command: ["fastfetch", "--pipe", "-s", "none"]
-        stdout: StdioCollector { onStreamFinished: lock.logo = text.replace(/\s+$/, "") }
     }
 
     Timer { id: previewEnd; interval: 6000; onTriggered: lock.leave() }
@@ -117,11 +110,11 @@ Scope {
                     Label {
                         id: art
                         anchors.horizontalCenter: parent.horizontalCenter
-                        // 24px is 32 physical at 1.33x, a native terminus size
-                        font.pixelSize: 24
+                        // 18pt is 24px, 32 physical at 1.33x (Label sizes in points)
+                        font.pointSize: 18
                         lineHeight: 1.0
                         textFormat: Text.PlainText
-                        text: lock.logo
+                        text: Tty.logo
                     }
 
                     // separate labels, so the user name doesn't re-centre as the

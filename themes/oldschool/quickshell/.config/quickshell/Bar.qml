@@ -154,7 +154,8 @@ PanelWindow {
     // only the focused monitor's bar has the handler: one per bar, even
     // disabled, registers twice and warns on every reload
     Loader {
-        active: Hyprland.focusedMonitor === bar.monitor
+        // both are null until hyprland reports monitors
+        active: bar.monitor !== null && Hyprland.focusedMonitor === bar.monitor
         sourceComponent: IpcHandler {
             target: "music"
             function toggle(): void { musicPopup.toggle(); }
