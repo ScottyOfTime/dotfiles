@@ -19,7 +19,7 @@ dmenu-style strips, a tty login as the lock screen. Lives in
   the focused one.
 - **Terminal.** Ghostty with 2px padding (balanced, padding takes the
   background colour), Terminus (`ttf-terminus-nerd`, "Terminess Nerd
-  Font Mono") at 11.25pt with antialiasing off, ligatures off, and a steady
+  Font Mono") at 12.375pt (22 physical px) with antialiasing off, ligatures off, and a steady
   block cursor in `fg` (not `bright`: a brighter-than-text cursor glares). Tabs are a flat text line with `|`
   separators, the current one in reverse video.
 - **htop** uses its built-in Monochrome scheme (`htop/.config/htop/htoprc`,
@@ -35,23 +35,22 @@ dmenu-style strips, a tty login as the lock screen. Lives in
   `ready.`), then the desktop warms up: it shows at once at a third, then
   two thirds, then full brightness. About
   three seconds, covering apps as they start; once per Hyprland session; a
-  click skips it. Locking switches the tube off (the picture collapses to a
-  line, then a dot that fades, then the prompt); unlocking plays just the
+  click skips it. Locking cuts straight to black, then the logo and prompt
+  are drawn in like a slow scan (0.7s: 4px rows top to bottom, each left
+  to right, by shrinking two `bg` masks); unlocking plays just the
   warm-up (`Lock` emits `leaving`, `Boot.reveal()` puts a blank tube up
   before the lock surface goes). The power-on and warm-up draw in a few hard
-  steps; the power-off is one smooth, accelerating collapse drawn as a soft
-  glow (a radial gradient on a Canvas) that tapers into a line and rounds
-  into a dot (stepped hard-edged rectangles looked blocky). The wallpaper is the bare tube with
+  steps. The wallpaper is the bare tube with
   `host · arch linux <kernel>`, `ready.` and a blinking block cursor. The
   lock screen is the distro's fastfetch logo, big and centred, over the
   user name and, centred under it, the password as `*`s (only the stars
   are centred; the blinking block trails them);
   a wrong one prints `Login incorrect` under it. Only the primary screen (the one at 0,0) shows it; the
   others are blank `bg`.
-- **Terminus everywhere**, all at 20 physical px: the terminal (11.25pt), the
+- **Terminus everywhere**: the terminal (12.375pt, 22 physical px), the
   Quickshell UI (`Theme.fontSize` 15px, 20 physical, with
-  `Text.NativeRendering` and `antialiasing: false`, so its strokes are
-  solid pixels like the terminal's, not greyed), GTK
+  `Text.NativeRendering`; `antialiasing: false` made it far harder to
+  read), GTK
   (11.25pt, also 20 physical) and hyprlock.
 - **Light mode** is dark brown ink on tractor-feed printer paper: the
   wallpaper has alternating bands and sprocket holes down both edges.
@@ -108,7 +107,7 @@ binds as zine ([zine-quickshell.md](zine-quickshell.md)).
 | `MusicPopup.qml` | Track, artist · album, text progress bar, `[prev] [play] [next]` |
 | `Lock.qml` | Logo (`fastfetch --pipe -s none`, so any distro), user and masked password on the screen at 0,0; PAM `login`, identical to zine's |
 | `Overview.qml` | Every window as a `WS CLASS TITLE` row, like `ps`; up/down/Tab, Enter focuses, Esc or a click outside closes (`SUPER+Tab`) |
-| `Beam.qml` | The CRT beam (0 is a dot): stepped, a hard `bright` rectangle (power-on); otherwise a soft glowing ellipse (power-off) |
+| `Beam.qml` | The power-on beam: a `bright` rectangle in hard steps (0 is a dot) |
 | `Boot.qml` | The login power-on and boot log; `$XDG_RUNTIME_DIR/oldschool-booted` holds the Hyprland instance signature it last played for; `qs ipc call boot replay` shows it again |
 | `Wallpaper.qml` | The `ready.` banner; on paper bands and sprocket holes in light mode |
 | `Tty.qml` | Host, kernel, user and the blinking cursor, shared by the wallpaper and lock |
@@ -131,7 +130,7 @@ binds as zine ([zine-quickshell.md](zine-quickshell.md)).
   window events from `Hyprland.rawEvent`.
 - **Pixel fonts need their native size** (12, 14, 16, 18, 20, 22, 24, 28,
   32 physical px for Terminus). Ghostty draws pt x 4/3 x the 1.33x scale
-  (1.78 physical px per point), so Terminus's 20px size is 11.25pt; 15pt
+  (1.78 physical px per point), so its 20px size is 11.25pt and 22px 12.375pt; 15pt
   came out ~27px, bigger than the shell and smeared. Measure on a
   screenshot rather than trusting the arithmetic; in-between sizes smear strokes. `font-family` only
   applies to new windows; a reload changes the size of open ones.

@@ -14,35 +14,21 @@ Scope {
     property int attempts: 0
     property string logo: ""
     signal leaving()
-    // locking switches the tube off: the picture collapses to a line, the
-    // line to a dot, the dot fades; then the prompt appears
-    property bool switchingOff: false
-    property real offAcross: 1
-    property real offDown: 1
-    property real offGlow: 1
+    // locking cuts straight to black, then the logo and prompt are drawn in
+    // like a slow scan: rows top to bottom, each left to right
+    property real drawn: 1
     readonly property var primary: Quickshell.screens.find(s => s.x === 0 && s.y === 0)
         ?? Quickshell.screens[0]
 
     function lockNow() {
         password = "";
         status = "";
-        offAcross = 1;
-        offDown = 1;
-        offGlow = 1;
-        switchingOff = true;
+        drawn = 0;
         session.locked = true;
-        powerOff.restart();
+        scan.restart();
     }
 
-    SequentialAnimation {
-        id: powerOff
-        NumberAnimation { target: lock; property: "offDown"; to: 0; duration: 150; easing.type: Easing.InCubic }
-        NumberAnimation { target: lock; property: "offAcross"; to: 0; duration: 130; easing.type: Easing.InCubic }
-        PauseAnimation { duration: 90 }
-        NumberAnimation { target: lock; property: "offGlow"; to: 0; duration: 260; easing.type: Easing.OutQuad }
-        PauseAnimation { duration: 200 }
-        ScriptAction { script: lock.switchingOff = false }
-    }
+    NumberAnimation { id: scan; target: lock; property: "drawn"; from: 0; to: 1; duration: 700 }
 
     function leave() {
         leaving();
@@ -122,17 +108,9 @@ Scope {
 
                 Tty { id: tty }
 
-                Beam {
-                    visible: lock.switchingOff
-                    across: lock.offAcross
-                    down: lock.offDown
-                    glow: lock.offGlow
-                    // a real tube snaps off in one smooth collapse
-                    stepped: false
-                }
-
                 Column {
-                    visible: surface.screen === lock.primary && !lock.switchingOff
+                    id: content
+                    visible: surface.screen === lock.primary
                     anchors.centerIn: parent
                     spacing: 40
 
@@ -187,6 +165,34 @@ Scope {
                             text: `Login incorrect (${lock.attempts})`
                             color: Theme.red
                         }
+                    }
+                }
+
+                // the undrawn part: everything below the row being drawn,
+                // and that row to the right of the beam
+                Item {
+                    id: undrawn
+                    readonly property int row: 4
+                    readonly property real at: lock.drawn * Math.ceil(content.height / row)
+                    readonly property int done: Math.floor(at)
+                    visible: content.visible && lock.drawn < 1
+                    x: content.x
+                    y: content.y
+                    width: content.width
+                    height: content.height
+
+                    Rectangle {
+                        y: (undrawn.done + 1) * undrawn.row
+                        width: parent.width
+                        height: Math.max(0, parent.height - y)
+                        color: Theme.bg
+                    }
+                    Rectangle {
+                        x: Math.round((undrawn.at - undrawn.done) * parent.width)
+                        y: undrawn.done * undrawn.row
+                        width: parent.width - x
+                        height: undrawn.row
+                        color: Theme.bg
                     }
                 }
             }
