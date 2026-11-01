@@ -1,4 +1,5 @@
 import QtQuick
+import Quickshell
 
 // a flat box with a square border
 Rectangle {
@@ -6,5 +7,5 @@ Rectangle {
 
     color: Theme.panel
     border.color: edge
-    border.width: 2
+    border.width: Theme.px(2, QsWindow.window?.devicePixelRatio)
 }

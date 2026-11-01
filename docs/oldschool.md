@@ -81,7 +81,9 @@ terminal and editors only, warm-shifted. Cursor: the Windows 95 arrow (`xcursor-
 2x and 3x, in its own white and black (the script can tint it, e.g.
 `cursor-2x <name> ffb52e`; amber was tried and dropped). It keeps the untinted originals in
 `original/` beside the copy, so it still works if the package is removed. Chicago95 only ships 32px and nothing scales a cursor up, so
-any size setting left it tiny. GTK asks for size x2 at 1.33x (its
+any size setting left it tiny. Where Chicago95 isn't installed there's no copy, and the
+default cursor at size 32 is huge, so `theme.sh` falls back to Adwaita
+at 24 (and `theme.lua` sizes its env from the theme name). GTK asks for size x2 at 1.33x (its
 buffer scale), so size 48 drew the 96px copy at 64 physical: too big;
 size 32 draws the 64px copy at ~43 physical.
 
@@ -154,6 +156,12 @@ binds as zine ([zine-quickshell.md](zine-quickshell.md)).
   registers once per screen (even with `enabled: false`, or loaded only on
   the focused monitor, which races at startup) and warns on every reload;
   `shell.qml` owns the one `music` handler and bars react to its counter.
+- **Snap sizes to physical pixels** with `Theme.px(value, dpr)` (the
+  window's `devicePixelRatio`, or `QsWindow.window?.devicePixelRatio` from
+  inside an item): the bar, its underline, strip and notification heights,
+  box borders and the focus strip. Whole logical pixels only land on whole
+  physical ones at some scales; at 1.25 the 26px bar was 32.5px and its 1px
+  line flickered in and out.
 - **Some names are reserved.** A QML method called `escape` is an
   "illegal method name", and `qs ipc call <target> show` runs `qs ipc
   show` instead of the function, so don't name IPC functions `show`.

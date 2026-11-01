@@ -19,4 +19,12 @@ Singleton {
     // physical at 1.33x (21 and 22 looked too big)
     readonly property real fontPoints: 11.25
     readonly property int bar: 26
+
+    // a size snapped to whole physical pixels for a window's scale (dpr):
+    // at 1.25x a 26px bar is 32.5 pixels, and a 1px line on that half
+    // pixel flickers in and out. Use for heights, lines and borders
+    function px(value, dpr) {
+        const d = dpr || 1;
+        return Math.max(1, Math.round(value * d)) / d;
+    }
 }

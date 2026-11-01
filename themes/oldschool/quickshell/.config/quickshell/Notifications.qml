@@ -11,7 +11,7 @@ PanelWindow {
     visible: server.trackedNotifications.values.length > 0
     color: "transparent"
     anchors { top: true; right: true }
-    margins { top: Theme.bar }
+    margins { top: Theme.px(Theme.bar, devicePixelRatio) }
     implicitWidth: 620
     implicitHeight: stack.implicitHeight
     exclusionMode: ExclusionMode.Ignore
@@ -40,13 +40,13 @@ PanelWindow {
 
                 anchors.right: parent.right
                 width: stack.width
-                height: 26
+                height: Theme.px(26, popups.devicePixelRatio)
                 color: area.containsMouse ? Theme.surface : Theme.panel
 
                 Rectangle {
                     anchors.bottom: parent.bottom
                     width: parent.width
-                    height: 1
+                    height: Theme.px(1, popups.devicePixelRatio)
                     color: Theme.line
                 }
 

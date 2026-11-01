@@ -66,7 +66,7 @@ PanelWindow {
     Box {
         anchors.centerIn: parent
         width: 760
-        height: list.implicitHeight + 4
+        height: list.implicitHeight + 2 * border.width
         edge: Theme.fg
 
         // swallow clicks so only the outside closes the list
@@ -74,13 +74,13 @@ PanelWindow {
 
         Column {
             id: list
-            x: 2
-            y: 2
-            width: parent.width - 4
+            x: parent.border.width
+            y: parent.border.width
+            width: parent.width - 2 * parent.border.width
 
             Label {
                 leftPadding: 10
-                height: 26
+                height: Theme.px(26, overview.devicePixelRatio)
                 verticalAlignment: Text.AlignVCenter
                 color: Theme.dim
                 text: `${"WS".padEnd(4)}${"CLASS".padEnd(16)}TITLE`
@@ -96,7 +96,7 @@ PanelWindow {
                     readonly property bool picked: overview.current === index
 
                     width: list.width
-                    height: 26
+                    height: Theme.px(26, overview.devicePixelRatio)
                     color: picked ? Theme.fg : "transparent"
 
                     Label {

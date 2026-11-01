@@ -6,11 +6,13 @@ local colors = { cursor = "Chicago95_Cursor_White_2x" }
 local ok, rendered = pcall(dofile, os.getenv("HOME") .. "/.config/hypr-theme/colors.lua")
 if ok then for k, v in pairs(rendered) do colors[k] = v end end
 
+-- the doubled chicago95 (cursor-2x) wants 32; theme.sh falls back to
+-- Adwaita, at its usual 24, where chicago95 isn't installed
+local cursor_size = colors.cursor:match("_2x$") and 32 or 24
 hl.env("XCURSOR_THEME", colors.cursor)
--- the doubled chicago95 (cursor-2x, theme.sh); see docs/oldschool.md
-hl.env("XCURSOR_SIZE", 32)
+hl.env("XCURSOR_SIZE", cursor_size)
 hl.env("HYPRCURSOR_THEME", colors.cursor)
-hl.env("HYPRCURSOR_SIZE", 32)
+hl.env("HYPRCURSOR_SIZE", cursor_size)
 
 hl.config({
     general = {

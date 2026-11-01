@@ -2,15 +2,16 @@
 
 -- scale from each screen's pixel density, so a new machine needs no setup:
 -- a laptop panel sits nearer the eyes than a desk monitor, so it keeps more
--- density per logical pixel (the desktop's 108ppi monitors land on 1.33,
--- a 14" 1920x1200 laptop on 1.25). Only scales that divide the mode evenly,
--- as others blur; screens that report no size get Hyprland's own guess.
-local SCALES = { 1, 1.25, 4 / 3, 1.5, 5 / 3, 2, 2.5, 3 }
+-- density per logical pixel (the desktop's 108ppi monitors land on 1.33, a
+-- 14" 1920x1200 laptop on 1.2; 1.25 and 1.5 there looked too big). Only
+-- scales that divide the mode evenly, as others blur; screens that report
+-- no size get Hyprland's own guess.
+local SCALES = { 1, 1.2, 1.25, 4 / 3, 1.5, 5 / 3, 2, 2.5, 3 }
 local function fitted_scale(m)
     if (m.physical_height or 0) <= 0 then return "auto" end
     local ppi = m.height / (m.physical_height / 25.4)
     local internal = m.name:match("^eDP") or m.name:match("^LVDS") or m.name:match("^DSI")
-    local want = ppi / (internal and 130 or 81)
+    local want = ppi / (internal and 140 or 81)
     local best = 1
     for _, s in ipairs(SCALES) do
         local w, h = m.width / s, m.height / s
