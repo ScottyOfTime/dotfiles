@@ -34,8 +34,8 @@ dmenu-style strips, a tty login as the lock screen. Lives in
   a click skips it. The wallpaper is the bare tube with
   `host · arch linux <kernel>`, `ready.` and a blinking block cursor. The
   lock screen is the distro's fastfetch logo, big and centred, over the
-  user name and, centred under it, the password as `*`s with a blinking
-  block;
+  user name and, centred under it, the password as `*`s (only the stars
+  are centred; the blinking block trails them);
   a wrong one prints `Login incorrect` under it. Only the primary screen (the one at 0,0) shows it; the
   others are blank `bg`.
 - **Terminus everywhere**: the terminal (18pt, 24 physical px), the

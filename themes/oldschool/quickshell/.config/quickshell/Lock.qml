@@ -126,13 +126,27 @@ Scope {
                             textFormat: Text.PlainText
                             text: tty.user
                         }
-                        Label {
-                            readonly property bool waiting: lock.status === "checking" || lock.status === "ok"
-                            x: Math.round((prompt.width - width) / 2)
-                            textFormat: Text.PlainText
-                            text: lock.status === "broken" ? "auth broken: ctrl+alt+f2, run hyprlock"
-                                : "*".repeat(lock.password.length) + (tty.blink && !waiting ? "█" : " ")
-                            color: lock.status === "broken" ? Theme.red : Theme.fg
+                        // only the stars are centred; the block trails them, or
+                        // sits centred itself while nothing is typed
+                        Item {
+                            width: prompt.width
+                            height: stars.height
+
+                            Label {
+                                id: stars
+                                x: Math.round((parent.width - width) / 2)
+                                textFormat: Text.PlainText
+                                text: lock.status === "broken" ? "auth broken: ctrl+alt+f2, run hyprlock"
+                                    : "*".repeat(lock.password.length)
+                                color: lock.status === "broken" ? Theme.red : Theme.fg
+                            }
+                            Label {
+                                visible: tty.blink && lock.status !== "broken"
+                                    && lock.status !== "checking" && lock.status !== "ok"
+                                x: lock.password === "" ? Math.round((parent.width - width) / 2) : stars.x + stars.width
+                                textFormat: Text.PlainText
+                                text: "█"
+                            }
                         }
                         Label {
                             visible: lock.status === "failed" && lock.password === ""
