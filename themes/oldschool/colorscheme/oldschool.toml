@@ -4,7 +4,7 @@
 name = "oldschool"
 
 [settings]
-cursor = "Chicago95_Cursor_White"
+cursor = "Chicago95_Cursor_White_2x"
 gtk_accent = "yellow"
 
 # roles, in the order they're written out:

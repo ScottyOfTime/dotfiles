@@ -2,12 +2,12 @@
 
 -- defaults fill any field colors.lua lacks: hyprland reloads on save, which
 -- can be before darkman has rendered a newly added colour
-local colors = { cursor = "Chicago95_Cursor_White" }
+local colors = { cursor = "Chicago95_Cursor_White_2x" }
 local ok, rendered = pcall(dofile, os.getenv("HOME") .. "/.config/hypr-theme/colors.lua")
 if ok then for k, v in pairs(rendered) do colors[k] = v end end
 
 hl.env("XCURSOR_THEME", colors.cursor)
--- chicago95 only ships 32px; 48 at 1.33x is 64 physical, a clean 2x
+-- 48 at 1.33x asks for 64px: the doubled chicago95 (cursor-2x, theme.sh)
 hl.env("XCURSOR_SIZE", 48)
 hl.env("HYPRCURSOR_THEME", colors.cursor)
 hl.env("HYPRCURSOR_SIZE", 48)

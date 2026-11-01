@@ -8,8 +8,10 @@ set -a; . "$palette"; set +a
 
 gsettings set org.gnome.desktop.interface color-scheme prefer-$mode
 gsettings set org.gnome.desktop.interface accent-color "$gtk_accent"
+# chicago95 only ships 32px: cursor-2x makes a copy with 64 and 96px too,
+# and 48 at 1.33x asks for exactly 64
+~/.config/hypr-theme/cursor-2x "$cursor"
 gsettings set org.gnome.desktop.interface cursor-theme "$cursor"
-# chicago95 only ships 32px; 48 at 1.33x is 64 physical, a clean 2x
 gsettings set org.gnome.desktop.interface cursor-size 48
 # 11.25pt is 15px, 20 physical at 1.33x: a native terminus size
 gsettings set org.gnome.desktop.interface font-name 'Terminess Nerd Font 11.25'

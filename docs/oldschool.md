@@ -76,7 +76,12 @@ vim/airline colours (same pipeline as zine, see
 | `red` | `ff5533` | `b8361a` | errors |
 
 `blue`, `orange`, `yellow`, `green`, `cyan`, `purple` exist for the
-terminal and editors only, warm-shifted. Cursor theme: Chicago95_Cursor_White, the Windows 95 arrow (`xcursor-chicago95-git`, AUR). It only ships 32px, so the size is 48: 64 physical at 1.33x, a clean 2x; at 24 it was shrunk to tiny.
+terminal and editors only, warm-shifted. Cursor: the Windows 95 arrow (`xcursor-chicago95-git`, AUR) as
+`Chicago95_Cursor_White_2x`, a copy `hypr-theme/cursor-2x` builds into
+`~/.local/share/icons` (from `theme.sh`, once) with every pixel repeated
+2x and 3x. Chicago95 only ships 32px and nothing scales a cursor up, so
+any size setting left it tiny; at size 48, 1.33x asks for exactly the
+64px copy.
 
 ## Quickshell
 
