@@ -1,14 +1,30 @@
 #!/bin/sh
-# sudo ./install-sddm: give the login screen (where_is_my_sddm_theme) the
-# oldschool look: a theme.conf.user beside its theme.conf, from the dark
-# palette. SDDM reads it at the next login screen; ./uninstall-sddm removes it
+# sudo ./install-sddm: the lock screen as the login screen. Builds the
+# oldschool SDDM theme (sddm/) from the dark palette with this distro's
+# fastfetch logo baked in (the greeter can't run fastfetch), installs it to
+# /usr/share/sddm/themes/oldschool and selects it in /etc/sddm.conf, which
+# it backs up once as sddm.conf.oldschool-bak. ./uninstall-sddm undoes it
 set -e
 [ "$(id -u)" = 0 ] || { echo "run with sudo" >&2; exit 1; }
 here=$(dirname "$(readlink -f "$0")")
-theme=/usr/share/sddm/themes/where_is_my_sddm_theme
-[ -d "$theme" ] || { echo "install where-is-my-sddm-theme-git first" >&2; exit 1; }
+target=/usr/share/sddm/themes/oldschool
 palette=$here/../palette/.config/palette/dark.env
-set -a; . "$palette"; set +a
-envsubst "$(sed -n 's/^\([a-z_]*\)=.*/$\1/p' "$palette" | tr '\n' ' ')" \
-    < "$here/sddm-theme.conf.user.tmpl" > "$theme/theme.conf.user"
-echo "done: log out to see it"
+
+set -a; . "$palette"
+logo=$(fastfetch --pipe -s none | python3 -c 'import json, sys; print(json.dumps(sys.stdin.read().rstrip()))')
+set +a
+
+mkdir -p "$target"
+cp "$here/sddm/metadata.desktop" "$target/"
+envsubst "$(sed -n 's/^\([a-z_]*\)=.*/$\1/p' "$palette" | tr '\n' ' ') \$logo" \
+    < "$here/sddm/Main.qml.tmpl" > "$target/Main.qml"
+
+# an override from the earlier recolour-only approach
+rm -f /usr/share/sddm/themes/where_is_my_sddm_theme/theme.conf.user
+[ -e /etc/sddm.conf.oldschool-bak ] || cp -a /etc/sddm.conf /etc/sddm.conf.oldschool-bak
+if grep -q '^Current=' /etc/sddm.conf; then
+    sed -i 's/^Current=.*/Current=oldschool/' /etc/sddm.conf
+else
+    printf '[Theme]\nCurrent=oldschool\n' >> /etc/sddm.conf
+fi
+echo "done: log out to see it (preview: sddm-greeter-qt6 --test-mode --theme $target)"

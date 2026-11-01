@@ -1,6 +1,7 @@
 #!/bin/sh
-# sudo ./uninstall-sddm: back to where_is_my_sddm_theme's own look
+# sudo ./uninstall-sddm: back to the login screen from before install-sddm
 set -e
 [ "$(id -u)" = 0 ] || { echo "run with sudo" >&2; exit 1; }
-rm -f /usr/share/sddm/themes/where_is_my_sddm_theme/theme.conf.user
-echo "removed: log out to see it"
+[ -e /etc/sddm.conf.oldschool-bak ] && mv /etc/sddm.conf.oldschool-bak /etc/sddm.conf
+rm -rf /usr/share/sddm/themes/oldschool
+echo "restored: log out to see it"

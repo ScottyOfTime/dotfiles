@@ -90,13 +90,21 @@ size 32 draws the 64px copy at ~43 physical.
 ## Login screen (optional, system-level)
 
 `themes/oldschool/system/`, run by hand, never by `./theme`:
-`sudo ./install-sddm` writes a `theme.conf.user` beside
-`where_is_my_sddm_theme`'s `theme.conf` (SDDM reads it as an override),
-from the dark palette: `bg` fill, amber Terminus, the user name and the
-password as `*`s with a blinking amber cursor, like the lock screen without
-the logo; a wrong password draws a `red` border. `sudo ./uninstall-sddm`
-removes it. Preview without installing: copy the theme folder somewhere,
-add the rendered file, and run `sddm-greeter-qt6 --test-mode --theme <dir>`.
+`sudo ./install-sddm` installs an SDDM theme that is the lock screen: the
+distro's fastfetch logo (baked in at install, as the greeter can't run
+fastfetch), the user, the password as `*`s with a blinking block, `Login
+incorrect (n)` in `red`, and the scan-in. It renders `sddm/Main.qml.tmpl`
+from the dark palette into `/usr/share/sddm/themes/oldschool` and sets
+`Current=oldschool` in `/etc/sddm.conf` (backed up once as
+`sddm.conf.oldschool-bak`). `sudo ./uninstall-sddm` restores it. Sizes are
+physical pixels (SDDM runs unscaled), matching the lock's at 1.33x.
+
+Rules for the greeter: each screen is a separate window with its own
+state, so the prompt shows on whichever one SDDM focuses (`Window.active`;
+the primary until one is), not just the primary, or typing lands on a blank
+screen. A plain item needs `forceActiveFocus()` to get keys. Test mode has
+no last user, so fall back to the first in `userModel`. Preview with
+`sddm-greeter-qt6 --test-mode --theme <dir>` (logs go to the journal).
 
 ## Ideas, not done
 

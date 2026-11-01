@@ -1,0 +1,6 @@
+[SddmGreeterTheme]
+Name=oldschool
+Description=The oldschool lock screen as the login screen
+MainScript=Main.qml
+Type=sddm-theme
+QtVersion=6
