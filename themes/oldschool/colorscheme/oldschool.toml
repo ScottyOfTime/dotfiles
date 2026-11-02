@@ -13,6 +13,7 @@ gtk_accent = "yellow"
 #   surface  a step off panel: workspace shown on an unfocused monitor
 #   fg       phosphor: text, and the fill for reverse-video selection
 #   dim      low-intensity text: keys, titles, secondary
+#   comment  editor comments: between dim and fg, so they stay readable
 #   ink      same as fg (editor/herdr use it)
 #   line     unfocused borders, the bar's underline
 #   bright   hot phosphor: focused borders, prompts, emphasis
@@ -26,6 +27,7 @@ panel = "120d08"
 surface = "2b1c0c"
 fg = "ffb52e"
 dim = "9a6a24"
+comment = "c08a34"
 ink = "ffb52e"
 line = "3d2810"
 bright = "ffd27a"
@@ -55,6 +57,7 @@ panel = "f8f1e2"
 surface = "e2d6ba"
 fg = "3a2408"
 dim = "8c6c40"
+comment = "6e5432"
 ink = "3a2408"
 line = "cbb894"
 bright = "a85400"

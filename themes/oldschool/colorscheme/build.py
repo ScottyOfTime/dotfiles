@@ -5,7 +5,7 @@ import tomllib
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-ROLES = ["bg", "panel", "surface", "fg", "dim", "ink", "line", "bright", "blue",
+ROLES = ["bg", "panel", "surface", "fg", "dim", "comment", "ink", "line", "bright", "blue",
          "orange", "red", "yellow", "green", "cyan", "purple"]
 
 scheme = tomllib.loads((Path(__file__).parent / "oldschool.toml").read_text())
@@ -52,7 +52,7 @@ for mode in ("dark", "light"):
 # (group, fg, bg, attr) as palette roles; "" leaves it unset
 VIM = [
     ("Normal", "fg", "", ""), ("NormalFloat", "fg", "panel", ""),
-    ("FloatBorder", "line", "panel", ""), ("Comment", "dim", "", "italic"),
+    ("FloatBorder", "line", "panel", ""), ("Comment", "comment", "", "italic"),
     ("Constant", "purple", "", ""), ("String", "green", "", ""),
     ("Character", "green", "", ""), ("Number", "orange", "", ""),
     ("Boolean", "orange", "", ""), ("Identifier", "fg", "", ""),

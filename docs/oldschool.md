@@ -81,6 +81,7 @@ vim/airline colours (same pipeline as zine, see
 | `surface` | `2b1c0c` | `e2d6ba` | workspace shown on an unfocused monitor |
 | `fg` | `ffb52e` | `3a2408` | phosphor: text, reverse-video fill |
 | `dim` | `9a6a24` | `8c6c40` | keys, titles, secondary text |
+| `comment` | `c08a34` | `6e5432` | editor comments: `dim` was too faded to read code comments in |
 | `line` | `3d2810` | `cbb894` | the bar's underline, box edges |
 | `bright` | `ffd27a` | `a85400` | small text accents only: the clock and hovered `[buttons]`. Fills and frames are `fg`: paler `bright` ones looked harsh next to `fg` |
 | `red` | `ff5533` | `b8361a` | errors |
