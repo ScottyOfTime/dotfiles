@@ -74,9 +74,8 @@ without our config it runs its own default instead of segfaulting.
 Anything already linked whose app is missing gets unlinked, and both
 lists are printed (`unlinked hypr (no Hyprland 0.56+)`, `not linked: …`).
 Rerun `./install` after installing or removing an app to bring the links
-in line. Where Hyprland isn't installed, `theme.sh` leaves `gsettings`
-(fonts, cursor, accent, dark mode) alone, so the desktop keeps its own
-look.
+in line. The theme still sets the GTK fonts, cursor, accent and dark
+mode through `gsettings`, so GNOME follows the theme.
 
 ## Debian and Ubuntu
 

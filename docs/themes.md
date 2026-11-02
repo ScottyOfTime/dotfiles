@@ -45,11 +45,12 @@ Every folder in a theme is a stow package except `colorscheme/` and
 
 A new package for an app that might not be installed needs a line in
 `needs()` in `links.sh`, or it's always linked. `theme.sh` has to cope with
-any of them missing: it skips templates that aren't there, calls `hyprctl`
-only while Hyprland runs, and sets `gsettings` only where Hyprland is
-installed (elsewhere it's GNOME's, or another desktop's, to set). Anything
-it needs from an unlinked package it takes from the repo, through
-`readlink -f "$0"` (oldschool's `terminus-outline`).
+any of them missing: it skips templates that aren't there and calls
+`hyprctl` only while Hyprland runs. `gsettings` (fonts, cursor, accent,
+dark mode) is set everywhere, so a GNOME desktop takes the theme's look
+too. Anything it needs from an unlinked package it takes from the repo,
+through `readlink -f "$0"` (oldschool's `cursor-2x` and
+`terminus-outline`).
 
 ### Keys a theme binds
 
