@@ -15,3 +15,6 @@ themes/ayu/hypr-theme/.config/hypr-theme/colors.lua
 themes/ayu/hypr-theme/.config/hypr-theme/hyprlock.conf
 themes/ayu/mako/.config/mako/config
 themes/ayu/wob/.config/wob/wob.ini
+themes/ayu/yazi/.config/yazi/theme.toml
+themes/zine/yazi/.config/yazi/theme.toml
+themes/oldschool/yazi/.config/yazi/theme.toml

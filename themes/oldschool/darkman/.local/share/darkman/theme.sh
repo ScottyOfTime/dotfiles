@@ -46,7 +46,7 @@ gsettings set org.gnome.desktop.interface document-font-name "$gtk_font $ui_poin
 gsettings set org.gnome.desktop.interface monospace-font-name "$gtk_mono $ui_points"
 # only the palette's variables (and $HOME), so hyprlock's own $ATTEMPTS etc. survive
 vars="$(sed -n 's/^\([a-z_]*\)=.*/$\1/p' "$palette" | tr '\n' ' ') \$HOME \$font \$ui_font \$ui_points \$term_font \$term_points \$term_flags"
-for f in quickshell/Theme.qml hypr-theme/colors.lua hypr-theme/hyprlock.conf ghostty-theme/tabs.css ghostty-theme/config; do
+for f in quickshell/Theme.qml hypr-theme/colors.lua hypr-theme/hyprlock.conf ghostty-theme/tabs.css ghostty-theme/config yazi/theme.toml; do
     envsubst "$vars" < "$cfg/$f.tmpl" > "$cfg/$f"
 done
 

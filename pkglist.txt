@@ -39,3 +39,4 @@ wl-clipboard
 wtype
 xdg-desktop-portal
 xdg-desktop-portal-gtk
+yazi

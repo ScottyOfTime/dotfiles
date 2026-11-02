@@ -52,6 +52,15 @@ Its `config.toml` belongs to the theme (zine's is generated, with dark and
 light colours and `auto_switch` following the terminal). Apply changes to a
 running server with `herdr server reload-config`.
 
+## Yazi
+
+Only its colours are configured: each theme has `yazi/theme.toml.tmpl`,
+rendered by the theme's darkman script from the palette (the accent for
+hover, tabs and mode; `dim` borders; red for cut and errors). File types
+use terminal colour names, so they follow the theme's terminal palette.
+Yazi reads its theme at startup: after a mode change or `./theme`, restart
+it. Everything else is yazi's defaults.
+
 ## Fastfetch
 
 `fastfetch/`: default output, recoloured yellow via ANSI names. The modules

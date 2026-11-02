@@ -1,0 +1,116 @@
+[mgr]
+cwd = { fg = "#${bright}", bold = true }
+find_keyword = { fg = "#${fg}", bold = true, underline = true }
+find_position = { fg = "#${dim}" }
+symlink_target = { fg = "#${dim}", italic = true }
+marker_copied = { fg = "#${fg}", bg = "#${fg}" }
+marker_cut = { fg = "#${red}", bg = "#${red}" }
+marker_marked = { fg = "#${dim}", bg = "#${dim}" }
+marker_selected = { fg = "#${fg}", bg = "#${fg}" }
+count_copied = { fg = "#${bg}", bg = "#${fg}" }
+count_cut = { fg = "#${bg}", bg = "#${red}" }
+count_selected = { fg = "#${bg}", bg = "#${fg}" }
+border_style = { fg = "#${dim}" }
+
+[tabs]
+sep_inner = { open = "", close = "" }
+sep_outer = { open = "", close = "" }
+active = { fg = "#${bg}", bg = "#${fg}", bold = true }
+inactive = { fg = "#${dim}", bg = "#${panel}" }
+
+[mode]
+normal_main = { fg = "#${bg}", bg = "#${fg}", bold = true }
+normal_alt = { fg = "#${fg}", bg = "#${panel}" }
+select_main = { fg = "#${bg}", bg = "#${fg}", bold = true }
+select_alt = { fg = "#${fg}", bg = "#${panel}" }
+unset_main = { fg = "#${bg}", bg = "#${dim}", bold = true }
+unset_alt = { fg = "#${dim}", bg = "#${panel}" }
+
+[indicator]
+parent = { fg = "#${bg}", bg = "#${dim}" }
+current = { fg = "#${bg}", bg = "#${fg}" }
+preview = { underline = true }
+padding = { open = " ", close = " " }
+
+[status]
+sep_left = { open = "", close = "" }
+sep_right = { open = "", close = "" }
+overall = { bg = "#${panel}" }
+perm_sep = { fg = "#${dim}" }
+perm_type = { fg = "#${fg}" }
+perm_read = { fg = "#${fg}" }
+perm_write = { fg = "#${fg}" }
+perm_exec = { fg = "#${fg}" }
+progress_label = { fg = "#${fg}", bold = true }
+progress_normal = { fg = "#${fg}", bg = "#${panel}" }
+progress_error = { fg = "#${red}", bg = "#${panel}" }
+
+[which]
+border = { fg = "#${dim}" }
+mask = { bg = "#${panel}" }
+cand = { fg = "#${fg}" }
+rest = { fg = "#${dim}" }
+desc = { fg = "#${fg}" }
+separator_style = { fg = "#${dim}" }
+
+[confirm]
+border = { fg = "#${dim}" }
+title = { fg = "#${fg}" }
+btn_yes = { fg = "#${bg}", bg = "#${fg}" }
+
+[spot]
+border = { fg = "#${dim}" }
+title = { fg = "#${fg}" }
+tbl_col = { fg = "#${fg}" }
+tbl_cell = { fg = "#${bg}", bg = "#${fg}" }
+
+[notify]
+title_info = { fg = "#${fg}" }
+title_warn = { fg = "#${fg}" }
+title_error = { fg = "#${red}" }
+
+[pick]
+border = { fg = "#${dim}" }
+active = { fg = "#${fg}", bold = true }
+
+[input]
+border = { fg = "#${dim}" }
+title = { fg = "#${fg}" }
+selected = { fg = "#${bg}", bg = "#${fg}" }
+
+[cmp]
+border = { fg = "#${dim}" }
+active = { fg = "#${bg}", bg = "#${fg}" }
+
+[tasks]
+border = { fg = "#${dim}" }
+hovered = { fg = "#${fg}", bold = true }
+
+[help]
+border = { fg = "#${dim}" }
+chord = { fg = "#${fg}" }
+hovered = { fg = "#${bg}", bg = "#${fg}", bold = true }
+
+# terminal colour names, so file types use each theme's terminal palette
+[filetype]
+rules = [
+	{ mime = "**/image/*", fg = "yellow" },
+	{ mime = "**/{audio,video}/*", fg = "magenta" },
+	{ mime = "**/application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}", fg = "cyan" },
+	{ mime = "**/application/{pdf,doc,rtf}", fg = "green" },
+	{ mime = "vfs/{absent,stale}", fg = "#${dim}" },
+	{ url = "*", is = "orphan", fg = "#${red}" },
+	{ url = "*", is = "dummy", fg = "#${red}" },
+	{ url = "*/", is = "dummy", fg = "#${red}" },
+	{ url = "*", is = "exec", fg = "#${fg}", bold = true },
+	{ url = "*/", fg = "#${bright}", bold = true },
+]
+
+# square ends and no icons: the preset's rounded glyphs and icon colours
+# aren't from this palette
+[icon]
+globs = []
+dirs = []
+files = []
+exts = []
+conds = []

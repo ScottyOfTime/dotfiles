@@ -27,6 +27,9 @@ dmenu-style strips, a tty login as the lock screen. Lives in
   a theme stow package), so it draws in the terminal's amber with
   `#`/`*`/`|` meters. Changing settings in htop rewrites this file, in the
   repo.
+- **yazi** is amber on amber: reverse-video hover, `bright` directories,
+  square ends and no icons (the preset's rounded caps and icon colours
+  aren't from this palette).
 - **Text, not widgets.** Bar modules are `key: value`; progress is
   `[#########-----------]` (`Meter`); buttons are `[prev] [play] [next]`.
 - **tty-isms.** Login and unlock warm the desktop up like a tube: it shows
