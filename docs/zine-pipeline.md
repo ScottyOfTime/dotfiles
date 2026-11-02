@@ -19,6 +19,7 @@ themes/zine/colorscheme/zine.toml
             ├─▶ ghostty-theme/tabs.css   (ghostty gets SIGUSR2)
             ├─▶ ghostty-theme/config     (theme paths need ${HOME})
             └─▶ gsettings: color-scheme, accent, cursor, fonts
+                (only where Hyprland is installed)
 ```
 
 ## Changing a colour

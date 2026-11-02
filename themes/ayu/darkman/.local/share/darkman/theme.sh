@@ -9,14 +9,18 @@ palette=$cfg/palette/$mode.env
 
 set -a; . "$palette"; set +a
 
-gsettings set org.gnome.desktop.interface color-scheme prefer-$mode
-gsettings set org.gnome.desktop.interface accent-color "$gtk_accent"
-gsettings set org.gnome.desktop.interface enable-animations true
-gsettings set org.gnome.desktop.interface cursor-theme "$cursor"
-gsettings set org.gnome.desktop.interface cursor-size 24
-gsettings set org.gnome.desktop.interface font-name 'JetBrains Mono 10'
-gsettings set org.gnome.desktop.interface document-font-name 'JetBrains Mono 10'
-gsettings set org.gnome.desktop.interface monospace-font-name 'JetBrains Mono 11'
+# GTK looks only on Hyprland; elsewhere (GNOME, …) the desktop keeps its own,
+# and just Ghostty takes the theme font (through ghostty-theme)
+if command -v Hyprland >/dev/null; then
+    gsettings set org.gnome.desktop.interface color-scheme prefer-$mode
+    gsettings set org.gnome.desktop.interface accent-color "$gtk_accent"
+    gsettings set org.gnome.desktop.interface enable-animations true
+    gsettings set org.gnome.desktop.interface cursor-theme "$cursor"
+    gsettings set org.gnome.desktop.interface cursor-size 24
+    gsettings set org.gnome.desktop.interface font-name 'JetBrains Mono 10'
+    gsettings set org.gnome.desktop.interface document-font-name 'JetBrains Mono 10'
+    gsettings set org.gnome.desktop.interface monospace-font-name 'JetBrains Mono 11'
+fi
 # only the palette's variables, so hyprlock's own $ATTEMPTS etc. survive
 vars=$(sed -n 's/^\([a-z_]*\)=.*/$\1/p' "$palette" | tr '\n' ' ')
 for f in waybar/colors.css fuzzel/colors.ini hypr-theme/colors.lua hypr-theme/hyprlock.conf mako/config wob/wob.ini yazi/theme.toml btop/themes/palette.theme; do

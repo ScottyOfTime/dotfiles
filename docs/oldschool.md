@@ -21,7 +21,7 @@ dmenu-style strips, a tty login as the lock screen. Lives in
 - **Terminal.** Ghostty with 2px padding (balanced, padding takes the
   background colour), Terminus at 12.375pt (22 physical px), unhinted, as "Terminess Outline": a copy
   `hypr-theme/terminus-outline` makes (from `theme.sh`, once, run from the
-repo so it happens without Hyprland too, like `cursor-2x`) of the
+repo so Ghostty gets it without Hyprland too) of the
   installed `ttf-terminus-nerd` (found through `fc-list` by family and
 style, so a hand-patched copy anywhere works; plain "Terminess Nerd Font"
 if there's no Mono; it says so when there's neither) without its embedded bitmaps, so Ghostty

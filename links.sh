@@ -12,7 +12,8 @@ hypr_ok() {
 # the command(s) a package configures, any one is enough; none: always link
 needs() {
     case $1 in
-        hypr|hypr-theme) echo Hyprland ;;
+        # fontconfig remaps sans/mono for every app: only for the Hyprland look
+        hypr|hypr-theme|fontconfig) echo Hyprland ;;
         quickshell) echo qs ;;
         ghostty-theme) echo ghostty ;;
         vim-theme) echo vim nvim ;;

@@ -103,5 +103,6 @@ list must stay; without it fastfetch prints only the logo.
 
 JetBrains Mono everywhere: `fontconfig/` maps `sans-serif`, `system-ui` and
 `monospace` to it (Noto behind for missing glyphs), and darkman sets the
-GTK fonts. Serif is untouched. Cursor: Bibata-Modern-Classic (AUR
+GTK fonts. Serif is untouched. Both only where Hyprland is installed; on
+GNOME etc. only Ghostty changes font. Cursor: Bibata-Modern-Classic (AUR
 `bibata-cursor-theme-bin`), set by the theme's palette `cursor`.

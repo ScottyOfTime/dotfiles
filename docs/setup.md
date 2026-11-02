@@ -67,15 +67,17 @@ terminal). Check one with `Hyprland --verify-config -c <file>`.
 `./install` and `./theme` only link packages whose app is installed, so
 on a GNOME machine you get the shell, editors, Ghostty and its theme
 colours, and nothing for Hyprland. `links.sh` holds the package → command
-map (`needs()`); packages not in it (`bash`, `fontconfig`, `palette`,
-`darkman`) always link. Hyprland older than 0.56 counts as missing:
+map (`needs()`); packages not in it (`bash`, `palette`, `darkman`) always
+link. `fontconfig` counts as Hyprland's: it remaps `sans-serif` and
+`monospace` for every app. Hyprland older than 0.56 counts as missing:
 without our config it runs its own default instead of segfaulting.
 
 Anything already linked whose app is missing gets unlinked, and both
 lists are printed (`unlinked hypr (no Hyprland 0.56+)`, `not linked: …`).
 Rerun `./install` after installing or removing an app to bring the links
-in line. The theme still sets the GTK fonts, cursor, accent and dark
-mode through `gsettings`, so GNOME follows the theme.
+in line. Without Hyprland the theme leaves the desktop's look alone (no
+`gsettings`: fonts, cursor, accent and dark mode stay GNOME's); only
+Ghostty takes the theme's font and colours, from its own config.
 
 ## Debian and Ubuntu
 
