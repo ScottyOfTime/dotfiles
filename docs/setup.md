@@ -34,6 +34,10 @@ too; already linked packages you untick are unlinked. Rerun `./install`
 to change the choice. Without a terminal (or with `-y`) the last choices
 stand.
 
+Rerunning it after pulling keeps your look: the theme menu starts on the
+active theme (`~/.local/state/dotfiles-theme`), and that's the one `-y`
+uses; a fresh machine gets zine.
+
 `./install` first lists any packages from `pkglist.txt`, `aur-pkgslist.txt`
 and the theme's `packages.txt` that aren't installed, with the command to
 install them (`pacman`/`yay`, or `apt` on Debian/Ubuntu; it doesn't install

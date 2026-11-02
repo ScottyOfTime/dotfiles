@@ -12,6 +12,13 @@ end)
 
 return {
 	entry = function()
-		ya.emit(busy() and "escape" or "quit", {})
+		if busy() then
+			ya.emit("escape", {})
+		elseif os.getenv("DOTFILES_FILES_PAD") then
+			-- mod+E's scratchpad yazi (hypr/scripts/files.sh): hide, stay running
+			Command("hyprctl"):arg({ "dispatch", 'hl.dsp.workspace.toggle_special("files")' }):stdout(Command.NULL):status()
+		else
+			ya.emit("quit", {})
+		end
 	end,
 }

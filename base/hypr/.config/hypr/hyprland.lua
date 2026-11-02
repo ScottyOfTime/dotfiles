@@ -43,8 +43,23 @@ if found then
     host_config = dofile(host_file) or {}
 end
 
-local terminal    = "ghostty"
-local fileManager = "ghostty --class=com.scotty.files -e yazi"
+local terminal = "ghostty"
+
+-- scratchpads (scripts/dropdown.sh, files.sh) are replaced in the background
+-- when closed, so the next toggle shows one at once instead of waiting
+-- ~200ms for Ghostty. The check skips a close Ghostty answered with its
+-- "close terminal?" prompt; exec keeps the pid the silent rule is tied to
+local scratchpads = {
+    ["com.scotty.dropdown"] = { workspace = "dropdown", cmd = "ghostty --class=com.scotty.dropdown" },
+    ["com.scotty.filespad"] = { workspace = "files",
+        cmd = "ghostty --class=com.scotty.filespad --confirm-close-surface=false -e env DOTFILES_FILES_PAD=1 yazi" },
+}
+hl.on("window.close", function(w)
+    local pad = scratchpads[w.class]
+    if not pad then return end
+    hl.exec_cmd(string.format("sh -c 'sleep 0.3; hyprctl clients | grep -q \"class: %s$\" || exec %s'", w.class, pad.cmd),
+        { workspace = "special:" .. pad.workspace .. " silent" })
+end)
 
 hl.on("hyprland.start", function()
     -- monitors may not exist yet when the config first loads
@@ -76,7 +91,7 @@ local mainMod = "SUPER"
 hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + W", hl.dsp.window.close())
 hl.bind(mainMod .. " + SHIFT + Q", hl.dsp.exit())
-hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
+hl.bind(mainMod .. " + E", hl.dsp.exec_cmd("~/.config/hypr/scripts/files.sh"))
 hl.bind(mainMod .. " + V", hl.dsp.window.float())
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"))
@@ -177,10 +192,16 @@ hl.window_rule({
 
 hl.window_rule({
     name   = "files",
-    match  = { class = "^com\\.scotty\\.files$" },
+    match  = { class = "^com\\.scotty\\.files(pad)?$" },
     float  = true,
     size   = "monitor_w*0.6 monitor_h*0.6",
     center = true,
+})
+
+hl.window_rule({
+    name      = "files-scratchpad",
+    match     = { class = "^com\\.scotty\\.filespad$" },
+    workspace = "special:files",
 })
 
 hl.window_rule({

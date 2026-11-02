@@ -17,7 +17,11 @@ __prompt() {
 }
 PROMPT_COMMAND=__prompt
 
-[[ -f $HOME/vulkansdk/1.4.357.1/setup-env.sh ]] && source $HOME/vulkansdk/1.4.357.1/setup-env.sh
+# newest 1.4.x Vulkan SDK unpacked in ~/vulkan or ~/vulkansdk
+vulkan_env=$(for f in "$HOME"/vulkan{,sdk}/1.4.*/setup-env.sh; do [[ -f $f ]] && echo "$f"; done |
+    awk -F/ '{print $(NF-1), $0}' | sort -V | tail -1 | cut -d' ' -f2-)
+[[ -f $vulkan_env ]] && source "$vulkan_env"
+unset vulkan_env
 
 export PATH=$PATH:~/.local/bin:~/zig
 export EDITOR=$(command -v nvim || command -v vim || echo vi)

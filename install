@@ -2,8 +2,9 @@
 # ./install [-y] [theme]   first run on a new machine, or rerun to change
 #                          what's linked: menus pick the theme and what to
 #                          link (-y, or no terminal: no menus, the last
-#                          choices), real files in the way go to <file>.bak,
-#                          then it builds and switches to the theme
+#                          choices: the active theme, zine on a fresh machine),
+#                          real files in the way go to <file>.bak, then it
+#                          builds and switches to the theme
 cd "$(dirname "$(readlink -f "$0")")" || exit 1
 base="bash fastfetch fontconfig ghostty hypr nvim vim yazi"
 . ./links.sh
@@ -11,6 +12,7 @@ ask=1
 [ "$1" = -y ] && { ask=; shift; }
 [ -t 0 ] && [ -t 2 ] || ask=
 current=$(cat "$state/dotfiles-theme" 2>/dev/null)
+[ -d "themes/${current:-.}" ] || current=
 theme=$1
 if [ -z "$theme" ] && [ -n "$ask" ]; then
     set --

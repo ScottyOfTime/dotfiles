@@ -1,3 +1,4 @@
+import QtQuick
 import Quickshell
 import Quickshell.Io
 
@@ -9,6 +10,7 @@ ShellRoot {
         target: "bar"
         function toggle(): void { root.barVisible = !root.barVisible; }
     }
+    Binding { target: Stats; property: "active"; value: root.barVisible }
 
     Variants {
         model: Quickshell.screens

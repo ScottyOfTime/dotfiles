@@ -28,6 +28,10 @@ branch name can't be executed.
 `EDITOR` and `VISUAL` are nvim, or vim, or vi, whichever is installed
 (yazi, git and others open files with it).
 
+It sources the newest 1.4.x Vulkan SDK unpacked in `~/vulkan` or
+`~/vulkansdk` (`<dir>/1.4.*/setup-env.sh`, compared by version only, so
+the folder doesn't matter), so a new SDK needs no edit.
+
 ## Neovim
 
 `nvim/`: lazy.nvim, airline, fzf, blink.cmp, zls. Colours come from the
@@ -66,13 +70,19 @@ it. Everything else is yazi's defaults.
 
 It's also the file manager: base's `yazi` package adds a `Files` desktop
 entry (`com.scotty.files.desktop`, Ghostty running yazi), `install` makes it
-the default for folders (`xdg-mime`, only where Hyprland is installed), and
-`mod+E` opens it.
+the default for folders (`xdg-mime`, only where Hyprland is installed). `mod+E` toggles a separate yazi
+that stays running on `special:files` (`hypr/scripts/files.sh`), so it
+shows instantly and keeps its place. Every Files Ghostty runs with
+`--confirm-close-surface=false`, or closing it would bring up Ghostty's
+in-window "close terminal?" prompt, since yazi is still running.
 
 `Esc` closes it like a modal once there's nothing left to cancel
 (selection, visual mode, find, filter, search): base's
 `yazi/plugins/close.yazi` makes the same checks as yazi's `escape`, which
-doesn't report whether it did anything. `install` creates
+doesn't report whether it did anything. In `mod+E`'s yazi
+(`DOTFILES_FILES_PAD` set) it hides the scratchpad instead of quitting.
+The plugin waits on `hyprctl` (`:status()`): yazi kills a `:spawn()`ed
+child as soon as its handle is dropped. `install` creates
 `~/.config/yazi` first, since base and the theme both put files there.
 
 It's the file picker too: apps' open/save dialogs go through

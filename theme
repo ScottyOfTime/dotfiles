@@ -6,6 +6,10 @@ cd "$(dirname "$(readlink -f "$0")")" || exit 1
 . ./links.sh
 current=$(cat "$state/dotfiles-theme" 2>/dev/null)
 
+if [ "$1" = --packages ]; then
+    packages "$2"
+    exit
+fi
 if [ -z "$1" ]; then
     for t in themes/*/; do
         t=${t#themes/}; t=${t%/}
@@ -16,6 +20,7 @@ fi
 
 new=$1
 [ -d "themes/$new" ] || { echo "no theme '$new'" >&2; exit 1; }
+export HYPRLAND_INSTANCE_SIGNATURE=$(ls -t /run/user/$(id -u)/hypr/ 2>/dev/null | head -1)
 
 # before unstowing the old theme, so a re-run on the same one still sees
 # (and reports) what's linked that shouldn't be
@@ -27,15 +32,26 @@ fi
 # real directories, or stow folds them into the repo and GTK/GNOME write
 # their own files (bookmarks, extension state) there
 case " $use " in *" gnome "*) mkdir -p ~/.config/gtk-4.0 ~/.local/share/gnome-shell/extensions ;; esac
-[ -n "$use" ] && { stow -d "themes/$new" -t "$HOME" $use || exit 1; }
+# a failed stow leaves the old theme unlinked: put it back rather than
+# leave Hyprland with no theme.lua
+if [ -n "$use" ] && ! stow -d "themes/$new" -t "$HOME" $use; then
+    if [ -n "$current" ] && [ -d "themes/$current" ]; then
+        old=
+        for p in $(packages "$current"); do wanted "themes/$current" "$p" && old="$old $p"; done
+        if stow -d "themes/$current" -t "$HOME" $old; then
+            pgrep -x Hyprland >/dev/null &&
+                hyprctl dispatch 'hl.dsp.exec_cmd("~/.config/hypr-theme/start")' >/dev/null
+            echo "kept theme: $current" >&2
+        fi
+    fi
+    exit 1
+fi
 # the first theme on this machine: remember the desktop settings it's about
 # to change, for ./uninstall
 [ -z "$current" ] && ./desktop-settings save
 mkdir -p "$state" && echo "$new" > "$state/dotfiles-theme"
 
 ~/.local/share/darkman/theme.sh "$(current_mode)"
-if pgrep -x Hyprland >/dev/null; then
-    export HYPRLAND_INSTANCE_SIGNATURE=$(ls -t /run/user/$(id -u)/hypr/ | head -1)
+pgrep -x Hyprland >/dev/null &&
     hyprctl dispatch 'hl.dsp.exec_cmd("~/.config/hypr-theme/start")' >/dev/null
-fi
 echo "theme: $new"

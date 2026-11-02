@@ -27,7 +27,7 @@ hl.config({
 -- underneath
 hl.window_rule({
     name        = "floating-terminal-outline",
-    match       = { class = "^com\\.scotty\\.(dropdown|files)$" },
+    match       = { class = "^com\\.scotty\\.(dropdown|files|filespad)$" },
     border_size = 2,
 })
 

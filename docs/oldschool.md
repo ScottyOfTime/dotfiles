@@ -27,7 +27,9 @@ style, so a hand-patched copy anywhere works; plain "Terminess Nerd Font"
 if there's no Mono; it says so when there's neither) without its embedded bitmaps, so Ghostty
   smooths it like the shell instead of drawing the bitmaps pixel-sharp; ligatures off, and a steady
   block cursor in `fg` (not `bright`: a brighter-than-text cursor glares). Tabs are a flat text line with `|`
-  separators, the current one in reverse video.
+  separators, the current one in reverse video, in bold, in the terminal's font
+  (`term_font`) at the shell's size (`ui_points`), both from the font strip
+  (`tabs.css.tmpl`).
 - **htop** uses its built-in Monochrome scheme (`htop/.config/htop/htoprc`,
   a theme stow package), so it draws in the terminal's amber with
   `#`/`*`/`|` meters. Changing settings in htop rewrites this file, in the
@@ -169,7 +171,7 @@ binds as zine ([zine-quickshell.md](zine-quickshell.md)).
 | `Tty.qml` | Singleton: host (`/proc/sys/kernel/hostname`), kernel, user, distro (`/etc/os-release`) and logo (`fastfetch --pipe -s none`, any distro), read once; shared by the wallpaper and lock |
 | `Blink.qml` | A block cursor's blink timer; consumers run it only while it's on screen (the lock only on the prompt's screen), as every toggle redraws the window |
 | `Box.qml`, `Label.qml`, `Meter.qml` | Flat bordered box, text, text progress bar |
-| `Stats.qml` | cpu, memory and network from `/proc` every 2s |
+| `Stats.qml` | cpu, memory and network from `/proc` every 2s, paused while the bar is hidden |
 
 ## Rules learned the hard way
 
