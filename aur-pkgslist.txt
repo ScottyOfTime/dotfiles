@@ -4,3 +4,4 @@ migrate
 where-is-my-sddm-theme-git
 yay
 yay-debug
+xdg-desktop-portal-termfilechooser

@@ -74,6 +74,15 @@ the default for folders (`xdg-mime`), and `mod+E` opens it.
 doesn't report whether it did anything. `install` creates
 `~/.config/yazi` first, since base and the theme both put files there.
 
+It's the file picker too: apps' open/save dialogs go through
+`xdg-desktop-portal-termfilechooser` (AUR), which base's
+`xdg-desktop-portal/hyprland-portals.conf` makes the FileChooser portal
+(everything else stays hyprland, then gtk). Its config runs the packaged
+`yazi-wrapper.sh` in the same `com.scotty.files` Ghostty, so the picker
+floats in the centre like `mod+E`: Enter picks, Esc cancels. After changing
+either file: `systemctl --user restart xdg-desktop-portal-termfilechooser
+xdg-desktop-portal`. Apps that draw their own dialog keep it.
+
 ## Fastfetch
 
 `fastfetch/`: default output, recoloured yellow via ANSI names. The modules
