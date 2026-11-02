@@ -15,8 +15,9 @@ stows the new ones, records the name in `~/.local/state/dotfiles-theme`,
 runs the new `~/.local/share/darkman/theme.sh` for the current mode
 (renders colours, reloads Hyprland) and runs `~/.config/hypr-theme/start`.
 
-Only packages whose app is installed are stowed, and ones already linked
-whose app isn't get unstowed, both reported (`links.sh`, shared with
+Only packages whose app is installed (and that `./install`'s menu didn't
+skip) are stowed, and ones already linked that shouldn't be get unstowed,
+both reported (`links.sh`, shared with
 `./install`; see [setup.md](setup.md#without-hyprland-gnome-etc)). So
 Hyprland and Quickshell steps are skipped where they don't exist.
 

@@ -4,11 +4,7 @@
 #                   for the new one's, render colours, start the new shell
 cd "$(dirname "$(readlink -f "$0")")" || exit 1
 . ./links.sh
-state=${XDG_STATE_HOME:-$HOME/.local/state}/dotfiles-theme
-current=$(cat "$state" 2>/dev/null)
-
-# every folder in a theme is a stow package except colorscheme/ and system/
-packages() { find "themes/$1" -mindepth 1 -maxdepth 1 -type d ! -name colorscheme ! -name system -printf '%f\n'; }
+current=$(cat "$state/dotfiles-theme" 2>/dev/null)
 
 if [ -z "$1" ]; then
     for t in themes/*/; do
@@ -32,7 +28,10 @@ fi
 # their own files (bookmarks, extension state) there
 case " $use " in *" gnome "*) mkdir -p ~/.config/gtk-4.0 ~/.local/share/gnome-shell/extensions ;; esac
 [ -n "$use" ] && { stow -d "themes/$new" -t "$HOME" $use || exit 1; }
-mkdir -p "${state%/*}" && echo "$new" > "$state"
+# the first theme on this machine: remember the desktop settings it's about
+# to change, for ./uninstall
+[ -z "$current" ] && ./desktop-settings save
+mkdir -p "$state" && echo "$new" > "$state/dotfiles-theme"
 
 ~/.local/share/darkman/theme.sh "$(darkman get 2>/dev/null || echo dark)"
 if pgrep -x Hyprland >/dev/null; then

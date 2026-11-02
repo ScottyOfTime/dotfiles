@@ -48,6 +48,9 @@ own error and `gnome-extensions info`.
 3. Restart open GTK apps to pick up their colours (GTK reads `gtk.css` at
    startup).
 
+`./uninstall` takes it all off again and restores GNOME's settings
+([setup.md](setup.md#uninstall)).
+
 Dark/light follows darkman (`darkman toggle`, or its schedule), which
 reruns `theme.sh`. GNOME's own Dark Style toggle only flips GTK's
 `color-scheme`, not our colours: use darkman instead.

@@ -1,12 +1,53 @@
 #!/bin/sh
-# ./install [theme]   first run on a new machine: link base and the theme,
-#                     moving any real file stow would refuse to replace to
-#                     <file>.bak, then build and switch to the theme (zine)
+# ./install [-y] [theme]   first run on a new machine, or rerun to change
+#                          what's linked: menus pick the theme and what to
+#                          link (-y, or no terminal: no menus, the last
+#                          choices), real files in the way go to <file>.bak,
+#                          then it builds and switches to the theme
 cd "$(dirname "$(readlink -f "$0")")" || exit 1
-theme=${1:-zine}
-[ -d "themes/$theme" ] || { echo "no theme '$theme'" >&2; exit 1; }
 base="bash fastfetch fontconfig ghostty hypr nvim vim yazi"
 . ./links.sh
+ask=1
+[ "$1" = -y ] && { ask=; shift; }
+[ -t 0 ] && [ -t 2 ] || ask=
+current=$(cat "$state/dotfiles-theme" 2>/dev/null)
+theme=$1
+if [ -z "$theme" ] && [ -n "$ask" ]; then
+    set --
+    for t in $current $(ls themes | grep -vx "${current:-.}"); do set -- "$@" "$t" "$(theme_about "$t")"; done
+    theme=$(choose_one "Theme" "$@") || exit 1
+fi
+theme=${theme:-${current:-zine}}
+[ -d "themes/$theme" ] || { echo "no theme '$theme'" >&2; exit 1; }
+
+# offer what this machine has an app for; what's left unticked goes in
+# dotfiles-skip, which ./theme honours too
+if [ -n "$ask" ]; then
+    set -- ; absent=
+    for p in $base; do
+        if has_app "$p"; then
+            set -- "$@" "base/$p" "$(about "base/$p")" "$(skipped "base/$p" && echo OFF || echo ON)"
+        else absent="$absent $p"; fi
+    done
+    for p in $(packages "$theme"); do
+        required "$p" && continue
+        if has_app "$p"; then
+            set -- "$@" "theme/$p" "$(about "theme/$p")" "$(skipped "theme/$p" && echo OFF || echo ON)"
+        else absent="$absent $p"; fi
+    done
+    offered=$(printf '%s\n' "$@" | awk 'NR % 3 == 1' | tr '\n' ' ')
+    note=; [ -n "$absent" ] && note=" (not offered, their app isn't installed:$absent)"
+    chosen=$(choose "Link what?$note" "$@") || exit 1
+    chosen=" $(echo $chosen) "
+    mkdir -p "$state"
+    {
+        # earlier skips of packages not offered now stay
+        [ -f "$skipfile" ] && while read -r k; do
+            case " $offered " in *" $k "*) ;; *) echo "$k" ;; esac
+        done < "$skipfile"
+        for k in $offered; do case $chosen in *" $k "*) ;; *) echo "$k" ;; esac; done
+    } > "$skipfile.new" && mv "$skipfile.new" "$skipfile"
+fi
 
 # stow aborts everything on one conflict, so a fresh machine's default
 # .bashrc alone leaves hyprland with no config (it then segfaults)
@@ -59,6 +100,10 @@ elif ! hypr_ok; then
     echo "warning: $(Hyprland --version | sed 's/ built.*//;q') is too old: the config needs 0.56 or newer (docs/setup.md), so it isn't linked"
 fi
 
+# the first install on this machine: remember the desktop settings before
+# anything changes them, for ./uninstall
+[ -n "$current" ] || ./desktop-settings save
+
 # base and the theme both put files in it: a folded symlink to one of them
 # would make stowing the other fail
 mkdir -p ~/.config/yazi
@@ -69,8 +114,8 @@ clear_way base "$use"
 case " $use " in *" yazi "*) hypr_ok && xdg-mime default com.scotty.files.desktop inode/directory ;; esac
 # ./theme links (and reports on) the theme's; only clear the way here
 use=
-for p in $(find "themes/$theme" -mindepth 1 -maxdepth 1 -type d ! -name colorscheme ! -name system -printf '%f '); do
-    wanted "$p" && use="$use $p"
+for p in $(packages "$theme"); do
+    wanted "themes/$theme" "$p" && use="$use $p"
 done
 clear_way "themes/$theme" "$use"
 [ -x "themes/$theme/colorscheme/build.py" ] && "themes/$theme/colorscheme/build.py"

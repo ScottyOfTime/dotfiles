@@ -19,8 +19,20 @@ means adding a line there too.
 
 ```
 cd ~/dotfiles
-./install          # or ./install <theme>
+./install          # menus: theme, then what to link
+./install <theme>  # skip the theme menu
+./install -y       # no menus: the current (or zine) theme, last choices
 ```
+
+In a terminal it asks for the theme (current one first), then shows a
+checklist of the base and theme packages this machine has an app for
+(`whiptail`, or a numbered menu without it; packages whose app is missing
+are named but not offered, and `darkman`/`palette` aren't optional).
+What's left unticked is written to `~/.local/state/dotfiles-skip`
+(`base/<pkg>`, `theme/<pkg>` for every theme), which `./theme` honours
+too; already linked packages you untick are unlinked. Rerun `./install`
+to change the choice. Without a terminal (or with `-y`) the last choices
+stand.
 
 `./install` first lists any packages from `pkglist.txt`, `aur-pkgslist.txt`
 and the theme's `packages.txt` that aren't installed, with the command to
@@ -38,6 +50,25 @@ finds no config, fails to write a default one, and segfaults: SDDM
 flashes black and returns to the login screen. Links into this repo
 (another theme's, when installing a different one) are left for `./theme`
 to swap; moving them would back up a whole folded `~/.local`.
+
+## Uninstall
+
+```
+./uninstall        # asks first; -y doesn't
+```
+
+Unlinks base and every theme, moves the `.bak` files install set aside
+back (the oldest, `.bak.~1~`, when there are several), deletes what the
+themes generated outside the repo (rendered files in real folders such as
+`~/.config/yazi/theme.toml`, the Terminess Outline font, cursor-2x
+copies), takes the GNOME extension off and restores the desktop settings
+with `desktop-settings restore`: fonts, cursor, accent, dark mode,
+animations, wallpaper, user extensions and the folder handler. Those are
+saved (`~/.local/state/dotfiles-desktop-settings`) by the first
+`./install`/`./theme` on a machine; if there's no save (an install from
+before it existed), they're reset to the distro's defaults instead. It
+refuses to run inside Hyprland, which would lose its config mid-session
+(`--force` overrides). Log out afterwards so GNOME drops the extension.
 
 **Don't switch branches in the live checkout.** Everything in `~` links
 into it, so `git checkout` swaps out the running config (Hyprland

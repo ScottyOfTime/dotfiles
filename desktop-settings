@@ -1,0 +1,57 @@
+#!/bin/sh
+# desktop-settings save|restore: the desktop settings the themes change
+# (gsettings, the folder handler). ./install and ./theme save them before
+# the first theme on a machine; ./uninstall restores them, or resets them
+# to the distro's defaults when nothing was saved (an install from before
+# this existed)
+saved=${XDG_STATE_HOME:-$HOME/.local/state}/dotfiles-desktop-settings
+keys="org.gnome.desktop.interface color-scheme
+org.gnome.desktop.interface accent-color
+org.gnome.desktop.interface enable-animations
+org.gnome.desktop.interface cursor-theme
+org.gnome.desktop.interface cursor-size
+org.gnome.desktop.interface font-name
+org.gnome.desktop.interface document-font-name
+org.gnome.desktop.interface monospace-font-name
+org.gnome.desktop.background picture-options
+org.gnome.desktop.background color-shading-type
+org.gnome.desktop.background primary-color
+org.gnome.shell disable-user-extensions"
+uuid=dotfiles-look@scotty
+mimes=${XDG_CONFIG_HOME:-$HOME/.config}/mimeapps.list
+
+case $1 in
+save)
+    [ -e "$saved" ] && exit
+    mkdir -p "${saved%/*}"
+    echo "$keys" | while read -r schema key; do
+        # keys this GNOME doesn't have (accent-color before 47) are skipped
+        v=$(gsettings get "$schema" "$key" 2>/dev/null) && echo "$schema $key $v"
+    done > "$saved"
+    echo "mime inode/directory $(xdg-mime query default inode/directory 2>/dev/null)" >> "$saved"
+    ;;
+restore)
+    command -v gsettings >/dev/null || exit 0
+    if [ -e "$saved" ]; then
+        while read -r schema key v; do
+            if [ "$schema" = mime ]; then
+                [ -n "$v" ] && xdg-mime default "$v" "$key"
+            else
+                gsettings set "$schema" "$key" "$v" 2>/dev/null
+            fi
+        done < "$saved"
+        rm "$saved"
+    else
+        echo "$keys" | while read -r schema key; do gsettings reset "$schema" "$key" 2>/dev/null; done
+    fi
+    # ours only, back to the system's handler for folders
+    [ -f "$mimes" ] && sed -i '/^inode\/directory=com\.scotty\.files\.desktop;*$/d' "$mimes"
+    # the extension list is the user's own: just take ours out
+    list=$(gsettings get org.gnome.shell enabled-extensions 2>/dev/null) &&
+        case $list in *"'$uuid'"*)
+            gsettings set org.gnome.shell enabled-extensions \
+                "$(echo "$list" | sed "s/'$uuid'//; s/, ,/,/; s/\[, /[/; s/, \]/]/")" ;;
+        esac
+    ;;
+*) echo "usage: desktop-settings save|restore" >&2; exit 1 ;;
+esac

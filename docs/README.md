@@ -33,9 +33,11 @@ themes/
                      hypr-theme, ghostty-theme, vim-theme, herdr, yazi, btop, colorscheme/)
   ayu/               waybar, fuzzel, mako, wob, palette, darkman,
                      hypr-theme, ghostty-theme, vim-theme, herdr, yazi, btop, packages.txt
-install              first-run setup (links, backs up conflicts, picks a theme)
+install              setup: menus for the theme and what to link, backs up conflicts
 theme                switcher script
 links.sh             which packages get linked, from the apps installed
 gnome-look           a theme's GNOME half (docs/gnome.md)
+uninstall            undo install: links, .bak files, desktop settings
+desktop-settings     save/restore the desktop settings the themes change
 pkglist.txt aur-pkgslist.txt debian-pkgs.txt services.txt system.sh sddm.conf
 ```
