@@ -24,7 +24,7 @@ dmenu-style strips, a tty login as the lock screen. Lives in
   installed `ttf-terminus-nerd` without its embedded bitmaps, so Ghostty
   smooths it like the shell instead of drawing the bitmaps pixel-sharp; ligatures off, and a steady
   block cursor in `fg` (not `bright`: a brighter-than-text cursor glares). Tabs are a flat text line with `|`
-  separators, the current one in reverse video, in the shell's font and
+  separators, the current one in reverse video, in bold, in the shell's font and
   size from the font strip (`ui_font`/`ui_points` in `tabs.css.tmpl`), not
   the terminal's.
 - **htop** uses its built-in Monochrome scheme (`htop/.config/htop/htoprc`,
