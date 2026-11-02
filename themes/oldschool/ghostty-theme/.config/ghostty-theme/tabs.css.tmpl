@@ -50,8 +50,9 @@ tabbar tabbox > tabboxchild tab:selected {
 
 tabbar tab .tab-title {
   margin: 0;
-  font-family: "JetBrains Mono";
-  font-size: 13px;
+  /* the shell's font from the font strip (theme.sh), not the terminal's */
+  font-family: "${ui_font}";
+  font-size: ${ui_points}pt;
 }
 
 tabbar tab button.tab-close-button {
