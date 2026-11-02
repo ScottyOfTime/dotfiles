@@ -25,6 +25,9 @@ User blue, host magenta, dir yellow, git branch green (`*` unstaged,
 follows the terminal theme. `__git_ps1` is single-quoted inside `PS1` so a
 branch name can't be executed.
 
+`EDITOR` and `VISUAL` are nvim, or vim, or vi, whichever is installed
+(yazi, git and others open files with it).
+
 ## Neovim
 
 `nvim/`: lazy.nvim, airline, fzf, blink.cmp, zls. Colours come from the
