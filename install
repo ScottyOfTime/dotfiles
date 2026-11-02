@@ -29,6 +29,9 @@ if [ -n "$need$aur" ]; then
     [ -n "$aur" ] && echo "  yay -S --needed" $aur
 fi
 
+# base and the theme both put files in it: a folded symlink to one of them
+# would make stowing the other fail
+mkdir -p ~/.config/yazi
 clear_way base "$base"
 stow -d base -t "$HOME" $base || exit 1
 xdg-mime default com.scotty.files.desktop inode/directory

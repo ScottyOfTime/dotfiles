@@ -1,0 +1,4 @@
+[mgr]
+prepend_keymap = [
+	{ on = "<Esc>", run = "plugin close", desc = "Cancel, or close yazi when there's nothing to cancel" },
+]
