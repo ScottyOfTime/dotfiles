@@ -62,6 +62,9 @@ DP-3 (right).
 On the desktop Discord and Signal → workspace 3 (host file); Steam → `special:magic`, Spotify → `special:music`,
 flameshot overlay floats at the origin, the drop-down Ghostty
 (`com.scotty.dropdown`) floats 70%x55% at the top on `special:dropdown`.
+Themes without window borders (oldschool, ayu) give it a 2px one
+(`dropdown-outline` rule in their `theme.lua`) so it stands out over a
+terminal underneath.
 
 ## Scripts (`base/hypr/.config/hypr/scripts/`)
 

@@ -13,7 +13,8 @@ dmenu-style strips, a tty login as the lock screen. Lives in
   Ghostty and herdr tabs; herdr's `accent` is `fg`, not `bright`).
 - **Flat and square.** `Box` is a panel rectangle with a 2px border; no
   rounding, shadows, blur or animations anywhere (Hyprland animations
-  are off). Windows: no gaps and no borders. When a workspace has more
+  are off). Windows: no gaps and no borders, except a 2px `fg` outline on the
+  drop-down terminal. When a workspace has more
   than one window, a 3px `fg` strip (`Focus.qml`) sits along the top of
   the focused one.
 - **Terminal.** Ghostty with 2px padding (balanced, padding takes the

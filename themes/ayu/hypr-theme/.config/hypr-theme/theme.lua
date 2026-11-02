@@ -23,6 +23,13 @@ hl.config({
     },
 })
 
+-- the only bordered window, so it stands out over a terminal underneath
+hl.window_rule({
+    name        = "dropdown-outline",
+    match       = { class = "^com\\.scotty\\.dropdown$" },
+    border_size = 2,
+})
+
 hl.config({
     decoration = {
         rounding     = 0,

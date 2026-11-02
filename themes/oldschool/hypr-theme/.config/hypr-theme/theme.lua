@@ -2,7 +2,7 @@
 
 -- defaults fill any field colors.lua lacks: hyprland reloads on save, which
 -- can be before darkman has rendered a newly added colour
-local colors = { cursor = "Chicago95_Cursor_White_2x" }
+local colors = { fg = "ffb52e", cursor = "Chicago95_Cursor_White_2x" }
 local ok, rendered = pcall(dofile, os.getenv("HOME") .. "/.config/hypr-theme/colors.lua")
 if ok then for k, v in pairs(rendered) do colors[k] = v end end
 
@@ -19,7 +19,18 @@ hl.config({
         gaps_in     = 0,
         gaps_out    = 0,
         border_size = 0,
+        col = {
+            active_border   = "rgb(" .. colors.fg .. ")",
+            inactive_border = "rgb(" .. colors.fg .. ")",
+        },
     },
+})
+
+-- the only bordered window, so it stands out over a terminal underneath
+hl.window_rule({
+    name        = "dropdown-outline",
+    match       = { class = "^com\\.scotty\\.dropdown$" },
+    border_size = 2,
 })
 
 hl.config({
