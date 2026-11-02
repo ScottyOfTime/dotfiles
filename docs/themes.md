@@ -42,13 +42,15 @@ Every folder in a theme is a stow package except `colorscheme/` and
 | `~/.config/yazi/theme.toml` | no | yazi colours, rendered from `theme.toml.tmpl` by `theme.sh` (yazi only reads it at startup) |
 | `~/.config/btop/` | no | btop config and `themes/palette.theme`, rendered from `palette.theme.tmpl` by `theme.sh` |
 | `~/.config/herdr/config.toml` | no | herdr colours (file-level link; `~/.config/herdr` also holds herdr's runtime files) |
+| `gnome/` package | no | The theme on GNOME: shell stylesheet extension and GTK 4 colours, rendered by `gnome-look` ([gnome.md](gnome.md)) |
 
 A new package for an app that might not be installed needs a line in
 `needs()` in `links.sh`, or it's always linked. `theme.sh` has to cope with
 any of them missing: it skips templates that aren't there and calls
 `hyprctl` only while Hyprland runs, and sets `gsettings` (fonts, cursor,
-accent, dark mode) only where Hyprland is installed: on GNOME etc. the
-theme reaches only Ghostty. Anything it needs from an unlinked package it
+accent, dark mode) only where Hyprland is installed or the theme's `gnome`
+package is linked ([gnome.md](gnome.md)); elsewhere the theme reaches only
+Ghostty. Anything it needs from an unlinked package it
 takes from the repo, through `readlink -f "$0"` (oldschool's
 `terminus-outline`, which makes Ghostty's font).
 

@@ -15,6 +15,7 @@ needs() {
         # fontconfig remaps sans/mono for every app: only for the Hyprland look
         hypr|hypr-theme|fontconfig) echo Hyprland ;;
         quickshell) echo qs ;;
+        gnome) echo gnome-shell ;;
         ghostty-theme) echo ghostty ;;
         vim-theme) echo vim nvim ;;
         fastfetch|ghostty|nvim|vim|herdr|htop|btop|yazi|waybar|fuzzel|mako|wob) echo "$1" ;;

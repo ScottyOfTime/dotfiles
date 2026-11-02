@@ -15,6 +15,7 @@ Quickshell.
 - **Ghostty:** built-in `Ayu` / `Ayu Light`, accent selection, no padding.
 - **vim/nvim:** ayu-vim plus the old highlight tweaks; **herdr:** Ayu Dark over one-dark.
 
-Colours are hand-written in `palette/{dark,light}.env`; darkman renders the
+Colours are hand-written in `palette/{dark,light}.env` (`on_accent` is the
+text on the accent, for GNOME, see gnome.md); darkman renders the
 `.tmpl` files from them. Needs `themes/ayu/packages.txt` installed (mako and
 wob were uninstalled when zine replaced them).

@@ -21,3 +21,9 @@ themes/oldschool/yazi/.config/yazi/theme.toml
 themes/ayu/btop/.config/btop/themes/palette.theme
 themes/zine/btop/.config/btop/themes/palette.theme
 themes/oldschool/btop/.config/btop/themes/palette.theme
+themes/zine/gnome/.config/dotfiles-gnome/gtk.css
+themes/oldschool/gnome/.config/dotfiles-gnome/gtk.css
+themes/ayu/gnome/.config/dotfiles-gnome/gtk.css
+themes/zine/gnome/.local/share/gnome-shell/extensions/dotfiles-look@scotty/stylesheet.css
+themes/oldschool/gnome/.local/share/gnome-shell/extensions/dotfiles-look@scotty/stylesheet.css
+themes/ayu/gnome/.local/share/gnome-shell/extensions/dotfiles-look@scotty/stylesheet.css

@@ -8,16 +8,21 @@ cfg=$HOME/.config
 palette=$cfg/palette/$mode.env
 
 set -a; . "$palette"; set +a
+# the theme's gnome package (GNOME without Hyprland, docs/gnome.md)
+ext=$HOME/.local/share/gnome-shell/extensions/dotfiles-look@scotty
+root=$(readlink -f "$0"); root=${root%/themes/*}
+look=; { command -v Hyprland >/dev/null || [ -e "$ext/metadata.json" ]; } && look=1
 
 # the helpers run from the repo, not ~/.config/hypr-theme: Ghostty's font
 # is wanted where hypr-theme isn't linked (no Hyprland) too
 repo=$(readlink -f "$0"); repo=${repo%/darkman/.local/share/darkman/theme.sh}/hypr-theme/.config/hypr-theme
 "$repo/terminus-outline"
-# GTK looks only on Hyprland; elsewhere (GNOME, …) the desktop keeps its own,
-# and just Ghostty takes the theme font (through ghostty-theme)
-if command -v Hyprland >/dev/null; then
+# the desktop look is for Hyprland, or GNOME through the gnome package;
+# elsewhere only Ghostty takes the theme (through ghostty-theme)
+if [ -n "$look" ]; then
     gsettings set org.gnome.desktop.interface color-scheme prefer-$mode
-    gsettings set org.gnome.desktop.interface accent-color "$gtk_accent"
+    # GNOME 46 has no accent-color key (47+); gnome-look colours its accent
+    gsettings set org.gnome.desktop.interface accent-color "$gtk_accent" 2>/dev/null
     gsettings set org.gnome.desktop.interface enable-animations false
     # chicago95 only ships 32px: cursor-2x makes a copy with 64 and 96px too,
     # see docs/oldschool.md for the size
@@ -52,7 +57,7 @@ Terminus)
     ui_font=$font gtk_font=$font gtk_mono=$font term_font=$font term_flags=hinting ;;
 esac
 export font ui_font ui_points term_font term_points term_flags
-if command -v Hyprland >/dev/null; then
+if [ -n "$look" ]; then
     gsettings set org.gnome.desktop.interface font-name "$gtk_font $ui_points"
     gsettings set org.gnome.desktop.interface document-font-name "$gtk_font $ui_points"
     gsettings set org.gnome.desktop.interface monospace-font-name "$gtk_mono $ui_points"
@@ -68,4 +73,5 @@ if pgrep -x Hyprland >/dev/null; then
     hyprctl reload >/dev/null
     hyprctl setcursor "$cursor" "$size" >/dev/null
 fi
+[ -e "$ext/metadata.json" ] && "$root/gnome-look" "$mode"
 pkill -SIGUSR2 -x ghostty

@@ -1,0 +1,3 @@
+/* the colours are rendered into ~/.config/dotfiles-gnome (a folded link
+   into the theme), so unlinking the theme takes them away too */
+@import url("../dotfiles-gnome/gtk.css");

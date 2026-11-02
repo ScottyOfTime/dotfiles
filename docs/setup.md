@@ -75,10 +75,12 @@ without our config it runs its own default instead of segfaulting.
 Anything already linked whose app is missing gets unlinked, and both
 lists are printed (`unlinked hypr (no Hyprland 0.56+)`, `not linked: …`).
 Rerun `./install` after installing or removing an app to bring the links
-in line. Without Hyprland the theme leaves the desktop's look alone (no
-`gsettings`: fonts, cursor, accent and dark mode stay GNOME's, and yazi
-isn't made the folder handler); only Ghostty takes the theme's font and
-colours, from its own config.
+in line. yazi isn't made the folder handler without Hyprland.
+
+On GNOME the theme's `gnome` package restyles the shell and GTK apps from
+the palette and sets its fonts, cursor and wallpaper: see
+[gnome.md](gnome.md). Without Hyprland or GNOME the desktop's look is left
+alone, and only Ghostty takes the theme.
 
 ## Debian and Ubuntu
 

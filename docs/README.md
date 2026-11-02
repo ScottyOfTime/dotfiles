@@ -16,6 +16,7 @@ Everything practical (shell, editors, keybinds, window rules) lives once in
 | [zine-quickshell.md](zine-quickshell.md) | **zine**: bar, launcher, popups, lock screen, overview |
 | [oldschool.md](oldschool.md) | **oldschool**: amber terminal, flat borderless text shell (after sxwm) |
 | [ayu.md](ayu.md) | **ayu**: the earlier waybar/fuzzel rice |
+| [gnome.md](gnome.md) | Each theme on GNOME (Ubuntu): shell stylesheet, GTK colours |
 
 ## Layout
 
@@ -35,5 +36,6 @@ themes/
 install              first-run setup (links, backs up conflicts, picks a theme)
 theme                switcher script
 links.sh             which packages get linked, from the apps installed
+gnome-look           a theme's GNOME half (docs/gnome.md)
 pkglist.txt aur-pkgslist.txt debian-pkgs.txt services.txt system.sh sddm.conf
 ```

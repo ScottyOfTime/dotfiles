@@ -8,12 +8,17 @@ cfg=$HOME/.config
 palette=$cfg/palette/$mode.env
 
 set -a; . "$palette"; set +a
+# the theme's gnome package (GNOME without Hyprland, docs/gnome.md)
+ext=$HOME/.local/share/gnome-shell/extensions/dotfiles-look@scotty
+root=$(readlink -f "$0"); root=${root%/themes/*}
+look=; { command -v Hyprland >/dev/null || [ -e "$ext/metadata.json" ]; } && look=1
 
-# GTK looks only on Hyprland; elsewhere (GNOME, …) the desktop keeps its own,
-# and just Ghostty takes the theme font (through ghostty-theme)
-if command -v Hyprland >/dev/null; then
+# the desktop look is for Hyprland, or GNOME through the gnome package;
+# elsewhere only Ghostty takes the theme (through ghostty-theme)
+if [ -n "$look" ]; then
     gsettings set org.gnome.desktop.interface color-scheme prefer-$mode
-    gsettings set org.gnome.desktop.interface accent-color "$gtk_accent"
+    # GNOME 46 has no accent-color key (47+); gnome-look colours its accent
+    gsettings set org.gnome.desktop.interface accent-color "$gtk_accent" 2>/dev/null
     gsettings set org.gnome.desktop.interface enable-animations true
     gsettings set org.gnome.desktop.interface cursor-theme "$cursor"
     gsettings set org.gnome.desktop.interface cursor-size 24
@@ -32,4 +37,5 @@ if pgrep -x Hyprland >/dev/null; then
     hyprctl reload >/dev/null
     hyprctl setcursor "$cursor" 24 >/dev/null
 fi
+[ -e "$ext/metadata.json" ] && "$root/gnome-look" "$mode"
 pkill -SIGUSR2 -x ghostty

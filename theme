@@ -28,6 +28,9 @@ if [ -n "$current" ] && [ -d "themes/$current" ]; then
     ~/.config/hypr-theme/stop 2>/dev/null
     stow -D -d "themes/$current" -t "$HOME" $(packages "$current")
 fi
+# real directories, or stow folds them into the repo and GTK/GNOME write
+# their own files (bookmarks, extension state) there
+case " $use " in *" gnome "*) mkdir -p ~/.config/gtk-4.0 ~/.local/share/gnome-shell/extensions ;; esac
 [ -n "$use" ] && { stow -d "themes/$new" -t "$HOME" $use || exit 1; }
 mkdir -p "${state%/*}" && echo "$new" > "$state"
 

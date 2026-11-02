@@ -1,0 +1,26 @@
+#!/bin/sh
+# gnome-look <mode>: the GNOME half of a theme, run by its theme.sh when its
+# gnome package is linked: renders the GTK colours and the shell stylesheet
+# from the palette, sets the wallpaper and makes the shell reload the
+# stylesheet (docs/gnome.md)
+mode=$1
+cfg=$HOME/.config
+ext=$HOME/.local/share/gnome-shell/extensions/dotfiles-look@scotty
+palette=$cfg/palette/$mode.env
+
+set -a; . "$palette"; set +a
+vars=$(sed -n 's/^\([a-z_]*\)=.*/$\1/p' "$palette" | tr '\n' ' ')
+envsubst "$vars" < "$cfg/dotfiles-gnome/gtk.css.tmpl" > "$cfg/dotfiles-gnome/gtk.css"
+envsubst "$vars" < "$ext/stylesheet.css.tmpl" > "$ext/stylesheet.css"
+
+gsettings set org.gnome.desktop.background picture-options none
+gsettings set org.gnome.desktop.background color-shading-type solid
+gsettings set org.gnome.desktop.background primary-color "#$bg"
+gsettings set org.gnome.shell disable-user-extensions false
+
+# the shell reads an extension's stylesheet when enabling it, so cycling it
+# is the reload; on Wayland a newly added extension is only found at login
+uuid=${ext##*/}
+gnome-extensions disable "$uuid" 2>/dev/null
+gnome-extensions enable "$uuid" 2>/dev/null ||
+    echo "gnome-look: GNOME hasn't seen the $uuid extension yet: log out and back in once, then rerun ./theme" >&2
