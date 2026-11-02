@@ -50,10 +50,15 @@ if [ -n "$ask" ]; then
 fi
 
 # stow aborts everything on one conflict, so a fresh machine's default
-# .bashrc alone leaves hyprland with no config (it then segfaults)
+# .bashrc alone leaves hyprland with no config (it then segfaults). The
+# wording differs by version: 2.4 (Arch) says "cannot stow … over existing
+# [non-]directory target X", 2.3 (Debian, Ubuntu) "existing target is
+# neither a link nor a directory: X"
 clear_way() {
     stow -n -v -d "$1" -t "$HOME" $2 2>&1 | sed -n \
         -e 's/.* over existing target \(.*\) since .*/\1/p' \
+        -e 's/.* over existing \(non-\)*directory target //p' \
+        -e 's/.*existing target is neither a link nor a directory: //p' \
         -e 's/.*existing target is not owned by stow: //p' |
     while read -r f; do
         # another theme's links into this repo: ./theme unstows those itself

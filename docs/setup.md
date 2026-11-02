@@ -47,7 +47,12 @@ and the script prints each move. Compare them with the repo's versions
 afterwards. This is the script's reason to exist: plain `stow` aborts the
 whole command on one such file, so nothing is linked. Hyprland then
 finds no config, fails to write a default one, and segfaults: SDDM
-flashes black and returns to the login screen. Links into this repo
+flashes black and returns to the login screen. It finds those files by
+parsing `stow -n -v`'s conflict messages, which are worded differently by
+version: 2.4 (Arch) "cannot stow … over existing [non-]directory target
+X", 2.3 (Debian, Ubuntu 24.04) "existing target is neither a link nor a
+directory: X". A new stow wording means a new pattern in `clear_way`, or
+stow refuses again with "WARNING! stowing … would cause conflicts". Links into this repo
 (another theme's, when installing a different one) are left for `./theme`
 to swap; moving them would back up a whole folded `~/.local`.
 

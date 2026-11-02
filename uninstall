@@ -37,11 +37,12 @@ for t in themes/*/; do
 done
 
 # every theme, not just the current one: an interrupted switch can leave two
-for t in themes/*/; do
-    t=${t#themes/}; t=${t%/}
-    stow -D -d "themes/$t" -t "$HOME" $(packages "$t") 2>/dev/null
+# one package at a time: stow 2.3 drops the whole command on one conflict
+{ for p in $(ls base); do echo "base $p"; done
+  for t in themes/*/; do t=${t#themes/}; t=${t%/}; packages "$t" | sed "s|^|themes/$t |"; done
+} | while read -r dir p; do
+    stow -D -d "$dir" -t "$HOME" "$p" 2>/dev/null || echo "couldn't unlink $dir/$p: check with stow -D -n -v -d $dir -t ~ $p" >&2
 done
-stow -D -d base -t "$HOME" $(ls base) 2>/dev/null
 echo "unlinked base and the themes"
 
 # install moved what was in the way to <path>.bak; a later install moving
