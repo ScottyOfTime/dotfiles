@@ -32,8 +32,11 @@ gnome/.config/gtk-4.0/gtk.css          @import of ../dotfiles-gnome/gtk.css
 
 The theme's `theme.sh` sees the linked extension, applies the `gsettings`
 and runs `gnome-look <mode>` (repo root), which renders both templates
-from the palette, sets the wallpaper, turns user extensions on and cycles
-the extension (disable, enable) so the shell rereads the stylesheet.
+from the palette, sets the wallpaper, turns user extensions on, adds ours
+to `org.gnome.shell enabled-extensions` (so the shell enables it by itself
+when it finds it at login) and cycles it (disable, enable) so the shell
+rereads the stylesheet. If enabling fails it prints `gnome-extensions`'
+own error and `gnome-extensions info`.
 
 ## First run
 

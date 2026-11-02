@@ -18,9 +18,20 @@ gsettings set org.gnome.desktop.background color-shading-type solid
 gsettings set org.gnome.desktop.background primary-color "#$bg"
 gsettings set org.gnome.shell disable-user-extensions false
 
+# on the enabled list, so the shell turns it on by itself once it finds it
+uuid=${ext##*/}
+list=$(gsettings get org.gnome.shell enabled-extensions)
+case $list in
+""|*"'$uuid'"*) ;;
+*) gsettings set org.gnome.shell enabled-extensions \
+       "$(echo "$list" | sed "s/^@as //; s/]\$/, '$uuid']/; s/\[, /[/")" ;;
+esac
+
 # the shell reads an extension's stylesheet when enabling it, so cycling it
 # is the reload; on Wayland a newly added extension is only found at login
-uuid=${ext##*/}
 gnome-extensions disable "$uuid" 2>/dev/null
-gnome-extensions enable "$uuid" 2>/dev/null ||
-    echo "gnome-look: GNOME hasn't seen the $uuid extension yet: log out and back in once, then rerun ./theme" >&2
+if ! err=$(gnome-extensions enable "$uuid" 2>&1); then
+    echo "gnome-look: couldn't enable $uuid: $err" >&2
+    gnome-extensions info "$uuid" >&2 2>&1
+    echo "gnome-look: if GNOME doesn't list it at all, log out and back in once (docs/gnome.md)" >&2
+fi
