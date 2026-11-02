@@ -14,8 +14,12 @@ from pathlib import Path
 TARGET = Path.home() / ".local/share/fonts/terminess-outline"
 STYLES = ["Regular", "Bold", "Italic", "BoldItalic"]
 DROP = {b"EBDT", b"EBLC", b"EBSC", b"BDF "}
+# Mono first: a self-patched font may only have the plain family
+FAMILIES = ["Terminess Nerd Font Mono", "Terminess Nerd Font"]
 RENAME = [("Terminess Nerd Font Mono", "Terminess Outline"),
-          ("TerminessNerdFontMono", "TerminessOutline")]
+          ("TerminessNerdFontMono", "TerminessOutline"),
+          ("Terminess Nerd Font", "Terminess Outline"),
+          ("TerminessNerdFont", "TerminessOutline")]
 
 
 def checksum(data):
@@ -68,16 +72,30 @@ def stripped(font):
     return bytes(font)
 
 
+def installed():
+    # ask fontconfig, not the file names: the directory differs by distro,
+    # and a font built by hand can be named (or spaced) anything
+    for family in FAMILIES:
+        listed = subprocess.run(["fc-list", "-f", "%{style}\t%{file}\n", family],
+                                capture_output=True, text=True).stdout
+        files = {}
+        for line in listed.splitlines():
+            styles, _, path = line.partition("\t")
+            for style in styles.split(","):
+                style = style.replace(" ", "")
+                if style in STYLES and path.endswith((".ttf", ".otf")):
+                    files.setdefault(style, Path(path))
+        if "Regular" in files:
+            return files
+    return {}
+
+
 if not (TARGET / "TerminessOutline-Regular.ttf").exists():
-    # ask fontconfig where the files are: the directory differs by distro
-    listed = subprocess.run(["fc-list", "Terminess Nerd Font Mono", "file"],
-                            capture_output=True, text=True).stdout
-    files = {Path(line.rstrip(":")).stem.rsplit("-", 1)[-1]: Path(line.rstrip(":"))
-             for line in listed.split() if line.endswith(".ttf:")}
+    files = installed()
     if not files:
-        sys.exit("terminus-outline: Terminess Nerd Font Mono isn't installed (run fc-cache -f?)")
+        sys.exit("terminus-outline: no Terminess Nerd Font (Mono) found by fc-list, "
+                 "so Ghostty falls back to its default font")
     TARGET.mkdir(parents=True, exist_ok=True)
-    for style in STYLES:
-        if style in files:
-            (TARGET / f"TerminessOutline-{style}.ttf").write_bytes(stripped(files[style].read_bytes()))
+    for style, path in files.items():
+        (TARGET / f"TerminessOutline-{style}.ttf").write_bytes(stripped(path.read_bytes()))
     subprocess.run(["fc-cache", str(TARGET)], check=False)

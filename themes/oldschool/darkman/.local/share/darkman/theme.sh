@@ -35,6 +35,9 @@ Terminus)
     # 11.25pt is 15px, 20 physical at 1.33x; 12.375pt is 22 physical in
     # ghostty: native terminus sizes (docs/oldschool.md)
     ui_font='Terminess Nerd Font Mono' ui_points=11.25 gtk_font='Terminess Nerd Font' gtk_mono='Terminess Nerd Font Mono'
+    # a hand-patched Terminess may have only one of the two families
+    fc-list -q "$gtk_font" || gtk_font=$gtk_mono
+    fc-list -q "$gtk_mono" || gtk_mono=$gtk_font
     # terminus without its embedded bitmaps (hypr-theme/terminus-outline),
     # which ghostty would draw pixel-sharp instead of smoothing like the
     # shell; hinting squeezes it at 22px: dots become thin slivers
