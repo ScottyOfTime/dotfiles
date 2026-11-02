@@ -28,6 +28,7 @@ pick "themes/$new" $(packages "$new")
 if [ -n "$current" ] && [ -d "themes/$current" ]; then
     ~/.config/hypr-theme/stop 2>/dev/null
     stow -D -d "themes/$current" -t "$HOME" $(packages "$current")
+    unrender "$current"
 fi
 # real directories, or stow folds them into the repo and GTK/GNOME write
 # their own files (bookmarks, extension state) there
@@ -39,6 +40,7 @@ if [ -n "$use" ] && ! stow -d "themes/$new" -t "$HOME" $use; then
         old=
         for p in $(packages "$current"); do wanted "themes/$current" "$p" && old="$old $p"; done
         if stow -d "themes/$current" -t "$HOME" $old; then
+            ~/.local/share/darkman/theme.sh "$(current_mode)"
             pgrep -x Hyprland >/dev/null &&
                 hyprctl dispatch 'hl.dsp.exec_cmd("~/.config/hypr-theme/start")' >/dev/null
             echo "kept theme: $current" >&2

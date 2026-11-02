@@ -22,19 +22,7 @@ fi
 ~/.config/hypr-theme/stop 2>/dev/null
 command -v gnome-extensions >/dev/null && gnome-extensions disable dotfiles-look@scotty 2>/dev/null
 
-# what theme.sh rendered from a .tmpl into a real folder (~/.config/yazi)
-# outlives the link; ones inside a folded link go with it
-for t in themes/*/; do
-    t=${t#themes/}; t=${t%/}
-    for pkg in $(packages "$t"); do
-        (cd "themes/$t/$pkg" && find . -name '*.tmpl') | while read -r f; do
-            out=$HOME/${f#./}; out=${out%.tmpl}
-            [ -f "$out" ] || continue
-            case $(readlink -f "$out") in "$PWD"/*) continue ;; esac
-            rm "$out" && echo "removed ~/${out#$HOME/} (rendered by the theme)"
-        done
-    done
-done
+for t in themes/*/; do t=${t#themes/}; unrender "${t%/}" -v; done
 
 # every theme, not just the current one: an interrupted switch can leave two
 # one package at a time: stow 2.3 drops the whole command on one conflict

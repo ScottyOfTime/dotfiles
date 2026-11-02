@@ -4,8 +4,25 @@
 state=${XDG_STATE_HOME:-$HOME/.local/state}
 skipfile=$state/dotfiles-skip
 
-# every folder in a theme is a stow package except colorscheme/ and system/
-packages() { find "themes/$1" -mindepth 1 -maxdepth 1 -type d ! -name colorscheme ! -name system -printf '%f\n'; }
+# every folder in a theme is a stow package except colorscheme/, system/
+# and preview/ (the README's pictures)
+packages() { find "themes/$1" -mindepth 1 -maxdepth 1 -type d ! -name colorscheme ! -name system ! -name preview -printf '%f\n'; }
+
+# unrender <theme> [-v]: delete what theme.sh rendered from the theme's
+# .tmpl files into real folders (~/.config/yazi): those outlive the links,
+# and stop the next theme's from linking. Ones inside a folded link went
+# with it
+unrender() {
+    for pkg in $(packages "$1"); do
+        (cd "themes/$1/$pkg" && find . -name '*.tmpl') | while read -r f; do
+            out=$HOME/${f#./}; out=${out%.tmpl}
+            [ -f "$out" ] || continue
+            case $(readlink -f "$out") in "$PWD"/*) continue ;; esac
+            rm "$out" && [ -n "$2" ] && echo "removed ~/${out#$HOME/} (rendered by the theme)"
+        done
+    done
+    return 0
+}
 
 # Hyprland older than 0.56 can't read the Lua config and segfaults on it;
 # without ours it writes and runs its own default
