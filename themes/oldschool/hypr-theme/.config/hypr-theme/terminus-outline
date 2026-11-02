@@ -8,6 +8,7 @@ exists."""
 
 import struct
 import subprocess
+import sys
 from pathlib import Path
 
 TARGET = Path.home() / ".local/share/fonts/terminess-outline"
@@ -73,6 +74,8 @@ if not (TARGET / "TerminessOutline-Regular.ttf").exists():
                             capture_output=True, text=True).stdout
     files = {Path(line.rstrip(":")).stem.rsplit("-", 1)[-1]: Path(line.rstrip(":"))
              for line in listed.split() if line.endswith(".ttf:")}
+    if not files:
+        sys.exit("terminus-outline: Terminess Nerd Font Mono isn't installed (run fc-cache -f?)")
     TARGET.mkdir(parents=True, exist_ok=True)
     for style in STYLES:
         if style in files:
