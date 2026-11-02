@@ -66,7 +66,8 @@ it. Everything else is yazi's defaults.
 
 It's also the file manager: base's `yazi` package adds a `Files` desktop
 entry (`com.scotty.files.desktop`, Ghostty running yazi), `install` makes it
-the default for folders (`xdg-mime`), and `mod+E` opens it.
+the default for folders (`xdg-mime`, only where Hyprland is installed), and
+`mod+E` opens it.
 
 `Esc` closes it like a modal once there's nothing left to cancel
 (selection, visual mode, find, filter, search): base's

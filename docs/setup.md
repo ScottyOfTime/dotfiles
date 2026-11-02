@@ -76,8 +76,9 @@ Anything already linked whose app is missing gets unlinked, and both
 lists are printed (`unlinked hypr (no Hyprland 0.56+)`, `not linked: …`).
 Rerun `./install` after installing or removing an app to bring the links
 in line. Without Hyprland the theme leaves the desktop's look alone (no
-`gsettings`: fonts, cursor, accent and dark mode stay GNOME's); only
-Ghostty takes the theme's font and colours, from its own config.
+`gsettings`: fonts, cursor, accent and dark mode stay GNOME's, and yazi
+isn't made the folder handler); only Ghostty takes the theme's font and
+colours, from its own config.
 
 ## Debian and Ubuntu
 
