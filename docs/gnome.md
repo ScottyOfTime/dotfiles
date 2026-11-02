@@ -9,6 +9,7 @@ Written against GNOME Shell 46 (Ubuntu 24.04).
 | Part | How |
 |---|---|
 | Top bar, menus, quick settings, calendar, notifications, OSD, dialogs, alt-tab, dock | A stylesheet loaded on top of the session's shell theme (Yaru on Ubuntu) by our extension `dotfiles-look@scotty` |
+| Dark Style switch | The extension reruns the theme for the new mode |
 | GTK 4 / libadwaita apps (Files, Settings, Text Editor, …) | `~/.config/gtk-4.0/gtk.css` redefines libadwaita's named colours |
 | Fonts, cursor, dark mode, animations | `gsettings`, as on Hyprland |
 | Wallpaper | A solid palette `bg` (`org.gnome.desktop.background`); zine's collage is drawn by Quickshell, so there's no GNOME equivalent |
@@ -52,11 +53,23 @@ own error and `gnome-extensions info`.
 ([setup.md](setup.md#uninstall)).
 
 Dark/light follows darkman (`darkman toggle`, or its schedule), which
-reruns `theme.sh`. GNOME's own Dark Style toggle only flips GTK's
-`color-scheme`, not our colours: use darkman instead.
+reruns `theme.sh`, and GNOME's own Dark Style switch: that only flips
+`color-scheme`, so the extension watches it and reruns the theme for the
+new mode, through `darkman set` when darkman is running (so its state
+agrees) or `theme.sh` directly. Without that, Ghostty's main colours
+followed (Ghostty reads `color-scheme` itself) but its tabs, vim's airline
+and everything else `theme.sh` renders stayed on the old mode. A change to
+`extension.js` needs a logout to load: disabling and enabling an extension
+reuses its already loaded code.
+
+`./install` warns when darkman's user service isn't running (apt installs
+it without starting it): `systemctl --user enable --now darkman.service`.
 
 ## Rules
 
+- **The mode echo.** `theme.sh` writes `~/.local/state/theme-mode` first
+  and then sets `color-scheme` itself; the extension ignores a change that
+  already matches that file, or every rerun would trigger another.
 - **Override, don't replace.** A User Themes shell theme replaces the whole
   stylesheet, so it has to restyle everything and breaks with each GNOME
   release; an extension's `stylesheet.css` is loaded on top of the current

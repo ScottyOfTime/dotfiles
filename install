@@ -125,3 +125,9 @@ done
 clear_way "themes/$theme" "$use"
 [ -x "themes/$theme/colorscheme/build.py" ] && "themes/$theme/colorscheme/build.py"
 ./theme "$theme"
+# darkman is what reruns theme.sh when the mode changes; apt installs its
+# user service without starting it
+if command -v darkman >/dev/null && command -v systemctl >/dev/null &&
+    ! systemctl --user is-active -q darkman.service 2>/dev/null; then
+    echo "darkman isn't running, so modes won't switch: systemctl --user enable --now darkman.service"
+fi
