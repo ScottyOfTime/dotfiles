@@ -1,12 +1,9 @@
 #!/bin/sh
-# mod+E: close the open Files window(s), else open one. Ghostty would
-# answer a close with an in-window "close terminal?" prompt since yazi is
-# running, hence --confirm-close-surface=false on every Files launcher
-open=$(hyprctl clients | awk '/^Window /{w=$2} /^\tclass: com\.scotty\.files$/{print w}')
-if [ -n "$open" ]; then
-    for w in $open; do
-        hyprctl dispatch "hl.dsp.window.close({ window = \"address:0x$w\" })" >/dev/null
-    done
+# mod+E: one yazi kept on special:files, so showing it needn't start
+# Ghostty (~200ms); launched the first time. DOTFILES_FILES_PAD makes Esc
+# hide it instead of quitting (yazi/plugins/close.yazi)
+if hyprctl clients | grep -q 'class: com.scotty.filespad$'; then
+    hyprctl dispatch 'hl.dsp.workspace.toggle_special("files")' >/dev/null
 else
-    hyprctl dispatch 'hl.dsp.exec_cmd("ghostty --class=com.scotty.files --confirm-close-surface=false -e yazi")' >/dev/null
+    hyprctl dispatch 'hl.dsp.exec_cmd("ghostty --class=com.scotty.filespad --confirm-close-surface=false -e env DOTFILES_FILES_PAD=1 yazi")' >/dev/null
 fi

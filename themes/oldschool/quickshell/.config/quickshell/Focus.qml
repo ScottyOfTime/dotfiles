@@ -30,5 +30,5 @@ PanelWindow {
     color: Theme.fg
     visible: info?.at !== undefined && window.workspace === workspace
         && workspace.toplevels.values.length > 1 && !info.fullscreen
-        && !/^com\.scotty\.(dropdown|files)$/.test(info.class)
+        && !/^com\.scotty\.(dropdown|files|filespad)$/.test(info.class)
 }

@@ -176,10 +176,16 @@ hl.window_rule({
 
 hl.window_rule({
     name   = "files",
-    match  = { class = "^com\\.scotty\\.files$" },
+    match  = { class = "^com\\.scotty\\.files(pad)?$" },
     float  = true,
     size   = "monitor_w*0.6 monitor_h*0.6",
     center = true,
+})
+
+hl.window_rule({
+    name      = "files-scratchpad",
+    match     = { class = "^com\\.scotty\\.filespad$" },
+    workspace = "special:files",
 })
 
 hl.window_rule({

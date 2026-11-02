@@ -66,12 +66,19 @@ it. Everything else is yazi's defaults.
 
 It's also the file manager: base's `yazi` package adds a `Files` desktop
 entry (`com.scotty.files.desktop`, Ghostty running yazi), `install` makes it
-the default for folders (`xdg-mime`), and `mod+E` toggles it.
+the default for folders (`xdg-mime`). `mod+E` toggles a separate yazi
+that stays running on `special:files` (`hypr/scripts/files.sh`), so it
+shows instantly and keeps its place. Every Files Ghostty runs with
+`--confirm-close-surface=false`, or closing it would bring up Ghostty's
+in-window "close terminal?" prompt, since yazi is still running.
 
 `Esc` closes it like a modal once there's nothing left to cancel
 (selection, visual mode, find, filter, search): base's
 `yazi/plugins/close.yazi` makes the same checks as yazi's `escape`, which
-doesn't report whether it did anything. `install` creates
+doesn't report whether it did anything. In `mod+E`'s yazi
+(`DOTFILES_FILES_PAD` set) it hides the scratchpad instead of quitting.
+The plugin waits on `hyprctl` (`:status()`): yazi kills a `:spawn()`ed
+child as soon as its handle is dropped. `install` creates
 `~/.config/yazi` first, since base and the theme both put files there.
 
 It's the file picker too: apps' open/save dialogs go through
