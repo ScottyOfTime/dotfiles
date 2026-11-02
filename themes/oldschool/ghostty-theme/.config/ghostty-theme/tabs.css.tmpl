@@ -50,8 +50,8 @@ tabbar tabbox > tabboxchild tab:selected {
 
 tabbar tab .tab-title {
   margin: 0;
-  /* the shell's font from the font strip (theme.sh), not the terminal's */
-  font-family: "${ui_font}";
+  /* the terminal's font (font strip, theme.sh) at the shell's smaller size, to fit the 22px bar */
+  font-family: "${term_font}";
   font-size: ${ui_points}pt;
   font-weight: bold;
 }
