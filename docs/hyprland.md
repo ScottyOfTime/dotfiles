@@ -73,6 +73,13 @@ ayu) give both a 2px one (`floating-terminal-outline` rule in their
 
 - `dropdown.sh`: toggles the drop-down terminal, launching it the first time
   (launched non-silent so it gets focus).
+- When the dropdown or `mod+E`'s yazi closes (`exit`, `q`, `mod+W`),
+  `hyprland.lua`'s `window.close` handler starts a replacement hidden on its
+  special workspace, so the next toggle is instant. It waits 0.3s and skips
+  if one is still open, since a close Ghostty answers with its "close
+  terminal?" prompt leaves the window up. `window.destroy` passes no window,
+  so it can't be used for this. The handler `exec`s Ghostty from `sh` so the
+  silent rule `exec_cmd` attaches to that pid still applies.
 - `files.sh`: toggles `mod+E`'s yazi on `special:files`, launching it the
   first time. It stays running because a fresh Ghostty takes ~200ms to
   map and a toggle ~30ms. It skips the theme's `special` hook, whose
