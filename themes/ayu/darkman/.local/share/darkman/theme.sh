@@ -1,7 +1,7 @@
 #!/bin/sh
 mode=$1
 [ "$mode" = dark ] || [ "$mode" = light ] || exit 1
-# open vim/nvim watch this file and reload their colours when it changes
+# vim/nvim read this at startup; :Theme reloads open ones (docs/apps.md)
 state=${XDG_STATE_HOME:-$HOME/.local/state}
 mkdir -p "$state" && echo "$mode" > "$state/theme-mode"
 cfg=$HOME/.config
