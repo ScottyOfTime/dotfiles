@@ -1,0 +1,84 @@
+#!/usr/bin/env python3
+"""lib/previews [theme...]: draw each theme's palette from its .env files
+into themes/<theme>/preview/: palette.svg (every role, both modes, for the
+theme's README) and strip.svg (just the colours, for the root README),
+and the hex columns of the role table between the README's palette
+markers (its "Used for" column is kept)."""
+
+import sys
+from html import escape
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+FONTS = {"oldschool": "'Terminess Nerd Font Mono', Terminus, monospace"}
+DEFAULT_FONT = "'JetBrains Mono', monospace"
+PER_ROW, W, H, GAP, PAD = 8, 84, 52, 10, 20
+START, END = "<!-- palette: lib/previews fills this in -->", "<!-- /palette -->"
+
+
+def palette(theme, mode):
+    roles = {}
+    for line in (ROOT / f"themes/{theme}/palette/.config/palette/{mode}.env").read_text().splitlines():
+        key, _, value = line.partition("=")
+        if len(value) == 6 and all(c in "0123456789abcdefABCDEF" for c in value):
+            roles[key] = value.lower()
+    return roles
+
+
+def block(roles, mode, y, font):
+    rows = -(-len(roles) // PER_ROW)
+    height = PAD + 28 + rows * (H + 44) + PAD - 14
+    width = PAD * 2 + PER_ROW * W + (PER_ROW - 1) * GAP
+    out = [f'<rect y="{y}" width="{width}" height="{height}" fill="#{roles["bg"]}"/>',
+           f'<text x="{PAD}" y="{y + PAD + 12}" fill="#{roles["fg"]}" font-size="15" font-weight="bold">{mode}</text>']
+    for i, (name, hex_) in enumerate(roles.items()):
+        x = PAD + (i % PER_ROW) * (W + GAP)
+        top = y + PAD + 28 + (i // PER_ROW) * (H + 44)
+        out.append(f'<rect x="{x}" y="{top}" width="{W}" height="{H}" fill="#{hex_}" '
+                   f'stroke="#{roles["fg"]}" stroke-opacity="0.25"/>')
+        out.append(f'<text x="{x}" y="{top + H + 17}" fill="#{roles["fg"]}" font-size="13">{escape(name)}</text>')
+        out.append(f'<text x="{x}" y="{top + H + 33}" fill="#{roles.get("dim", roles["fg"])}" font-size="12">{hex_}</text>')
+    return out, width, height
+
+
+def svg(width, height, font, body):
+    return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" '
+            f'viewBox="0 0 {width} {height}" font-family="{font}">\n' + "\n".join(body) + "\n</svg>\n")
+
+
+for theme in sys.argv[1:] or sorted(p.name for p in (ROOT / "themes").iterdir() if p.is_dir()):
+    font = FONTS.get(theme, DEFAULT_FONT)
+    out = ROOT / f"themes/{theme}/preview"
+    out.mkdir(exist_ok=True)
+    body, y, width = [], 0, 0
+    for mode in ("dark", "light"):
+        part, width, height = block(palette(theme, mode), mode, y, font)
+        body += part
+        y += height
+    (out / "palette.svg").write_text(svg(width, y, font, body))
+
+    body, size = [], 28
+    modes = [palette(theme, m) for m in ("dark", "light")]
+    count = max(len(m) for m in modes)
+    for row, roles in enumerate(modes):
+        body.append(f'<rect y="{row * size}" width="{count * size}" height="{size}" fill="#{roles["bg"]}"/>')
+        for i, hex_ in enumerate(roles.values()):
+            body.append(f'<rect x="{i * size}" y="{row * size}" width="{size}" height="{size}" fill="#{hex_}"/>')
+    (out / "strip.svg").write_text(svg(count * size, 2 * size, font, body))
+
+    readme = ROOT / f"themes/{theme}/README.md"
+    if readme.exists() and START in readme.read_text():
+        text = readme.read_text()
+        head, rest = text.split(START, 1)
+        old, tail = rest.split(END, 1)
+        used = {}
+        for row in old.splitlines():
+            cells = [c.strip() for c in row.strip().strip("|").split("|")]
+            if len(cells) == 4 and cells[0].startswith("`"):
+                used[cells[0].strip("`")] = cells[3]
+        dark, light = modes
+        rows = ["| Role | Dark | Light | Used for |", "|---|---|---|---|"]
+        for role in list(dark) + [r for r in light if r not in dark]:
+            rows.append(f"| `{role}` | `{dark.get(role, '-')}` | `{light.get(role, '-')}` | {used.get(role, '')} |")
+        readme.write_text(head + START + "\n" + "\n".join(rows) + "\n" + END + tail)
+    print(f"wrote themes/{theme}/preview/palette.svg, strip.svg")

@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="782" height="492" viewBox="0 0 782 492" font-family="'Terminess Nerd Font Mono', Terminus, monospace">
+<rect y="0" width="782" height="246" fill="#0b0806"/>
+<text x="20" y="32" fill="#ffb52e" font-size="15" font-weight="bold">dark</text>
+<rect x="20" y="48" width="84" height="52" fill="#0b0806" stroke="#ffb52e" stroke-opacity="0.25"/>
+<text x="20" y="117" fill="#ffb52e" font-size="13">bg</text>
+<text x="20" y="133" fill="#9a6a24" font-size="12">0b0806</text>
+<rect x="114" y="48" width="84" height="52" fill="#120d08" stroke="#ffb52e" stroke-opacity="0.25"/>
+<text x="114" y="117" fill="#ffb52e" font-size="13">panel</text>
+<text x="114" y="133" fill="#9a6a24" font-size="12">120d08</text>
+<rect x="208" y="48" width="84" height="52" fill="#2b1c0c" stroke="#ffb52e" stroke-opacity="0.25"/>
+<text x="208" y="117" fill="#ffb52e" font-size="13">surface</text>
+<text x="208" y="133" fill="#9a6a24" font-size="12">2b1c0c</text>
+<rect x="302" y="48" width="84" height="52" fill="#ffb52e" stroke="#ffb52e" stroke-opacity="0.25"/>
+<text x="302" y="117" fill="#ffb52e" font-size="13">fg</text>
+<text x="302" y="133" fill="#9a6a24" font-size="12">ffb52e</text>
+<rect x="396" y="48" width="84" height="52" fill="#9a6a24" stroke="#ffb52e" stroke-opacity="0.25"/>
+<text x="396" y="117" fill="#ffb52e" font-size="13">dim</text>
+<text x="396" y="133" fill="#9a6a24" font-size="12">9a6a24</text>
+<rect x="490" y="48" width="84" height="52" fill="#ac7a2c" stroke="#ffb52e" stroke-opacity="0.25"/>
+<text x="490" y="117" fill="#ffb52e" font-size="13">comment</text>
+<text x="490" y="133" fill="#9a6a24" font-size="12">ac7a2c</text>
+<rect x="584" y="48" width="84" height="52" fill="#ffb52e" stroke="#ffb52e" stroke-opacity="0.25"/>
+<text x="584" y="117" fill="#ffb52e" font-size="13">ink</text>
+<text x="584" y="133" fill="#9a6a24" font-size="12">ffb52e</text>
+<rect x="678" y="48" width="84" height="52" fill="#3d2810" stroke="#ffb52e" stroke-opacity="0.25"/>
+<text x="678" y="117" fill="#ffb52e" font-size="13">line</text>
+<text x="678" y="133" fill="#9a6a24" font-size="12">3d2810</text>
+<rect x="20" y="144" width="84" height="52" fill="#ffd27a" stroke="#ffb52e" stroke-opacity="0.25"/>
+<text x="20" y="213" fill="#ffb52e" font-size="13">bright</text>
+<text x="20" y="229" fill="#9a6a24" font-size="12">ffd27a</text>
+<rect x="114" y="144" width="84" height="52" fill="#7aa6b8" stroke="#ffb52e" stroke-opacity="0.25"/>
+<text x="114" y="213" fill="#ffb52e" font-size="13">blue</text>
+<text x="114" y="229" fill="#9a6a24" font-size="12">7aa6b8</text>
+<rect x="208" y="144" width="84" height="52" fill="#ff8a2a" stroke="#ffb52e" stroke-opacity="0.25"/>
+<text x="208" y="213" fill="#ffb52e" font-size="13">orange</text>
+<text x="208" y="229" fill="#9a6a24" font-size="12">ff8a2a</text>
+<rect x="302" y="144" width="84" height="52" fill="#ff5533" stroke="#ffb52e" stroke-opacity="0.25"/>
+<text x="302" y="213" fill="#ffb52e" font-size="13">red</text>
+<text x="302" y="229" fill="#9a6a24" font-size="12">ff5533</text>
+<rect x="396" y="144" width="84" height="52" fill="#ffcf4a" stroke="#ffb52e" stroke-opacity="0.25"/>
+<text x="396" y="213" fill="#ffb52e" font-size="13">yellow</text>
+<text x="396" y="229" fill="#9a6a24" font-size="12">ffcf4a</text>
+<rect x="490" y="144" width="84" height="52" fill="#b8c25a" stroke="#ffb52e" stroke-opacity="0.25"/>
+<text x="490" y="213" fill="#ffb52e" font-size="13">green</text>
+<text x="490" y="229" fill="#9a6a24" font-size="12">b8c25a</text>
+<rect x="584" y="144" width="84" height="52" fill="#86c2a8" stroke="#ffb52e" stroke-opacity="0.25"/>
+<text x="584" y="213" fill="#ffb52e" font-size="13">cyan</text>
+<text x="584" y="229" fill="#9a6a24" font-size="12">86c2a8</text>
+<rect x="678" y="144" width="84" height="52" fill="#d48aa0" stroke="#ffb52e" stroke-opacity="0.25"/>
+<text x="678" y="213" fill="#ffb52e" font-size="13">purple</text>
+<text x="678" y="229" fill="#9a6a24" font-size="12">d48aa0</text>
+<rect y="246" width="782" height="246" fill="#efe6d2"/>
+<text x="20" y="278" fill="#3a2408" font-size="15" font-weight="bold">light</text>
+<rect x="20" y="294" width="84" height="52" fill="#efe6d2" stroke="#3a2408" stroke-opacity="0.25"/>
+<text x="20" y="363" fill="#3a2408" font-size="13">bg</text>
+<text x="20" y="379" fill="#8c6c40" font-size="12">efe6d2</text>
+<rect x="114" y="294" width="84" height="52" fill="#f8f1e2" stroke="#3a2408" stroke-opacity="0.25"/>
+<text x="114" y="363" fill="#3a2408" font-size="13">panel</text>
+<text x="114" y="379" fill="#8c6c40" font-size="12">f8f1e2</text>
+<rect x="208" y="294" width="84" height="52" fill="#e2d6ba" stroke="#3a2408" stroke-opacity="0.25"/>
+<text x="208" y="363" fill="#3a2408" font-size="13">surface</text>
+<text x="208" y="379" fill="#8c6c40" font-size="12">e2d6ba</text>
+<rect x="302" y="294" width="84" height="52" fill="#3a2408" stroke="#3a2408" stroke-opacity="0.25"/>
+<text x="302" y="363" fill="#3a2408" font-size="13">fg</text>
+<text x="302" y="379" fill="#8c6c40" font-size="12">3a2408</text>
+<rect x="396" y="294" width="84" height="52" fill="#8c6c40" stroke="#3a2408" stroke-opacity="0.25"/>
+<text x="396" y="363" fill="#3a2408" font-size="13">dim</text>
+<text x="396" y="379" fill="#8c6c40" font-size="12">8c6c40</text>
+<rect x="490" y="294" width="84" height="52" fill="#7e6038" stroke="#3a2408" stroke-opacity="0.25"/>
+<text x="490" y="363" fill="#3a2408" font-size="13">comment</text>
+<text x="490" y="379" fill="#8c6c40" font-size="12">7e6038</text>
+<rect x="584" y="294" width="84" height="52" fill="#3a2408" stroke="#3a2408" stroke-opacity="0.25"/>
+<text x="584" y="363" fill="#3a2408" font-size="13">ink</text>
+<text x="584" y="379" fill="#8c6c40" font-size="12">3a2408</text>
+<rect x="678" y="294" width="84" height="52" fill="#cbb894" stroke="#3a2408" stroke-opacity="0.25"/>
+<text x="678" y="363" fill="#3a2408" font-size="13">line</text>
+<text x="678" y="379" fill="#8c6c40" font-size="12">cbb894</text>
+<rect x="20" y="390" width="84" height="52" fill="#a85400" stroke="#3a2408" stroke-opacity="0.25"/>
+<text x="20" y="459" fill="#3a2408" font-size="13">bright</text>
+<text x="20" y="475" fill="#8c6c40" font-size="12">a85400</text>
+<rect x="114" y="390" width="84" height="52" fill="#2f6a86" stroke="#3a2408" stroke-opacity="0.25"/>
+<text x="114" y="459" fill="#3a2408" font-size="13">blue</text>
+<text x="114" y="475" fill="#8c6c40" font-size="12">2f6a86</text>
+<rect x="208" y="390" width="84" height="52" fill="#c25a00" stroke="#3a2408" stroke-opacity="0.25"/>
+<text x="208" y="459" fill="#3a2408" font-size="13">orange</text>
+<text x="208" y="475" fill="#8c6c40" font-size="12">c25a00</text>
+<rect x="302" y="390" width="84" height="52" fill="#b8361a" stroke="#3a2408" stroke-opacity="0.25"/>
+<text x="302" y="459" fill="#3a2408" font-size="13">red</text>
+<text x="302" y="475" fill="#8c6c40" font-size="12">b8361a</text>
+<rect x="396" y="390" width="84" height="52" fill="#9a7000" stroke="#3a2408" stroke-opacity="0.25"/>
+<text x="396" y="459" fill="#3a2408" font-size="13">yellow</text>
+<text x="396" y="475" fill="#8c6c40" font-size="12">9a7000</text>
+<rect x="490" y="390" width="84" height="52" fill="#5f7a1e" stroke="#3a2408" stroke-opacity="0.25"/>
+<text x="490" y="459" fill="#3a2408" font-size="13">green</text>
+<text x="490" y="475" fill="#8c6c40" font-size="12">5f7a1e</text>
+<rect x="584" y="390" width="84" height="52" fill="#2f7a66" stroke="#3a2408" stroke-opacity="0.25"/>
+<text x="584" y="459" fill="#3a2408" font-size="13">cyan</text>
+<text x="584" y="475" fill="#8c6c40" font-size="12">2f7a66</text>
+<rect x="678" y="390" width="84" height="52" fill="#9a4a66" stroke="#3a2408" stroke-opacity="0.25"/>
+<text x="678" y="459" fill="#3a2408" font-size="13">purple</text>
+<text x="678" y="475" fill="#8c6c40" font-size="12">9a4a66</text>
+</svg>

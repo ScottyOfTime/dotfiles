@@ -29,9 +29,28 @@ Install a theme's apps from its `packages.txt` first.
 
 ## What a theme provides
 
-Every folder in a theme is a stow package except `colorscheme/` and
-`system/` (system-level extras run by hand with sudo, never by `./theme`). Files are
-`packages.txt` (not stowed).
+Every folder in a theme is a stow package except `colorscheme/`,
+`system/` (system-level extras run by hand with sudo, never by `./theme`)
+and `preview/` (the README's pictures). Files are `packages.txt` and
+`README.md` (not stowed).
+
+### README and previews
+
+Each theme's `README.md` shows it in both modes and lists its palette;
+the root `README.md` shows each theme's dark screenshot and colour strip.
+`lib/previews [theme...]` redraws `preview/palette.svg` and
+`preview/strip.svg` from the palette `.env` files and refills the hex
+columns of the README's role table (between its `<!-- palette -->`
+markers; the "Used for" column is kept, and a new role gets an empty
+one). Run it after changing a palette.
+
+`preview/dark.png` and `light.png` are `grim -o <monitor>` shots of the
+same staged workspace (fastfetch, nvim on `lib/theme.sh`, yazi on
+`themes/`). Stage it on an empty workspace with
+`hl.dsp.exec_cmd(cmd, { workspace = "9 silent" })`: a plain `exec_cmd`
+opens on whichever monitor the mouse is on. Keep private things out of
+the shot: no LAN IP in fastfetch (`-s` without `LocalIp`), no process
+list.
 
 | Path (after stowing) | Required | Purpose |
 |---|---|---|
@@ -72,7 +91,8 @@ calls the theme's `lock`.
 
 1. `cp -r themes/zine themes/<name>` (or start from `ayu`).
 2. Add its generated files (anything rendered from a `.tmpl`) to
-   `.gitignore`.
+   `.gitignore`. Rewrite its `README.md`, run `lib/previews <name>` and
+   retake the screenshots (above).
 3. Edit freely; only `themes/<name>/` changes, so an experiment branch
    merges without touching base or other themes.
 4. `./theme <name>`.

@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="782" height="492" viewBox="0 0 782 492" font-family="'JetBrains Mono', monospace">
+<rect y="0" width="782" height="246" fill="#0b0e14"/>
+<text x="20" y="32" fill="#bfbdb6" font-size="15" font-weight="bold">dark</text>
+<rect x="20" y="48" width="84" height="52" fill="#0b0e14" stroke="#bfbdb6" stroke-opacity="0.25"/>
+<text x="20" y="117" fill="#bfbdb6" font-size="13">bg</text>
+<text x="20" y="133" fill="#646b73" font-size="12">0b0e14</text>
+<rect x="114" y="48" width="84" height="52" fill="#0d1017" stroke="#bfbdb6" stroke-opacity="0.25"/>
+<text x="114" y="117" fill="#bfbdb6" font-size="13">panel</text>
+<text x="114" y="133" fill="#646b73" font-size="12">0d1017</text>
+<rect x="208" y="48" width="84" height="52" fill="#06070a" stroke="#bfbdb6" stroke-opacity="0.25"/>
+<text x="208" y="117" fill="#bfbdb6" font-size="13">shadow</text>
+<text x="208" y="133" fill="#646b73" font-size="12">06070a</text>
+<rect x="302" y="48" width="84" height="52" fill="#bfbdb6" stroke="#bfbdb6" stroke-opacity="0.25"/>
+<text x="302" y="117" fill="#bfbdb6" font-size="13">fg</text>
+<text x="302" y="133" fill="#646b73" font-size="12">bfbdb6</text>
+<rect x="396" y="48" width="84" height="52" fill="#646b73" stroke="#bfbdb6" stroke-opacity="0.25"/>
+<text x="396" y="117" fill="#bfbdb6" font-size="13">dim</text>
+<text x="396" y="133" fill="#646b73" font-size="12">646b73</text>
+<rect x="490" y="48" width="84" height="52" fill="#e6b450" stroke="#bfbdb6" stroke-opacity="0.25"/>
+<text x="490" y="117" fill="#bfbdb6" font-size="13">accent</text>
+<text x="490" y="133" fill="#646b73" font-size="12">e6b450</text>
+<rect x="584" y="48" width="84" height="52" fill="#0b0e14" stroke="#bfbdb6" stroke-opacity="0.25"/>
+<text x="584" y="117" fill="#bfbdb6" font-size="13">on_accent</text>
+<text x="584" y="133" fill="#646b73" font-size="12">0b0e14</text>
+<rect x="678" y="48" width="84" height="52" fill="#59c2ff" stroke="#bfbdb6" stroke-opacity="0.25"/>
+<text x="678" y="117" fill="#bfbdb6" font-size="13">blue</text>
+<text x="678" y="133" fill="#646b73" font-size="12">59c2ff</text>
+<rect x="20" y="144" width="84" height="52" fill="#aad94c" stroke="#bfbdb6" stroke-opacity="0.25"/>
+<text x="20" y="213" fill="#bfbdb6" font-size="13">green</text>
+<text x="20" y="229" fill="#646b73" font-size="12">aad94c</text>
+<rect x="114" y="144" width="84" height="52" fill="#d2a6ff" stroke="#bfbdb6" stroke-opacity="0.25"/>
+<text x="114" y="213" fill="#bfbdb6" font-size="13">purple</text>
+<text x="114" y="229" fill="#646b73" font-size="12">d2a6ff</text>
+<rect x="208" y="144" width="84" height="52" fill="#f07178" stroke="#bfbdb6" stroke-opacity="0.25"/>
+<text x="208" y="213" fill="#bfbdb6" font-size="13">red</text>
+<text x="208" y="229" fill="#646b73" font-size="12">f07178</text>
+<rect y="246" width="782" height="246" fill="#f8f9fa"/>
+<text x="20" y="278" fill="#5c6166" font-size="15" font-weight="bold">light</text>
+<rect x="20" y="294" width="84" height="52" fill="#f8f9fa" stroke="#5c6166" stroke-opacity="0.25"/>
+<text x="20" y="363" fill="#5c6166" font-size="13">bg</text>
+<text x="20" y="379" fill="#adafb2" font-size="12">f8f9fa</text>
+<rect x="114" y="294" width="84" height="52" fill="#fcfcfc" stroke="#5c6166" stroke-opacity="0.25"/>
+<text x="114" y="363" fill="#5c6166" font-size="13">panel</text>
+<text x="114" y="379" fill="#adafb2" font-size="12">fcfcfc</text>
+<rect x="208" y="294" width="84" height="52" fill="#d3d4d4" stroke="#5c6166" stroke-opacity="0.25"/>
+<text x="208" y="363" fill="#5c6166" font-size="13">shadow</text>
+<text x="208" y="379" fill="#adafb2" font-size="12">d3d4d4</text>
+<rect x="302" y="294" width="84" height="52" fill="#5c6166" stroke="#5c6166" stroke-opacity="0.25"/>
+<text x="302" y="363" fill="#5c6166" font-size="13">fg</text>
+<text x="302" y="379" fill="#adafb2" font-size="12">5c6166</text>
+<rect x="396" y="294" width="84" height="52" fill="#adafb2" stroke="#5c6166" stroke-opacity="0.25"/>
+<text x="396" y="363" fill="#5c6166" font-size="13">dim</text>
+<text x="396" y="379" fill="#adafb2" font-size="12">adafb2</text>
+<rect x="490" y="294" width="84" height="52" fill="#e6b450" stroke="#5c6166" stroke-opacity="0.25"/>
+<text x="490" y="363" fill="#5c6166" font-size="13">accent</text>
+<text x="490" y="379" fill="#adafb2" font-size="12">e6b450</text>
+<rect x="584" y="294" width="84" height="52" fill="#0b0e14" stroke="#5c6166" stroke-opacity="0.25"/>
+<text x="584" y="363" fill="#5c6166" font-size="13">on_accent</text>
+<text x="584" y="379" fill="#adafb2" font-size="12">0b0e14</text>
+<rect x="678" y="294" width="84" height="52" fill="#399ee6" stroke="#5c6166" stroke-opacity="0.25"/>
+<text x="678" y="363" fill="#5c6166" font-size="13">blue</text>
+<text x="678" y="379" fill="#adafb2" font-size="12">399ee6</text>
+<rect x="20" y="390" width="84" height="52" fill="#86b300" stroke="#5c6166" stroke-opacity="0.25"/>
+<text x="20" y="459" fill="#5c6166" font-size="13">green</text>
+<text x="20" y="475" fill="#adafb2" font-size="12">86b300</text>
+<rect x="114" y="390" width="84" height="52" fill="#a37acc" stroke="#5c6166" stroke-opacity="0.25"/>
+<text x="114" y="459" fill="#5c6166" font-size="13">purple</text>
+<text x="114" y="475" fill="#adafb2" font-size="12">a37acc</text>
+<rect x="208" y="390" width="84" height="52" fill="#f07171" stroke="#5c6166" stroke-opacity="0.25"/>
+<text x="208" y="459" fill="#5c6166" font-size="13">red</text>
+<text x="208" y="475" fill="#adafb2" font-size="12">f07171</text>
+</svg>

@@ -28,11 +28,12 @@ base/                shared stow packages, always installed
 themes/
   zine/              quickshell, palette, darkman, hypr-theme, ghostty-theme,
                      vim-theme, herdr, yazi, btop, colorscheme/ (zine.toml + build.py),
-                     packages.txt
+                     packages.txt, README.md + preview/ (every theme)
   oldschool/         same layout as zine (quickshell, palette, darkman,
                      hypr-theme, ghostty-theme, vim-theme, herdr, yazi, btop, colorscheme/)
   ayu/               waybar, fuzzel, mako, wob, palette, darkman,
                      hypr-theme, ghostty-theme, vim-theme, herdr, yazi, btop, packages.txt
+README.md            the themes at a glance; themes/<name>/README.md for each
 install              setup: menus for the theme and what to link, backs up conflicts
 theme                switcher script
 uninstall            undo install: links, .bak files, desktop settings
@@ -43,6 +44,7 @@ lib/
   desktop-settings   save/restore the desktop settings the themes change
   distro.sh          picks distro/arch.sh or distro/debian.sh: the only
                      Arch/Debian branch (package checks, service hints)
+  previews           draws each theme's palette into its README (themes.md)
 packages/            arch.txt, aur.txt, debian.txt (Arch -> apt names)
 system/              setup (sudo: sddm.conf, services.txt)
 ```
