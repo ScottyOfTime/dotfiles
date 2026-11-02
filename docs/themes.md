@@ -15,6 +15,11 @@ stows the new ones, records the name in `~/.local/state/dotfiles-theme`,
 runs the new `~/.local/share/darkman/theme.sh` for the current mode
 (renders colours, reloads Hyprland) and runs `~/.config/hypr-theme/start`.
 
+Only packages whose app is installed are stowed, and ones already linked
+whose app isn't get unstowed, both reported (`links.sh`, shared with
+`./install`; see [setup.md](setup.md#without-hyprland-gnome-etc)). So
+Hyprland and Quickshell steps are skipped where they don't exist.
+
 Install a theme's apps from its `packages.txt` first.
 
 ## What a theme provides
@@ -37,6 +42,14 @@ Every folder in a theme is a stow package except `colorscheme/` and
 | `~/.config/yazi/theme.toml` | no | yazi colours, rendered from `theme.toml.tmpl` by `theme.sh` (yazi only reads it at startup) |
 | `~/.config/btop/` | no | btop config and `themes/palette.theme`, rendered from `palette.theme.tmpl` by `theme.sh` |
 | `~/.config/herdr/config.toml` | no | herdr colours (file-level link; `~/.config/herdr` also holds herdr's runtime files) |
+
+A new package for an app that might not be installed needs a line in
+`needs()` in `links.sh`, or it's always linked. `theme.sh` has to cope with
+any of them missing: it skips templates that aren't there, calls `hyprctl`
+only while Hyprland runs, and sets `gsettings` only where Hyprland is
+installed (elsewhere it's GNOME's, or another desktop's, to set). Anything
+it needs from an unlinked package it takes from the repo, through
+`readlink -f "$0"` (oldschool's `terminus-outline`).
 
 ### Keys a theme binds
 

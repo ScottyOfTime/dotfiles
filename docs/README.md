@@ -34,5 +34,6 @@ themes/
                      hypr-theme, ghostty-theme, vim-theme, herdr, yazi, btop, packages.txt
 install              first-run setup (links, backs up conflicts, picks a theme)
 theme                switcher script
+links.sh             which packages get linked, from the apps installed
 pkglist.txt aur-pkgslist.txt debian-pkgs.txt services.txt system.sh sddm.conf
 ```

@@ -25,7 +25,7 @@ cd ~/dotfiles
 `./install` first lists any packages from `pkglist.txt`, `aur-pkgslist.txt`
 and the theme's `packages.txt` that aren't installed, with the command to
 install them (`pacman`/`yay`, or `apt` on Debian/Ubuntu; it doesn't install
-anything itself), and warns if Hyprland is older than 0.56. Then it links base and
+anything itself), and warns if Hyprland is missing or older than 0.56. Then it links base and
 the theme, builds the theme's colours and switches to it (`./theme`). Generated files aren't committed. See
 [themes.md](themes.md). After that, `./theme <name>` switches looks.
 
@@ -35,7 +35,9 @@ and the script prints each move. Compare them with the repo's versions
 afterwards. This is the script's reason to exist: plain `stow` aborts the
 whole command on one such file, so nothing is linked. Hyprland then
 finds no config, fails to write a default one, and segfaults: SDDM
-flashes black and returns to the login screen.
+flashes black and returns to the login screen. Links into this repo
+(another theme's, when installing a different one) are left for `./theme`
+to swap; moving them would back up a whole folded `~/.local`.
 
 **Don't switch branches in the live checkout.** Everything in `~` links
 into it, so `git checkout` swaps out the running config (Hyprland
@@ -59,6 +61,22 @@ pinning, window rules, `hl.monitor` overrides (it loads after the
 scaling), and it may end with `return { autostart = { "app", ... } }`.
 Without one a machine gets the base autostart (theme shell, hypridle, a
 terminal). Check one with `Hyprland --verify-config -c <file>`.
+
+## Without Hyprland (GNOME etc.)
+
+`./install` and `./theme` only link packages whose app is installed, so
+on a GNOME machine you get the shell, editors, Ghostty and its theme
+colours, and nothing for Hyprland. `links.sh` holds the package → command
+map (`needs()`); packages not in it (`bash`, `fontconfig`, `palette`,
+`darkman`) always link. Hyprland older than 0.56 counts as missing:
+without our config it runs its own default instead of segfaulting.
+
+Anything already linked whose app is missing gets unlinked, and both
+lists are printed (`unlinked hypr (no Hyprland 0.56+)`, `not linked: …`).
+Rerun `./install` after installing or removing an app to bring the links
+in line. Where Hyprland isn't installed, `theme.sh` leaves `gsettings`
+(fonts, cursor, accent, dark mode) alone, so the desktop keeps its own
+look.
 
 ## Debian and Ubuntu
 

@@ -9,18 +9,24 @@ palette=$cfg/palette/$mode.env
 
 set -a; . "$palette"; set +a
 
-gsettings set org.gnome.desktop.interface color-scheme prefer-$mode
-gsettings set org.gnome.desktop.interface accent-color "$gtk_accent"
-gsettings set org.gnome.desktop.interface enable-animations false
-# chicago95 only ships 32px: cursor-2x makes a copy with 64 and 96px too,
-# see docs/oldschool.md for the size
-~/.config/hypr-theme/cursor-2x "$cursor"
-# without chicago95 there's no copy; the default cursor at 32 is huge
-size=32
-[ -d "$HOME/.local/share/icons/$cursor" ] || { cursor=Adwaita; size=24; }
-~/.config/hypr-theme/terminus-outline
-gsettings set org.gnome.desktop.interface cursor-theme "$cursor"
-gsettings set org.gnome.desktop.interface cursor-size "$size"
+# without Hyprland this is another desktop (GNOME, …) whose look is its own
+if command -v Hyprland >/dev/null; then
+    gsettings set org.gnome.desktop.interface color-scheme prefer-$mode
+    gsettings set org.gnome.desktop.interface accent-color "$gtk_accent"
+    gsettings set org.gnome.desktop.interface enable-animations false
+    # chicago95 only ships 32px: cursor-2x makes a copy with 64 and 96px too,
+    # see docs/oldschool.md for the size
+    ~/.config/hypr-theme/cursor-2x "$cursor"
+    # without chicago95 there's no copy; the default cursor at 32 is huge
+    size=32
+    [ -d "$HOME/.local/share/icons/$cursor" ] || { cursor=Adwaita; size=24; }
+    gsettings set org.gnome.desktop.interface cursor-theme "$cursor"
+    gsettings set org.gnome.desktop.interface cursor-size "$size"
+fi
+# from the repo, not ~/.config/hypr-theme: Ghostty needs the font even
+# where hypr-theme isn't linked
+repo=$(readlink -f "$0"); repo=${repo%/darkman/.local/share/darkman/theme.sh}
+"$repo/hypr-theme/.config/hypr-theme/terminus-outline"
 # the font strip (FontMenu.qml) sets this through hypr-theme/font
 font=$(cat "$state/oldschool-font" 2>/dev/null)
 case $font in
@@ -42,16 +48,20 @@ Terminus)
     ui_font=$font gtk_font=$font gtk_mono=$font term_font=$font term_flags=hinting ;;
 esac
 export font ui_font ui_points term_font term_points term_flags
-gsettings set org.gnome.desktop.interface font-name "$gtk_font $ui_points"
-gsettings set org.gnome.desktop.interface document-font-name "$gtk_font $ui_points"
-gsettings set org.gnome.desktop.interface monospace-font-name "$gtk_mono $ui_points"
+if command -v Hyprland >/dev/null; then
+    gsettings set org.gnome.desktop.interface font-name "$gtk_font $ui_points"
+    gsettings set org.gnome.desktop.interface document-font-name "$gtk_font $ui_points"
+    gsettings set org.gnome.desktop.interface monospace-font-name "$gtk_mono $ui_points"
+fi
 # only the palette's variables (and $HOME), so hyprlock's own $ATTEMPTS etc. survive
 vars="$(sed -n 's/^\([a-z_]*\)=.*/$\1/p' "$palette" | tr '\n' ' ') \$HOME \$font \$ui_font \$ui_points \$term_font \$term_points \$term_flags"
 for f in quickshell/Theme.qml hypr-theme/colors.lua hypr-theme/hyprlock.conf ghostty-theme/tabs.css ghostty-theme/config yazi/theme.toml btop/themes/palette.theme; do
-    envsubst "$vars" < "$cfg/$f.tmpl" > "$cfg/$f"
+    [ -e "$cfg/$f.tmpl" ] && envsubst "$vars" < "$cfg/$f.tmpl" > "$cfg/$f"
 done
 
-export HYPRLAND_INSTANCE_SIGNATURE=$(ls -t /run/user/$(id -u)/hypr/ | head -1)
-hyprctl reload >/dev/null
-hyprctl setcursor "$cursor" "$size" >/dev/null
+if pgrep -x Hyprland >/dev/null; then
+    export HYPRLAND_INSTANCE_SIGNATURE=$(ls -t /run/user/$(id -u)/hypr/ | head -1)
+    hyprctl reload >/dev/null
+    hyprctl setcursor "$cursor" "$size" >/dev/null
+fi
 pkill -SIGUSR2 -x ghostty

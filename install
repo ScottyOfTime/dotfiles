@@ -6,6 +6,7 @@ cd "$(dirname "$(readlink -f "$0")")" || exit 1
 theme=${1:-zine}
 [ -d "themes/$theme" ] || { echo "no theme '$theme'" >&2; exit 1; }
 base="bash fastfetch fontconfig ghostty hypr nvim vim yazi"
+. ./links.sh
 
 # stow aborts everything on one conflict, so a fresh machine's default
 # .bashrc alone leaves hyprland with no config (it then segfaults)
@@ -14,6 +15,8 @@ clear_way() {
         -e 's/.* over existing target \(.*\) since .*/\1/p' \
         -e 's/.*existing target is not owned by stow: //p' |
     while read -r f; do
+        # another theme's links into this repo: ./theme unstows those itself
+        case $(readlink -f "$HOME/$f") in "$PWD"/*) continue ;; esac
         mv --backup=numbered "$HOME/$f" "$HOME/$f.bak" && echo "moved ~/$f to ~/$f.bak"
     done
 }
@@ -50,17 +53,25 @@ elif command -v dpkg-query >/dev/null; then
         [ -n "$byhand" ] && echo "  not in apt, see docs/setup.md:$byhand"
     fi
 fi
-# the config is Lua, which older Hyprland can't read: it then segfaults at login
-v=$(Hyprland --version 2>/dev/null | sed -n '1s/^Hyprland \([0-9]*\)\.\([0-9]*\).*/\1 \2/p')
-[ -n "$v" ] && set -- $v && [ "$1" -eq 0 ] && [ "$2" -lt 56 ] &&
-    echo "Hyprland $1.$2 is too old: the config needs 0.56 or newer (docs/setup.md)"
+if ! command -v Hyprland >/dev/null; then
+    echo "warning: no Hyprland (desktop: ${XDG_CURRENT_DESKTOP:-unknown}): linking only the configs of apps that are installed"
+elif ! hypr_ok; then
+    echo "warning: $(Hyprland --version | sed 's/ built.*//;q') is too old: the config needs 0.56 or newer (docs/setup.md), so it isn't linked"
+fi
 
 # base and the theme both put files in it: a folded symlink to one of them
 # would make stowing the other fail
 mkdir -p ~/.config/yazi
-clear_way base "$base"
-stow -d base -t "$HOME" $base || exit 1
-xdg-mime default com.scotty.files.desktop inode/directory
-clear_way "themes/$theme" "$(find "themes/$theme" -mindepth 1 -maxdepth 1 -type d ! -name colorscheme ! -name system -printf '%f ')"
+pick base $base
+clear_way base "$use"
+[ -n "$use" ] && { stow -d base -t "$HOME" $use || exit 1; }
+# yazi as the folder handler only for the Hyprland desktop; GNOME keeps its own
+case " $use " in *" yazi "*) hypr_ok && xdg-mime default com.scotty.files.desktop inode/directory ;; esac
+# ./theme links (and reports on) the theme's; only clear the way here
+use=
+for p in $(find "themes/$theme" -mindepth 1 -maxdepth 1 -type d ! -name colorscheme ! -name system -printf '%f '); do
+    wanted "$p" && use="$use $p"
+done
+clear_way "themes/$theme" "$use"
 [ -x "themes/$theme/colorscheme/build.py" ] && "themes/$theme/colorscheme/build.py"
 ./theme "$theme"
