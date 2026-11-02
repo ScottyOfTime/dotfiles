@@ -28,8 +28,9 @@ dmenu-style strips, a tty login as the lock screen. Lives in
   `#`/`*`/`|` meters. Changing settings in htop rewrites this file, in the
   repo.
 - **yazi** is amber on amber: reverse-video hover, `bright` directories,
-  square ends and no icons (the preset's rounded caps and icon colours
-  aren't from this palette).
+  square ends (the preset's rounded caps clashed) and yazi's own Nerd Font
+  icons with their colours stripped, so they're amber too. The icon list
+  is copied from yazi's preset: re-copy it if a yazi update adds icons.
 - **Text, not widgets.** Bar modules are `key: value`; progress is
   `[#########-----------]` (`Meter`); buttons are `[prev] [play] [next]`.
 - **tty-isms.** Login and unlock warm the desktop up like a tube: it shows
