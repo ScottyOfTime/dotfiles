@@ -49,4 +49,5 @@ ShellRoot {
     FontMenu {}
     Overview {}
     Reveal { id: reveal }
+    Special { reveal: reveal }
 }

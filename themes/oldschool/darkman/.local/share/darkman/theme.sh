@@ -11,6 +11,7 @@ set -a; . "$palette"; set +a
 
 gsettings set org.gnome.desktop.interface color-scheme prefer-$mode
 gsettings set org.gnome.desktop.interface accent-color "$gtk_accent"
+gsettings set org.gnome.desktop.interface enable-animations false
 # chicago95 only ships 32px: cursor-2x makes a copy with 64 and 96px too,
 # see docs/oldschool.md for the size
 ~/.config/hypr-theme/cursor-2x "$cursor"

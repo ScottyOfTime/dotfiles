@@ -28,6 +28,7 @@ Every folder in a theme is a stow package except `colorscheme/` and
 | `~/.config/hypr-theme/theme.lua` | yes | Loaded at the end of base `hyprland.lua` (inside `pcall`): look, animations, cursor env, layer rules, and binds for the theme's own UI |
 | `~/.config/hypr-theme/start` | yes | Starts the theme's bar/wallpaper/daemons; run at login and on switch |
 | `~/.config/hypr-theme/stop` | yes | Stops them; run when switching away |
+| `~/.config/hypr-theme/special` | no | Called with a scratchpad name by base's `special.sh` (`mod+S`, `mod+M`) to toggle it with the theme's own effect; exit non-zero to fall back to a plain toggle |
 | `~/.config/hypr-theme/lock` | yes | Locks the session; `SUPER+L` and hypridle call it |
 | `~/.config/ghostty-theme/config` | no | Included by base Ghostty config (optional include): colours, padding, `gtk-custom-css` |
 | `~/.local/share/darkman/theme.sh` | yes | Darkman hook: applies a light/dark mode to the theme's apps, and writes the mode to `$XDG_STATE_HOME/theme-mode` (vim/nvim read it at startup) |

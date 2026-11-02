@@ -72,6 +72,9 @@ ayu) give both a 2px one (`floating-terminal-outline` rule in their
 
 - `dropdown.sh`: toggles the drop-down terminal, launching it the first time
   (launched non-silent so it gets focus).
+- `special.sh <name>`: toggles a scratchpad (`mod+S`, `mod+M`). If the theme
+  has an executable `hypr-theme/special` it runs that instead (oldschool
+  warms the scratchpad up); if that fails, it toggles directly.
 
 ## Idle and locking
 

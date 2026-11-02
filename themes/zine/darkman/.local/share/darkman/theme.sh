@@ -11,6 +11,7 @@ set -a; . "$palette"; set +a
 
 gsettings set org.gnome.desktop.interface color-scheme prefer-$mode
 gsettings set org.gnome.desktop.interface accent-color "$gtk_accent"
+gsettings set org.gnome.desktop.interface enable-animations true
 gsettings set org.gnome.desktop.interface cursor-theme "$cursor"
 gsettings set org.gnome.desktop.interface cursor-size 24
 gsettings set org.gnome.desktop.interface font-name 'JetBrains Mono 10'
