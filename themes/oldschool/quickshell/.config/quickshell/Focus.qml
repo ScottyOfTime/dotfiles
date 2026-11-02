@@ -4,7 +4,8 @@ import Quickshell.Hyprland
 import Quickshell.Wayland
 
 // a reverse-video strip along the top of the focused window, shown only
-// when another window shares the workspace
+// when another window shares the workspace; not on the outlined floating
+// terminals (theme.lua), whose top edge it would thicken
 PanelWindow {
     id: focus
 
@@ -29,4 +30,5 @@ PanelWindow {
     color: Theme.fg
     visible: info?.at !== undefined && window.workspace === workspace
         && workspace.toplevels.values.length > 1 && !info.fullscreen
+        && !/^com\.scotty\.(dropdown|files)$/.test(info.class)
 }
