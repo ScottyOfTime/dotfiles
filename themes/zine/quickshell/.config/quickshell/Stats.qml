@@ -3,14 +3,18 @@ import QtQuick
 import Quickshell
 import Quickshell.Io
 
-// cpu, memory and network rates from /proc, every two seconds
+// cpu, memory and network rates from /proc, every two seconds while a bar
+// shows them (shell.qml clears active when it's hidden)
 Singleton {
+    property bool active: true
     property int cpu: 0
     property int mem: 0
     property string net: "0B/s"
 
     property var lastCpu: [0, 0]
     property real lastRx: -1
+    // a rate across the pause would be the whole gap's traffic over 2s
+    onActiveChanged: lastRx = -1
 
     function rate(bytes) {
         const units = ["B", "K", "M", "G"];
@@ -24,7 +28,7 @@ Singleton {
     FileView { id: netdev; path: "/proc/net/dev"; blockLoading: true }
 
     Timer {
-        interval: 2000; running: true; repeat: true; triggeredOnStart: true
+        interval: 2000; running: active; repeat: true; triggeredOnStart: true
         onTriggered: {
             stat.reload(); meminfo.reload(); netdev.reload();
 

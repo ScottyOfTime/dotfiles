@@ -162,7 +162,7 @@ binds as zine ([zine-quickshell.md](zine-quickshell.md)).
 | `Tty.qml` | Singleton: host (`/proc/sys/kernel/hostname`), kernel, user, distro (`/etc/os-release`) and logo (`fastfetch --pipe -s none`, any distro), read once; shared by the wallpaper and lock |
 | `Blink.qml` | A block cursor's blink timer; consumers run it only while it's on screen (the lock only on the prompt's screen), as every toggle redraws the window |
 | `Box.qml`, `Label.qml`, `Meter.qml` | Flat bordered box, text, text progress bar |
-| `Stats.qml` | cpu, memory and network from `/proc` every 2s |
+| `Stats.qml` | cpu, memory and network from `/proc` every 2s, paused while the bar is hidden |
 
 ## Rules learned the hard way
 

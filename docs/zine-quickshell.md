@@ -16,7 +16,7 @@ Started by the theme's `hypr-theme/start` (`qs`), stopped by `stop`.
 | `Collage.qml` | The wallpaper collage; `Piece.qml` (drop-in animation) and `Poly.qml` (outlined polygon with hard shadow) build it; `grain.png` is the tiled paper grain |
 | `Label.qml` | Text in the theme font, bold, ink by default |
 | `Theme.qml.tmpl` | Palette singleton, rendered by darkman (`Theme.qml` is generated) |
-| `Stats.qml` | CPU / memory / network from `/proc` every 2s |
+| `Stats.qml` | CPU / memory / network from `/proc` every 2s, paused while the bar is hidden |
 | `Bar.qml` | Workspaces, window title, collage clock, music, volume, cpu, mem, net |
 | `MusicPopup.qml` | Album art "photo", track info, progress, prev/play/next |
 | `Launcher.qml` | App search on one scrap, rises from the bottom edge |

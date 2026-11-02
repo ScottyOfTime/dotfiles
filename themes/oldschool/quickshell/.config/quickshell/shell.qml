@@ -8,11 +8,14 @@ ShellRoot {
     property bool barVisible: true
     // one handler, not one per bar: a handler per screen registers twice
     property int musicToggles: 0
+    readonly property var windowEvents: new Set(["openwindow", "closewindow", "movewindow", "movewindowv2",
+        "activewindowv2", "changefloatingmode", "fullscreen", "workspacev2", "resizewindow"])
 
     IpcHandler {
         target: "bar"
         function toggle(): void { root.barVisible = !root.barVisible; }
     }
+    Binding { target: Stats; property: "active"; value: root.barVisible }
     IpcHandler {
         target: "music"
         function toggle(): void { root.musicToggles++; }
@@ -35,9 +38,7 @@ ShellRoot {
     Connections {
         target: Hyprland
         function onRawEvent(event) {
-            if (["openwindow", "closewindow", "movewindow", "movewindowv2", "activewindowv2",
-                 "changefloatingmode", "fullscreen", "workspacev2", "resizewindow"].includes(event.name))
-                Hyprland.refreshToplevels();
+            if (root.windowEvents.has(event.name)) Hyprland.refreshToplevels();
         }
     }
     Launcher {}
