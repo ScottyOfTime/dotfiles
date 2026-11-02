@@ -2,9 +2,9 @@
 # ./uninstall [-y]   undo ./install: unlink base and every theme, move the
 #                    files install set aside (<file>.bak) back, delete the
 #                    fonts and cursors the themes generated, and restore the
-#                    desktop settings (./desktop-settings restore)
+#                    desktop settings (lib/desktop-settings restore)
 cd "$(dirname "$(readlink -f "$0")")" || exit 1
-. ./links.sh
+. lib/links.sh
 yes=; force=
 for a; do case $a in -y) yes=1 ;; --force) force=1 ;; esac; done
 
@@ -68,7 +68,7 @@ for d in ~/.local/share/icons/*_2x; do
 done
 rmdir ~/.config/gtk-4.0 ~/.local/share/gnome-shell/extensions ~/.config/yazi 2>/dev/null
 
-./desktop-settings restore && echo "restored the desktop settings"
+lib/desktop-settings restore && echo "restored the desktop settings"
 rm -f "$state/dotfiles-theme" "$skipfile" "$state/theme-mode" "$state/oldschool-font"
 pkill -SIGUSR2 -x ghostty
 echo "done: log out and back in for GNOME to drop the extension; ./install puts it all back"

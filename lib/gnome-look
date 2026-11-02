@@ -1,17 +1,11 @@
 #!/bin/sh
-# gnome-look <mode>: the GNOME half of a theme, run by its theme.sh when its
-# gnome package is linked: renders the GTK colours and the shell stylesheet
-# from the palette, sets the wallpaper and makes the shell reload the
+# gnome-look <mode>: the GNOME half of a theme, run by lib/theme.sh once it
+# has rendered the GTK colours and shell stylesheet, when the theme's gnome
+# package is linked: sets the wallpaper and makes the shell reload the
 # stylesheet (docs/gnome.md)
 mode=$1
-cfg=$HOME/.config
 ext=$HOME/.local/share/gnome-shell/extensions/dotfiles-look@scotty
-palette=$cfg/palette/$mode.env
-
-set -a; . "$palette"; set +a
-vars=$(sed -n 's/^\([a-z_]*\)=.*/$\1/p' "$palette" | tr '\n' ' ')
-envsubst "$vars" < "$cfg/dotfiles-gnome/gtk.css.tmpl" > "$cfg/dotfiles-gnome/gtk.css"
-envsubst "$vars" < "$ext/stylesheet.css.tmpl" > "$ext/stylesheet.css"
+. "$HOME/.config/palette/$mode.env"
 
 gsettings set org.gnome.desktop.background picture-options none
 gsettings set org.gnome.desktop.background color-shading-type solid

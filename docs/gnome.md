@@ -22,7 +22,7 @@ outline and a hard 4px ink shadow, oldschool's square and flat with a 1px
 ## Files
 
 Each theme has a `gnome/` stow package, linked only where `gnome-shell` is
-installed (`needs()` in `links.sh`):
+installed (`needs()` in `lib/links.sh`):
 
 ```
 gnome/.local/share/gnome-shell/extensions/dotfiles-look@scotty/
@@ -31,9 +31,9 @@ gnome/.config/dotfiles-gnome/gtk.css.tmpl
 gnome/.config/gtk-4.0/gtk.css          @import of ../dotfiles-gnome/gtk.css
 ```
 
-The theme's `theme.sh` sees the linked extension, applies the `gsettings`
-and runs `gnome-look <mode>` (repo root), which renders both templates
-from the palette, sets the wallpaper, turns user extensions on, adds ours
+The theme's `theme.sh` sees the linked extension, applies the `gsettings`,
+renders both templates with the rest (`lib/theme.sh`) and runs
+`lib/gnome-look <mode>`, which sets the wallpaper, turns user extensions on, adds ours
 to `org.gnome.shell enabled-extensions` (so the shell enables it by itself
 when it finds it at login) and cycles it (disable, enable) so the shell
 rereads the stylesheet. If enabling fails it prints `gnome-extensions`'
@@ -64,7 +64,7 @@ reuses its already loaded code.
 
 darkman is optional on GNOME: without it the Dark Style switch is the
 mode, and `./theme` reads it from `color-scheme` (`current_mode` in
-`links.sh`: darkman, else GNOME, else the last rendered mode). Before
+`lib/links.sh`: darkman, else GNOME, else the last rendered mode). Before
 that, `./theme` fell back to dark without darkman, so every run rendered
 dark tabs, airline and `theme-mode` on a light desktop. With darkman
 installed, `./install` warns when its user service isn't running (apt

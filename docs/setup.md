@@ -2,16 +2,16 @@
 
 ## Packages
 
-`pkglist.txt` (pacman) and `aur-pkgslist.txt` (AUR) are the shared set:
+`packages/arch.txt` (pacman) and `packages/aur.txt` (AUR) are the shared set:
 hyprland, hypridle, darkman, ghostty, playerctl, brightnessctl, wtype,
 flameshot, ttf-jetbrains-mono, stow, … plus bibata-cursor-theme-bin.
 Each theme lists its own in `themes/<name>/packages.txt`.
 
-`system.sh` copies `sddm.conf` to `/etc` and enables the system services in
-`services.txt` one by one, listing any that failed (run from anywhere; uses
-sudo).
+`system/setup` copies `system/sddm.conf` to `/etc` and enables the system
+services in `system/services.txt` one by one, listing any that failed (run
+from anywhere; uses sudo).
 
-`debian-pkgs.txt` maps the Arch names to Debian/Ubuntu ones for `./install`
+`packages/debian.txt` maps the Arch names to Debian/Ubuntu ones for `./install`
 (see below). Adding a package whose apt name differs, or that isn't in apt,
 means adding a line there too.
 
@@ -38,7 +38,7 @@ Rerunning it after pulling keeps your look: the theme menu starts on the
 active theme (`~/.local/state/dotfiles-theme`), and that's the one `-y`
 uses; a fresh machine gets zine.
 
-`./install` first lists any packages from `pkglist.txt`, `aur-pkgslist.txt`
+`./install` first lists any packages from `packages/arch.txt`, `packages/aur.txt`
 and the theme's `packages.txt` that aren't installed, with the command to
 install them (`pacman`/`yay`, or `apt` on Debian/Ubuntu; it doesn't install
 anything itself), and warns if Hyprland is missing or older than 0.56. Then it links base and
@@ -71,7 +71,7 @@ back (the oldest, `.bak.~1~`, when there are several), deletes what the
 themes generated outside the repo (rendered files in real folders such as
 `~/.config/yazi/theme.toml`, the Terminess Outline font, cursor-2x
 copies), takes the GNOME extension off and restores the desktop settings
-with `desktop-settings restore`: fonts, cursor, accent, dark mode,
+with `lib/desktop-settings restore`: fonts, cursor, accent, dark mode,
 animations, wallpaper, user extensions and the folder handler. Those are
 saved (`~/.local/state/dotfiles-desktop-settings`) by the first
 `./install`/`./theme` on a machine; if there's no save (an install from
@@ -106,7 +106,7 @@ terminal). Check one with `Hyprland --verify-config -c <file>`.
 
 `./install` and `./theme` only link packages whose app is installed, so
 on a GNOME machine you get the shell, editors, Ghostty and its theme
-colours, and nothing for Hyprland. `links.sh` holds the package → command
+colours, and nothing for Hyprland. `lib/links.sh` holds the package → command
 map (`needs()`); packages not in it (`bash`, `palette`, `darkman`) always
 link. `fontconfig` counts as Hyprland's: it remaps `sans-serif` and
 `monospace` for every app. Hyprland older than 0.56 counts as missing:
@@ -124,8 +124,13 @@ alone, and only Ghostty takes the theme.
 
 ## Debian and Ubuntu
 
+Everything distro-specific is behind `lib/distro.sh`, which picks
+`lib/distro/arch.sh` (pacman) or `lib/distro/debian.sh` (dpkg) and nothing
+else does: each gives `missing_packages` for `./install` and
+`service_hint` for `system/setup`. A new distro is a new file there.
+
 `./install` checks packages with `dpkg-query` when there's no pacman,
-renaming through `debian-pkgs.txt`, and prints an `apt install` line plus
+renaming through `packages/debian.txt`, and prints an `apt install` line plus
 the ones apt doesn't have (anything `apt-cache` can't find counts too, so
 an older release shows more). Those need getting by hand:
 
@@ -140,7 +145,7 @@ an older release shows more). Those need getting by hand:
 | Bibata cursor (zine, ayu) | the release tarball into `~/.local/share/icons` |
 | brave, obsidian, migrate, where-is-my-sddm-theme | their own `.deb`s/repos; all optional |
 
-`system.sh` works too: units that don't exist (`systemd-userdbd.socket`
+`system/setup` works too: units that don't exist (`systemd-userdbd.socket`
 without the `systemd-userdbd` package) are reported, not fatal. Ubuntu
 desktop already has gdm3 as `display-manager.service`, so `sddm` fails to
 enable; `sudo dpkg-reconfigure sddm` switches it.
@@ -149,7 +154,7 @@ Already portable: the hostname (`/proc`), the distro name and logo
 (`/etc/os-release`, fastfetch), the git prompt (`.bashrc` tries each
 distro's path), and the theme scripts (fonts found through fontconfig,
 cursors in any icon dir). Other distros: the same list applies, but
-`./install` stays quiet about packages without pacman or dpkg.
+`./install` stays quiet about packages without a `lib/distro/` file.
 
 Removing a package: `stow -D -d base -t ~ <name>` before deleting its folder,
 or its `~/.config` symlink dangles.

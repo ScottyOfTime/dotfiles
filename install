@@ -7,7 +7,8 @@
 #                          builds and switches to the theme
 cd "$(dirname "$(readlink -f "$0")")" || exit 1
 base="bash fastfetch fontconfig ghostty hypr nvim vim yazi"
-. ./links.sh
+. lib/links.sh
+. lib/distro.sh
 ask=1
 [ "$1" = -y ] && { ask=; shift; }
 [ -t 0 ] && [ -t 2 ] || ask=
@@ -69,38 +70,7 @@ clear_way() {
     done
 }
 
-# report, don't install: pkglist/aur-pkgslist are the shared set, the
-# theme's packages.txt what its look needs (first word of each line)
-names() { awk '!/^#/ && NF {print $1}' "$@"; }
-if command -v pacman >/dev/null; then
-    need=$(names pkglist.txt "themes/$theme/packages.txt" | xargs pacman -T 2>/dev/null)
-    aur=$(names aur-pkgslist.txt | xargs pacman -T 2>/dev/null)
-    if [ -n "$need$aur" ]; then
-        echo "missing packages (install them, then rerun if anything breaks):"
-        [ -n "$need" ] && echo "  sudo pacman -S --needed" $need
-        [ -n "$aur" ] && echo "  yay -S --needed" $aur
-    fi
-elif command -v dpkg-query >/dev/null; then
-    # the lists are Arch names; debian-pkgs.txt renames the ones that differ
-    need= byhand=
-    for p in $(names pkglist.txt aur-pkgslist.txt "themes/$theme/packages.txt" |
-               awk 'NR == FNR { if (!/^#/ && NF) map[$1] = $2; next }
-                    { p = ($1 in map) ? map[$1] ":" $1 : $1; k = p; sub(/:.*/, "", k) }
-                    k == "-" || k == "!" || !seen[k]++ { print p }' debian-pkgs.txt -); do
-        case $p in
-            -:*) continue ;;
-            !:*) byhand="$byhand ${p#!:}"; continue ;;
-        esac
-        p=${p%%:*}
-        dpkg-query -W -f='${db:Status-Abbrev}' "$p" 2>/dev/null | grep -q '^ii' && continue
-        if apt-cache show "$p" >/dev/null 2>&1; then need="$need $p"; else byhand="$byhand $p"; fi
-    done
-    if [ -n "$need$byhand" ]; then
-        echo "missing packages (install them, then rerun if anything breaks):"
-        [ -n "$need" ] && echo "  sudo apt install$need"
-        [ -n "$byhand" ] && echo "  not in apt, see docs/setup.md:$byhand"
-    fi
-fi
+missing_packages "$theme"
 if ! command -v Hyprland >/dev/null; then
     echo "warning: no Hyprland (desktop: ${XDG_CURRENT_DESKTOP:-unknown}): linking only the configs of apps that are installed"
 elif ! hypr_ok; then
@@ -109,7 +79,7 @@ fi
 
 # the first install on this machine: remember the desktop settings before
 # anything changes them, for ./uninstall
-[ -n "$current" ] || ./desktop-settings save
+[ -n "$current" ] || lib/desktop-settings save
 
 # base and the theme both put files in it: a folded symlink to one of them
 # would make stowing the other fail

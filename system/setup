@@ -1,0 +1,14 @@
+#!/bin/sh
+# system/setup: the system side, with sudo: /etc/sddm.conf and the services
+# in services.txt
+cd "$(dirname "$(readlink -f "$0")")/.." || exit 1
+. lib/distro.sh
+sudo cp system/sddm.conf /etc/sddm.conf
+# one at a time: systemctl enables none of a list if one unit is missing
+# (e.g. systemd-userdbd isn't installed by default on Debian)
+failed=
+while read -r unit; do
+    [ -n "$unit" ] && { sudo systemctl enable "$unit" || failed="$failed $unit"; }
+done < system/services.txt
+[ -n "$failed" ] && service_hint "$failed"
+true

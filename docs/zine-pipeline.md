@@ -37,8 +37,10 @@ run once); keep it in sync when the accent changes.
 
 ## Templates
 
-A template is `<file>.tmpl` beside the generated `<file>`. `theme.sh` lists
-them in its `for f in ...` loop; generated files are in `.gitignore`.
+A template is `<file>.tmpl` beside the generated `<file>`. `render` in
+`lib/theme.sh` (shared by every theme's `theme.sh`) fills in each `.tmpl`
+of the theme's linked packages, so there's no list to keep; generated files
+are in `.gitignore`.
 
 Gotchas:
 
@@ -53,7 +55,8 @@ Gotchas:
 ## Theming a new app
 
 1. Write `<config>.tmpl` using `${role}` (hex without `#`).
-2. Add its path to the loop in `themes/zine/darkman/.local/share/darkman/theme.sh` and
-   the generated file to `.gitignore`.
-3. Add whatever reload the app needs at the end of `theme.sh`.
+2. Add the generated file to `.gitignore`.
+3. Add whatever reload the app needs at the end of
+   `themes/zine/darkman/.local/share/darkman/theme.sh` (`reload` in
+   `lib/theme.sh` already covers Hyprland, GNOME and Ghostty).
 4. Document it here and in the relevant doc.

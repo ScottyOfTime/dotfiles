@@ -3,7 +3,7 @@
 # ./theme <name>    switch: stop the old theme's shell, swap its stow links
 #                   for the new one's, render colours, start the new shell
 cd "$(dirname "$(readlink -f "$0")")" || exit 1
-. ./links.sh
+. lib/links.sh
 current=$(cat "$state/dotfiles-theme" 2>/dev/null)
 
 if [ "$1" = --packages ]; then
@@ -48,7 +48,7 @@ if [ -n "$use" ] && ! stow -d "themes/$new" -t "$HOME" $use; then
 fi
 # the first theme on this machine: remember the desktop settings it's about
 # to change, for ./uninstall
-[ -z "$current" ] && ./desktop-settings save
+[ -z "$current" ] && lib/desktop-settings save
 mkdir -p "$state" && echo "$new" > "$state/dotfiles-theme"
 
 ~/.local/share/darkman/theme.sh "$(current_mode)"

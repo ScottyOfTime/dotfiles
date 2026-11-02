@@ -18,7 +18,6 @@ python-gobject python3-gi
 ttf-jetbrains-mono fonts-jetbrains-mono
 mako mako-notifier
 yay -
-yay-debug -
 migrate !
 bibata-cursor-theme-bin !
 brave-bin !

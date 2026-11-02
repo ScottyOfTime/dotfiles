@@ -27,3 +27,6 @@ themes/ayu/gnome/.config/dotfiles-gnome/gtk.css
 themes/zine/gnome/.local/share/gnome-shell/extensions/dotfiles-look@scotty/stylesheet.css
 themes/oldschool/gnome/.local/share/gnome-shell/extensions/dotfiles-look@scotty/stylesheet.css
 themes/ayu/gnome/.local/share/gnome-shell/extensions/dotfiles-look@scotty/stylesheet.css
+
+# vim writes netrw history into the first runtimepath dir (vim-theme)
+.netrwhist

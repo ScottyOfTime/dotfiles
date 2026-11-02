@@ -35,9 +35,14 @@ themes/
                      hypr-theme, ghostty-theme, vim-theme, herdr, yazi, btop, packages.txt
 install              setup: menus for the theme and what to link, backs up conflicts
 theme                switcher script
-links.sh             which packages get linked, from the apps installed
-gnome-look           a theme's GNOME half (docs/gnome.md)
 uninstall            undo install: links, .bak files, desktop settings
-desktop-settings     save/restore the desktop settings the themes change
-pkglist.txt aur-pkgslist.txt debian-pkgs.txt services.txt system.sh sddm.conf
+lib/
+  links.sh           which packages get linked, from the apps installed
+  theme.sh           what every theme's darkman theme.sh shares (render, reload)
+  gnome-look         a theme's GNOME half (docs/gnome.md)
+  desktop-settings   save/restore the desktop settings the themes change
+  distro.sh          picks distro/arch.sh or distro/debian.sh: the only
+                     Arch/Debian branch (package checks, service hints)
+packages/            arch.txt, aur.txt, debian.txt (Arch -> apt names)
+system/              setup (sudo: sddm.conf, services.txt)
 ```
