@@ -31,7 +31,10 @@ return {
       window = { show_documentation = true },
     },
     sources = {
-      default = { "lsp", "path", "snippets", "buffer" },
+      -- no buffer words: only what the LSP (and paths, snippets) suggest;
+      -- blink otherwise falls back to them when the LSP has nothing
+      default = { "lsp", "path", "snippets" },
+      providers = { lsp = { fallbacks = {} } },
     },
   },
 }
