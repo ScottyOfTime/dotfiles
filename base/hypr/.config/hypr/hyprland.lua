@@ -44,7 +44,7 @@ if found then
 end
 
 local terminal    = "ghostty"
-local fileManager = "dolphin"
+local fileManager = "ghostty --class=com.scotty.files -e yazi"
 
 hl.on("hyprland.start", function()
     -- monitors may not exist yet when the config first loads
@@ -173,6 +173,14 @@ hl.window_rule({
     float     = true,
     size      = "monitor_w*0.7 monitor_h*0.55",
     move      = "monitor_w*0.15 60",
+})
+
+hl.window_rule({
+    name   = "files",
+    match  = { class = "^com\\.scotty\\.files$" },
+    float  = true,
+    size   = "monitor_w*0.6 monitor_h*0.6",
+    center = true,
 })
 
 hl.window_rule({

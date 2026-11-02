@@ -33,6 +33,7 @@ Marked † are bound by the theme (zine shown).
 | `mod+Return` | Ghostty |
 | `mod+Space` | launcher † |
 | `mod+grave` | drop-down terminal (toggle) |
+| `mod+E` | Files: yazi, floating in the centre |
 | `mod+W` | close window |
 | `mod+F` / `mod+V` / `mod+P` | fullscreen / float / pseudo |
 | `mod+J` | toggle split |
@@ -62,9 +63,10 @@ DP-3 (right).
 On the desktop Discord and Signal → workspace 3 (host file); Steam → `special:magic`, Spotify → `special:music`,
 flameshot overlay floats at the origin, the drop-down Ghostty
 (`com.scotty.dropdown`) floats 70%x55% at the top on `special:dropdown`.
-Themes without window borders (oldschool, ayu) give it a 2px one
-(`dropdown-outline` rule in their `theme.lua`) so it stands out over a
-terminal underneath.
+yazi as Files (`com.scotty.files`, `mod+E` and the default for folders)
+floats 60%x60% in the centre. Themes without window borders (oldschool,
+ayu) give both a 2px one (`floating-terminal-outline` rule in their
+`theme.lua`) so they stand out over a terminal underneath.
 
 ## Scripts (`base/hypr/.config/hypr/scripts/`)
 

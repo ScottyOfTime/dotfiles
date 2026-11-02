@@ -5,7 +5,7 @@
 cd "$(dirname "$(readlink -f "$0")")" || exit 1
 theme=${1:-zine}
 [ -d "themes/$theme" ] || { echo "no theme '$theme'" >&2; exit 1; }
-base="bash fastfetch fontconfig ghostty hypr nvim vim"
+base="bash fastfetch fontconfig ghostty hypr nvim vim yazi"
 
 # stow aborts everything on one conflict, so a fresh machine's default
 # .bashrc alone leaves hyprland with no config (it then segfaults)
@@ -31,6 +31,7 @@ fi
 
 clear_way base "$base"
 stow -d base -t "$HOME" $base || exit 1
+xdg-mime default com.scotty.files.desktop inode/directory
 clear_way "themes/$theme" "$(find "themes/$theme" -mindepth 1 -maxdepth 1 -type d ! -name colorscheme ! -name system -printf '%f ')"
 [ -x "themes/$theme/colorscheme/build.py" ] && "themes/$theme/colorscheme/build.py"
 ./theme "$theme"

@@ -26,10 +26,11 @@ hl.config({
     },
 })
 
--- the only bordered window, so it stands out over a terminal underneath
+-- the only bordered windows: floating terminals, so they stand out over one
+-- underneath
 hl.window_rule({
-    name        = "dropdown-outline",
-    match       = { class = "^com\\.scotty\\.dropdown$" },
+    name        = "floating-terminal-outline",
+    match       = { class = "^com\\.scotty\\.(dropdown|files)$" },
     border_size = 2,
 })
 

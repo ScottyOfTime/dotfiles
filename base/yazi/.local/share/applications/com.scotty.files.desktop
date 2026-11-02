@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Files
+Comment=Browse files with yazi
+Exec=ghostty --class=com.scotty.files -e yazi %f
+Icon=system-file-manager
+Terminal=false
+MimeType=inode/directory;
+Categories=System;FileManager;

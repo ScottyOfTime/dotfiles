@@ -64,6 +64,10 @@ use terminal colour names, so they follow the theme's terminal palette.
 Yazi reads its theme at startup: after a mode change or `./theme`, restart
 it. Everything else is yazi's defaults.
 
+It's also the file manager: base's `yazi` package adds a `Files` desktop
+entry (`com.scotty.files.desktop`, Ghostty running yazi), `install` makes it
+the default for folders (`xdg-mime`), and `mod+E` opens it.
+
 ## Fastfetch
 
 `fastfetch/`: default output, recoloured yellow via ANSI names. The modules
