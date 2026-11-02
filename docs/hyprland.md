@@ -33,7 +33,7 @@ Marked † are bound by the theme (zine shown).
 | `mod+Return` | Ghostty |
 | `mod+Space` | launcher † |
 | `mod+grave` | drop-down terminal (toggle) |
-| `mod+E` | Files: yazi, floating in the centre |
+| `mod+E` | Files: yazi, floating in the centre; again closes it (`scripts/files.sh`) |
 | `mod+W` | close window |
 | `mod+F` / `mod+V` / `mod+P` | fullscreen / float / pseudo |
 | `mod+J` | toggle split |

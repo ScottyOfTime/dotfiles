@@ -2,7 +2,7 @@
 Type=Application
 Name=Files
 Comment=Browse files with yazi
-Exec=ghostty --class=com.scotty.files -e yazi %f
+Exec=ghostty --class=com.scotty.files --confirm-close-surface=false -e yazi %f
 Icon=system-file-manager
 Terminal=false
 MimeType=inode/directory;

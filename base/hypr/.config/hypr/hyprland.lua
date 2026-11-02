@@ -43,8 +43,7 @@ if found then
     host_config = dofile(host_file) or {}
 end
 
-local terminal    = "ghostty"
-local fileManager = "ghostty --class=com.scotty.files -e yazi"
+local terminal = "ghostty"
 
 hl.on("hyprland.start", function()
     -- monitors may not exist yet when the config first loads
@@ -76,7 +75,7 @@ local mainMod = "SUPER"
 hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + W", hl.dsp.window.close())
 hl.bind(mainMod .. " + SHIFT + Q", hl.dsp.exit())
-hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
+hl.bind(mainMod .. " + E", hl.dsp.exec_cmd("~/.config/hypr/scripts/files.sh"))
 hl.bind(mainMod .. " + V", hl.dsp.window.float())
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"))
