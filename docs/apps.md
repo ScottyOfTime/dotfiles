@@ -28,6 +28,10 @@ branch name can't be executed.
 `EDITOR` and `VISUAL` are nvim, or vim, or vi, whichever is installed
 (yazi, git and others open files with it).
 
+It sources the newest 1.4.x Vulkan SDK unpacked in `~/vulkan` or
+`~/vulkansdk` (`<dir>/1.4.*/setup-env.sh`, compared by version only, so
+the folder doesn't matter), so a new SDK needs no edit.
+
 ## Neovim
 
 `nvim/`: lazy.nvim, airline, fzf, blink.cmp, zls. Colours come from the
