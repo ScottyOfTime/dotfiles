@@ -83,6 +83,17 @@ floats in the centre like `mod+E`: Enter picks, Esc cancels. After changing
 either file: `systemctl --user restart xdg-desktop-portal-termfilechooser
 xdg-desktop-portal`. Apps that draw their own dialog keep it.
 
+## btop
+
+Belongs to the theme: `btop/btop.conf` (with `save_config_on_exit =
+false`, or btop would rewrite it in the repo on exit) and
+`btop/themes/palette.theme.tmpl`, rendered by the theme's darkman script.
+Neutrals and the accent, with CPU, temperature, used memory and process
+graphs running from `dim` through the accent to red. The background is the
+terminal's (`theme_background = false`). btop reads its theme at startup:
+restart it after a mode change or `./theme`. To change a setting for good,
+edit the theme's `btop.conf`; changes made inside btop last until it quits.
+
 ## Fastfetch
 
 `fastfetch/`: default output, recoloured yellow via ANSI names. The modules

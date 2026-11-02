@@ -18,7 +18,7 @@ gsettings set org.gnome.desktop.interface document-font-name 'JetBrains Mono 10'
 gsettings set org.gnome.desktop.interface monospace-font-name 'JetBrains Mono 11'
 # only the palette's variables (and $HOME), so hyprlock's own $ATTEMPTS etc. survive
 vars="$(sed -n 's/^\([a-z_]*\)=.*/$\1/p' "$palette" | tr '\n' ' ') \$HOME"
-for f in quickshell/Theme.qml hypr-theme/colors.lua hypr-theme/hyprlock.conf ghostty-theme/tabs.css ghostty-theme/config yazi/theme.toml; do
+for f in quickshell/Theme.qml hypr-theme/colors.lua hypr-theme/hyprlock.conf ghostty-theme/tabs.css ghostty-theme/config yazi/theme.toml btop/themes/palette.theme; do
     envsubst "$vars" < "$cfg/$f.tmpl" > "$cfg/$f"
 done
 

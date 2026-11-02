@@ -29,6 +29,8 @@ dmenu-style strips, a tty login as the lock screen. Lives in
   a theme stow package), so it draws in the terminal's amber with
   `#`/`*`/`|` meters. Changing settings in htop rewrites this file, in the
   repo.
+- **btop** has square corners and block graphs, amber from `dim` up to
+  `fg`, red only at the top of CPU, temperature and process graphs.
 - **yazi** is amber on amber: reverse-video hover, `bright` directories,
   square ends (the preset's rounded caps clashed) and yazi's own Nerd Font
   icons with their colours stripped, so they're amber too. The icon list

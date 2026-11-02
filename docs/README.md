@@ -25,12 +25,12 @@ base/                shared stow packages, always installed
   ghostty/           config.ghostty (shared terminal settings)
 themes/
   zine/              quickshell, palette, darkman, hypr-theme, ghostty-theme,
-                     vim-theme, herdr, yazi, colorscheme/ (zine.toml + build.py),
+                     vim-theme, herdr, yazi, btop, colorscheme/ (zine.toml + build.py),
                      packages.txt
   oldschool/         same layout as zine (quickshell, palette, darkman,
-                     hypr-theme, ghostty-theme, vim-theme, herdr, yazi, colorscheme/)
+                     hypr-theme, ghostty-theme, vim-theme, herdr, yazi, btop, colorscheme/)
   ayu/               waybar, fuzzel, mako, wob, palette, darkman,
-                     hypr-theme, ghostty-theme, vim-theme, herdr, yazi, packages.txt
+                     hypr-theme, ghostty-theme, vim-theme, herdr, yazi, btop, packages.txt
 install              first-run setup (links, backs up conflicts, picks a theme)
 theme                switcher script
 pkglist.txt aur-pkgslist.txt services.txt system.sh sddm.conf

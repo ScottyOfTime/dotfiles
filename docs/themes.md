@@ -34,6 +34,7 @@ Every folder in a theme is a stow package except `colorscheme/` and
 | `~/.config/palette/{dark,light}.env` | by convention | Colours the darkman script renders templates from |
 | `~/.config/vim-theme/theme.vim` | no | Sourced by vim and nvim (dir is prepended to runtimepath): sets the colorscheme and airline theme; without it they fall back to ayu |
 | `~/.config/yazi/theme.toml` | no | yazi colours, rendered from `theme.toml.tmpl` by `theme.sh` (yazi only reads it at startup) |
+| `~/.config/btop/` | no | btop config and `themes/palette.theme`, rendered from `palette.theme.tmpl` by `theme.sh` |
 | `~/.config/herdr/config.toml` | no | herdr colours (file-level link; `~/.config/herdr` also holds herdr's runtime files) |
 
 ### Keys a theme binds

@@ -18,3 +18,6 @@ themes/ayu/wob/.config/wob/wob.ini
 themes/ayu/yazi/.config/yazi/theme.toml
 themes/zine/yazi/.config/yazi/theme.toml
 themes/oldschool/yazi/.config/yazi/theme.toml
+themes/ayu/btop/.config/btop/themes/palette.theme
+themes/zine/btop/.config/btop/themes/palette.theme
+themes/oldschool/btop/.config/btop/themes/palette.theme
