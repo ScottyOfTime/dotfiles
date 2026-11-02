@@ -42,3 +42,4 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 })
 
 require("config.lazy")
+require("config.theme")

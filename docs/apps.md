@@ -39,7 +39,8 @@ LSP items, paths and snippets, never words from open buffers (no `buffer`
 source, and no buffer fallback when the LSP has nothing); `:CompletionToggle`
 turns it off. Colours come from the
 active theme's `~/.config/vim-theme/theme.vim` (zine: the generated `zine`
-colorscheme and airline theme; ayu: ayu-vim), with the background kept
+colorscheme and airline theme; ayu: `colors/ayu.vim`, rendered from its
+palette), with the background kept
 transparent so the terminal's shows. `.vimrc` loads the same file.
 
 Each theme's `theme.sh` writes the light/dark mode to

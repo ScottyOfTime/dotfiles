@@ -1,5 +1,4 @@
 {
-  "ayu-vim": { "branch": "master", "commit": "e20d2be153691c12d4cc1880a01a99e44fce7885" },
   "blink.cmp": { "branch": "main", "commit": "78336bc89ee5365633bcf754d93df01678b5c08f" },
   "fzf": { "branch": "master", "commit": "26ff936df038b6a62ec42cf18db27b2ea2bb8ec3" },
   "fzf.vim": { "branch": "master", "commit": "023de3c0e158ff9c2b0992175af10be97c2f2158" },

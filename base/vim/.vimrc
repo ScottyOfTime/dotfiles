@@ -1,7 +1,5 @@
 call plug#begin()
 
-Plug 'Luxed/ayu-vim'
-
 Plug 'vim-airline/vim-airline'
 
 Plug 'tpope/vim-fugitive'
@@ -21,8 +19,6 @@ augroup END
 set runtimepath^=~/.config/vim-theme
 if filereadable(expand('~/.config/vim-theme/theme.vim'))
   source ~/.config/vim-theme/theme.vim
-else
-  colorscheme ayu
 endif
 " :Theme picks up a light/dark switch made while vim is open
 command! Theme source ~/.config/vim-theme/theme.vim | silent! AirlineRefresh

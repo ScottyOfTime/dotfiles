@@ -62,7 +62,7 @@ list.
 | `~/.config/ghostty-theme/config` | no | Included by base Ghostty config (optional include): colours, padding, `gtk-custom-css` |
 | `~/.local/share/darkman/theme.sh` | yes | Darkman hook: applies a light/dark mode to the theme's apps. It sources `lib/theme.sh`, which writes the mode to `$XDG_STATE_HOME/theme-mode` (vim/nvim read it at startup), loads the palette and gives `desktop` (gsettings), `render` (every linked `.tmpl`) and `reload` (Hyprland, GNOME, Ghostty); the theme adds only what's its own |
 | `~/.config/palette/{dark,light}.env` | by convention | Colours the darkman script renders templates from |
-| `~/.config/vim-theme/theme.vim` | no | Sourced by vim and nvim (dir is prepended to runtimepath): sets the colorscheme and airline theme; without it they fall back to ayu |
+| `~/.config/vim-theme/theme.vim` | no | Sourced by vim and nvim (dir is prepended to runtimepath): sets the colorscheme and airline theme; without it they use their default colours (there is no plugin colorscheme) |
 | `~/.config/yazi/theme.toml` | no | yazi colours, rendered from `theme.toml.tmpl` by `theme.sh` (yazi only reads it at startup) |
 | `~/.config/btop/` | no | btop config and `themes/palette.theme`, rendered from `palette.theme.tmpl` by `theme.sh` |
 | `~/.config/herdr/config.toml` | no | herdr colours (file-level link; `~/.config/herdr` also holds herdr's runtime files) |

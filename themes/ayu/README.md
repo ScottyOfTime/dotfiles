@@ -17,7 +17,8 @@ used before Quickshell (waybar, fuzzel, mako and wob).
 
 The colours are hand-written in
 [`palette/.config/palette/`](palette/.config/palette) (`dark.env`,
-`light.env`). Ghostty and vim use their own built-in Ayu themes.
+`light.env`). Ghostty uses its built-in Ayu themes; vim and nvim get
+`ayu`, rendered from the palette.
 
 <!-- palette: lib/previews fills this in -->
 | Role | Dark | Light | Used for |

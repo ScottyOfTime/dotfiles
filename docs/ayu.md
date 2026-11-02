@@ -13,7 +13,8 @@ Quickshell.
 - **Windows:** no gaps or borders, soft shadow, 8% dim when unfocused;
   Hyprland's stock animations.
 - **Ghostty:** built-in `Ayu` / `Ayu Light`, accent selection, no padding.
-- **vim/nvim:** ayu-vim plus the old highlight tweaks; **herdr:** Ayu Dark over one-dark.
+- **vim/nvim:** `ayu`, a colorscheme rendered from the palette
+  (`vim-theme/.config/vim-theme/colors/ayu.vim.tmpl`; no ayu-vim plugin); **herdr:** Ayu Dark over one-dark.
 
 Colours are hand-written in `palette/{dark,light}.env` (`on_accent` is the
 text on the accent, for GNOME, see gnome.md); darkman renders the
