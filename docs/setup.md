@@ -17,6 +17,9 @@ cd ~/dotfiles
 ./install          # or ./install <theme>
 ```
 
+Without a name it uses the active theme (`~/.local/state/dotfiles-theme`),
+so rerunning it after pulling keeps your look; a fresh machine gets zine.
+
 `./install` first lists any packages from `pkglist.txt`, `aur-pkgslist.txt`
 and the theme's `packages.txt` that aren't installed, with the command to
 install them (it doesn't install anything itself). Then it links base and

@@ -1,9 +1,12 @@
 #!/bin/sh
 # ./install [theme]   first run on a new machine: link base and the theme,
 #                     moving any real file stow would refuse to replace to
-#                     <file>.bak, then build and switch to the theme (zine)
+#                     <file>.bak, then build and switch to the theme (the
+#                     active one on a rerun, zine on a fresh machine)
 cd "$(dirname "$(readlink -f "$0")")" || exit 1
-theme=${1:-zine}
+current=$(cat "${XDG_STATE_HOME:-$HOME/.local/state}/dotfiles-theme" 2>/dev/null)
+[ -n "$current" ] && [ -d "themes/$current" ] || current=zine
+theme=${1:-$current}
 [ -d "themes/$theme" ] || { echo "no theme '$theme'" >&2; exit 1; }
 base="bash fastfetch fontconfig ghostty hypr nvim vim yazi"
 
@@ -35,6 +38,6 @@ mkdir -p ~/.config/yazi
 clear_way base "$base"
 stow -d base -t "$HOME" $base || exit 1
 xdg-mime default com.scotty.files.desktop inode/directory
-clear_way "themes/$theme" "$(find "themes/$theme" -mindepth 1 -maxdepth 1 -type d ! -name colorscheme ! -name system -printf '%f ')"
+clear_way "themes/$theme" "$(./theme --packages "$theme")"
 [ -x "themes/$theme/colorscheme/build.py" ] && "themes/$theme/colorscheme/build.py"
 ./theme "$theme"

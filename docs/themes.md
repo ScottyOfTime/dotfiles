@@ -14,6 +14,10 @@ It runs the old theme's `~/.config/hypr-theme/stop`, unstows its packages,
 stows the new ones, records the name in `~/.local/state/dotfiles-theme`,
 runs the new `~/.local/share/darkman/theme.sh` for the current mode
 (renders colours, reloads Hyprland) and runs `~/.config/hypr-theme/start`.
+If stowing the new theme fails (a conflicting file), it restows the old
+one and restarts its shell rather than leave Hyprland without a theme.
+`./theme --packages <name>` prints a theme's stow packages (`./install`
+uses it).
 
 Install a theme's apps from its `packages.txt` first.
 

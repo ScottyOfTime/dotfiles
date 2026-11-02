@@ -9,6 +9,10 @@ current=$(cat "$state" 2>/dev/null)
 # every folder in a theme is a stow package except colorscheme/ and system/
 packages() { find "themes/$1" -mindepth 1 -maxdepth 1 -type d ! -name colorscheme ! -name system -printf '%f\n'; }
 
+if [ "$1" = --packages ]; then
+    packages "$2"
+    exit
+fi
 if [ -z "$1" ]; then
     for t in themes/*/; do
         t=${t#themes/}; t=${t%/}
@@ -19,15 +23,24 @@ fi
 
 new=$1
 [ -d "themes/$new" ] || { echo "no theme '$new'" >&2; exit 1; }
+export HYPRLAND_INSTANCE_SIGNATURE=$(ls -t /run/user/$(id -u)/hypr/ 2>/dev/null | head -1)
 
 if [ -n "$current" ] && [ -d "themes/$current" ]; then
     ~/.config/hypr-theme/stop 2>/dev/null
     stow -D -d "themes/$current" -t "$HOME" $(packages "$current")
 fi
-stow -d "themes/$new" -t "$HOME" $(packages "$new") || exit 1
+# a failed stow leaves the old theme unlinked: put it back rather than
+# leave Hyprland with no theme.lua
+if ! stow -d "themes/$new" -t "$HOME" $(packages "$new"); then
+    if [ -n "$current" ] && [ -d "themes/$current" ] &&
+        stow -d "themes/$current" -t "$HOME" $(packages "$current"); then
+        hyprctl dispatch 'hl.dsp.exec_cmd("~/.config/hypr-theme/start")' >/dev/null
+        echo "kept theme: $current" >&2
+    fi
+    exit 1
+fi
 mkdir -p "${state%/*}" && echo "$new" > "$state"
 
 ~/.local/share/darkman/theme.sh "$(darkman get 2>/dev/null || echo dark)"
-export HYPRLAND_INSTANCE_SIGNATURE=$(ls -t /run/user/$(id -u)/hypr/ | head -1)
 hyprctl dispatch 'hl.dsp.exec_cmd("~/.config/hypr-theme/start")' >/dev/null
 echo "theme: $new"
