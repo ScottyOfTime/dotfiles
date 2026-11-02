@@ -14,6 +14,20 @@ hypr_ok() {
     [ -n "$1" ] && { [ "$1" -gt 0 ] || [ "$2" -ge 56 ]; }
 }
 
+# light or dark right now: darkman's when it runs; else GNOME's Dark Style
+# (the mode switch there, docs/gnome.md); else the last one rendered
+current_mode() {
+    darkman get 2>/dev/null && return
+    if command -v gnome-shell >/dev/null; then
+        case $(gsettings get org.gnome.desktop.interface color-scheme 2>/dev/null) in
+            *prefer-dark*) echo dark; return ;;
+            ?*) echo light; return ;;
+        esac
+    fi
+    m=$(cat "$state/theme-mode" 2>/dev/null)
+    case $m in light|dark) echo "$m" ;; *) echo dark ;; esac
+}
+
 # the command(s) a package configures, any one is enough; none: always link
 needs() {
     case $1 in

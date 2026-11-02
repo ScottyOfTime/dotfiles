@@ -62,8 +62,14 @@ and everything else `theme.sh` renders stayed on the old mode. A change to
 `extension.js` needs a logout to load: disabling and enabling an extension
 reuses its already loaded code.
 
-`./install` warns when darkman's user service isn't running (apt installs
-it without starting it): `systemctl --user enable --now darkman.service`.
+darkman is optional on GNOME: without it the Dark Style switch is the
+mode, and `./theme` reads it from `color-scheme` (`current_mode` in
+`links.sh`: darkman, else GNOME, else the last rendered mode). Before
+that, `./theme` fell back to dark without darkman, so every run rendered
+dark tabs, airline and `theme-mode` on a light desktop. With darkman
+installed, `./install` warns when its user service isn't running (apt
+installs it without starting it): `systemctl --user enable --now
+darkman.service`.
 
 ## Rules
 

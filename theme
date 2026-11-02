@@ -33,7 +33,7 @@ case " $use " in *" gnome "*) mkdir -p ~/.config/gtk-4.0 ~/.local/share/gnome-sh
 [ -z "$current" ] && ./desktop-settings save
 mkdir -p "$state" && echo "$new" > "$state/dotfiles-theme"
 
-~/.local/share/darkman/theme.sh "$(darkman get 2>/dev/null || echo dark)"
+~/.local/share/darkman/theme.sh "$(current_mode)"
 if pgrep -x Hyprland >/dev/null; then
     export HYPRLAND_INSTANCE_SIGNATURE=$(ls -t /run/user/$(id -u)/hypr/ | head -1)
     hyprctl dispatch 'hl.dsp.exec_cmd("~/.config/hypr-theme/start")' >/dev/null
