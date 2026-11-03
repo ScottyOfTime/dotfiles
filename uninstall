@@ -23,6 +23,7 @@ fi
 command -v gnome-extensions >/dev/null && gnome-extensions disable dotfiles-look@scotty 2>/dev/null
 
 for t in themes/*/; do t=${t#themes/}; unrender "${t%/}" -v; done
+printf 'theme:\n    name: default\n' | lib/pvetui
 
 # every theme, not just the current one: an interrupted switch can leave two
 # one package at a time: stow 2.3 drops the whole command on one conflict

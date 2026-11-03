@@ -4,9 +4,10 @@
 state=${XDG_STATE_HOME:-$HOME/.local/state}
 skipfile=$state/dotfiles-skip
 
-# every folder in a theme is a stow package except colorscheme/, system/
-# and preview/ (the README's pictures)
-packages() { find "themes/$1" -mindepth 1 -maxdepth 1 -type d ! -name colorscheme ! -name system ! -name preview -printf '%f\n'; }
+# every folder in a theme is a stow package except colorscheme/, system/,
+# preview/ (the README's pictures) and pvetui/ (merged into pvetui's own
+# config by lib/pvetui, never linked)
+packages() { find "themes/$1" -mindepth 1 -maxdepth 1 -type d ! -name colorscheme ! -name system ! -name preview ! -name pvetui -printf '%f\n'; }
 
 # unrender <theme> [-v]: delete what theme.sh rendered from the theme's
 # .tmpl files into real folders (~/.config/yazi): those outlive the links,

@@ -44,6 +44,9 @@ render() {
         f=${f#./*/}
         [ -e "$HOME/$f" ] && envsubst "$vars" < "$HOME/$f" > "$HOME/${f%.tmpl}"
     done
+    t=$themedir/pvetui/theme.yml.tmpl
+    [ -f "$t" ] && envsubst "$vars" < "$t" | "$root/lib/pvetui"
+    return 0
 }
 
 # reload: Hyprland (and its cursor) while it runs, GNOME's shell stylesheet

@@ -112,50 +112,29 @@ edit the theme's `btop.conf`; changes made inside btop last until it quits.
 ## pvetui
 
 Not linked: `~/.config/pvetui/config.yml` holds the cluster's address and
-API tokens, and pvetui reads only that one file. Its colours use ANSI
-names and `default` instead of hex, so pvetui follows Ghostty's palette
-for every theme and mode with nothing to render. Replace the file's
-`theme:` block with this one by hand:
+API tokens, and pvetui reads only that one file. Instead each theme has
+`pvetui/theme.yml.tmpl`, which `render` (lib/theme.sh) fills from the
+palette on every theme or mode switch and pipes to `lib/pvetui`. That
+replaces only the config's `theme:` block (or appends one), through a
+0600 temp file and a rename, and leaves the file alone when nothing
+changed. With no config yet (before `pvetui config-wizard`) it does
+nothing: switch theme or mode once afterwards. `./uninstall` resets the
+block to pvetui's built-in theme. pvetui reads it at startup, so restart
+it after a switch.
 
-```yaml
-theme:
-    name: default
-    colors:
-        primary: default
-        secondary: gray
-        tertiary: teal
-        success: green
-        warning: olive
-        error: maroon
-        info: navy
-        background: default
-        border: gray
-        selection: default
-        header: default
-        headertext: gray
-        footer: default
-        footertext: gray
-        title: default
-        contrast: default
-        morecontrast: default
-        inverse: olive
-        statusrunning: green
-        statusstopped: maroon
-        statuspending: olive
-        statuserror: maroon
-        usagelow: green
-        usagemedium: olive
-        usagehigh: maroon
-        usagecritical: red
-```
+Rules:
 
-The names are tcell's, one per palette slot: `black` `maroon` `green`
-`olive` `navy` `purple` `teal` `silver` are 0-7 and `gray` `red` `lime`
-`yellow` `blue` `fuchsia` `aqua` `white` are 8-15. Slots 1-6 are each
-palette's own inks, while 0 and 15 swap roles between dark and light
-(near the background in one mode, near the text in the other), so
-nothing here uses them. Selected rows are reverse video: pvetui draws
-them with `selection` and `primary` swapped, both `default`.
+- `background`, `selection` and `inverse` are `term_bg`, Ghostty's own
+  background. tview fills a focused dialog button with `primary` and
+  writes its label in `background`, and pvetui draws selected rows
+  reverse video (`selection` behind `primary`). So `primary` and
+  `background` must be real colours, not `default`: with both `default`
+  the focused button looks like the others. Terminal colour names can't
+  do it either, because no palette slot sits near the background in both
+  modes (0 and 15 swap between dark and light).
+- `background` has to be exactly the terminal's, or pvetui paints a box
+  inside the window's padding: zine's dark page and oldschool's light
+  `bg` differ from their Ghostty backgrounds, hence `term_bg`.
 
 ## Fastfetch
 

@@ -1,0 +1,20 @@
+#!/bin/sh
+# lib/pvetui < block: put a theme: block (stdin) into pvetui's config in
+# place of its own. The config holds the cluster's API tokens, so it is
+# never linked; only the theme block is rewritten (docs/apps.md)
+conf=${XDG_CONFIG_HOME:-$HOME/.config}/pvetui/config.yml
+[ -f "$conf" ] || exit 0
+block=$(mktemp) || exit 1
+cat > "$block"
+# mktemp makes it 0600, like the config, and the rename never leaves a
+# half-written config behind
+tmp=$(mktemp "$conf.XXXXXX") || { rm -f "$block"; exit 1; }
+awk -v blockfile="$block" '
+    function put() { while ((getline l < blockfile) > 0) print l; done = 1 }
+    /^theme:/ { put(); skip = 1; next }
+    skip && /^[^ \t#]/ { skip = 0 }
+    !skip { print }
+    END { if (!done) put() }
+' "$conf" > "$tmp"
+rm -f "$block"
+if cmp -s "$tmp" "$conf"; then rm -f "$tmp"; else mv "$tmp" "$conf"; fi

@@ -20,7 +20,8 @@ def palette(theme, mode):
     roles = {}
     for line in (ROOT / f"themes/{theme}/palette/.config/palette/{mode}.env").read_text().splitlines():
         key, _, value = line.partition("=")
-        if len(value) == 6 and all(c in "0123456789abcdefABCDEF" for c in value):
+        # term_* are Ghostty's own colours, not roles
+        if not key.startswith("term_") and len(value) == 6 and all(c in "0123456789abcdefABCDEF" for c in value):
             roles[key] = value.lower()
     return roles
 

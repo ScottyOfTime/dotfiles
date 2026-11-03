@@ -17,6 +17,8 @@ for mode in ("dark", "light"):
 
     lines = [header, f"mode={mode}\n"]
     lines += [f"{role}={colours[role]}\n" for role in ROLES]
+    # the terminal's own background, for apps that paint over it (pvetui)
+    lines.append(f"term_bg={colours['terminal']['background']}\n")
     lines += [f"{key}={value}\n" for key, value in scheme["settings"].items()]
     (ROOT / f"palette/.config/palette/{mode}.env").write_text("".join(lines))
 
