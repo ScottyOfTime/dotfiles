@@ -84,6 +84,9 @@ ayu) give both a 2px one (`floating-terminal-outline` rule in their
   first time. It stays running because a fresh Ghostty takes ~200ms to
   map and a toggle ~30ms. It skips the theme's `special` hook, whose
   warm-up would slow it down again.
+- `filespad.sh`: what the pad's Ghostty runs: yazi, restarted when it
+  exits with status 138 (`SIGUSR1`, sent after a mode switch to reload its
+  theme, see `apps.md`).
 - `special.sh <name>`: toggles a scratchpad (`mod+S`, `mod+M`). If the theme
   has an executable `hypr-theme/special` it runs that instead (oldschool
   warms the scratchpad up); if that fails, it toggles directly.

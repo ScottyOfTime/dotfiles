@@ -56,14 +56,13 @@ reload() {
         export HYPRLAND_INSTANCE_SIGNATURE=$(ls -t /run/user/$(id -u)/hypr/ | head -1)
         hyprctl reload >/dev/null
         hyprctl setcursor "$cursor" "$cursor_size" >/dev/null
-        # yazi reads its theme only at startup, and mod+E's never restarts:
-        # end it and hyprland.lua's window.close hook brings a fresh one back
-        # hidden. By PID: its Ghostty is its own process
-        pad=$(hyprctl clients | awk '/^Window/ {c=""} /^\tclass: / {c=$2}
-            /^\tpid: / && c == "com.scotty.filespad" {print $2}')
-        [ -n "$pad" ] && [ "$(cat /proc/$pad/comm 2>/dev/null)" = ghostty ] && kill "$pad"
     fi
     [ -e "$ext/metadata.json" ] && "$root/lib/gnome-look" "$mode"
     pkill -SIGUSR2 -x ghostty
+    # yazi reads its theme only at startup, and mod+E's keeps running:
+    # filespad.sh restarts it in place on SIGUSR1
+    for y in $(pgrep -x yazi); do
+        grep -qz '^DOTFILES_FILES_PAD=1$' "/proc/$y/environ" 2>/dev/null && kill -USR1 "$y"
+    done
     return 0
 }

@@ -74,9 +74,12 @@ hover, tabs and mode; `dim` borders; red for cut and errors). File types
 use terminal colour names, so they follow the theme's terminal palette.
 Yazi reads its theme at startup: after a mode change or `./theme`, restart
 it, or its file colours switch with the terminal and the rest doesn't.
-`mod+E`'s yazi is restarted for you: `lib/theme.sh`'s `reload` kills its
-Ghostty (by PID) and the `window.close` hook brings a fresh one back
-hidden, so it loses its place, and disappears if it was showing.
+`mod+E`'s yazi is restarted for you, in its own window (it goes back to
+`~`): `lib/theme.sh`'s `reload` sends it `SIGUSR1`, which yazi doesn't
+handle, so it exits with 138, and `hypr/scripts/filespad.sh` starts it
+again on that status; any other exit closes the pad. Don't kill the pad's
+Ghostty instead: when toggles come quickly, the `window.close` respawns
+race each other, leaving two pads, one with the old colours.
 Everything else is yazi's defaults.
 
 It's also the file manager: base's `yazi` package adds a `Files` desktop
@@ -91,7 +94,7 @@ in-window "close terminal?" prompt, since yazi is still running.
 (selection, visual mode, find, filter, search): base's
 `yazi/plugins/close.yazi` makes the same checks as yazi's `escape`, which
 doesn't report whether it did anything. In `mod+E`'s yazi
-(`DOTFILES_FILES_PAD` set) it hides the scratchpad instead of quitting.
+(`DOTFILES_FILES_PAD`, set by `filespad.sh`) it hides the scratchpad instead of quitting.
 The plugin waits on `hyprctl` (`:status()`): yazi kills a `:spawn()`ed
 child as soon as its handle is dropped. `install` creates
 `~/.config/yazi` first, since base and the theme both put files there.

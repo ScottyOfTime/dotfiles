@@ -52,7 +52,7 @@ local terminal = "ghostty"
 local scratchpads = {
     ["com.scotty.dropdown"] = { workspace = "dropdown", cmd = "ghostty --class=com.scotty.dropdown" },
     ["com.scotty.filespad"] = { workspace = "files",
-        cmd = "ghostty --class=com.scotty.filespad --confirm-close-surface=false -e env DOTFILES_FILES_PAD=1 yazi" },
+        cmd = "ghostty --class=com.scotty.filespad --confirm-close-surface=false -e ~/.config/hypr/scripts/filespad.sh" },
 }
 hl.on("window.close", function(w)
     local pad = scratchpads[w.class]
