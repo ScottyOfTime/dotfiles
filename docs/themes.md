@@ -114,3 +114,7 @@ calls the theme's `lock`.
   resets nvim's built-in groups (`@variable`, `Added`, ...) for the current
   `background`, so the other order leaves them in the old mode's colours
   after `:Theme` switches modes. A fresh start hides this.
+- Ghostty's tab CSS names its font and size. Tabs otherwise inherit the
+  GTK font, which `desktop` (lib/theme.sh) only sets when there's a look
+  (Hyprland or the gnome package), so on plain Ubuntu they showed GNOME's
+  UI font.

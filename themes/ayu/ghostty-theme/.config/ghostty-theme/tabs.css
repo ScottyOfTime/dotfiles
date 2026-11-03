@@ -56,7 +56,9 @@ tabbar tab:selected:active {
 
 tabbar tab .tab-title {
   margin: 0;
-  font-size: 1.1em;
+  /* set here: the desktop font is only themed with a look (Hyprland or the gnome package) */
+  font-family: "JetBrains Mono";
+  font-size: 11pt;
 }
 
 /* hide close buttons (middle-click or keybind closes) */
