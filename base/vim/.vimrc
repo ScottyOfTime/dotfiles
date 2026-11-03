@@ -70,6 +70,7 @@ set ls=2
 set hlsearch
 set number
 set relativenumber
+set colorcolumn=80,100
 
 
 syntax on
