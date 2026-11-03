@@ -101,8 +101,11 @@ def hi(group, fg, bg, attr):
     parts.append(f"gui={attr or 'NONE'} cterm={attr or 'NONE'}")
     return "exe '" + " ".join(parts) + "'\n"
 
-lines = [vheader, "hi clear\nif exists('syntax_on') | syntax reset | endif\n",
-         f"let g:colors_name = '{name}'\n", pick, "let &background = s:mode\n", palettes]
+# background before hi clear, or nvim's own defaults (@variable, ...) keep the
+# old mode's colours when :Theme switches modes
+lines = [vheader, pick, "let &background = s:mode\n",
+         "hi clear\nif exists('syntax_on') | syntax reset | endif\n",
+         f"let g:colors_name = '{name}'\n", palettes]
 lines += [hi(*row) for row in VIM]
 (ROOT / f"vim-theme/.config/vim-theme/colors/{name}.vim").write_text("".join(lines))
 

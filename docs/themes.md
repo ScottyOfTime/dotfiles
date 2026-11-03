@@ -110,3 +110,7 @@ calls the theme's `lock`.
 - Hyprland reloads on save. While restructuring live config files, disable
   it first: `hyprctl dispatch 'hl.config({ misc = { disable_autoreload = true } })'`
   (prints an error but applies; the next `hyprctl reload` restores it).
+- A vim colorscheme must set `background` before `hi clear`. `hi clear`
+  resets nvim's built-in groups (`@variable`, `Added`, ...) for the current
+  `background`, so the other order leaves them in the old mode's colours
+  after `:Theme` switches modes. A fresh start hides this.
