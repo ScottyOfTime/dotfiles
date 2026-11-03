@@ -73,7 +73,11 @@ rendered by the theme's darkman script from the palette (the accent for
 hover, tabs and mode; `dim` borders; red for cut and errors). File types
 use terminal colour names, so they follow the theme's terminal palette.
 Yazi reads its theme at startup: after a mode change or `./theme`, restart
-it. Everything else is yazi's defaults.
+it, or its file colours switch with the terminal and the rest doesn't.
+`mod+E`'s yazi is restarted for you: `lib/theme.sh`'s `reload` kills its
+Ghostty (by PID) and the `window.close` hook brings a fresh one back
+hidden, so it loses its place, and disappears if it was showing.
+Everything else is yazi's defaults.
 
 It's also the file manager: base's `yazi` package adds a `Files` desktop
 entry (`com.scotty.files.desktop`, Ghostty running yazi), `install` makes it
