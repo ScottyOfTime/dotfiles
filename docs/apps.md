@@ -34,8 +34,10 @@ the folder doesn't matter), so a new SDK needs no edit.
 
 ## Neovim
 
-`nvim/` and `.vimrc` mark columns 80 and 100 (`colorcolumn`, the theme's
-`ColorColumn`: a `panel` band). `nvim/`: lazy.nvim, airline, fzf, blink.cmp, zls. Completion only offers
+`nvim/` and `.vimrc` mark column 80 as a guide (`colorcolumn`, the
+theme's `ColorColumn`: a `panel` band) and text past column 100 as a
+warning (a window match on the theme's stronger `OverLength`). One
+`colorcolumn` can't do both: every column it draws shares one group. `nvim/`: lazy.nvim, airline, fzf, blink.cmp, zls. Completion only offers
 LSP items, paths and snippets, never words from open buffers (no `buffer`
 source, and no buffer fallback when the LSP has nothing); `:CompletionToggle`
 turns it off. Colours come from the

@@ -70,7 +70,8 @@ set ls=2
 set hlsearch
 set number
 set relativenumber
-set colorcolumn=80,100
+set colorcolumn=80
+autocmd VimEnter,WinNew * call matchadd('OverLength', '\%>100v.\+')
 
 
 syntax on

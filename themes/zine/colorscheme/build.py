@@ -39,6 +39,7 @@ VIM = [
     ("Title", "accent", "", "bold"), ("Directory", "blue", "", ""),
     ("LineNr", "dim", "", ""), ("CursorLineNr", "accent", "", "bold"),
     ("CursorLine", "", "panel", ""), ("ColorColumn", "", "panel", ""),
+    ("OverLength", "", "surface", ""),
     ("SignColumn", "dim", "", ""), ("Visual", "", "surface", ""),
     ("Search", "ink", "mustard", ""), ("IncSearch", "ink", "accent", ""),
     ("CurSearch", "ink", "accent", ""), ("MatchParen", "accent", "surface", "bold"),

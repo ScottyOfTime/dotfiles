@@ -39,6 +39,7 @@ VIM = [
     ("Title", "bright", "", "bold"), ("Directory", "blue", "", ""),
     ("LineNr", "line", "", ""), ("CursorLineNr", "bright", "", "bold"),
     ("CursorLine", "", "panel", ""), ("ColorColumn", "", "panel", ""),
+    ("OverLength", "", "line", ""),
     ("SignColumn", "dim", "", ""), ("Visual", "", "surface", ""),
     ("Search", "panel", "orange", ""), ("IncSearch", "panel", "bright", ""),
     ("CurSearch", "panel", "bright", ""), ("MatchParen", "orange", "surface", "bold"),

@@ -8,7 +8,10 @@ vim.opt.termguicolors = true
 vim.opt.showmatch = true
 vim.opt.number = true
 vim.opt.relativenumber = true
-vim.opt.colorcolumn = "80,100"
+vim.opt.colorcolumn = "80"
+vim.api.nvim_create_autocmd({ "VimEnter", "WinNew" }, {
+  callback = function() vim.fn.matchadd("OverLength", [[\%>100v.\+]]) end,
+})
 
 vim.opt.autochdir = true
 vim.opt.ttimeoutlen = 1
