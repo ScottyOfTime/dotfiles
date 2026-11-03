@@ -109,6 +109,54 @@ terminal's (`theme_background = false`). btop reads its theme at startup:
 restart it after a mode change or `./theme`. To change a setting for good,
 edit the theme's `btop.conf`; changes made inside btop last until it quits.
 
+## pvetui
+
+Not linked: `~/.config/pvetui/config.yml` holds the cluster's address and
+API tokens, and pvetui reads only that one file. Its colours use ANSI
+names and `default` instead of hex, so pvetui follows Ghostty's palette
+for every theme and mode with nothing to render. Replace the file's
+`theme:` block with this one by hand:
+
+```yaml
+theme:
+    name: default
+    colors:
+        primary: default
+        secondary: gray
+        tertiary: teal
+        success: green
+        warning: olive
+        error: maroon
+        info: navy
+        background: default
+        border: gray
+        selection: default
+        header: default
+        headertext: gray
+        footer: default
+        footertext: gray
+        title: default
+        contrast: default
+        morecontrast: default
+        inverse: olive
+        statusrunning: green
+        statusstopped: maroon
+        statuspending: olive
+        statuserror: maroon
+        usagelow: green
+        usagemedium: olive
+        usagehigh: maroon
+        usagecritical: red
+```
+
+The names are tcell's, one per palette slot: `black` `maroon` `green`
+`olive` `navy` `purple` `teal` `silver` are 0-7 and `gray` `red` `lime`
+`yellow` `blue` `fuchsia` `aqua` `white` are 8-15. Slots 1-6 are each
+palette's own inks, while 0 and 15 swap roles between dark and light
+(near the background in one mode, near the text in the other), so
+nothing here uses them. Selected rows are reverse video: pvetui draws
+them with `selection` and `primary` swapped, both `default`.
+
 ## Fastfetch
 
 `fastfetch/`: default output, recoloured yellow via ANSI names. The modules
