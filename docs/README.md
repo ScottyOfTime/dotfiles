@@ -45,6 +45,8 @@ lib/
   distro.sh          picks distro/arch.sh or distro/debian.sh: the only
                      Arch/Debian branch (package checks, service hints)
   previews           draws each theme's palette into its README (themes.md)
+  colorscheme.py     the generator each theme's colorscheme/build.py calls
+  pvetui             swaps a theme's block into pvetui's config (apps.md)
 packages/            arch.txt, aur.txt, debian.txt (Arch -> apt names)
 system/              setup (sudo: sddm.conf, services.txt)
 ```

@@ -86,8 +86,9 @@ at the 1.33 monitor scale).
 ## Palette
 
 `themes/oldschool/colorscheme/oldschool.toml` is the source; `build.py`
-writes the palette `.env` files, Ghostty themes, herdr config and
-vim/airline colours (same pipeline as zine, see
+(oldschool's mappings, run through `lib/colorscheme.py`) writes the
+palette `.env` files, Ghostty themes, herdr config and vim/airline
+colours (same pipeline as zine, see
 [zine-pipeline.md](zine-pipeline.md)).
 
 | Role | Dark | Light | Used for |

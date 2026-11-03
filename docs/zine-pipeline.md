@@ -32,6 +32,11 @@ Never edit `palette/*.env`, `ghostty-theme/themes/zine-*`, herdr's
 `config.toml` or the `vim-theme` colours by hand; they're
 generated and say so at the top.
 
+`build.py` holds only zine's mappings (palette roles, herdr keys, vim
+groups, airline modes); the generator is `lib/colorscheme.py`, shared with
+oldschool. A change to how a file is written goes there, and both themes
+need rebuilding.
+
 The accent is also the fallback in `hyprland.lua` (used before darkman has
 run once); keep it in sync when the accent changes.
 
