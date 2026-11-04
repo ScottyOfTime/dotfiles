@@ -10,5 +10,7 @@ return {
       settings = { zls = { enable_argument_placeholders = false } },
     })
     vim.lsp.enable("zls")
+
+    vim.keymap.set("n", "<C-k>", vim.lsp.buf.hover)
   end,
 }

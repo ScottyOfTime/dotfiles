@@ -40,7 +40,8 @@ warning (a window match on the theme's stronger `OverLength`). One
 `colorcolumn` can't do both: every column it draws shares one group. `nvim/`: lazy.nvim, airline, fzf, blink.cmp, zls. Completion only offers
 LSP items, paths and snippets, never words from open buffers (no `buffer`
 source, and no buffer fallback when the LSP has nothing); `:CompletionToggle`
-turns it off. Colours come from the
+turns it off. `<C-k>` shows the LSP's info on the symbol under the cursor
+(type, docs) in normal mode, and the signature in insert mode. Colours come from the
 active theme's `~/.config/vim-theme/theme.vim` (zine: the generated `zine`
 colorscheme and airline theme; ayu: `colors/ayu.vim`, rendered from its
 palette), with the background kept
