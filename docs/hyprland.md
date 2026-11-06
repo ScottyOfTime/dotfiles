@@ -48,10 +48,15 @@ Marked † are bound by the theme (zine shown).
 | `mod+L` | lock (the theme's `hypr-theme/lock`) |
 | `mod+Escape` | power menu † (zine) |
 | `mod+Tab` | window overview † (zine) |
-| `mod+minus` | type an en dash |
+| `mod+minus` | type an en dash (`wtype`; needs `resolve_binds_by_sym`, see below the table) |
 | `Print` | flameshot region screenshot to `~/screenshots` + clipboard |
 | media keys | playerctl and mic mute in base; volume/brightness † (they drive the theme's OSD) |
 | `mod+shift+Q` | exit Hyprland (`hl.dsp.exit()`; the old `hyprctl dispatch exit` is a no-op in Lua mode) |
+
+`input:resolve_binds_by_sym` is on because `wtype` types through its own
+temporary keymap, where the en dash sits on keycode 9. With the option off,
+Hyprland reads binds through the normal layout, so SUPER (still held on
+release) plus keycode 9 matched `mod+Escape` and opened the power menu.
 
 Scale is worked out per monitor from its pixel density
 ([setup.md](setup.md#another-machine)). On the desktop
