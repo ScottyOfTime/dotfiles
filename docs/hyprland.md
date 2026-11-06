@@ -53,13 +53,16 @@ Marked † are bound by the theme (zine shown).
 | media keys | playerctl and mic mute in base; volume/brightness † (they drive the theme's OSD) |
 | `mod+shift+Q` | exit Hyprland (`hl.dsp.exit()`; the old `hyprctl dispatch exit` is a no-op in Lua mode) |
 
-`mod+minus` runs `wtype`, which types through its own temporary keymap
-where the en dash sits on keycode 9 (Escape in the normal layout). Two
-input settings make that work: `resolve_binds_by_sym`, so binds match
-the dash rather than `mod+Escape` (the power menu), and
-`virtualkeyboard.share_states = 0`, so the dash reaches apps without the
-held SUPER (shared, Obsidian ignored it as SUPER+dash). The bind fires on
-press: a release bind lets the `-` press through, a stray hyphen.
+`mod+minus` runs `wtype` on release: typed while `-` is still held,
+Obsidian drops the dash. An empty press bind on the same keys keeps the
+plain `-` from reaching the app. `wtype` types through its own temporary
+keymap, where the en dash sits on keycode 9 (Escape in the normal layout),
+so `resolve_binds_by_sym` is on: binds match the dash, not `mod+Escape`
+(the power menu). Tried and dropped: typing it once SUPER is released (a
+submap's release bind never fires for a key pressed before the submap),
+and `virtualkeyboard.share_states = 0` (apps still saw SUPER held).
+Synthetic tests need a real keyboard: `wtype -M logo` presses no Super_L
+key; a python-evdev uinput device behaves like hardware.
 
 Scale is worked out per monitor from its pixel density
 ([setup.md](setup.md#another-machine)). On the desktop

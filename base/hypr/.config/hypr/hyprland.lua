@@ -73,11 +73,10 @@ hl.on("hyprland.start", function()
 end)
 
 hl.config({
-    -- for mod+minus's wtype, whose own keymap puts the dash on Escape's
-    -- keycode: binds match the symbol (not mod+Escape), and its keys don't
-    -- share the held mod (apps ignore mod+dash)
+    -- binds match symbols: wtype's own keymap puts mod+minus's en dash on
+    -- Escape's keycode, which would otherwise be read as Escape
     input  = { repeat_delay = 250, repeat_rate = 40, resolve_binds_by_sym = true,
-               touchpad = { natural_scroll = true }, virtualkeyboard = { share_states = 0 } },
+               touchpad = { natural_scroll = true } },
     binds  = { workspace_back_and_forth = true },
     cursor = { hide_on_key_press = true, no_warps = true },
     -- lets a new locker take over if the theme's locker dies while locked
@@ -143,7 +142,10 @@ hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl -p spotify,%any previous"), 
 
 hl.bind(mainMod .. " + T", hl.dsp.exec_cmd("darkman toggle"))
 hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("~/.config/hypr-theme/lock"))
-hl.bind(mainMod .. " + minus", hl.dsp.exec_cmd("wtype –"))
+-- the en dash is typed on release (typed while minus is held, Obsidian
+-- drops it); the empty press bind keeps the plain `-` from reaching the app
+hl.bind(mainMod .. " + minus", function() end)
+hl.bind(mainMod .. " + minus", hl.dsp.exec_cmd("wtype –"), { release = true })
 hl.bind("Print", hl.dsp.exec_cmd("mkdir -p ~/screenshots && flameshot gui --path ~/screenshots --clipboard"))
 
 hl.config({
