@@ -141,7 +141,7 @@ hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl -p spotify,%any previous"), 
 
 hl.bind(mainMod .. " + T", hl.dsp.exec_cmd("darkman toggle"))
 hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("~/.config/hypr-theme/lock"))
-hl.bind(mainMod .. " + minus", hl.dsp.exec_cmd("wtype –"), { release = true })
+hl.bind(mainMod .. " + minus", hl.dsp.exec_cmd("wtype –"))
 hl.bind("Print", hl.dsp.exec_cmd("mkdir -p ~/screenshots && flameshot gui --path ~/screenshots --clipboard"))
 
 hl.config({

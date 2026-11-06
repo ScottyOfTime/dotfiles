@@ -55,8 +55,10 @@ Marked † are bound by the theme (zine shown).
 
 `input:resolve_binds_by_sym` is on because `wtype` types through its own
 temporary keymap, where the en dash sits on keycode 9. With the option off,
-Hyprland reads binds through the normal layout, so SUPER (still held on
-release) plus keycode 9 matched `mod+Escape` and opened the power menu.
+Hyprland reads binds through the normal layout, so SUPER (still held)
+plus keycode 9 matched `mod+Escape` and opened the power menu. The bind
+fires on press, not release: with the option on, a release bind lets the
+`-` press through, so apps got a hyphen before the dash.
 
 Scale is worked out per monitor from its pixel density
 ([setup.md](setup.md#another-machine)). On the desktop
