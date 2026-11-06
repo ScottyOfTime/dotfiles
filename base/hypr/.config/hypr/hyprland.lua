@@ -73,9 +73,11 @@ hl.on("hyprland.start", function()
 end)
 
 hl.config({
-    -- binds match the typed symbol: wtype types through its own keymap,
-    -- where the en dash (mod+minus) lands on Escape's keycode
-    input  = { repeat_delay = 250, repeat_rate = 40, resolve_binds_by_sym = true, touchpad = { natural_scroll = true } },
+    -- for mod+minus's wtype, whose own keymap puts the dash on Escape's
+    -- keycode: binds match the symbol (not mod+Escape), and its keys don't
+    -- share the held mod (apps ignore mod+dash)
+    input  = { repeat_delay = 250, repeat_rate = 40, resolve_binds_by_sym = true,
+               touchpad = { natural_scroll = true }, virtualkeyboard = { share_states = 0 } },
     binds  = { workspace_back_and_forth = true },
     cursor = { hide_on_key_press = true, no_warps = true },
     -- lets a new locker take over if the theme's locker dies while locked

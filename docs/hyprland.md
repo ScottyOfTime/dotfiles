@@ -48,17 +48,18 @@ Marked † are bound by the theme (zine shown).
 | `mod+L` | lock (the theme's `hypr-theme/lock`) |
 | `mod+Escape` | power menu † (zine) |
 | `mod+Tab` | window overview † (zine) |
-| `mod+minus` | type an en dash (`wtype`; needs `resolve_binds_by_sym`, see below the table) |
+| `mod+minus` | type an en dash (`wtype`; see below the table) |
 | `Print` | flameshot region screenshot to `~/screenshots` + clipboard |
 | media keys | playerctl and mic mute in base; volume/brightness † (they drive the theme's OSD) |
 | `mod+shift+Q` | exit Hyprland (`hl.dsp.exit()`; the old `hyprctl dispatch exit` is a no-op in Lua mode) |
 
-`input:resolve_binds_by_sym` is on because `wtype` types through its own
-temporary keymap, where the en dash sits on keycode 9. With the option off,
-Hyprland reads binds through the normal layout, so SUPER (still held)
-plus keycode 9 matched `mod+Escape` and opened the power menu. The bind
-fires on press, not release: with the option on, a release bind lets the
-`-` press through, so apps got a hyphen before the dash.
+`mod+minus` runs `wtype`, which types through its own temporary keymap
+where the en dash sits on keycode 9 (Escape in the normal layout). Two
+input settings make that work: `resolve_binds_by_sym`, so binds match
+the dash rather than `mod+Escape` (the power menu), and
+`virtualkeyboard.share_states = 0`, so the dash reaches apps without the
+held SUPER (shared, Obsidian ignored it as SUPER+dash). The bind fires on
+press: a release bind lets the `-` press through, a stray hyphen.
 
 Scale is worked out per monitor from its pixel density
 ([setup.md](setup.md#another-machine)). On the desktop
