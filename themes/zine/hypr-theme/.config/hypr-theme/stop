@@ -1,2 +1,5 @@
 #!/bin/sh
+pid=$XDG_RUNTIME_DIR/qs-supervisor.pid
+[ -f "$pid" ] && kill "$(cat "$pid")" 2>/dev/null
+rm -f "$pid"
 pkill -x qs

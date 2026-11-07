@@ -164,7 +164,7 @@ binds as zine ([zine-quickshell.md](zine-quickshell.md)).
 | `Osd.qml` | `v: 50% [##########----------]` box under the bar; `b:` for brightness |
 | `Notifications.qml` | One log line each under the bar, top-right: `[HH:mm] app: summary - body` plus `[action]`s; red and sticky when critical; click dismisses |
 | `MusicPopup.qml` | Track, artist · album, text progress bar, `[prev] [play] [next]` |
-| `Lock.qml` | Logo (`Tty.logo`), user and masked password on the screen at 0,0; PAM `login`, identical to zine's |
+| `Lock.qml` | Logo (`Tty.logo`), user and masked password on the screen at 0,0; PAM `login` and the crash relock (`$XDG_RUNTIME_DIR/qs-locked`, see `zine-quickshell.md`), identical to zine's |
 | `Overview.qml` | Every window as a `WS CLASS TITLE` row, like `ps`; up/down/Tab, Enter focuses, Esc or a click outside closes (`SUPER+Tab`) |
 | `Wallpaper.qml` | The burned-in logo (`Tty.logo`), sized to ~60% of the screen's height |
 | `Special.qml` | `qs ipc call special toggle <name>` (from `hypr-theme/special`): blanks the focused screen with `Reveal`, dispatches the toggle 40ms later so the window never shows at full brightness first, then warms up (260ms). Hiding is a plain toggle. Tracks open scratchpads per monitor from `activespecialv2` |

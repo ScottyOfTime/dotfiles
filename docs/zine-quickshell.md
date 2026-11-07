@@ -4,7 +4,11 @@ The whole zine shell UI is Quickshell (QML), in
 `themes/zine/quickshell/.config/quickshell/`.
 It replaced waybar, fuzzel, wob, mako, swaybg + the ImageMagick wallpaper
 script and (as primary locker) hyprlock.
-Started by the theme's `hypr-theme/start` (`qs`), stopped by `stop`.
+Started by the theme's `hypr-theme/start`, which runs `qs` in a loop that
+restarts it if it crashes and keeps its stderr in `~/.local/state/qs.log`
+(Qt's fatal errors only go there, never to `qs log`). `stop` kills the loop
+(`$XDG_RUNTIME_DIR/qs-supervisor.pid`) and then `qs`; a clean `qs` exit
+(status 0) also ends it. Oldschool uses the same scripts.
 
 ## Files
 
@@ -81,6 +85,15 @@ Give every scrap its own `seed`; tilts alternate sign between neighbours.
   separate instance that aborts at the "Password:" prompt, and check
   `journalctl` for PAM errors. Unexpected PAM errors show as
   "auth broken" on the lock screen rather than "wrong password".
+
+- **`qs` can die when every monitor disconnects.** On DPMS off both DP
+  monitors drop off the bus (DP deep sleep), Hyprland briefly has no
+  outputs, and `qs` has exited silently there (no core dump), taking the
+  lock with it. `Lock.qml` writes `locked` to `$XDG_RUNTIME_DIR/qs-locked`
+  while the session is locked and relocks on startup if it's set, so the
+  restarted `qs` takes the lock back over (`allow_session_lock_restore`).
+  The cause is in `~/.local/state/qs.log` next time. Turning off DP deep
+  sleep in the monitors' menus avoids the disconnect.
 
 ## Recovery if the lock breaks
 

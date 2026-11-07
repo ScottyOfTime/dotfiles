@@ -106,4 +106,6 @@ ayu) give both a 2px one (`floating-terminal-outline` rule in their
 
 `hypridle.conf`: lock after 10 min, screens off at 11, lock before sleep,
 screens on after waking. Locking runs the theme's `~/.config/hypr-theme/lock`.
-Video and games inhibit idle.
+Video and games inhibit idle. The DP monitors disconnect entirely when
+DPMS turns them off; the Quickshell themes survive that by restarting `qs`
+and relocking (`zine-quickshell.md`).

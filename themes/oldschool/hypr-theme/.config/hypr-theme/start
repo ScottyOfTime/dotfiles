@@ -1,2 +1,11 @@
 #!/bin/sh
-exec qs
+# qs restarts if it crashes (Lock.qml relocks if it died locked); stderr,
+# where Qt's fatal errors go, is kept in the log
+log=${XDG_STATE_HOME:-$HOME/.local/state}/qs.log
+mkdir -p "${log%/*}"
+echo $$ > "$XDG_RUNTIME_DIR/qs-supervisor.pid"
+: > "$log"
+until qs >>"$log" 2>&1; do
+    echo "--- qs exited $?, restarting $(date '+%F %T')" >>"$log"
+    sleep 1
+done

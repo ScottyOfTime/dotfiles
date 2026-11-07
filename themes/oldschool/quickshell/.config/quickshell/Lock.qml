@@ -42,6 +42,16 @@ Scope {
         pam.start();
     }
 
+    // marks the session locked across a qs crash (monitors hot-unplugging on
+    // DPMS off kill it), so the restarted qs (hypr-theme/start) relocks at once
+    FileView {
+        id: marker
+        path: Quickshell.env("XDG_RUNTIME_DIR") + "/qs-locked"
+        blockLoading: true
+        printErrors: false
+    }
+    Component.onCompleted: if (marker.text().trim() === "locked") lockNow()
+
     IpcHandler {
         target: "lock"
         function lock(): void { lock.lockNow(); }
@@ -75,6 +85,7 @@ Scope {
 
     WlSessionLock {
         id: session
+        onLockedChanged: marker.setText(locked ? "locked" : "")
 
         WlSessionLockSurface {
             id: surface
