@@ -32,6 +32,7 @@ python-gobject
 sddm
 stow
 sudo
+tmux
 tree
 ttf-jetbrains-mono
 unzip

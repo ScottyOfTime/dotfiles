@@ -67,6 +67,25 @@ Its `config.toml` belongs to the theme (zine's is generated, with dark and
 light colours and `auto_switch` following the terminal). Apply changes to a
 running server with `herdr server reload-config`.
 
+## tmux
+
+Base's `tmux/.tmux.conf`: mouse, windows and panes numbered from 1 (and
+renumbered when one closes), vi copy mode, a short `escape-time` for vim,
+and splits and new windows open in the current pane's folder. `prefix r`
+re-reads it. It's `~/.tmux.conf`, not `~/.config/tmux/tmux.conf`: tmux
+reads only the first config it finds and `~/.tmux.conf` comes first, so
+`./install` moving an existing one to `.bak` is what lets ours load.
+`TERM` inside is `tmux-256color`; truecolour works without
+`terminal-features` because Ghostty's terminfo has `Tc`.
+
+Colours come from the theme's `tmux-theme/theme.conf.tmpl` (its own folder,
+like `ghostty-theme`, so base and theme don't share a stow directory),
+rendered from the palette and sourced at the end of `.tmux.conf`. The status
+bar is a `panel` strip in `dim` text with the current window, selections,
+messages and the active pane border in the accent. tmux reads its config
+only when the server starts, so `lib/theme.sh`'s `reload` sources the theme
+file into a running server on every mode or theme switch.
+
 ## Yazi
 
 Only its colours are configured: each theme has `yazi/theme.toml.tmpl`,

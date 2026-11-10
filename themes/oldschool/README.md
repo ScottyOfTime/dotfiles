@@ -57,7 +57,7 @@ from `blue` on are warm-shifted, for the terminal and editors only.
 - **Type:** Terminus everywhere (an unhinted outline copy for Ghostty),
   or any monospace font from `SUPER+SHIFT+F`. The cursor is the Windows 95
   arrow, scaled up 2x and 3x.
-- **Apps:** Ghostty (flat text tabs), vim/nvim, herdr, yazi (amber icons),
+- **Apps:** Ghostty (flat text tabs), vim/nvim, tmux, herdr, yazi (amber icons),
   btop (block graphs), htop (Monochrome); GNOME through the `gnome`
   package. `system/install-sddm` makes the lock screen the login screen.
 

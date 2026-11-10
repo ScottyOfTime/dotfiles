@@ -52,10 +52,11 @@ needs() {
         # fontconfig remaps sans/mono for every app: only for the Hyprland look
         hypr|hypr-theme|fontconfig) echo Hyprland ;;
         quickshell) echo qs ;;
+        tmux-theme) echo tmux ;;
         gnome) echo gnome-shell ;;
         ghostty-theme) echo ghostty ;;
         vim-theme) echo vim nvim ;;
-        fastfetch|ghostty|nvim|vim|herdr|htop|btop|yazi|waybar|fuzzel|mako|wob) echo "$1" ;;
+        fastfetch|ghostty|nvim|vim|tmux|herdr|htop|btop|yazi|waybar|fuzzel|mako|wob) echo "$1" ;;
     esac
 }
 
@@ -68,6 +69,7 @@ about() {
         */ghostty) echo "terminal settings" ;;
         */hypr) echo "Hyprland: binds, rules, idle" ;;
         */nvim) echo "Neovim config and plugins" ;;
+        */tmux) echo "tmux: mouse, vi keys, splits in the same folder" ;;
         */vim) echo "Vim config" ;;
         base/yazi) echo "file manager: keys, file picker, folder handler" ;;
         theme/yazi) echo "yazi colours" ;;
@@ -77,6 +79,7 @@ about() {
         */htop) echo "htop layout and colours" ;;
         */hypr-theme) echo "Hyprland look, lock, theme binds" ;;
         */quickshell) echo "bar, launcher, notifications, lock" ;;
+        */tmux-theme) echo "tmux colours" ;;
         */vim-theme) echo "vim/nvim colours" ;;
         */gnome) echo "GNOME shell + GTK app colours, fonts, wallpaper" ;;
         */waybar|*/fuzzel|*/mako|*/wob) echo "${1#*/} config and colours" ;;

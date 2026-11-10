@@ -13,7 +13,7 @@ Written against GNOME Shell 46 (Ubuntu 24.04).
 | GTK 4 / libadwaita apps (Files, Settings, Text Editor, …) | `~/.config/gtk-4.0/gtk.css` redefines libadwaita's named colours |
 | Fonts, cursor, dark mode, animations | `gsettings`, as on Hyprland |
 | Wallpaper | A solid palette `bg` (`org.gnome.desktop.background`); zine's collage is drawn by Quickshell, so there's no GNOME equivalent |
-| Ghostty, editors, yazi, btop | Unchanged: their theme packages work anywhere |
+| Ghostty, editors, tmux, yazi, btop | Unchanged: their theme packages work anywhere |
 
 Shapes follow the theme: zine's floating surfaces are square with a 2px ink
 outline and a hard 4px ink shadow, oldschool's square and flat with a 1px

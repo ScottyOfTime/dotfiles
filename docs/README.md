@@ -10,7 +10,7 @@ Everything practical (shell, editors, keybinds, window rules) lives once in
 | [setup.md](setup.md) | Installing on a machine, packages, stow, Debian/Ubuntu |
 | [themes.md](themes.md) | How themes plug in, switching, making a new one |
 | [hyprland.md](hyprland.md) | Shared Hyprland config: keybinds, rules, idle/lock |
-| [apps.md](apps.md) | Ghostty, bash prompt, nvim, fastfetch, fonts |
+| [apps.md](apps.md) | Ghostty, bash prompt, nvim, tmux, fastfetch, fonts |
 | [zine-theme.md](zine-theme.md) | **zine**: the look, palette, shapes, wallpaper |
 | [zine-pipeline.md](zine-pipeline.md) | **zine**: how colours flow into every app |
 | [zine-quickshell.md](zine-quickshell.md) | **zine**: bar, launcher, popups, lock screen, overview |
@@ -22,17 +22,18 @@ Everything practical (shell, editors, keybinds, window rules) lives once in
 
 ```
 base/                shared stow packages, always installed
-  bash/ nvim/ vim/ fastfetch/ fontconfig/
+  bash/ nvim/ vim/ tmux/ fastfetch/ fontconfig/
   hypr/              hyprland.lua (binds, rules), hypridle, dropdown script
   ghostty/           config.ghostty (shared terminal settings)
 themes/
   zine/              quickshell, palette, darkman, hypr-theme, ghostty-theme,
-                     vim-theme, herdr, yazi, btop, colorscheme/ (zine.toml + build.py),
-                     packages.txt, README.md + preview/ (every theme)
+                     vim-theme, tmux-theme, herdr, yazi, btop,
+                     colorscheme/ (zine.toml + build.py), packages.txt,
+                     README.md + preview/ (every theme)
   oldschool/         same layout as zine (quickshell, palette, darkman,
-                     hypr-theme, ghostty-theme, vim-theme, herdr, yazi, btop, colorscheme/)
+                     hypr-theme, ghostty-theme, vim-theme, tmux-theme, herdr, yazi, btop, colorscheme/)
   ayu/               waybar, fuzzel, mako, wob, palette, darkman,
-                     hypr-theme, ghostty-theme, vim-theme, herdr, yazi, btop, packages.txt
+                     hypr-theme, ghostty-theme, vim-theme, tmux-theme, herdr, yazi, btop, packages.txt
 README.md            the themes at a glance; themes/<name>/README.md for each
 install              setup: menus for the theme and what to link, backs up conflicts
 theme                switcher script

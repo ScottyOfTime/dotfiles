@@ -47,7 +47,7 @@ dark mode on top and light mode below.
 ## Layout
 
 ```
-base/       shared stow packages: bash, nvim, vim, ghostty, hypr, yazi, ...
+base/       shared stow packages: bash, nvim, vim, tmux, ghostty, hypr, yazi, ...
 themes/     one folder of stow packages per look
 lib/        what install/theme/uninstall share; lib/distro/ for Arch vs Debian
 packages/   package lists (Arch, AUR, Debian names)

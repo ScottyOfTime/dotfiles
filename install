@@ -6,7 +6,7 @@
 #                          real files in the way go to <file>.bak, then it
 #                          builds and switches to the theme
 cd "$(dirname "$(readlink -f "$0")")" || exit 1
-base="bash fastfetch fontconfig ghostty hypr nvim vim yazi"
+base="bash fastfetch fontconfig ghostty hypr nvim tmux vim yazi"
 . lib/links.sh
 . lib/distro.sh
 ask=1

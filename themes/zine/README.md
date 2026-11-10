@@ -54,7 +54,7 @@ only for errors.
   hostname, tape and halftone dots) that drops in piece by piece.
 - **Type:** JetBrains Mono everywhere, bold in the UI. The cursor is
   Bibata Modern Classic.
-- **Apps:** Ghostty, vim/nvim, herdr, yazi and btop share the palette;
+- **Apps:** Ghostty, vim/nvim, tmux, herdr, yazi and btop share the palette;
   GNOME gets it through the `gnome` package.
 
 ## Needs
