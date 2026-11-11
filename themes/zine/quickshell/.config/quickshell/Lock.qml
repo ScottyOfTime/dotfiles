@@ -16,6 +16,7 @@ Scope {
         password = "";
         status = "";
         session.locked = true;
+        marker.setText("locked");
     }
 
     // the scrap falls away, then the session actually unlocks
@@ -52,7 +53,7 @@ Scope {
     }
 
     Timer { id: previewEnd; interval: 6000; onTriggered: lock.leave() }
-    Timer { id: unlockAfterLeave; interval: 340; onTriggered: { session.locked = false; lock.status = ""; } }
+    Timer { id: unlockAfterLeave; interval: 340; onTriggered: { session.locked = false; marker.setText("unlocked"); lock.status = ""; } }
 
     PamContext {
         id: pam
@@ -77,7 +78,6 @@ Scope {
 
     WlSessionLock {
         id: session
-        onLockedChanged: marker.setText(locked ? "locked" : "")
 
         WlSessionLockSurface {
             color: Theme.bg

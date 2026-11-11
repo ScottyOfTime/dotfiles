@@ -92,7 +92,16 @@ Give every scrap its own `seed`; tilts alternate sign between neighbours.
   lock with it. `Lock.qml` writes `locked` to `$XDG_RUNTIME_DIR/qs-locked`
   while the session is locked and relocks on startup if it's set, so the
   restarted `qs` takes the lock back over (`allow_session_lock_restore`).
-  The cause is in `~/.local/state/qs.log` next time. Turning off DP deep
+  `lockNow()` and the unlock timer write the marker (`locked` /
+  `unlocked`) themselves: written from `WlSessionLock.onLockedChanged`,
+  the unlock never reached the file, it stayed `locked`, and the next
+  reload or restart (even editing a `.qml` file) locked the session.
+  The cause is in `~/.local/state/qs.log` next time.
+- **Find a screen's Hyprland monitor by name.** `Hyprland.monitorFor(screen)`
+  keeps a dead object after the monitors disconnect and come back, so a
+  bar's workspace filter stopped matching and the left bar showed none.
+  `Bar.qml` and `Focus.qml` look it up in `Hyprland.monitors` by name,
+  which re-resolves. Turning off DP deep
   sleep in the monitors' menus avoids the disconnect.
 
 ## Recovery if the lock breaks

@@ -24,6 +24,7 @@ Scope {
         status = "";
         drawn = 0;
         session.locked = true;
+        marker.setText("locked");
         scan.restart();
     }
 
@@ -60,7 +61,7 @@ Scope {
     }
 
     Timer { id: previewEnd; interval: 6000; onTriggered: lock.leave() }
-    Timer { id: unlockAfterLeave; interval: 250; onTriggered: { session.locked = false; lock.status = ""; } }
+    Timer { id: unlockAfterLeave; interval: 250; onTriggered: { session.locked = false; marker.setText("unlocked"); lock.status = ""; } }
 
     PamContext {
         id: pam
@@ -85,7 +86,6 @@ Scope {
 
     WlSessionLock {
         id: session
-        onLockedChanged: marker.setText(locked ? "locked" : "")
 
         WlSessionLockSurface {
             id: surface

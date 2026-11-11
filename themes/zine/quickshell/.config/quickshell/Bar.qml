@@ -10,7 +10,9 @@ PanelWindow {
     id: bar
 
     required property var modelData
-    readonly property var monitor: Hyprland.monitorFor(modelData)
+    // by name, re-resolved: monitorFor keeps a dead object after the screens
+    // sleep and come back, and its workspaces stop matching
+    readonly property var monitor: Hyprland.monitors.values.find(m => m.name === modelData.name) ?? null
     readonly property var sink: Pipewire.defaultAudioSink
     readonly property var player: Mpris.players.values.find(p => p.identity === "Spotify")
         ?? Mpris.players.values[0] ?? null
