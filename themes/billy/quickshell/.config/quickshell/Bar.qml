@@ -6,8 +6,9 @@ import Quickshell.Services.Mpris
 import Quickshell.Services.Pipewire
 import Quickshell.Wayland
 
-// a strip of gaffer tape across the top, written on in paint marker; the
-// focused workspace is circled in pink, one shown elsewhere underlined
+// gaffer tape run along the top edge, edge to edge, written on in paint
+// marker; the focused workspace is circled in pink, one shown elsewhere
+// underlined
 PanelWindow {
     id: bar
 
@@ -25,8 +26,8 @@ PanelWindow {
 
     screen: modelData
     anchors { top: true; left: true; right: true }
-    implicitHeight: 46
-    exclusiveZone: 46
+    implicitHeight: 40
+    exclusiveZone: 40
     color: "transparent"
     WlrLayershell.namespace: "bar"
 
@@ -36,11 +37,11 @@ PanelWindow {
     component Sep: Marker { text: "x"; color: Qt.alpha(Theme.paper, 0.4); font.pixelSize: 13; anchors.verticalCenter: parent?.verticalCenter }
 
     Gaffer {
-        anchors { fill: parent; topMargin: 4; bottomMargin: 6; leftMargin: 2; rightMargin: 2 }
-        seed: bar.modelData.x
+        anchors.fill: parent
+        tear: 0
 
         Row {
-            anchors { left: parent.left; leftMargin: 26; verticalCenter: parent.verticalCenter }
+            anchors { left: parent.left; leftMargin: 20; verticalCenter: parent.verticalCenter }
             spacing: 14
 
             Row {
@@ -58,8 +59,8 @@ PanelWindow {
 
                         Scribble {
                             anchors.centerIn: parent
-                            width: parent.width + 20
-                            height: parent.height + 4
+                            width: parent.width + 18
+                            height: bar.height - 12
                             visible: drawn > 0
                             drawn: parent.modelData.focused ? 1 : 0
                         }
@@ -111,7 +112,7 @@ PanelWindow {
         }
 
         Row {
-            anchors { right: parent.right; rightMargin: 28; verticalCenter: parent.verticalCenter }
+            anchors { right: parent.right; rightMargin: 20; verticalCenter: parent.verticalCenter }
             spacing: 12
 
             Marker {
