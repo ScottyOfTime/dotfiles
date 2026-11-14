@@ -114,7 +114,6 @@ PanelWindow {
                 visible: index < menu.dealt
                 width: word.implicitWidth
                 height: word.implicitHeight + 40
-                rotation: [-3, 2, -1.5, 3, -2][index]
 
                 Spray {
                     visible: option.picked

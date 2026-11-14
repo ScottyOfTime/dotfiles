@@ -64,9 +64,7 @@ PopupWindow {
         y: 14
         width: 440
         height: 270
-        rotation: -1.5
 
-        Rectangle { x: 7; y: 7; width: parent.width; height: parent.height; radius: 12; color: Qt.alpha(Theme.ink, 0.6) }
         Rectangle {
             anchors.fill: parent
             radius: 12
@@ -160,7 +158,6 @@ PopupWindow {
             ClippingRectangle {
                 x: 290; y: 30
                 width: 76; height: 76
-                rotation: 5
                 color: Theme.ink
                 Image {
                     anchors.fill: parent
@@ -191,19 +188,19 @@ PopupWindow {
         spacing: 12
 
         Dymo {
-            text: "<<"; seed: 62; tilt: -2
+            text: "<<"; seed: 62
             opacity: popup.player?.canGoPrevious ? 1 : 0.4
             onClicked: popup.player.previous()
         }
         Dymo {
             text: popup.player?.isPlaying ? "pause" : "play"
-            seed: 63; tilt: 1.5
+            seed: 63
             tape: Theme.accent
             letters: Theme.ink
             onClicked: popup.player.togglePlaying()
         }
         Dymo {
-            text: ">>"; seed: 64; tilt: -1
+            text: ">>"; seed: 64
             opacity: popup.player?.canGoNext ? 1 : 0.4
             onClicked: popup.player.next()
         }

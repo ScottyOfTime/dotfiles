@@ -36,7 +36,7 @@ hard shadows on tilted paper scraps.
 ### [billy](themes/billy)
 
 2000s punk, low tech: the distro logo sprayed on a bare wall, and a shell
-of label-maker tape, spray paint and photocopies.
+of gaffer tape written on in paint marker.
 
 [![billy](themes/billy/preview/dark.png)](themes/billy)
 

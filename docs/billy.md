@@ -1,8 +1,8 @@
 # billy
 
 2000s punk, low tech, graffiti: the distro's logo sprayed on a bare
-wall, and a shell made from label-maker tape, spray paint, photocopies
-and duct tape. Lives in `themes/billy/`; switch with `./theme billy`.
+wall, and a shell of black gaffer tape written on in paint marker, with
+spray paint, label-maker tape and a mixtape. Lives in `themes/billy/`; switch with `./theme billy`.
 The colour pipeline is zine's ([zine-pipeline.md](zine-pipeline.md)):
 `colorscheme/billy.toml` → `build.py` → darkman templates. The shell is
 its own.
@@ -12,6 +12,9 @@ its own.
 - **One can of paint.** The UI uses the neutrals and the hot pink
   `accent`. `acid` (the terminal's green) appears only in the
   wallpaper's overspray; `red` is errors, high load and a wrong password.
+- **Straight, flat, unshadowed.** Nothing in the shell is tilted and
+  nothing casts a shadow (zine's scraps do both): tape is stuck on
+  square, and writing is the decoration.
 - **Low tech motion.** Things go up in hard steps instead of gliding:
   `Coat` shows its contents in three opacity steps, the launcher moves
   in four, the power menu's words go up one at a time, sprays come on in
@@ -32,23 +35,25 @@ its own.
     so each run starts at the shape's lower edge in its column;
   - pink and acid **overspray** specks, and a small marker tag in the
     corner.
-- **Bar (`Bar.qml`).** No bar, just label-maker strips (`Dymo`) stuck on
-  the wall: workspaces as `01`, `02` (the focused one with pink letters
-  and a spray of pink behind; one shown on another monitor on `surface`
-  tape), the window title on white tape, the time on pink tape, then the
-  date, the player, `vol`, `cpu`, `mem` and `net`.
-- **Launcher (`SUPER+Space`).** A photocopied sheet taped up from the
-  bottom edge, with the pick marked by a pink highlighter.
+- **Bar (`Bar.qml`).** One strip of gaffer tape across the top with torn
+  ends, written on in white paint marker: the workspaces (the focused one
+  circled in pink, drawn in four strokes, overshooting where it closes;
+  one shown on another monitor underlined), the window title, the time
+  in pink and the date in the middle, then the player, `vol`, `cpu`,
+  `mem` and `net` split by `x`s.
+- **Launcher (`SUPER+Space`).** A slab of gaffer tape stuck up from the
+  bottom edge, written on in marker; the pick is a stripe of pink.
 - **Power menu (`SUPER+Escape`).** Lock, sleep, log out, reboot and shut
   down stencilled across a darkened screen; the pick gets a spray of pink
   with drips. Keys 1–5, arrows, Enter.
-- **OSD.** Volume and brightness as tally marks on a scrap of paper, one
-  per 5%, with the fifth stroke of each group in pink (red past 100%).
+- **OSD.** Volume and brightness as tally marks in marker on gaffer tape,
+  one per 5%, with the fifth stroke of each group in pink (red past 100%).
 - **Music popup.** A cassette: the track in marker on the label, the art
   stuck on it, reels that turn in 30° clicks while it plays, label-tape
   buttons underneath.
-- **Notifications.** Taped-up photocopies, top right; critical ones get
-  a spray of pink and stay until clicked.
+- **Notifications.** Strips of gaffer tape, top right, the summary in
+  marker; critical ones are written in pink over a spray of pink and stay
+  until clicked.
 - **Lock.** The wall, with `password` on label tape and the password
   punched out as `*`s below it; every key jolts the tape sideways. A
   wrong password turns the prompt into red `wrong xN` tape. On success
@@ -60,10 +65,12 @@ its own.
 
 | File | What |
 |---|---|
-| `Dymo.qml` | label-maker tape: raised capitals (`Text.Raised`), scissor-cut ends from `seed`; `hot` sprays the accent behind it |
+| `Gaffer.qml` | black gaffer tape: torn ends, a cloth weave |
+| `Marker.qml` | paint-marker writing (Liberation Sans, black italic) |
+| `Scribble.qml` | a hand-drawn loop, drawn in in four strokes |
+| `Dymo.qml` | label-maker tape (lock, power menu keys, buttons): raised capitals (`Text.Raised`), scissor-cut ends from `seed`; `hot` sprays the accent behind it |
 | `Spray.qml` | a spray-painted patch: overlapping blurred bursts, overspray specks, drips |
 | `Coat.qml` | shows its children in three hard steps, `order` beats after it's created |
-| `Tape.qml` | a strip of duct tape |
 | `Silhouette.qml` | a fill (colour or gradient) cut out by a mask, with a threshold |
 | `Wall.qml` | the wallpaper and lock background |
 
@@ -88,6 +95,8 @@ its own.
   `autoPaddingEnabled: false` so they line up with the logo, so the logo
   sits inside a margin of the piece (20% of its size) or the cloud is cut
   off at the edges.
-- **Fonts.** JetBrains Mono for tape and stencils, Liberation Sans (bold,
-  italic) as the marker hand; without `ttf-liberation` Qt falls back to
+- **On the tape, use faded `paper`, not `dim`.** The tape is `ink` in
+  both modes, and light mode's `dim` is too dark to read on it.
+- **Fonts.** JetBrains Mono for label tape and stencils, Liberation Sans
+  (black italic) as the marker hand; without `ttf-liberation` Qt falls back to
   another sans.

@@ -6,7 +6,8 @@ import Quickshell.Services.Mpris
 import Quickshell.Services.Pipewire
 import Quickshell.Wayland
 
-// no bar as such: label-maker strips stuck straight onto the wall
+// a strip of gaffer tape across the top, written on in paint marker; the
+// focused workspace is circled in pink, one shown elsewhere underlined
 PanelWindow {
     id: bar
 
@@ -24,116 +25,124 @@ PanelWindow {
 
     screen: modelData
     anchors { top: true; left: true; right: true }
-    implicitHeight: 50
-    exclusiveZone: 42
+    implicitHeight: 46
+    exclusiveZone: 46
     color: "transparent"
     WlrLayershell.namespace: "bar"
 
     SystemClock { id: clock; precision: SystemClock.Minutes }
     PwObjectTracker { objects: [bar.sink] }
 
-    Row {
-        anchors { left: parent.left; leftMargin: 18; verticalCenter: parent.verticalCenter }
-        spacing: 12
+    component Sep: Marker { text: "x"; color: Qt.alpha(Theme.paper, 0.4); font.pixelSize: 13; anchors.verticalCenter: parent?.verticalCenter }
+
+    Gaffer {
+        anchors { fill: parent; topMargin: 4; bottomMargin: 6; leftMargin: 2; rightMargin: 2 }
+        seed: bar.modelData.x
 
         Row {
-            spacing: 8
-            anchors.verticalCenter: parent.verticalCenter
+            anchors { left: parent.left; leftMargin: 26; verticalCenter: parent.verticalCenter }
+            spacing: 14
 
-            Repeater {
-                model: Hyprland.workspaces.values.filter(w => w.monitor === bar.monitor && w.id > 0)
+            Row {
+                spacing: 16
+                anchors.verticalCenter: parent.verticalCenter
 
-                Dymo {
-                    required property var modelData
+                Repeater {
+                    model: Hyprland.workspaces.values.filter(w => w.monitor === bar.monitor && w.id > 0)
 
-                    text: String(modelData.id).padStart(2, "0")
-                    seed: modelData.id
-                    hot: modelData.focused
-                    tilt: [-2, 1.5, -1, 2.5][modelData.id % 4]
-                    tape: modelData.focused ? Theme.ink : modelData.active ? Theme.surface : Theme.ink
-                    letters: modelData.focused ? Theme.accent : modelData.active ? Theme.fg : Theme.paper
-                    anchors.verticalCenter: parent.verticalCenter
-                    onClicked: modelData.activate()
+                    Item {
+                        required property var modelData
+                        width: num.implicitWidth
+                        height: num.implicitHeight
+                        anchors.verticalCenter: parent.verticalCenter
+
+                        Scribble {
+                            anchors.centerIn: parent
+                            width: parent.width + 20
+                            height: parent.height + 4
+                            visible: drawn > 0
+                            drawn: parent.modelData.focused ? 1 : 0
+                        }
+                        Marker {
+                            id: num
+                            text: parent.modelData.id
+                            font.pixelSize: 19
+                        }
+                        Rectangle {
+                            visible: parent.modelData.active && !parent.modelData.focused
+                            x: -2; y: parent.height - 3
+                            width: parent.width + 4; height: 2.5
+                            radius: 1
+                            rotation: -4
+                            color: Qt.alpha(Theme.paper, 0.6)
+                        }
+                        MouseArea { anchors.fill: parent; anchors.margins: -6; onClicked: parent.modelData.activate() }
+                    }
                 }
+            }
+
+            Sep { visible: bar.title !== "" }
+
+            Marker {
+                visible: bar.title !== ""
+                text: bar.title.toLowerCase()
+                color: Qt.alpha(Theme.paper, 0.8)
+                width: Math.min(implicitWidth, 440)
+                elide: Text.ElideRight
+                anchors.verticalCenter: parent.verticalCenter
             }
         }
 
-        Dymo {
-            visible: bar.title !== ""
-            text: bar.title
-            maxWidth: 420
-            seed: 99
-            tilt: -0.8
-            tape: Theme.paper
-            letters: Theme.ink
-            anchors.verticalCenter: parent.verticalCenter
-        }
-    }
+        Row {
+            anchors.centerIn: parent
+            spacing: 12
 
-    Row {
-        anchors.centerIn: parent
-        spacing: 8
+            Marker {
+                text: Qt.formatDateTime(clock.date, "HH:mm")
+                color: Theme.accent
+                font.pixelSize: 21
+                anchors.verticalCenter: parent.verticalCenter
+            }
+            Marker {
+                text: Qt.formatDateTime(clock.date, "ddd d MMM").toLowerCase()
+                color: Qt.alpha(Theme.paper, 0.6)
+                anchors.verticalCenter: parent.verticalCenter
+            }
+        }
 
-        Dymo {
-            text: Qt.formatDateTime(clock.date, "HH:mm")
-            size: 17
-            seed: 7
-            tilt: -1.5
-            tape: Theme.accent
-            letters: Theme.ink
-            anchors.verticalCenter: parent.verticalCenter
-        }
-        Dymo {
-            text: Qt.formatDateTime(clock.date, "ddd d MMM")
-            seed: 8
-            tilt: 1
-            anchors.verticalCenter: parent.verticalCenter
-        }
-    }
+        Row {
+            anchors { right: parent.right; rightMargin: 28; verticalCenter: parent.verticalCenter }
+            spacing: 12
 
-    Row {
-        anchors { right: parent.right; rightMargin: 20; verticalCenter: parent.verticalCenter }
-        spacing: 8
-
-        Dymo {
-            id: music
-            visible: bar.player !== null
-            text: !bar.player ? "" : bar.player.isPlaying
-                ? `${bar.player.trackArtist} - ${bar.player.trackTitle}` : "paused"
-            maxWidth: 260
-            seed: 21
-            tilt: hovered ? 0 : 1.2
-            tape: Theme.paper
-            letters: Theme.ink
-            anchors.verticalCenter: parent.verticalCenter
-            onClicked: musicPopup.toggle()
-        }
-        Dymo {
-            text: !bar.sink?.audio ? "vol -" : bar.sink.audio.muted ? "muted"
-                : `vol ${Math.round(bar.sink.audio.volume * 100)}`
-            seed: 22; tilt: -1.5
-            letters: bar.sink?.audio?.muted ? Theme.dim : Theme.paper
-            anchors.verticalCenter: parent.verticalCenter
-            onClicked: bar.sink.audio.muted = !bar.sink.audio.muted
-            onWheeled: event => bar.sink.audio.volume = Math.max(0, Math.min(1.5,
-                bar.sink.audio.volume + (event.angleDelta.y > 0 ? 0.05 : -0.05)))
-        }
-        Dymo {
-            text: `cpu ${Stats.cpu}`
-            seed: 23; tilt: 2
-            letters: bar.load(Stats.cpu)
-            anchors.verticalCenter: parent.verticalCenter
-        }
-        Dymo {
-            text: `mem ${Stats.mem}`
-            seed: 24; tilt: -1
-            letters: bar.load(Stats.mem)
-            anchors.verticalCenter: parent.verticalCenter
-        }
-        Dymo {
-            text: `net ${Stats.net}`
-            seed: 25; tilt: 1.5
-            anchors.verticalCenter: parent.verticalCenter
+            Marker {
+                id: music
+                visible: bar.player !== null
+                text: !bar.player ? "" : bar.player.isPlaying
+                    ? `${bar.player.trackArtist} - ${bar.player.trackTitle}`.toLowerCase() : "paused"
+                width: Math.min(implicitWidth, 280)
+                elide: Text.ElideRight
+                anchors.verticalCenter: parent.verticalCenter
+                MouseArea { anchors.fill: parent; onClicked: musicPopup.toggle() }
+            }
+            Sep { visible: music.visible }
+            Marker {
+                text: !bar.sink?.audio ? "vol -" : bar.sink.audio.muted ? "muted"
+                    : `vol ${Math.round(bar.sink.audio.volume * 100)}`
+                color: bar.sink?.audio?.muted ? Qt.alpha(Theme.paper, 0.5) : Theme.paper
+                anchors.verticalCenter: parent.verticalCenter
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: bar.sink.audio.muted = !bar.sink.audio.muted
+                    onWheel: event => bar.sink.audio.volume = Math.max(0, Math.min(1.5,
+                        bar.sink.audio.volume + (event.angleDelta.y > 0 ? 0.05 : -0.05)))
+                }
+            }
+            Sep {}
+            Marker { text: `cpu ${Stats.cpu}`; color: bar.load(Stats.cpu); anchors.verticalCenter: parent.verticalCenter }
+            Sep {}
+            Marker { text: `mem ${Stats.mem}`; color: bar.load(Stats.mem); anchors.verticalCenter: parent.verticalCenter }
+            Sep {}
+            Marker { text: `net ${Stats.net}`.toLowerCase(); anchors.verticalCenter: parent.verticalCenter }
         }
     }
 

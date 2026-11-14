@@ -137,7 +137,6 @@ Scope {
                             : lock.status === "checking" ? "checking" : "password"
                         size: 15
                         seed: 90
-                        tilt: -2
                         tape: lock.status === "failed" || lock.status === "broken" ? Theme.red : Theme.ink
                         letters: Theme.paper
                     }
@@ -148,7 +147,6 @@ Scope {
                         maxWidth: 700
                         size: 30
                         seed: 91 + lock.attempts
-                        tilt: lock.status === "failed" ? 2 : -1
                         hot: lock.status === "ok" || lock.status === "checking"
                         tape: Theme.ink
                         letters: lock.status === "ok" ? Theme.accent : Theme.paper

@@ -4,7 +4,8 @@ import Quickshell.Services.Notifications
 import Quickshell.Wayland
 import Quickshell.Widgets
 
-// notification server: each one a taped-up photocopy, stacked top-right;
+// notification server: each one a strip of gaffer tape written on in
+// marker, stacked top-right;
 // critical ones get a spray of the accent and stay until clicked
 PanelWindow {
     id: popups
@@ -44,7 +45,6 @@ PanelWindow {
 
                 width: 390
                 height: body.implicitHeight + 28
-                rotation: (modelData.id % 3) - 1
                 opacity: Math.ceil(t * 3) / 3
                 Behavior on t { NumberAnimation { duration: 180 } }
                 Component.onCompleted: t = 1
@@ -65,15 +65,7 @@ PanelWindow {
                     drips: 3
                     dripWidth: 5
                 }
-                Rectangle { x: 5; y: 5; width: parent.width; height: parent.height; color: Qt.alpha(Theme.ink, 0.5) }
-                Rectangle { anchors.fill: parent; color: Theme.paper }
-                Image {
-                    anchors.fill: parent
-                    source: "grain.png"
-                    fillMode: Image.Tile
-                    opacity: 0.1
-                }
-                Tape { x: parent.width / 2 - 40; y: -12; width: 80; rotation: (note.modelData.id % 2 ? 4 : -4) }
+                Gaffer { anchors.fill: parent; seed: note.modelData.id }
 
                 MouseArea {
                     id: mouse
@@ -84,8 +76,8 @@ PanelWindow {
 
                 Column {
                     id: body
-                    x: 16; y: 16
-                    width: 358
+                    x: 20; y: 14
+                    width: 350
                     spacing: 6
 
                     Row {
@@ -97,10 +89,9 @@ PanelWindow {
                             implicitSize: 22
                             anchors.verticalCenter: parent.verticalCenter
                         }
-                        Label {
-                            text: note.modelData.summary || note.modelData.appName
-                            font.pixelSize: 15
-                            font.weight: Font.Black
+                        Marker {
+                            text: (note.modelData.summary || note.modelData.appName).toLowerCase()
+                            color: note.critical ? Theme.accent : Theme.paper
                             width: 320
                             elide: Text.ElideRight
                             anchors.verticalCenter: parent.verticalCenter
@@ -109,6 +100,7 @@ PanelWindow {
 
                     Label {
                         visible: text !== ""
+                        color: Theme.paper
                         text: note.modelData.body
                         font.bold: false
                         width: 358
@@ -131,7 +123,8 @@ PanelWindow {
                                 text: modelData.text
                                 size: 11
                                 seed: index + 50
-                                tilt: index % 2 ? 1.5 : -1.5
+                                tape: Theme.paper
+                                letters: Theme.ink
                                 onClicked: modelData.invoke()
                             }
                         }

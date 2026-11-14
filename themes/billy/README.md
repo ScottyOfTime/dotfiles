@@ -1,8 +1,9 @@
 # billy
 
 2000s punk, low tech: the distro's logo sprayed graffiti-style on a bare
-wall, and a shell made of what was lying around: label-maker tape, spray
-paint, photocopies, duct tape, a mixtape. Things go up in hard steps
+wall, and a shell made of what was lying around: black gaffer tape
+written on in paint marker, spray paint, label-maker tape, a mixtape.
+Nothing is tilted and nothing casts a shadow. Things go up in hard steps
 rather than gliding, and nothing springs. One hot pink can does all the
 UI; an acid green one only shows up in the overspray.
 
@@ -30,9 +31,9 @@ errors.
 | `panel` | `252527` | `cdc9c1` | herdr, btop, GNOME panels |
 | `surface` | `343437` | `bdb9b0` | inactive window borders, label tape for a workspace shown elsewhere |
 | `fg` | `ebe8e1` | `151515` | body text |
-| `dim` | `8a8882` | `625f59` | duct tape, tags |
-| `ink` | `0a0a0a` | `151515` | label tape, outlines, marker |
-| `paper` | `ebe8e1` | `f6f4ee` | photocopies, white label tape, the logo's cloud outline |
+| `dim` | `8a8882` | `625f59` | the marker tag on the wall |
+| `ink` | `0a0a0a` | `151515` | gaffer and label tape, outlines |
+| `paper` | `ebe8e1` | `f6f4ee` | paint-marker writing, the logo's cloud outline |
 | `accent` | `ff3d8b` | `d4106c` | spray: the logo, the focused window's border, the focused workspace, picks |
 | `yellow` | `ffd23f` | `a87d00` | terminal and editors |
 | `acid` | `b8f028` | `5f8a00` | terminal and editors; the second can in the overspray |
@@ -50,12 +51,12 @@ errors.
   face, overspray and drips running off its lower edges.
 - **Windows:** square, 3px border, hot pink on the focused window and
   `surface` on the rest; no shadows, no blur, short straight animations.
-- **Bar:** no bar, just label-maker strips stuck on the wall; the focused
-  workspace gets a spray of pink behind its strip.
-- **Shell:** the launcher (`SUPER+Space`) is a taped-up photocopy with a
-  highlighter for the pick, the power menu (`SUPER+Escape`) stencils its
-  words across the screen, volume and brightness are tally marks, the
-  music popup is a cassette and notifications are taped-up photocopies.
+- **Bar:** a strip of gaffer tape across the top, written on in paint
+  marker; the focused workspace is circled in pink.
+- **Shell:** the launcher (`SUPER+Space`) and notifications are gaffer
+  tape too, the power menu (`SUPER+Escape`) stencils its words across the
+  screen, volume and brightness are tally marks, the music popup is a
+  cassette and the lock punches the password out on label tape.
 - **Terminal:** Ghostty's tabs are label tape.
 
 ## Needs

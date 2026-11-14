@@ -5,8 +5,8 @@ import Quickshell.Io
 import Quickshell.Wayland
 import Quickshell.Widgets
 
-// a photocopied sheet taped up from the bottom edge; the pick is marked
-// with a highlighter
+// a slab of gaffer tape stuck up from the bottom edge, written on in
+// paint marker; the pick is marked with a highlighter
 PanelWindow {
     id: launcher
 
@@ -69,40 +69,30 @@ PanelWindow {
         onCleared: launcher.close()
     }
 
-    Item {
+    Gaffer {
         id: sheet
         width: 500
         height: 590
         x: (launcher.width - width) / 2
-        y: launcher.height - height - 30 + (1 - Math.round(launcher.t * 4) / 4) * (height + 60)
-        rotation: -1.2
-
-        Rectangle { x: 6; y: 6; width: parent.width; height: parent.height; color: Qt.alpha(Theme.ink, 0.5) }
-        Rectangle { anchors.fill: parent; color: Theme.paper }
-        Image {
-            anchors.fill: parent
-            source: "grain.png"
-            fillMode: Image.Tile
-            opacity: 0.1
-        }
-        Tape { x: -30; y: -4; rotation: -35 }
-        Tape { x: parent.width - 60; y: -6; rotation: 33 }
+        y: launcher.height - height - 24 + (1 - Math.round(launcher.t * 4) / 4) * (height + 60)
+        seed: 3
+        tear: 9
 
         Column {
-            x: 26; y: 30
-            spacing: 12
+            x: 30; y: 24
+            spacing: 10
 
             Row {
                 spacing: 8
-                Label { text: ">"; color: Theme.accent; font.pixelSize: 20; font.weight: Font.Black }
+                Marker { text: ">"; color: Theme.accent; font.pixelSize: 22 }
                 TextInput {
                     id: search
                     width: 400
-                    color: Theme.ink
-                    font.family: Theme.font
-                    font.weight: Font.ExtraBold
-                    font.pixelSize: 18
-                    font.capitalization: Font.AllUppercase
+                    color: Theme.paper
+                    font.family: Theme.marker
+                    font.italic: true
+                    font.weight: Font.Black
+                    font.pixelSize: 21
                     onTextChanged: list.currentIndex = 0
                     Keys.onPressed: event => {
                         if (event.key === Qt.Key_Escape) launcher.close();
@@ -116,28 +106,23 @@ PanelWindow {
                 }
             }
 
-            Rectangle { width: 448; height: 4; color: Theme.ink; rotation: 0.6; antialiasing: true }
+            Rectangle { width: 440; height: 2; color: Theme.dim }
 
             ListView {
                 id: list
-                width: 448
-                height: 15 * 31
+                width: 440
+                height: 15 * 32
                 clip: true
                 model: launcher.apps
                 highlightMoveDuration: 0
-                highlight: Rectangle {
-                    color: Qt.alpha(Theme.accent, 0.55)
-                    radius: 5
-                    rotation: -0.8
-                    antialiasing: true
-                }
+                highlight: Rectangle { color: Theme.accent; radius: 3 }
 
                 delegate: Item {
                     id: entry
                     required property var modelData
                     required property int index
-                    width: 448
-                    height: 31
+                    width: 440
+                    height: 32
 
                     Row {
                         anchors { left: parent.left; leftMargin: 8; verticalCenter: parent.verticalCenter }
@@ -147,10 +132,9 @@ PanelWindow {
                             implicitSize: 20
                             anchors.verticalCenter: parent.verticalCenter
                         }
-                        Label {
-                            text: modelData.name
-                            color: Theme.ink
-                            font.pixelSize: 15
+                        Marker {
+                            text: modelData.name.toLowerCase()
+                            color: entry.ListView.isCurrentItem ? Theme.ink : Theme.paper
                             anchors.verticalCenter: parent.verticalCenter
                         }
                     }

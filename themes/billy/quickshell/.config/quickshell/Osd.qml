@@ -4,7 +4,8 @@ import Quickshell.Io
 import Quickshell.Services.Pipewire
 import Quickshell.Wayland
 
-// volume and brightness as tally marks on a scrap of paper, one per 5%;
+// volume and brightness as tally marks in paint marker on gaffer tape,
+// one per 5%;
 // volume follows pipewire, brightness arrives over ipc from the binds
 PanelWindow {
     id: osd
@@ -52,28 +53,23 @@ PanelWindow {
         function brightness(percent: int): void { osd.show("light", percent / 100, false); }
     }
 
-    Item {
+    Gaffer {
         anchors.centerIn: parent
         width: 380
-        height: 70
-        rotation: -1.5
+        height: 60
+        seed: 31
 
-        Rectangle { x: 5; y: 5; width: parent.width; height: parent.height; color: Qt.alpha(Theme.ink, 0.5) }
-        Rectangle { anchors.fill: parent; color: Theme.paper }
-        Tape { x: 150; y: -12; width: 80; rotation: 3 }
-
-        Dymo {
-            x: 14
+        Marker {
+            x: 22
             anchors.verticalCenter: parent.verticalCenter
-            text: osd.muted ? "muted" : osd.kind
-            seed: 31
-            tilt: -2
+            text: osd.muted ? "muted" : osd.kind === "vol" ? "vol" : "light"
+            width: 70
         }
 
         Row {
-            x: 120
+            x: 110
             anchors.verticalCenter: parent.verticalCenter
-            spacing: 12
+            spacing: 14
 
             Repeater {
                 model: 4
@@ -81,31 +77,31 @@ PanelWindow {
                     id: group
                     required property int index
                     width: 40
-                    height: 34
+                    height: 30
 
                     Repeater {
                         model: 4
                         Rectangle {
                             required property int index
                             x: 3 + index * 9
-                            width: 4
-                            height: 34
+                            width: 3.5
+                            height: 30
                             radius: 2
                             rotation: (index % 2 ? 3 : -2)
                             antialiasing: true
                             color: group.index * 5 + index < osd.marks
-                                ? (osd.value > 1 ? Theme.red : Theme.ink) : Qt.alpha(Theme.ink, 0.12)
+                                ? (osd.value > 1 ? Theme.red : Theme.paper) : Qt.alpha(Theme.paper, 0.1)
                         }
                     }
                     Rectangle {
                         anchors.centerIn: parent
-                        width: 4
-                        height: 50
+                        width: 3.5
+                        height: 46
                         radius: 2
                         rotation: 62
                         antialiasing: true
                         color: group.index * 5 + 4 < osd.marks
-                            ? (osd.value > 1 ? Theme.red : Theme.accent) : Qt.alpha(Theme.ink, 0.12)
+                            ? (osd.value > 1 ? Theme.red : Theme.accent) : Qt.alpha(Theme.paper, 0.1)
                     }
                 }
             }
