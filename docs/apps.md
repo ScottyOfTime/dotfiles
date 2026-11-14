@@ -64,8 +64,10 @@ the same itself via terminfo's `Se`.
 ## Herdr
 
 Its `config.toml` belongs to the theme (zine's is generated, with dark and
-light colours and `auto_switch` following the terminal). Apply changes to a
-running server with `herdr server reload-config`.
+light colours and `auto_switch` following the terminal). A running server
+keeps the colours it started with, so `lib/theme.sh`'s `reload` runs
+`herdr server reload-config` on every theme or mode switch; after editing
+the file by hand, run that yourself.
 
 ## tmux
 

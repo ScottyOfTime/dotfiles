@@ -50,7 +50,7 @@ render() {
 }
 
 # reload: Hyprland (and its cursor) while it runs, GNOME's shell stylesheet
-# when the gnome package is linked, Ghostty and tmux
+# when the gnome package is linked, Ghostty, herdr and tmux
 reload() {
     if pgrep -x Hyprland >/dev/null; then
         export HYPRLAND_INSTANCE_SIGNATURE=$(ls -t /run/user/$(id -u)/hypr/ | head -1)
@@ -59,6 +59,8 @@ reload() {
     fi
     [ -e "$ext/metadata.json" ] && "$root/lib/gnome-look" "$mode"
     pkill -SIGUSR2 -x ghostty
+    # herdr's server keeps the colours it started with
+    command -v herdr >/dev/null && herdr server reload-config >/dev/null 2>&1
     # tmux reads its config only when its server starts
     tmux has-session 2>/dev/null && tmux source-file -q ~/.config/tmux-theme/theme.conf
     # yazi reads its theme only at startup, and mod+E's keeps running:
