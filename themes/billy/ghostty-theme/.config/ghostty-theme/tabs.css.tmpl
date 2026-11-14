@@ -1,0 +1,65 @@
+/* tabs as label-maker tape: black strips of raised capitals, the current
+   one hot pink; no rounding, no tilt */
+tabbar,
+tabbar .box {
+  box-shadow: none;
+  background-color: var(--ghostty-bg);
+}
+
+tabbar .box {
+  padding: 6px 10px 8px;
+}
+
+tabbar tabbox {
+  padding: 0;
+  min-height: 0;
+}
+
+tabbar tabbox > tabboxchild {
+  margin: 0 4px;
+  border-radius: 0;
+}
+
+tabbar tabbox > separator {
+  margin: 0;
+  min-width: 0;
+  background: none;
+}
+
+tabbar tab {
+  min-height: 24px;
+  padding: 0 12px;
+  border-radius: 0;
+  border-top: 1px solid alpha(#${paper}, 0.15);
+  background-color: #${ink};
+  color: alpha(#${paper}, 0.6);
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-shadow: 0 -1px alpha(#${ink}, 0.6);
+}
+
+tabbar tab:hover {
+  color: #${paper};
+}
+
+tabbar tab:selected,
+tabbar tab:selected:hover,
+tabbar tabbox > tabboxchild tab:selected {
+  border-radius: 0;
+  background-color: #${accent};
+  color: #${ink};
+  text-shadow: 0 1px alpha(#${paper}, 0.35);
+}
+
+tabbar tab .tab-title {
+  margin: 0;
+}
+
+tabbar tab button.tab-close-button {
+  opacity: 0;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  margin: 0;
+  -gtk-icon-size: 0;
+}

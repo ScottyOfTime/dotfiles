@@ -33,6 +33,15 @@ hard shadows on tilted paper scraps.
 
 ![zine colours](themes/zine/preview/strip.svg)
 
+### [billy](themes/billy)
+
+2000s punk, low tech: the distro logo sprayed on a bare wall, and a shell
+of label-maker tape, spray paint and photocopies.
+
+[![billy](themes/billy/preview/dark.png)](themes/billy)
+
+![billy colours](themes/billy/preview/strip.svg)
+
 ### [ayu](themes/ayu)
 
 The earlier rice: Ayu colours with waybar, fuzzel, mako and wob.

@@ -1,0 +1,8 @@
+{
+  "uuid": "dotfiles-look@scotty",
+  "name": "Dotfiles look",
+  "description": "The dotfiles theme on GNOME Shell: its stylesheet, and following Dark Style",
+  "shell-version": [
+    "46"
+  ]
+}

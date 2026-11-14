@@ -1,0 +1,3 @@
+quickshell
+hyprlock
+ttf-liberation (the marker hand: tags, the cassette label)

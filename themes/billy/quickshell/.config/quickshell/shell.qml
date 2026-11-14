@@ -1,0 +1,28 @@
+import QtQuick
+import Quickshell
+import Quickshell.Io
+
+ShellRoot {
+    id: root
+    property bool barVisible: true
+
+    IpcHandler {
+        target: "bar"
+        function toggle(): void { root.barVisible = !root.barVisible; }
+    }
+    Binding { target: Stats; property: "active"; value: root.barVisible }
+
+    Variants {
+        model: Quickshell.screens
+        Wallpaper {}
+    }
+    Variants {
+        model: Quickshell.screens
+        Bar { visible: root.barVisible }
+    }
+    Launcher {}
+    Osd {}
+    Notifications {}
+    Lock { id: lock }
+    PowerMenu { lock: lock }
+}
