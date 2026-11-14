@@ -15,7 +15,7 @@ Everything practical (shell, editors, keybinds, window rules) lives once in
 | [zine-pipeline.md](zine-pipeline.md) | **zine**: how colours flow into every app |
 | [zine-quickshell.md](zine-quickshell.md) | **zine**: bar, launcher, popups, lock screen, overview |
 | [oldschool.md](oldschool.md) | **oldschool**: amber terminal, flat borderless text shell (after sxwm) |
-| [billy.md](billy.md) | **billy**: 2000s punk: graffiti wall wallpaper, gaffer-tape shell |
+| [graffiti.md](graffiti.md) | **graffiti**: 2000s punk: graffiti wall wallpaper, gaffer-tape shell |
 | [ayu.md](ayu.md) | **ayu**: the earlier waybar/fuzzel rice |
 | [gnome.md](gnome.md) | Each theme on GNOME (Ubuntu): shell stylesheet, GTK colours |
 
@@ -33,7 +33,7 @@ themes/
                      README.md + preview/ (every theme)
   oldschool/         same layout as zine (quickshell, palette, darkman,
                      hypr-theme, ghostty-theme, vim-theme, tmux-theme, herdr, yazi, btop, colorscheme/)
-  billy/             same layout as zine, with its own shell (Gaffer, Marker,
+  graffiti/          same layout as zine, with its own shell (Gaffer, Marker,
                      Spray, Glyph, LogoPiece, Wall)
   ayu/               waybar, fuzzel, mako, wob, palette, darkman,
                      hypr-theme, ghostty-theme, vim-theme, tmux-theme, herdr, yazi, btop, packages.txt

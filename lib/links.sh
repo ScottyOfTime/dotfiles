@@ -89,7 +89,7 @@ about() {
 
 theme_about() {
     case $1 in
-        billy) echo "2000s punk: graffiti logo, gaffer tape, paint marker" ;;
+        graffiti) echo "2000s punk: a bombed brick wall, gaffer tape, paint marker" ;;
         zine) echo "neo-brutalist zine: paper, ink, hard shadows" ;;
         oldschool) echo "amber terminal, flat text shell" ;;
         ayu) echo "ayu colours, waybar and fuzzel" ;;

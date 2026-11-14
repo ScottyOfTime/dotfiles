@@ -32,16 +32,16 @@ themes/zine/gnome/.local/share/gnome-shell/extensions/dotfiles-look@scotty/style
 themes/oldschool/gnome/.local/share/gnome-shell/extensions/dotfiles-look@scotty/stylesheet.css
 themes/ayu/gnome/.local/share/gnome-shell/extensions/dotfiles-look@scotty/stylesheet.css
 
-themes/billy/quickshell/.config/quickshell/Theme.qml
-themes/billy/hypr-theme/.config/hypr-theme/colors.lua
-themes/billy/hypr-theme/.config/hypr-theme/hyprlock.conf
-themes/billy/ghostty-theme/.config/ghostty-theme/tabs.css
-themes/billy/ghostty-theme/.config/ghostty-theme/config
-themes/billy/yazi/.config/yazi/theme.toml
-themes/billy/btop/.config/btop/themes/palette.theme
-themes/billy/tmux-theme/.config/tmux-theme/theme.conf
-themes/billy/gnome/.config/dotfiles-gnome/gtk.css
-themes/billy/gnome/.local/share/gnome-shell/extensions/dotfiles-look@scotty/stylesheet.css
+themes/graffiti/quickshell/.config/quickshell/Theme.qml
+themes/graffiti/hypr-theme/.config/hypr-theme/colors.lua
+themes/graffiti/hypr-theme/.config/hypr-theme/hyprlock.conf
+themes/graffiti/ghostty-theme/.config/ghostty-theme/tabs.css
+themes/graffiti/ghostty-theme/.config/ghostty-theme/config
+themes/graffiti/yazi/.config/yazi/theme.toml
+themes/graffiti/btop/.config/btop/themes/palette.theme
+themes/graffiti/tmux-theme/.config/tmux-theme/theme.conf
+themes/graffiti/gnome/.config/dotfiles-gnome/gtk.css
+themes/graffiti/gnome/.local/share/gnome-shell/extensions/dotfiles-look@scotty/stylesheet.css
 
 # vim writes netrw history into the first runtimepath dir (vim-theme)
 .netrwhist

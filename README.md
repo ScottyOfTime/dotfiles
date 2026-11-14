@@ -33,14 +33,14 @@ hard shadows on tilted paper scraps.
 
 ![zine colours](themes/zine/preview/strip.svg)
 
-### [billy](themes/billy)
+### [graffiti](themes/graffiti)
 
 2000s punk, low tech: a brick wall bombed with graffiti (the distro logo
 among it), and a shell of gaffer tape written on in paint marker.
 
-[![billy](themes/billy/preview/dark.png)](themes/billy)
+[![graffiti](themes/graffiti/preview/dark.png)](themes/graffiti)
 
-![billy colours](themes/billy/preview/strip.svg)
+![graffiti colours](themes/graffiti/preview/strip.svg)
 
 ### [ayu](themes/ayu)
 
